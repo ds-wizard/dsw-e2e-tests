@@ -1,0 +1,27 @@
+version: '3'
+services:
+
+  dsw_server:
+    image: datastewardshipwizard/server:latest
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - ./config.cfg:/dsw/config/app-config.cfg
+    links:
+      - mongo
+
+  dsw_client:
+    image: datastewardshipwizard/client:latest
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - API_URL=http://localhost:3000
+
+  mongo:
+      image: mongo:3.0.15
+      restart: always
+      ports:
+        - 27017:27017
+      command: mongod

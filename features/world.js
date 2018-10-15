@@ -6,24 +6,34 @@ const scope = require('./support/scope')
 const World = function () {
     scope.driver = puppeteer
     scope.context = {}
-    scope.url = process.env.URL
+    scope.url = readEnv('URL', 'http://localhost:8080')
     scope.users = {
         ADMIN: {
-            username: process.env.ADMIN_USERNAME,
-            password: process.env.ADMIN_PASSWORD
+            username: readEnv('ADMIN_USERNAME', 'albert.einstein@example.com'),
+            password: readEnv('ADMIN_PASSWORD', 'password')
         },
         DATASTEWARD: {
-            username: process.env.DATASTEWARD_USERNAME,
-            password: process.env.DATASTEWARD_PASSWORD
+            username: readEnv('DATASTEWARD_USERNAME', 'nikola.tesla@example.com'),
+            password: readEnv('DATASTEWARD_PASSWORD', 'password')
         },
         RESEARCHER: {
-            username: process.env.RESEARCHER_USERNAME,
-            password: process.env.RESEARCHER_PASSWORD
+            username: readEnv('RESEARCHER_USERNAME', 'isaac.newton@example.com'),
+            password: readEnv('RESEARCHER_PASSWORD', 'password')
         }
     }
     scope.options = {
-        headless: process.env.HEADLESS !== undefined ? parseInt(process.env.HEADLESS) : 1
+        headless: readEnvInt('HEADLESS', 1)
     }
 }
+
+
+function readEnv(env, defaultValue) {
+    return process.env[env] !== undefined ? process.env[env] : defaultValue
+}
+
+function readEnvInt(env, defaultValue) {
+    return process.env[env] !== undefined ? parseInt(process.env[env]) : defaultValue
+}
+
 
 setWorldConstructor(World)
