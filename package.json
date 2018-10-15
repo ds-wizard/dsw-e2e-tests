@@ -1,13 +1,12 @@
 {
   "name": "dsw-e2e-tests",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.1.0",
+  "description": "E2E test suite for testing the functionality of DSW Client and DSW Server",
+  "repository": "https://github.com/DataStewardshipWizard/dsw-e2e-tests",
   "scripts": {
     "test": "npx cucumber-js"
   },
-  "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "cucumber": "^5.0.2",
     "cucumber-assert": "^2.0.1",
