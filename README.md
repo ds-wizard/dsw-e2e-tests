@@ -28,6 +28,8 @@ Tests can be further configured through ENV variables. It is not necessary to co
 - `DATASTEWARD_USERNAME`, `DATASTEWARD_PASSWORD` - credentials of datasteward user
 - `RESEARCHER_USERNAME`, `RESEARCHER_PASSWORD` - credentails of researcher user
 - `HEADLESS` *(optional)* - whether to run in headless mode - 1 or 0 (default 1)
+- `MONGODB_HOST` - host where the MongoDB for server is
+- `MONGODB_PORT` - and port for MongoDB
 
 For running locally or project development, you can also create `.env` file where you define the variables.
 

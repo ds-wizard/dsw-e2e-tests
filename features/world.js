@@ -1,5 +1,6 @@
 require('dotenv').config()
 const { setWorldConstructor } = require('cucumber')
+const { Db, MongoClient, Server } = require('mongodb')
 const puppeteer = require('puppeteer')
 const scope = require('./support/scope')
 
@@ -24,8 +25,26 @@ const World = function () {
     scope.options = {
         headless: readEnvInt('HEADLESS', 1)
     }
+
+    scope.mongodb = createMongoConfiguration()
 }
 
+function createMongoConfiguration() {
+    const host = readEnv('MONGODB_HOST', 'localhost')
+    const port = readEnvInt('MONGODB_PORT', 27017)
+    const database = readEnv('MONGODB_DBNAME', 'dsw-server-test')
+    return {
+        url:  `mongodb://${host}:${port}/${database}`,
+        database
+    }
+}
+
+function createMongoClient() {
+    return new MongoClient(
+        new Server(readEnv('MONGODB_HOST', 'localhost'), readEnvInt('MONGODB_PORT', 27017)),
+        { native_parser: true }
+    )
+}
 
 function readEnv(env, defaultValue) {
     return process.env[env] !== undefined ? process.env[env] : defaultValue
