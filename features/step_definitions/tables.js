@@ -1,9 +1,35 @@
-const { Then } = require('cucumber')
+const { Then, When } = require('cucumber')
 const assert = require('cucumber-assert')
 const scope = require('../support/scope')
 
 
+When('I click {string} action icon where {string} is {string}', clickTableActionIcon)
+
 Then('I should see in table:', tableContains)
+
+
+async function clickTableActionIcon(icon, columnName, columnValue) {
+    await scope.context.currentPage.waitForSelector('.index-table')
+
+    const actionLink = await scope.context.currentPage.evaluateHandle((icon, columnName, columnValue) => {
+        const ths = [...document.querySelectorAll('.index-table thead tr th')].map(th => th.textContent)
+        const columnIndex = ths.indexOf(columnName)
+
+        const tr = [...document.querySelectorAll('.index-table tbody tr')].filter(tr => {
+            const tds = [...tr.querySelectorAll('td')].map(td => td.textContent)
+            return tds[columnIndex] === columnValue
+        })[0]
+
+        return tr.querySelector(`i.fa-${icon}`).closest('a')
+    }, icon, columnName, columnValue)
+
+    if (icon == 'edit') {
+        await actionLink.click()
+        return await scope.context.currentPage.waitForSelector('.form-actions')
+    }
+
+    return await actionLink.click()
+}
 
 
 /**
