@@ -2,7 +2,7 @@ version: '3'
 services:
 
   dsw_server:
-    image: datastewardshipwizard/server:latest
+    image: datastewardshipwizard/server:develop
     restart: always
     ports:
       - 3000:3000
@@ -10,14 +10,18 @@ services:
       - ./config.cfg:/dsw/config/app-config.cfg
     links:
       - mongo
+      - rabbitmq
 
   dsw_client:
-    image: datastewardshipwizard/client:latest
+    image: datastewardshipwizard/client:develop
     restart: always
     ports:
       - 8080:80
     environment:
       - API_URL=http://localhost:3000
+
+  rabbitmq:
+    image: rabbitmq
 
   mongo:
       image: mongo:3.0.15

@@ -43,7 +43,7 @@ function createUser(data) {
         passwordHash: 'sha256|17|KOj9LS2y8IXDvo0DG8EW8A==|rduRLWmC7xAKKPAV0DHK2LQiaptQ4Xn3cWZgwuXmqMc=',
         role: 'RESEARCHER',
         permissions: ['PM_READ_PERM', 'QTN_PERM', 'DMP_PERM'],
-        isActive: true
+        active: true
     }
     return _.merge(entityBase(), withTimestamps(), user, data)
 }
