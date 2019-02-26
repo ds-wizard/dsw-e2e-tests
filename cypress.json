@@ -1,0 +1,14 @@
+{
+    "env": {
+        "url": "http://localhost:8080",
+        "api_url": "http://localhost:3000",
+        "admin_username": "albert.einstein@example.com",
+        "admin_password": "password",
+        "datasteward_username": "nikola.tesla@example.com",
+        "datasteward_password": "password",
+        "researcher_username": "isaac.newton@example.com",
+        "researcher_password": "password"
+    },
+    "screenshotsFolder": "output/screenshots",
+    "videosFolder": "output/videos"
+}

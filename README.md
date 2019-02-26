@@ -2,7 +2,7 @@
 
 E2E test suite for testing the functionality of [DSW Client](https://github.com/DataStewardshipWizard/dsw-client)
 and [DSW Server](https://github.com/DataStewardshipWizard/dsw-server) based on
-[Cucumber.js](https://github.com/cucumber/cucumber-js) and [Puppeteer](https://github.com/GoogleChrome/puppeteer).
+[Cypress](https://github.com/cypress-io/cypress).
 
 ## How to run the tests
 
@@ -19,26 +19,30 @@ using docker-compose. To simply create instance of dsw, run tests and then clean
 make all
 ```
 
-## Configuration
-
-Tests can be further configured through ENV variables. It is not necessary to configure those since the default values works with local instance. However, if you want to run tests against running instance, these need to be set.
-
-- `URL` - root url of DSW app client (without trailing slash)
-- `ADMIN_USERNAME`, `ADMIN_PASSWORD` - credentials of admin user
-- `DATASTEWARD_USERNAME`, `DATASTEWARD_PASSWORD` - credentials of datasteward user
-- `RESEARCHER_USERNAME`, `RESEARCHER_PASSWORD` - credentails of researcher user
-- `HEADLESS` *(optional)* - whether to run in headless mode - 1 or 0 (default 1)
-- `MONGODB_HOST` - host where the MongoDB for server is
-- `MONGODB_PORT` - and port for MongoDB
-
-For running locally or project development, you can also create `.env` file where you define the variables.
+If you are developing the tests or running them locally, you can use Cypress
+App to watch and debug the tests. Open the app with:
 
 ```
-URL=https://app.dsw.example.com
-ADMIN_USERNAME=admin@example.com
-ADMIN_PASSWORD=admin-password
-DATASTEWARD_USERNAME=datasteward@example.com
-DATASTEWARD_PASSWORD=datasteward-password
-RESEARCHER_USERNAME=researcher@example.com
-RESEARCHER_PASSWORD=researcher-password
+make open
+```
+
+## Configuration
+
+There are several properties to configure the tests. By default, it runs
+against the local local instance. However, this can be changed. You can see
+env configuration in `cypress.json`. If you want to overwrite some or all of
+the variables, create a new file called `cypress.env.json` (which is ignored
+in git) and change the desired values. The file might look like this:
+
+```
+{
+    "url": "http://localhost:8080",
+    "api_url": "http://localhost:3000",
+    "admin_username": "albert.einstein@example.com",
+    "admin_password": "password",
+    "datasteward_username": "nikola.tesla@example.com",
+    "datasteward_password": "password",
+    "researcher_username": "isaac.newton@example.com",
+    "researcher_password": "password"
+}
 ```

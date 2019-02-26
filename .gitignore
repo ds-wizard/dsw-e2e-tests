@@ -71,3 +71,9 @@ typings/
 
 # Serverless directories
 .serverless
+
+# Cypress output
+output
+
+# Cypress env
+cypress.env.json

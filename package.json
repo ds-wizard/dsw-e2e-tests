@@ -5,12 +5,6 @@
   "repository": "https://github.com/DataStewardshipWizard/dsw-e2e-tests",
   "license": "Apache-2.0",
   "dependencies": {
-    "cucumber": "^5.0.2",
-    "cucumber-assert": "^2.0.1",
-    "dotenv": "^6.1.0",
-    "lodash": "^4.17.11",
-    "mongodb": "^3.1.8",
-    "puppeteer": "^1.9.0",
-    "uuid": "^3.3.2"
+    "cypress": "^3.1.5"
   }
 }

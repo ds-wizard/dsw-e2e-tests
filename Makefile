@@ -1,6 +1,8 @@
+RUN_CMD=npx cypress run
+
 .PHONY: install
 install:
-	@make install
+	@npm install
 
 
 .PHONY: start
@@ -15,9 +17,18 @@ stop:
 
 .PHONY: run
 run:
-	@npx cucumber-js
+	@$(RUN_CMD)
 
 
 .PHONY: all
 all:
-	@make start && make run && make stop
+	@make clean && make start && ($(RUN_CMD) || true) && make stop
+
+
+.PHONY: open
+open:
+	npx cypress open
+
+.PHONY: clean
+clean:
+	@rm -rf output
