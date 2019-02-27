@@ -5,6 +5,7 @@
   "repository": "https://github.com/DataStewardshipWizard/dsw-e2e-tests",
   "license": "Apache-2.0",
   "dependencies": {
-    "cypress": "^3.1.5"
+    "cypress": "^3.1.5",
+    "mongodb": "^3.1.13"
   }
 }

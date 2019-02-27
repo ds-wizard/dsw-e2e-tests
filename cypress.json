@@ -7,7 +7,9 @@
         "datasteward_username": "nikola.tesla@example.com",
         "datasteward_password": "password",
         "researcher_username": "isaac.newton@example.com",
-        "researcher_password": "password"
+        "researcher_password": "password",
+        "mongoUrl": "mongodb://localhost:27017",
+        "mongoDBName": "dsw-server-test"
     },
     "screenshotsFolder": "output/screenshots",
     "videosFolder": "output/videos"
