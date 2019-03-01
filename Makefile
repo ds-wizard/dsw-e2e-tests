@@ -7,7 +7,7 @@ install:
 
 .PHONY: start
 start:
-	@cd dsw && docker-compose up -d
+	@cd dsw && docker-compose pull && docker-compose up -d
 
 
 .PHONY: stop
