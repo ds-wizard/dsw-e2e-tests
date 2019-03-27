@@ -199,4 +199,42 @@ describe('KM Editor add entity', () => {
         openChild(answerItemQuestion.title)
         checkFields(answerItemQuestion)
     })
+
+    const references = [['atq', {
+        s_referenceType: 'ResourcePageReference',
+        shortUuid: 'atq'
+    }], ['Data Stewardship Wizard', {
+        s_referenceType: 'URLReference',
+        url: 'https://ds-wizard.org',
+        label: 'Data Stewardship Wizard'
+    }], ['85bc2c94-9fb9-4e24-87db-6254ea138405', {
+        s_referenceType: 'CrossReference',
+        targetUuid: '85bc2c94-9fb9-4e24-87db-6254ea138405',
+        description: 'See also'
+    }]]
+
+    references.forEach(([referenceLabel, reference]) => {
+        it('add ' + reference.s_referenceType, () => {
+            const chapter = { title: 'My Chapter' }
+            const question = { title: 'My Question' }
+
+            // Add chapter and question first
+            addInputChild('chapter')
+            fillFields(chapter)
+            addInputChild('question')
+            fillFields(question)
+
+            // Add reference and save
+            addInputChild('reference')
+            fillFields(reference)
+            saveEditor()
+
+            // Open editor again and check that the reference is there
+            openEditor()
+            openChild(chapter.title)
+            openChild(question.title)
+            openChild(referenceLabel)
+            checkFields(reference)
+        })
+    })
 })
