@@ -1,11 +1,11 @@
-describe('KM Editor', () => {
+describe('KM Editor Create', () => {
     const kmName = 'Test Knowledge Model'
     const kmId = 'test-km'
 
     beforeEach(() => {
         cy.task('mongo:delete', {
             collection: 'branches',
-            args: { kmId: kmId }
+            args: { kmId }
         })
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')

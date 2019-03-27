@@ -26,6 +26,17 @@
 
 const apiUrl = (url) => Cypress.env('api_url') + url
 
+const createHeaders = (token) => ({ Authorization: 'Bearer ' + token })
+
+const getTokenFor = (role) => cy.request({
+    method: 'POST',
+    url: apiUrl('/tokens'),
+    body: {
+        email: Cypress.env(role + '_username'),
+        password: Cypress.env(role + '_password')
+    }
+})
+
 
 Cypress.Commands.add('visitApp', (url) => {
     cy.visit(`${Cypress.env('url')}${url}`)
@@ -33,28 +44,31 @@ Cypress.Commands.add('visitApp', (url) => {
 
 
 Cypress.Commands.add('loginAs', (role) => {
-    cy.request({
-        method: 'POST',
-        url: apiUrl('/tokens'),
-        body: {
-            email: Cypress.env(role + '_username'),
-            password: Cypress.env(role + '_password')
-        }
-    }).then((resp) => {
+    getTokenFor(role).then((resp) => {
         const token = resp.body.token
 
         cy.request({
             method: 'GET',
             url: apiUrl('/users/current'),
-            headers: {
-                Authorization: 'Bearer ' + token
-            }
+            headers: createHeaders(token)
         }).then((resp) => {
             window.localStorage.setItem('session', JSON.stringify({
                 sidebarCollapsed: false,
                 token,
                 user: resp.body
             }))
+        })
+    })
+})
+
+
+Cypress.Commands.add('createKMEditor', ({ kmId, name, parentPackageId }) => {
+    getTokenFor('datasteward').then((resp) => {
+        cy.request({
+            method: 'POST',
+            url: apiUrl('/branches'),
+            headers: createHeaders(resp.body.token),
+            body: { kmId, name, parentPackageId, organizationId: null }
         })
     })
 })
