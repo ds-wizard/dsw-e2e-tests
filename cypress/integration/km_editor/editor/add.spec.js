@@ -113,9 +113,7 @@ describe('KM Editor add entity', () => {
 
     questions.forEach((question) => {
         it('add ' + question.s_questionType, () => {
-            const chapter = {
-                title: 'My Chapter'
-            }
+            const chapter = { title: 'My Chapter' }
 
             // Add chapter first
             addInputChild('chapter')
@@ -132,5 +130,39 @@ describe('KM Editor add entity', () => {
             openChild(question.title)
             checkFields(question)
         })
+    })
+
+
+    it('add Answer', () => {
+        const chapter = { title: 'My Chapter' }
+        const question = {
+            s_questionType: 'OptionsQuestion',
+            title: 'My Question'
+        }
+        const answer = {
+            label: 'Yes',
+            advice: 'This is a very good answer.',
+            'metricMeasures\\.1\\.weight': '0.4',
+            'metricMeasures\\.1\\.measure': '0.7'
+        }
+
+        // Add chapter and question first
+        addInputChild('chapter')
+        fillFields(chapter)
+        addInputChild('question')
+        fillFields(question)
+
+        // Add answer and save
+        addInputChild('answer')
+        cy.get('.table-metrics tbody tr:nth-child(2) .form-check-toggle').click()
+        fillFields(answer)
+        saveEditor()
+
+        // Open editor again and check that the answer is there
+        openEditor()
+        openChild(chapter.title)
+        openChild(question.title)
+        openChild(answer.label)
+        checkFields(answer)
     })
 })
