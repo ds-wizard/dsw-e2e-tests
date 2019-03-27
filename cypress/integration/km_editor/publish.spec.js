@@ -18,7 +18,7 @@ describe('KM Editor Publish', () => {
     })
 
     it('can be published', () => {
-        cy.get('.index-table tr').contains(kmId).parent('tr').contains('Publish').click({ force: true })
+        cy.clickIndexTableAction(kmId, 'Publish')
         cy.url().should('contain', '/km-editor/publish')
 
         cy.get('.version-inputs input:nth-child(1)').type('1')
@@ -33,8 +33,7 @@ describe('KM Editor Publish', () => {
             .should('contain', kmName)
             .and('contain', '1.0.0')
 
-        cy.get('.index-table tr').contains(kmId).parent('tr').get('a').contains('View detail').click({ force: true })
-
+        cy.clickIndexTableAction(kmId, 'View detail')
         cy.url().should('contain', '/test-km')
         cy.get('.card')
             .should('contain', '1.0.0')

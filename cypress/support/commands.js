@@ -72,3 +72,13 @@ Cypress.Commands.add('createKMEditor', ({ kmId, name, parentPackageId }) => {
         })
     })
 })
+
+
+Cypress.Commands.add('getIndexTableRow', (identifier) => {
+    cy.get('.index-table tr').contains(identifier).parent('tr')
+})
+
+
+Cypress.Commands.add('clickIndexTableAction', (identifier, action) => {
+    cy.getIndexTableRow(identifier).contains(action).click({ force: true })
+})
