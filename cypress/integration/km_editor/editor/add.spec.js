@@ -2,6 +2,45 @@ describe('KM Editor add entity', () => {
     const kmName = 'Test Knowledge Model'
     const kmId = 'test-km'
 
+    const openEditor = () => {
+        cy.clickIndexTableAction(kmId, 'Open Editor')
+        cy.url().should('contain', '/km-editor/edit')
+    }
+
+    const saveEditor = () => {
+        cy.get('.btn').contains('Save').click()
+    }
+
+    const addInputChild = (child) => {
+        cy.get('.link-add-child').contains(`Add ${child}`).click()
+    }
+
+    const openChild = (child) => {
+        cy.get('.input-child a').contains(child).click()
+    }
+
+    const fillFields = (fields) => {
+        Object.entries(fields).forEach(([key, value]) => {
+            if (key.startsWith('s_')) {
+                key = key.replace(/^s_/, '')
+                cy.get(`#${key}`).select(value)
+            } else {
+                if (value.length > 0) {
+                    cy.get(`#${key}`).clear().type(value)
+                } else {
+                    cy.get(`#${key}`).clear()
+                }
+            }
+        })
+    }
+
+    const checkFields = (fields) => {
+        Object.entries(fields).forEach(([key, value]) => {
+            key = key.replace(/^s_/, '')
+            cy.get(`#${key}`).should('have.value', value)
+        })
+    }
+
 
     beforeEach(() => {
         cy.task('mongo:delete', {
@@ -11,59 +50,87 @@ describe('KM Editor add entity', () => {
         cy.createKMEditor({ kmId, name: kmName, parentPackageId: null })
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')
+        openEditor()
     })
 
 
-    it('add chapter', () => {
-        const chapterName = 'My Awesome Chapter'
-        const chapterText = 'This chapter is awesome.'
-
-        // Open editor
-        cy.clickIndexTableAction(kmId, 'Open Editor')
-        cy.url().should('contain', '/km-editor/edit')
+    it('add Chapter', () => {
+        const chapter = {
+            title: 'My Awesome Chapter',
+            text: 'This chapter is awesome'
+        }
 
         // Add chapter and save
-        cy.get('.link-add-child').contains('Add chapter').click()
-        cy.get('#title').clear().type(chapterName)
-        cy.get('#text').clear().type(chapterText)
-        cy.get('.btn').contains('Save').click()
+        addInputChild('chapter')
+        fillFields(chapter)
+        saveEditor()
 
-        // Open editor again
-        cy.url().should('contain', '/km-editor')
-        cy.clickIndexTableAction(kmId, 'Open Editor')
-        cy.url().should('contain', '/km-editor/edit')
-
-        // Check that the chapter is there
-        cy.get('.input-child a').contains(chapterName).click()
-        cy.get('#title').should('have.value', chapterName)
-        cy.get('#text').should('have.value', chapterText)
+        // Open editor again and check that the chapter is there
+        openEditor()
+        openChild(chapter.title)
+        checkFields(chapter)
     })
 
 
-    it('add tag', () => {
-        const tagName = 'Data Management'
-        const tagDescription = 'These questions are about data management.'
-
-        // Open editor
-        cy.clickIndexTableAction(kmId, 'Open Editor')
-        cy.url().should('contain', '/km-editor/edit')
+    it('add Tag', () => {
+        const tag = {
+            name: 'Data Management',
+            description: 'These questions are about data management.'
+        }
 
         // Add tag and save
-        cy.get('.link-add-child').contains('Add tag').click()
-        cy.get('#name').clear().type(tagName)
-        cy.get('#description').clear().type(tagDescription)
+        addInputChild('tag')
+        fillFields(tag)
         cy.get('.form-group-color-picker a:nth-child(5)').click()
-        cy.get('.btn').contains('Save').click()
+        saveEditor()
 
-        // Open editor again
-        cy.url().should('contain', '/km-editor')
-        cy.clickIndexTableAction(kmId, 'Open Editor')
-        cy.url().should('contain', '/km-editor/edit')
-
-        // Check that the tag is there
-        cy.get('.input-child a').contains(tagName).click()
-        cy.get('#name').should('have.value', tagName)
-        cy.get('#description').should('have.value', tagDescription)
+        // Open editor again and check that the tag is there
+        openEditor()
+        openChild(tag.name)
+        checkFields(tag)
         cy.get('.form-group-color-picker a:nth-child(5)').should('have.class', 'selected')
+    })
+
+
+    const questions = [{
+        s_questionType: 'OptionsQuestion',
+        title: 'Will you use any external data sources?',
+        text: 'This question is asking about external data sources.',
+        s_requiredLevel: '1'
+    }, {
+        s_questionType: 'ListQuestion',
+        title: 'What databases will you use?',
+        text: '',
+        s_requiredLevel: '2',
+        itemTemplateTitle: 'Database Name'
+    }, {
+        s_questionType: 'ValueQuestion',
+        title: 'How many researchers will work on the project?',
+        text: 'Count them all!',
+        s_requiredLevel: '3',
+        s_valueType: 'NumberValue'
+    }]
+
+    questions.forEach((question) => {
+        it('add ' + question.s_questionType, () => {
+            const chapter = {
+                title: 'My Chapter'
+            }
+
+            // Add chapter first
+            addInputChild('chapter')
+            fillFields(chapter)
+
+            // Add question and save
+            addInputChild('question')
+            fillFields(question)
+            saveEditor()
+
+            // Open editor again and check that the question is there
+            openEditor()
+            openChild(chapter.title)
+            openChild(question.title)
+            checkFields(question)
+        })
     })
 })
