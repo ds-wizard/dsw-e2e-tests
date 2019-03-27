@@ -165,4 +165,38 @@ describe('KM Editor add entity', () => {
         openChild(answer.label)
         checkFields(answer)
     })
+
+
+    it('add Answer Item Question', () => {
+        const chapter = { title: 'My Chapter' }
+        const question = {
+            s_questionType: 'ListQuestion',
+            title: 'My Question'
+        }
+        const answerItemQuestion = {
+            s_questionType: 'ValueQuestion',
+            title: 'How many dumplings do you want with your goulash?',
+            text: 'You should have at least 3.',
+            s_requiredLevel: '1',
+            s_valueType: 'NumberValue'
+        }
+
+        // Add chapter and question first
+        addInputChild('chapter')
+        fillFields(chapter)
+        addInputChild('question')
+        fillFields(question)
+
+        // Add answer item question and save
+        addInputChild('question')
+        fillFields(answerItemQuestion)
+        saveEditor()
+
+        // Open editor again and check that the answer item question is there
+        openEditor()
+        openChild(chapter.title)
+        openChild(question.title)
+        openChild(answerItemQuestion.title)
+        checkFields(answerItemQuestion)
+    })
 })
