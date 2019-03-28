@@ -285,4 +285,43 @@ describe('KM Editor add entity', () => {
         traverseChildren([chapter.title, question.title, answer.label, followupQuestion.title])
         checkFields(followupQuestion)
     })
+
+
+    it('add Answer to Follow-up Question', () => {
+        const chapter = { title: 'My Chapter' }
+        const question = {
+            s_questionType: 'OptionsQuestion',
+            title: 'My Question'
+        }
+        const answer = { label: 'My Answer' }
+        const followupQuestion = {
+            s_questionType: 'OptionsQuestion',
+            title: 'My Follow-up Question',
+        }
+        const followupAnswer = {
+            label: 'No',
+            advice: 'You should consider changing this answer.',
+            'metricMeasures\\.2\\.weight': '1',
+            'metricMeasures\\.2\\.measure': '0'
+        }
+
+        // Add chapter and question first
+        createChildren([
+            ['chapter', chapter],
+            ['question', question],
+            ['answer', answer],
+            ['follow-up question', followupQuestion]
+        ])
+
+        // Add answer and save
+        addInputChild('answer')
+        cy.get('.table-metrics tbody tr:nth-child(3) .form-check-toggle').click()
+        fillFields(followupAnswer)
+        saveEditor()
+
+        // Open editor again and check that the answer is there
+        openEditor()
+        traverseChildren([chapter.title, question.title, answer.label, followupQuestion.title, followupAnswer.label])
+        checkFields(followupAnswer)
+    })
 })
