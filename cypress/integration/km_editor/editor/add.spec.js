@@ -360,4 +360,37 @@ describe('KM Editor add entity', () => {
         traverseChildren([chapter.title, question.title, answer.label, followupQuestion.title, itemQuestion.title])
         checkFields(itemQuestion)
     })
+
+
+    it('add Reference to Follow-up Question', () => {
+        const chapter = { title: 'My Chapter' }
+        const question = {
+            s_questionType: 'OptionsQuestion',
+            title: 'My Question'
+        }
+        const answer = { label: 'My Answer' }
+        const followupQuestion = {
+            title: 'My Follow-up Question',
+        }
+        const reference = {
+            s_referenceType: 'URLReference',
+            url: 'https://ds-wizard.org',
+            label: 'Data Stewardship Wizard'
+        }
+
+        // Add reference and its parents
+        createChildren([
+            ['chapter', chapter],
+            ['question', question],
+            ['answer', answer],
+            ['follow-up question', followupQuestion],
+            ['reference', reference]
+        ])
+        saveEditor()
+
+        // Open editor again and check that the reference is tehre
+        openEditor()
+        traverseChildren([chapter.title, question.title, answer.label, followupQuestion.title, reference.label])
+        checkFields(reference)
+    })
 })
