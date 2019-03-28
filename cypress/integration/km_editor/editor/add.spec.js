@@ -19,6 +19,7 @@ describe('KM Editor Add Entity', () => {
 
     const openChild = (child) => {
         cy.get('.input-child a').contains(child).click()
+        cy.get('.breadcrumb-item').contains(child).should('exist')
     }
 
     const createChildren = (parents) => {
@@ -65,7 +66,6 @@ describe('KM Editor Add Entity', () => {
         cy.createKMEditor({ kmId, name: kmName, parentPackageId: null })
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')
-        openEditor()
     })
 
 
@@ -79,6 +79,7 @@ describe('KM Editor Add Entity', () => {
             }
 
             // Add chapter and save
+            openEditor()
             createChildren([['chapter', chapter]])
             saveEditor()
 
@@ -96,6 +97,7 @@ describe('KM Editor Add Entity', () => {
             }
 
             // Add tag and save
+            openEditor()
             createChildren([['tag', tag]])
             cy.get('.form-group-color-picker a:nth-child(5)').click()
             saveEditor()
@@ -136,6 +138,7 @@ describe('KM Editor Add Entity', () => {
                 const chapter = { title: 'My Chapter' }
 
                 // Create question and its parent
+                openEditor()
                 createChildren([
                     ['chapter', chapter],
                     ['question', question]
@@ -337,6 +340,7 @@ describe('KM Editor Add Entity', () => {
                 }
 
                 // Add answer parents
+                openEditor()
                 createChildren(childrenOptions)
 
                 // Add answer and save
@@ -362,7 +366,7 @@ describe('KM Editor Add Entity', () => {
                 }
 
                 // Add follow-up question and its parents
-
+                openEditor()
                 createChildren([
                     ...childrenOptions,
                     ['answer', answer],
@@ -387,6 +391,7 @@ describe('KM Editor Add Entity', () => {
                 }
 
                 // Add answer item question and its parents
+                openEditor()
                 createChildren([...childrenList, ['question', itemQuestion]])
                 saveEditor()
 
@@ -414,6 +419,7 @@ describe('KM Editor Add Entity', () => {
                 it('add ' + reference.s_referenceType, () => {
 
                     // Add reference and its parents
+                    openEditor()
                     createChildren([...childrenOptions, ['reference', reference]])
                     saveEditor()
 
@@ -432,6 +438,7 @@ describe('KM Editor Add Entity', () => {
                 }
 
                 // Add expert and its parents
+                openEditor()
                 createChildren([...childrenList, ['expert', expert]])
                 saveEditor()
 

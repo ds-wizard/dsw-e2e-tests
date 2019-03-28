@@ -15,7 +15,9 @@ const { MongoClient } = require('mongodb')
 
 const withMongoDB = (config, callback) => {
   return new Promise((resolve, reject) => {
-    const client = new MongoClient(config.env.mongoUrl)
+    const client = new MongoClient(config.env.mongoUrl, {
+      useNewUrlParser: true
+    })
     client.connect((err) => {
       if (err) {
         reject(err)

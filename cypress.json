@@ -13,5 +13,6 @@
     },
     "screenshotsFolder": "output/screenshots",
     "videosFolder": "output/videos",
-    "videoUploadOnPasses": false
+    "videoUploadOnPasses": false,
+    "numTestsKeptInMemory": 0
 }

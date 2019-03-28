@@ -17,7 +17,7 @@ stop:
 
 .PHONY: run
 run:
-	@$(RUN_CMD)
+	@CYPRESS_RETRIES=5 $(RUN_CMD)
 
 
 .PHONY: all
