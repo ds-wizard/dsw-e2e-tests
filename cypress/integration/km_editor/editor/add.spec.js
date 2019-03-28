@@ -1,60 +1,9 @@
+import * as editor from '../../../support/editor-helpers'
+
+
 describe('KM Editor Add Entity', () => {
     const kmName = 'Test Knowledge Model'
     const kmId = 'test-km'
-
-    // Helpers -------------------------------------------------------------------------------------
-
-    const openEditor = () => {
-        cy.clickIndexTableAction(kmId, 'Open Editor')
-        cy.url().should('contain', '/km-editor/edit')
-    }
-
-    const saveEditor = () => {
-        cy.get('.btn').contains('Save').click()
-    }
-
-    const addInputChild = (child) => {
-        cy.get('.link-add-child').contains(`Add ${child}`).click()
-    }
-
-    const openChild = (child) => {
-        cy.get('.input-child a').contains(child).click()
-        cy.get('.breadcrumb-item').contains(child).should('exist')
-    }
-
-    const createChildren = (parents) => {
-        parents.forEach(([type, fields]) => {
-            addInputChild(type)
-            fillFields(fields)
-        })
-    }
-
-    const traverseChildren = (path) => {
-        path.forEach(openChild)
-    }
-
-    const fillFields = (fields) => {
-        Object.entries(fields).forEach(([key, value]) => {
-            if (key.startsWith('s_')) {
-                key = key.replace(/^s_/, '')
-                cy.get(`#${key}`).select(value)
-            } else {
-                if (value.length > 0) {
-                    cy.get(`#${key}`).clear().type(value)
-                } else {
-                    cy.get(`#${key}`).clear()
-                }
-            }
-        })
-    }
-
-    const checkFields = (fields) => {
-        Object.entries(fields).forEach(([key, value]) => {
-            key = key.replace(/^s_/, '')
-            cy.get(`#${key}`).should('have.value', value)
-        })
-    }
-
 
     // Initializations -----------------------------------------------------------------------------
 
@@ -79,14 +28,14 @@ describe('KM Editor Add Entity', () => {
             }
 
             // Add chapter and save
-            openEditor()
-            createChildren([['chapter', chapter]])
-            saveEditor()
+            editor.open(kmId)
+            editor.createChildren([['chapter', chapter]])
+            editor.save()
 
             // Open editor again and check that the chapter is there
-            openEditor()
-            openChild(chapter.title)
-            checkFields(chapter)
+            editor.open(kmId)
+            editor.openChild(chapter.title)
+            editor.checkFields(chapter)
         })
 
 
@@ -97,15 +46,15 @@ describe('KM Editor Add Entity', () => {
             }
 
             // Add tag and save
-            openEditor()
-            createChildren([['tag', tag]])
+            editor.open(kmId)
+            editor.createChildren([['tag', tag]])
             cy.get('.form-group-color-picker a:nth-child(5)').click()
-            saveEditor()
+            editor.save()
 
             // Open editor again and check that the tag is there
-            openEditor()
-            openChild(tag.name)
-            checkFields(tag)
+            editor.open(kmId)
+            editor.openChild(tag.name)
+            editor.checkFields(tag)
             cy.get('.form-group-color-picker a:nth-child(5)').should('have.class', 'selected')
         })
     })
@@ -138,17 +87,17 @@ describe('KM Editor Add Entity', () => {
                 const chapter = { title: 'My Chapter' }
 
                 // Create question and its parent
-                openEditor()
-                createChildren([
+                editor.open(kmId)
+                editor.createChildren([
                     ['chapter', chapter],
                     ['question', question]
                 ])
-                saveEditor()
+                editor.save()
 
                 // Open editor again and check that the question is there
-                openEditor()
-                traverseChildren([chapter.title, question.title])
-                checkFields(question)
+                editor.open(kmId)
+                editor.traverseChildren([chapter.title, question.title])
+                editor.checkFields(question)
             })
         })
     })
@@ -340,19 +289,19 @@ describe('KM Editor Add Entity', () => {
                 }
 
                 // Add answer parents
-                openEditor()
-                createChildren(childrenOptions)
+                editor.open(kmId)
+                editor.createChildren(childrenOptions)
 
                 // Add answer and save
-                addInputChild('answer')
+                editor.addInputChild('answer')
                 cy.get('.table-metrics tbody tr:nth-child(3) .form-check-toggle').click()
-                fillFields(followUpAnswer)
-                saveEditor()
+                editor.fillFields(followUpAnswer)
+                editor.save()
 
                 // Open editor again and check that the answer is there
-                openEditor()
-                traverseChildren([...path, followUpAnswer.label])
-                checkFields(followUpAnswer)
+                editor.open(kmId)
+                editor.traverseChildren([...path, followUpAnswer.label])
+                editor.checkFields(followUpAnswer)
             })
 
 
@@ -366,18 +315,18 @@ describe('KM Editor Add Entity', () => {
                 }
 
                 // Add follow-up question and its parents
-                openEditor()
-                createChildren([
+                editor.open(kmId)
+                editor.createChildren([
                     ...childrenOptions,
                     ['answer', answer],
                     ['follow-up question', followUpQuestion]
                 ])
-                saveEditor()
+                editor.save()
 
                 // Open editor again and check that the follow-up question is there
-                openEditor()
-                traverseChildren([...path, answer.label, followUpQuestion.title])
-                checkFields(followUpQuestion)
+                editor.open(kmId)
+                editor.traverseChildren([...path, answer.label, followUpQuestion.title])
+                editor.checkFields(followUpQuestion)
             })
 
 
@@ -391,14 +340,14 @@ describe('KM Editor Add Entity', () => {
                 }
 
                 // Add answer item question and its parents
-                openEditor()
-                createChildren([...childrenList, ['question', itemQuestion]])
-                saveEditor()
+                editor.open(kmId)
+                editor.createChildren([...childrenList, ['question', itemQuestion]])
+                editor.save()
 
                 // Open editor again and check that the answer item question is there
-                openEditor()
-                traverseChildren([...path, itemQuestion.title])
-                checkFields(itemQuestion)
+                editor.open(kmId)
+                editor.traverseChildren([...path, itemQuestion.title])
+                editor.checkFields(itemQuestion)
             })
 
 
@@ -419,14 +368,14 @@ describe('KM Editor Add Entity', () => {
                 it('add ' + reference.s_referenceType, () => {
 
                     // Add reference and its parents
-                    openEditor()
-                    createChildren([...childrenOptions, ['reference', reference]])
-                    saveEditor()
+                    editor.open(kmId)
+                    editor.createChildren([...childrenOptions, ['reference', reference]])
+                    editor.save()
 
                     // Open editor again and check that the reference is there
-                    openEditor()
-                    traverseChildren([...path, referenceLabel])
-                    checkFields(reference)
+                    editor.open(kmId)
+                    editor.traverseChildren([...path, referenceLabel])
+                    editor.checkFields(reference)
                 })
             })
 
@@ -438,14 +387,14 @@ describe('KM Editor Add Entity', () => {
                 }
 
                 // Add expert and its parents
-                openEditor()
-                createChildren([...childrenList, ['expert', expert]])
-                saveEditor()
+                editor.open(kmId)
+                editor.createChildren([...childrenList, ['expert', expert]])
+                editor.save()
 
                 // Open editor again and check that the expert is there
-                openEditor()
-                traverseChildren([...path, expert.name])
-                checkFields(expert)
+                editor.open(kmId)
+                editor.traverseChildren([...path, expert.name])
+                editor.checkFields(expert)
             })
         })
     })

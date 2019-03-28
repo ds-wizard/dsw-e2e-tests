@@ -74,6 +74,18 @@ Cypress.Commands.add('createKMEditor', ({ kmId, name, parentPackageId }) => {
 })
 
 
+Cypress.Commands.add('importKM', (km) => {
+    getTokenFor('datasteward').then((resp) => {
+        cy.request({
+            method: 'POST',
+            url: apiUrl('/packages'),
+            headers: createHeaders(resp.body.token),
+            body: km
+        })
+    })
+})
+
+
 Cypress.Commands.add('getIndexTableRow', (identifier) => {
     cy.get('.index-table tr').contains(identifier).parent('tr')
 })
