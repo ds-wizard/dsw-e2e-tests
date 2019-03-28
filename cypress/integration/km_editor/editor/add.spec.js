@@ -200,6 +200,7 @@ describe('KM Editor add entity', () => {
         checkFields(answerItemQuestion)
     })
 
+
     const references = [['atq', {
         s_referenceType: 'ResourcePageReference',
         shortUuid: 'atq'
@@ -236,5 +237,33 @@ describe('KM Editor add entity', () => {
             openChild(referenceLabel)
             checkFields(reference)
         })
+    })
+
+
+    it('add Expert', () => {
+        const chapter = { title: 'My Chapter' }
+        const question = { title: 'My Question' }
+        const expert = {
+            name: 'Francis Porter',
+            email: 'francis.porter@example.com'
+        }
+
+        // Add chapter and question first
+        addInputChild('chapter')
+        fillFields(chapter)
+        addInputChild('question')
+        fillFields(question)
+
+        // Add expert and save
+        addInputChild('expert')
+        fillFields(expert)
+        saveEditor()
+
+        // Open editor again and check that the expert is there
+        openEditor()
+        openChild(chapter.title)
+        openChild(question.title)
+        openChild(expert.name)
+        checkFields(expert)
     })
 })
