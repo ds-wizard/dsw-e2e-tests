@@ -19,6 +19,17 @@ describe('KM Editor add entity', () => {
         cy.get('.input-child a').contains(child).click()
     }
 
+    const createChildren = (parents) => {
+        parents.forEach(([type, fields]) => {
+            addInputChild(type)
+            fillFields(fields)
+        })
+    }
+
+    const traverseChildren = (path) => {
+        path.forEach(openChild)
+    }
+
     const fillFields = (fields) => {
         Object.entries(fields).forEach(([key, value]) => {
             if (key.startsWith('s_')) {
@@ -61,8 +72,7 @@ describe('KM Editor add entity', () => {
         }
 
         // Add chapter and save
-        addInputChild('chapter')
-        fillFields(chapter)
+        createChildren([['chapter', chapter]])
         saveEditor()
 
         // Open editor again and check that the chapter is there
@@ -79,8 +89,7 @@ describe('KM Editor add entity', () => {
         }
 
         // Add tag and save
-        addInputChild('tag')
-        fillFields(tag)
+        createChildren([['tag', tag]])
         cy.get('.form-group-color-picker a:nth-child(5)').click()
         saveEditor()
 
@@ -115,19 +124,16 @@ describe('KM Editor add entity', () => {
         it('add ' + question.s_questionType, () => {
             const chapter = { title: 'My Chapter' }
 
-            // Add chapter first
-            addInputChild('chapter')
-            fillFields(chapter)
-
-            // Add question and save
-            addInputChild('question')
-            fillFields(question)
+            // Create question and its parent
+            createChildren([
+                ['chapter', chapter],
+                ['question', question]
+            ])
             saveEditor()
 
             // Open editor again and check that the question is there
             openEditor()
-            openChild(chapter.title)
-            openChild(question.title)
+            traverseChildren([chapter.title, question.title])
             checkFields(question)
         })
     })
@@ -147,10 +153,10 @@ describe('KM Editor add entity', () => {
         }
 
         // Add chapter and question first
-        addInputChild('chapter')
-        fillFields(chapter)
-        addInputChild('question')
-        fillFields(question)
+        createChildren([
+            ['chapter', chapter],
+            ['question', question]
+        ])
 
         // Add answer and save
         addInputChild('answer')
@@ -160,9 +166,7 @@ describe('KM Editor add entity', () => {
 
         // Open editor again and check that the answer is there
         openEditor()
-        openChild(chapter.title)
-        openChild(question.title)
-        openChild(answer.label)
+        traverseChildren([chapter.title, question.title, answer.label])
         checkFields(answer)
     })
 
@@ -181,22 +185,17 @@ describe('KM Editor add entity', () => {
             s_valueType: 'NumberValue'
         }
 
-        // Add chapter and question first
-        addInputChild('chapter')
-        fillFields(chapter)
-        addInputChild('question')
-        fillFields(question)
-
-        // Add answer item question and save
-        addInputChild('question')
-        fillFields(answerItemQuestion)
+        // Add answer item question and its parents
+        createChildren([
+            ['chapter', chapter],
+            ['question', question],
+            ['question', answerItemQuestion]
+        ])
         saveEditor()
 
         // Open editor again and check that the answer item question is there
         openEditor()
-        openChild(chapter.title)
-        openChild(question.title)
-        openChild(answerItemQuestion.title)
+        traverseChildren([chapter.title, question.title, answerItemQuestion.title])
         checkFields(answerItemQuestion)
     })
 
@@ -219,22 +218,17 @@ describe('KM Editor add entity', () => {
             const chapter = { title: 'My Chapter' }
             const question = { title: 'My Question' }
 
-            // Add chapter and question first
-            addInputChild('chapter')
-            fillFields(chapter)
-            addInputChild('question')
-            fillFields(question)
-
-            // Add reference and save
-            addInputChild('reference')
-            fillFields(reference)
+            // Add reference and its parents
+            createChildren([
+                ['chapter', chapter],
+                ['question', question],
+                ['reference', reference]
+            ])
             saveEditor()
 
             // Open editor again and check that the reference is there
             openEditor()
-            openChild(chapter.title)
-            openChild(question.title)
-            openChild(referenceLabel)
+            traverseChildren([chapter.title, question.title, referenceLabel])
             checkFields(reference)
         })
     })
@@ -248,22 +242,47 @@ describe('KM Editor add entity', () => {
             email: 'francis.porter@example.com'
         }
 
-        // Add chapter and question first
-        addInputChild('chapter')
-        fillFields(chapter)
-        addInputChild('question')
-        fillFields(question)
-
-        // Add expert and save
-        addInputChild('expert')
-        fillFields(expert)
+        // Add expert and its parents
+        createChildren([
+            ['chapter', chapter],
+            ['question', question],
+            ['expert', expert]
+        ])
         saveEditor()
 
         // Open editor again and check that the expert is there
         openEditor()
-        openChild(chapter.title)
-        openChild(question.title)
-        openChild(expert.name)
+        traverseChildren([chapter.title, question.title, expert.name])
         checkFields(expert)
+    })
+
+
+    it('add Follow-up Question', () => {
+        const chapter = { title: 'My Chapter' }
+        const question = {
+            s_questionType: 'OptionsQuestion',
+            title: 'My Question'
+        }
+        const answer = { label: 'My Answer' }
+        const followupQuestion = {
+            s_questionType: 'ValueQuestion',
+            title: 'What is the name of your institution?',
+            s_valueType: 'StringValue',
+            s_requiredLevel: '1',
+        }
+
+        // Add follow-up question and its parents
+        createChildren([
+            ['chapter', chapter],
+            ['question', question],
+            ['answer', answer],
+            ['follow-up question', followupQuestion]
+        ])
+        saveEditor()
+
+        // Open editor again and check that the follow-up question is there
+        openEditor()
+        traverseChildren([chapter.title, question.title, answer.label, followupQuestion.title])
+        checkFields(followupQuestion)
     })
 })
