@@ -12,5 +12,6 @@
         "mongoDBName": "dsw-server-test"
     },
     "screenshotsFolder": "output/screenshots",
-    "videosFolder": "output/videos"
+    "videosFolder": "output/videos",
+    "videoUploadOnPasses": false
 }
