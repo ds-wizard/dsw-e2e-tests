@@ -305,7 +305,7 @@ describe('KM Editor add entity', () => {
             'metricMeasures\\.2\\.measure': '0'
         }
 
-        // Add chapter and question first
+        // Add answer parents
         createChildren([
             ['chapter', chapter],
             ['question', question],
@@ -323,5 +323,41 @@ describe('KM Editor add entity', () => {
         openEditor()
         traverseChildren([chapter.title, question.title, answer.label, followupQuestion.title, followupAnswer.label])
         checkFields(followupAnswer)
+    })
+
+
+    it('add Answer Item Question to Follow-up Question', () =>{
+        const chapter = { title: 'My Chapter' }
+        const question = {
+            s_questionType: 'OptionsQuestion',
+            title: 'My Question'
+        }
+        const answer = { label: 'My Answer' }
+        const followupQuestion = {
+            s_questionType: 'ListQuestion',
+            title: 'My Follow-up Question',
+        }
+        const itemQuestion = {
+            s_questionType: 'ValueQuestion',
+            title: 'When did the project started?',
+            text: 'Type in the exact date',
+            s_requiredLevel: '3',
+            s_valueType: 'DateValue'
+        }
+
+        // Add answer item question and its parents
+        createChildren([
+            ['chapter', chapter],
+            ['question', question],
+            ['answer', answer],
+            ['follow-up question', followupQuestion],
+            ['question', itemQuestion]
+        ])
+        saveEditor()
+
+        // Open editor again and check that the answer item question is there
+        openEditor()
+        traverseChildren([chapter.title, question.title, answer.label, followupQuestion.title, itemQuestion.title])
+        checkFields(itemQuestion)
     })
 })
