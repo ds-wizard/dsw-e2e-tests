@@ -86,6 +86,18 @@ Cypress.Commands.add('importKM', (km) => {
 })
 
 
+Cypress.Commands.add('createUser', (user) => {
+    getTokenFor('admin').then((resp) => {
+        cy.request({
+            method: 'POST',
+            url: apiUrl('/users'),
+            headers: createHeaders(resp.body.token),
+            body: user
+        })
+    })
+})
+
+
 Cypress.Commands.add('getIndexTableRow', (identifier) => {
     cy.get('.index-table tr').contains(identifier).parent('tr')
 })
