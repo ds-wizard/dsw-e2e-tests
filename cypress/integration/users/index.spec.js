@@ -21,7 +21,7 @@ describe('Users Index', () => {
         cy.clickIndexTableAction(user.email, 'Delete')
         cy.get('.modal-cover').should('be.visible')
         cy.clickBtn('Delete')
-        cy.get('.alert-success').should('contain', 'User was sucessfully deleted')
+        cy.expectAlert('success', 'User was sucessfully deleted')
         cy.get('.index-table tr').contains(user.email).should('not.exist')
     })
 })

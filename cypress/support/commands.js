@@ -62,6 +62,12 @@ Cypress.Commands.add('loginAs', (role) => {
 })
 
 
+Cypress.Commands.add('logout', () => {
+    window.localStorage.removeItem('session')
+    cy.visitApp('/login')
+})
+
+
 Cypress.Commands.add('createKMEditor', ({ kmId, name, parentPackageId }) => {
     getTokenFor('datasteward').then((resp) => {
         cy.request({
@@ -133,10 +139,15 @@ Cypress.Commands.add('checkFields', (fields) => {
 
 
 Cypress.Commands.add('clickBtn', (label) => {
-    cy.get('.btn').contains(label).click()
+    cy.get('.btn').filter(':visible').contains(label).click()
 })
 
 
 Cypress.Commands.add('clickLink', (label) => {
     cy.get('a').contains(label).click()
+})
+
+
+Cypress.Commands.add('expectAlert', (type, text) => {
+    cy.get(`.alert-${type}`).should('contain', text)
 })

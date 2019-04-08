@@ -44,6 +44,9 @@ module.exports = (on, config) => {
     }),
     'mongo:delete': ({ collection, args }) => withMongoDB(config, db => {
       return db.collection(collection).deleteMany(args)
+    }),
+    'mongo:updateOne': ({collection, query, update}) => withMongoDB(config, db => {
+      return db.collection(collection).updateOne(query, update)
     })
   })
 }

@@ -14,7 +14,7 @@ describe('Organization', () => {
         cy.clickBtn('Save')
 
         // check for success message
-        cy.get('.alert-success').contains('Organization was successfuly saved').should('exist')
+        cy.expectAlert('success', 'Organization was successfuly saved')
 
         // reload page and check values
         cy.visitApp('/organization')

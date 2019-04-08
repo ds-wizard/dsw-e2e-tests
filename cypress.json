@@ -14,7 +14,7 @@
     "screenshotsFolder": "output/screenshots",
     "videosFolder": "output/videos",
     "videoUploadOnPasses": false,
-    "numTestsKeptInMemory": 0,
+    "numTestsKeptInMemory": 1,
     "viewportWidth": 1280,
     "viewportHeight": 800
 }
