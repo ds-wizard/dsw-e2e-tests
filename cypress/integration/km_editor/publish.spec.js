@@ -25,11 +25,11 @@ describe('KM Editor Publish', () => {
         cy.get('.version-inputs input:nth-child(2)').type('0')
         cy.get('.version-inputs input:nth-child(3)').type('0')
         cy.get('#description').type(description)
-        cy.get('.btn').contains('Publish').click()
+        cy.clickBtn('Publish')
 
         cy.url().should('contain', '/knowledge-models')
-        cy.get('.index-table tr').contains(kmId)
-            .parent('tr')
+
+        cy.getIndexTableRow(kmId)
             .should('contain', kmName)
             .and('contain', '1.0.0')
 

@@ -1,6 +1,3 @@
-import * as form from './form-helpers'
-
-
 export function open(kmId) {
     cy.clickIndexTableAction(kmId, 'Open Editor')
     cy.url().should('contain', '/km-editor/edit')
@@ -29,7 +26,7 @@ export function openChild(child) {
 export function createChildren(parents) {
     parents.forEach(([type, fields]) => {
         addInputChild(type)
-        form.fillFields(fields)
+        cy.fillFields(fields)
     })
 }
 

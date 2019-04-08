@@ -94,3 +94,37 @@ Cypress.Commands.add('getIndexTableRow', (identifier) => {
 Cypress.Commands.add('clickIndexTableAction', (identifier, action) => {
     cy.getIndexTableRow(identifier).contains(action).click({ force: true })
 })
+
+
+Cypress.Commands.add('fillFields', (fields) => {
+    Object.entries(fields).forEach(([key, value]) => {
+        if (key.startsWith('s_')) {
+            key = key.replace(/^s_/, '')
+            cy.get(`#${key}`).select(value)
+        } else {
+            if (value.length > 0) {
+                cy.get(`#${key}`).clear().type(value)
+            } else {
+                cy.get(`#${key}`).clear()
+            }
+        }
+    })
+})
+
+
+Cypress.Commands.add('checkFields', (fields) => {
+    Object.entries(fields).forEach(([key, value]) => {
+        key = key.replace(/^s_/, '')
+        cy.get(`#${key}`).should('have.value', value)
+    })
+})
+
+
+Cypress.Commands.add('clickBtn', (label) => {
+    cy.get('.btn').contains(label).click()
+})
+
+
+Cypress.Commands.add('clickLink', (label) => {
+    cy.get('a').contains(label).click()
+})

@@ -12,13 +12,15 @@ describe('Sign up', () => {
 
     it('should work', () => {
         // fill in the form
-        cy.get('#email').type(testEmail)
-        cy.get('#name').type('Careen')
-        cy.get('#surname').type('Herberts')
-        cy.get('#password').type(testPassword)
-        cy.get('#passwordConfirmation').type(testPassword)
+        cy.fillFields({
+            email: testEmail,
+            name: 'Careen',
+            surname: 'Herberts',
+            password: testPassword,
+            passwordConfirmation: testPassword
+        })
         cy.get('#accept').check()
-        cy.get('.btn').contains('Sign up').click()
+        cy.clickBtn('Sign up')
 
         // form submission works
         cy.get('.lead').should('contain', 'Sign up was successful.')
@@ -40,12 +42,14 @@ describe('Sign up', () => {
         cy.get('.lead').should('contain', 'Your email was successfully confirmed.')
 
         // navigate to login
-        cy.get('a').contains('log in').click()
+        cy.clickLink('log in')
 
         // test that new user can login
-        cy.get('#email').type(testEmail)
-        cy.get('#password').type(testPassword)
-        cy.get('.btn').contains('Log in').click()
+        cy.fillFields({
+            email: testEmail,
+            password: testPassword
+        })
+        cy.clickBtn('Log in')
         cy.url().should('include', '/welcome')
     })
 })
