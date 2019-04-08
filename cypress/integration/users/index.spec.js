@@ -1,4 +1,4 @@
-describe('User Index', () => {
+describe('Users Index', () => {
     const user = {
         email: 'abigail.owen@example.com',
         name: 'Abigail',
