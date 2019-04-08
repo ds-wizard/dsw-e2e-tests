@@ -1,4 +1,5 @@
 import * as editor from '../../../support/editor-helpers'
+import * as form from '../../../support/form-helpers'
 
 
 describe('KM Editor Add Entity', () => {
@@ -35,7 +36,7 @@ describe('KM Editor Add Entity', () => {
             // Open editor again and check that the chapter is there
             editor.open(kmId)
             editor.openChild(chapter.title)
-            editor.checkFields(chapter)
+            form.checkFields(chapter)
         })
 
 
@@ -54,7 +55,7 @@ describe('KM Editor Add Entity', () => {
             // Open editor again and check that the tag is there
             editor.open(kmId)
             editor.openChild(tag.name)
-            editor.checkFields(tag)
+            form.checkFields(tag)
             cy.get('.form-group-color-picker a:nth-child(5)').should('have.class', 'selected')
         })
     })
@@ -97,7 +98,7 @@ describe('KM Editor Add Entity', () => {
                 // Open editor again and check that the question is there
                 editor.open(kmId)
                 editor.traverseChildren([chapter.title, question.title])
-                editor.checkFields(question)
+                form.checkFields(question)
             })
         })
     })
@@ -295,13 +296,13 @@ describe('KM Editor Add Entity', () => {
                 // Add answer and save
                 editor.addInputChild('answer')
                 cy.get('.table-metrics tbody tr:nth-child(3) .form-check-toggle').click()
-                editor.fillFields(followUpAnswer)
+                form.fillFields(followUpAnswer)
                 editor.save()
 
                 // Open editor again and check that the answer is there
                 editor.open(kmId)
                 editor.traverseChildren([...path, followUpAnswer.label])
-                editor.checkFields(followUpAnswer)
+                form.checkFields(followUpAnswer)
             })
 
 
@@ -326,7 +327,7 @@ describe('KM Editor Add Entity', () => {
                 // Open editor again and check that the follow-up question is there
                 editor.open(kmId)
                 editor.traverseChildren([...path, answer.label, followUpQuestion.title])
-                editor.checkFields(followUpQuestion)
+                form.checkFields(followUpQuestion)
             })
 
 
@@ -347,7 +348,7 @@ describe('KM Editor Add Entity', () => {
                 // Open editor again and check that the answer item question is there
                 editor.open(kmId)
                 editor.traverseChildren([...path, itemQuestion.title])
-                editor.checkFields(itemQuestion)
+                form.checkFields(itemQuestion)
             })
 
 
@@ -375,7 +376,7 @@ describe('KM Editor Add Entity', () => {
                     // Open editor again and check that the reference is there
                     editor.open(kmId)
                     editor.traverseChildren([...path, referenceLabel])
-                    editor.checkFields(reference)
+                    form.checkFields(reference)
                 })
             })
 
@@ -394,7 +395,7 @@ describe('KM Editor Add Entity', () => {
                 // Open editor again and check that the expert is there
                 editor.open(kmId)
                 editor.traverseChildren([...path, expert.name])
-                editor.checkFields(expert)
+                form.checkFields(expert)
             })
         })
     })

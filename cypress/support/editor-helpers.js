@@ -1,3 +1,6 @@
+import * as form from './form-helpers'
+
+
 export function open(kmId) {
     cy.clickIndexTableAction(kmId, 'Open Editor')
     cy.url().should('contain', '/km-editor/edit')
@@ -26,7 +29,7 @@ export function openChild(child) {
 export function createChildren(parents) {
     parents.forEach(([type, fields]) => {
         addInputChild(type)
-        fillFields(fields)
+        form.fillFields(fields)
     })
 }
 
@@ -45,30 +48,6 @@ export function shouldNotHaveChild(child) {
     const childName = escapeRegExp(child)
     const re = new RegExp(`^${childName}$`)
     cy.contains('.input-child a', re).should('not.exist')
-}
-
-
-export function fillFields(fields) {
-    Object.entries(fields).forEach(([key, value]) => {
-        if (key.startsWith('s_')) {
-            key = key.replace(/^s_/, '')
-            cy.get(`#${key}`).select(value)
-        } else {
-            if (value.length > 0) {
-                cy.get(`#${key}`).clear().type(value)
-            } else {
-                cy.get(`#${key}`).clear()
-            }
-        }
-    })
-}
-
-
-export function checkFields(fields) {
-    Object.entries(fields).forEach(([key, value]) => {
-        key = key.replace(/^s_/, '')
-        cy.get(`#${key}`).should('have.value', value)
-    })
 }
 
 

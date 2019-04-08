@@ -1,4 +1,4 @@
-RUN_CMD=npx cypress run
+CYPRESS=npx cypress
 
 .PHONY: install
 install:
@@ -17,17 +17,17 @@ stop:
 
 .PHONY: run
 run:
-	@CYPRESS_RETRIES=5 $(RUN_CMD)
+	@CYPRESS_RETRIES=5 $(CYPRESS) run
 
 
 .PHONY: all
 all:
-	@make clean && make start && ($(RUN_CMD) || true) && make stop
+	@make clean && make start && ($(CYPRESS) run || true) && make stop
 
 
 .PHONY: open
 open:
-	npx cypress open
+	$(CYPRESS) open
 
 .PHONY: clean
 clean:
