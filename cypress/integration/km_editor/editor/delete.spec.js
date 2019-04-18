@@ -22,7 +22,7 @@ describe('KM Editor Delete Entity', () => {
             collection: 'branches',
             args: { kmId }
         })
-        cy.createKMEditor({ kmId, name: kmName, parentPackageId: parentPackageId })
+        cy.createKMEditor({ kmId, name: kmName, parentPackageId })
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')
     })
