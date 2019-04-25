@@ -78,6 +78,52 @@ describe('KM Editor Edit Entity', () => {
             cy.checkFields(tag)
             cy.get('.form-group-color-picker a:nth-child(7)').should('have.class', 'selected')
         })
+
+        it('edit Integration', () => {
+            const integration = {
+                id: 'another-integration',
+                name: 'Another Integration',
+                logo: 'base64image',
+                itemUrl: 'https://another.example.com/${{}id}',
+                s_requestMethod: 'POST',
+                requestUrl: 'https://another.api.example.com/search?q=${{}q}',
+                requestBody: '{{}}',
+                responseListField: 'objects',
+                responseIdField: 'objectUuid',
+                responseNameField: 'objectString'
+            }
+
+            const getPropsFormGroup = () => cy.get('.form-group').contains('Props').parent('div')
+            const getHeadersFormGroup = () => cy.get('.form-group').contains('Request Headers').parent('div')
+
+            // Edit integration
+            editor.open(kmId)
+            editor.traverseChildren(['Integration 1'])
+            // edit form fields
+            cy.fillFields(integration)
+            // edit props
+            getPropsFormGroup().find('.form-control').type('new-prop')
+            getPropsFormGroup().find('.input-group .btn').contains('Add').click()
+            cy.get('.list-group.list-group-hover li').contains('database').find('a').contains('Remove').click()
+            // edit headers
+            getHeadersFormGroup().find('.input-group:last-child .btn').click()
+            getHeadersFormGroup().find('.input-group:last-child input:first-child').clear().type('X-Auth')
+            getHeadersFormGroup().find('.input-group:last-child input:nth-child(2)').clear().type('abcd')
+            editor.save()
+
+            // Open editor again and check that changes were saved
+            editor.open(kmId)
+            editor.traverseChildren([integration.name])
+            //  check form fields
+            cy.checkFields(integration)
+            // check props
+            cy.get('.list-group.list-group-hover li').contains('new-prop').should('exist')
+            cy.get('.list-group.list-group-hover li').contains('category').should('exist')
+            cy.get('.list-group.list-group-hover li').contains('database').should('not.exist')
+            // check headers
+            getHeadersFormGroup().find('.input-group:last-child input:first-child').should('have.value', 'X-Auth')
+            getHeadersFormGroup().find('.input-group:last-child input:nth-child(2)').should('have.value', 'abcd')
+        })
     })
 
     describe('Chapter', () => {

@@ -57,6 +57,60 @@ describe('KM Editor Add Entity', () => {
             cy.checkFields(tag)
             cy.get('.form-group-color-picker a:nth-child(5)').should('have.class', 'selected')
         })
+
+        it('add Integration', () => {
+            const integration = {
+                id: 'service1',
+                name: 'Service 1',
+                logo: 'base64image',
+                itemUrl: 'https://example.com/${{}id}',
+                s_requestMethod: 'POST',
+                requestUrl: 'https://api.example.com/search?q=${{}q}',
+                requestBody: '{{}}',
+                responseListField: 'items',
+                responseIdField: 'itemId',
+                responseNameField: 'itemName'
+            }
+
+            const addProp = (name) => {
+                cy.get('.input-group .form-control').type(name)
+                cy.get('.input-group .btn').click()
+            }
+
+            const checkProp = (name) => {
+                cy.get('.list-group.list-group-hover li').contains(name).should('exist')
+            }
+
+            const getHeadersFormGroup = () => cy.get('.form-group').contains('Request Headers').parent('div')
+
+            const addHeader = (header, value) => {
+                getHeadersFormGroup().contains('Add').click()
+                getHeadersFormGroup().find('.input-group:last-child input:first-child').type(header)
+                getHeadersFormGroup().find('.input-group:last-child input:nth-child(2)').type(value)
+            }
+
+            const checkHeader = (header, value) => {
+                getHeadersFormGroup().find('.input-group:last-child input:first-child').should('have.value', header)
+                getHeadersFormGroup().find('.input-group:last-child input:nth-child(2)').should('have.value', value)
+            }
+
+            // Add integration and save
+            editor.open(kmId)
+            editor.createChildren([['integration', integration]])
+            addProp('name')
+            addProp('database')
+            addHeader('Authorization', 'Bearer $token')
+            editor.save()
+
+            // Open editor again and check that the integration is there
+            editor.open(kmId)
+            editor.openChild(integration.name)
+            checkProp('name')
+            checkProp('database')
+            checkHeader('Authorization', 'Bearer $token')
+            cy.checkFields(integration)
+
+        })
     })
 
 

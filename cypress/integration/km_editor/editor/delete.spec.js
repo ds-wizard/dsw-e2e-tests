@@ -37,6 +37,11 @@ describe('KM Editor Delete Entity', () => {
             name: 'delete Tag',
             path: [],
             child: 'Tag 1'
+        }, {
+            name: 'delete Integration',
+            path: [],
+            child: 'Integration 1',
+            confirm: true
         }]
     }, {
         group: 'Chapter',
@@ -129,13 +134,16 @@ describe('KM Editor Delete Entity', () => {
 
     fixtures.forEach(({ group, tests }) => {
         describe(group, () => {
-            tests.forEach(({ name, path, child }) => {
+            tests.forEach(({ name, path, child, confirm }) => {
                 it(name, () => {
                     // Delete entity and save
                     editor.open(kmId)
                     editor.traverseChildren(path)
                     editor.openChild(child)
                     editor.deleteCurrent()
+                    if (confirm) {
+                        editor.confirmDelete()
+                    }
                     editor.save()
 
                     // Check that the entity is not there

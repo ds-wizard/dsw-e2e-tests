@@ -41,6 +41,11 @@ export function deleteCurrent() {
 }
 
 
+export function confirmDelete() {
+    cy.get('.modal-content .btn').contains('Delete').click()
+}
+
+
 export function shouldNotHaveChild(child) {
     const childName = escapeRegExp(child)
     const re = new RegExp(`^${childName}$`)
