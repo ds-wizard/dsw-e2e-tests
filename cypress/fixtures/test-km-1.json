@@ -971,6 +971,51 @@
                     "responseIdField": "id",
                     "responseNameField": "name",
                     "itemUrl": "https://example.com/${id}"
+                },
+                {
+                    "uuid": "ce87c3b9-cf8d-464c-b419-75e58d41be35",
+                    "path": [
+                        {
+                            "uuid": "05917b70-873f-449f-ab3c-fad225da403e",
+                            "type": "km"
+                        }
+                    ],
+                    "eventType": "AddIntegrationEvent",
+                    "integrationUuid": "7f1a591a-d6d6-4ffd-8118-6f052b1d73b8",
+                    "id": "integration2",
+                    "name": "Integration 2",
+                    "props": [],
+                    "logo": "data:image/svg+xml;base64,...",
+                    "requestMethod": "GET",
+                    "requestUrl": "https://api.example.com/?q=${q}",
+                    "requestHeaders": {},
+                    "requestBody": "",
+                    "responseListField": "items",
+                    "responseIdField": "id",
+                    "responseNameField": "name",
+                    "itemUrl": "https://example.com/${id}"
+                },
+                {
+                    "tagUuids": [],
+                    "path": [
+                        {
+                            "uuid": "05917b70-873f-449f-ab3c-fad225da403e",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "99196c79-3de5-4add-a6c9-20e6ba179fae",
+                            "type": "chapter"
+                        }
+                    ],
+                    "text": null,
+                    "uuid": "cdab8b50-c526-4356-82a0-78f1913d78a8",
+                    "questionUuid": "993c1baf-2063-40c3-848f-3d98a2de5bac",
+                    "questionType": "IntegrationQuestion",
+                    "integrationUuid": "354e8a2a-3c53-4f74-921d-bc42d82bd529",
+                    "eventType": "AddQuestionEvent",
+                    "requiredLevel": null,
+                    "title": "Integration Question 1",
+                    "props": {}
                 }
             ],
             "version": "1.0.0",

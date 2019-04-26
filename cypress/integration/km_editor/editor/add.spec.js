@@ -154,6 +154,47 @@ describe('KM Editor Add Entity', () => {
                 cy.checkFields(question)
             })
         })
+
+        it('add Integration Question', () => {
+            const chapter = { title: 'My Chapter' }
+            const question = {
+                s_questionType: 'IntegrationQuestion',
+                title: 'What standards will you use?',
+                s_requiredLevel: '1'
+            }
+
+            const integration = {
+                id: 'integration-id',
+                name: 'My Integration'
+            }
+
+            const getIntegrationUuid = () => {
+                return cy.get('#integrationUuid option')
+                    .contains('My Integration')
+                    .should('have.attr', 'value')
+            }
+
+            // Create question and its parent
+            editor.open(kmId)
+            editor.createChildren([['integration', integration]])
+            cy.get('a').contains('New knowledge model').click()
+            editor.createChildren([
+                ['chapter', chapter],
+                ['question', question]
+            ])
+            getIntegrationUuid().then((value) => {
+                cy.get('#integrationUuid').select(value)
+            })
+            editor.save()
+
+            // Open editor again and check that the question is there
+            editor.open(kmId)
+            editor.traverseChildren([chapter.title, question.title])
+            cy.checkFields(question)
+            getIntegrationUuid().then((value) => {
+                cy.get('#integrationUuid').should('have.value', value)
+            })
+        })
     })
 
 

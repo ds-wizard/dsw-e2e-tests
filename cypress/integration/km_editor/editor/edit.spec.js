@@ -153,6 +153,14 @@ describe('KM Editor Edit Entity', () => {
                 s_valueType: 'NumberValue'
             }
         }, {
+            testName: 'edit IntegrationQuestion',
+            originalTitle: 'Integration Question 1',
+            question: {
+                title: 'Another Integration Question',
+                text: 'Another integration question text',
+                s_integrationUuid: '7f1a591a-d6d6-4ffd-8118-6f052b1d73b8'
+            }
+        }, {
             testName: 'change to OptionsQuestion',
             originalTitle: 'List Question 1',
             question: {
@@ -174,6 +182,14 @@ describe('KM Editor Edit Entity', () => {
                 title: 'Value Question 2',
                 s_questionType: 'ValueQuestion',
                 s_valueType: 'TextValue'
+            }
+        }, {
+            testName: 'change to IntegrationQuestion',
+            originalTitle: 'List Question 1',
+            question: {
+                title: 'Integration Question 2',
+                s_questionType: 'IntegrationQuestion',
+                s_integrationUuid: '354e8a2a-3c53-4f74-921d-bc42d82bd529'
             }
         }]
 
