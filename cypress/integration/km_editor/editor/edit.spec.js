@@ -78,6 +78,52 @@ describe('KM Editor Edit Entity', () => {
             cy.checkFields(tag)
             cy.get('.form-group-color-picker a:nth-child(7)').should('have.class', 'selected')
         })
+
+        it('edit Integration', () => {
+            const integration = {
+                id: 'another-integration',
+                name: 'Another Integration',
+                logo: 'base64image',
+                itemUrl: 'https://another.example.com/${{}id}',
+                s_requestMethod: 'POST',
+                requestUrl: 'https://another.api.example.com/search?q=${{}q}',
+                requestBody: '{{}}',
+                responseListField: 'objects',
+                responseIdField: 'objectUuid',
+                responseNameField: 'objectString'
+            }
+
+            const getPropsFormGroup = () => cy.get('.form-group').contains('Props').parent('div')
+            const getHeadersFormGroup = () => cy.get('.form-group').contains('Request Headers').parent('div')
+
+            // Edit integration
+            editor.open(kmId)
+            editor.traverseChildren(['Integration 1'])
+            // edit form fields
+            cy.fillFields(integration)
+            // edit props
+            getPropsFormGroup().find('.form-control').type('new-prop')
+            getPropsFormGroup().find('.input-group .btn').contains('Add').click()
+            cy.get('.list-group.list-group-hover li').contains('database').find('a').contains('Remove').click()
+            // edit headers
+            getHeadersFormGroup().find('.input-group:last-child .btn').click()
+            getHeadersFormGroup().find('.input-group:last-child input:first-child').clear().type('X-Auth')
+            getHeadersFormGroup().find('.input-group:last-child input:nth-child(2)').clear().type('abcd')
+            editor.save()
+
+            // Open editor again and check that changes were saved
+            editor.open(kmId)
+            editor.traverseChildren([integration.name])
+            //  check form fields
+            cy.checkFields(integration)
+            // check props
+            cy.get('.list-group.list-group-hover li').contains('new-prop').should('exist')
+            cy.get('.list-group.list-group-hover li').contains('category').should('exist')
+            cy.get('.list-group.list-group-hover li').contains('database').should('not.exist')
+            // check headers
+            getHeadersFormGroup().find('.input-group:last-child input:first-child').should('have.value', 'X-Auth')
+            getHeadersFormGroup().find('.input-group:last-child input:nth-child(2)').should('have.value', 'abcd')
+        })
     })
 
     describe('Chapter', () => {
@@ -107,6 +153,14 @@ describe('KM Editor Edit Entity', () => {
                 s_valueType: 'NumberValue'
             }
         }, {
+            testName: 'edit IntegrationQuestion',
+            originalTitle: 'Integration Question 1',
+            question: {
+                title: 'Another Integration Question',
+                text: 'Another integration question text',
+                s_integrationUuid: '7f1a591a-d6d6-4ffd-8118-6f052b1d73b8'
+            }
+        }, {
             testName: 'change to OptionsQuestion',
             originalTitle: 'List Question 1',
             question: {
@@ -128,6 +182,14 @@ describe('KM Editor Edit Entity', () => {
                 title: 'Value Question 2',
                 s_questionType: 'ValueQuestion',
                 s_valueType: 'TextValue'
+            }
+        }, {
+            testName: 'change to IntegrationQuestion',
+            originalTitle: 'List Question 1',
+            question: {
+                title: 'Integration Question 2',
+                s_questionType: 'IntegrationQuestion',
+                s_integrationUuid: '354e8a2a-3c53-4f74-921d-bc42d82bd529'
             }
         }]
 

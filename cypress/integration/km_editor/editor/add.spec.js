@@ -57,6 +57,60 @@ describe('KM Editor Add Entity', () => {
             cy.checkFields(tag)
             cy.get('.form-group-color-picker a:nth-child(5)').should('have.class', 'selected')
         })
+
+        it('add Integration', () => {
+            const integration = {
+                id: 'service1',
+                name: 'Service 1',
+                logo: 'base64image',
+                itemUrl: 'https://example.com/${{}id}',
+                s_requestMethod: 'POST',
+                requestUrl: 'https://api.example.com/search?q=${{}q}',
+                requestBody: '{{}}',
+                responseListField: 'items',
+                responseIdField: 'itemId',
+                responseNameField: 'itemName'
+            }
+
+            const addProp = (name) => {
+                cy.get('.input-group .form-control').type(name)
+                cy.get('.input-group .btn').click()
+            }
+
+            const checkProp = (name) => {
+                cy.get('.list-group.list-group-hover li').contains(name).should('exist')
+            }
+
+            const getHeadersFormGroup = () => cy.get('.form-group').contains('Request Headers').parent('div')
+
+            const addHeader = (header, value) => {
+                getHeadersFormGroup().contains('Add').click()
+                getHeadersFormGroup().find('.input-group:last-child input:first-child').type(header)
+                getHeadersFormGroup().find('.input-group:last-child input:nth-child(2)').type(value)
+            }
+
+            const checkHeader = (header, value) => {
+                getHeadersFormGroup().find('.input-group:last-child input:first-child').should('have.value', header)
+                getHeadersFormGroup().find('.input-group:last-child input:nth-child(2)').should('have.value', value)
+            }
+
+            // Add integration and save
+            editor.open(kmId)
+            editor.createChildren([['integration', integration]])
+            addProp('name')
+            addProp('database')
+            addHeader('Authorization', 'Bearer $token')
+            editor.save()
+
+            // Open editor again and check that the integration is there
+            editor.open(kmId)
+            editor.openChild(integration.name)
+            checkProp('name')
+            checkProp('database')
+            checkHeader('Authorization', 'Bearer $token')
+            cy.checkFields(integration)
+
+        })
     })
 
 
@@ -98,6 +152,47 @@ describe('KM Editor Add Entity', () => {
                 editor.open(kmId)
                 editor.traverseChildren([chapter.title, question.title])
                 cy.checkFields(question)
+            })
+        })
+
+        it('add Integration Question', () => {
+            const chapter = { title: 'My Chapter' }
+            const question = {
+                s_questionType: 'IntegrationQuestion',
+                title: 'What standards will you use?',
+                s_requiredLevel: '1'
+            }
+
+            const integration = {
+                id: 'integration-id',
+                name: 'My Integration'
+            }
+
+            const getIntegrationUuid = () => {
+                return cy.get('#integrationUuid option')
+                    .contains('My Integration')
+                    .should('have.attr', 'value')
+            }
+
+            // Create question and its parent
+            editor.open(kmId)
+            editor.createChildren([['integration', integration]])
+            cy.get('a').contains('New knowledge model').click()
+            editor.createChildren([
+                ['chapter', chapter],
+                ['question', question]
+            ])
+            getIntegrationUuid().then((value) => {
+                cy.get('#integrationUuid').select(value)
+            })
+            editor.save()
+
+            // Open editor again and check that the question is there
+            editor.open(kmId)
+            editor.traverseChildren([chapter.title, question.title])
+            cy.checkFields(question)
+            getIntegrationUuid().then((value) => {
+                cy.get('#integrationUuid').should('have.value', value)
             })
         })
     })

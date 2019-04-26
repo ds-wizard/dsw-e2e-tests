@@ -133,7 +133,7 @@ Cypress.Commands.add('fillFields', (fields) => {
 Cypress.Commands.add('checkFields', (fields) => {
     Object.entries(fields).forEach(([key, value]) => {
         key = key.replace(/^s_/, '')
-        cy.get(`#${key}`).should('have.value', value)
+        cy.get(`#${key}`).should('have.value', value.replace('{{}', '{'))
     })
 })
 
