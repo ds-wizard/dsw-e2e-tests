@@ -7,11 +7,10 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./config.cfg:/dsw/config/app-config.cfg
-      - ./integration.cfg:/dsw/config/integration.cfg
+      - ./server/application.yml:/dsw/config/application.yml
+      - ./server/integration.yml:/dsw/config/integration.yml
     links:
       - mongo
-      - rabbitmq
 
   dsw_client:
     image: datastewardshipwizard/client:develop
@@ -20,9 +19,6 @@ services:
       - 8080:80
     environment:
       - API_URL=http://localhost:3000
-
-  rabbitmq:
-    image: rabbitmq
 
   mongo:
       image: mongo:3.0.15

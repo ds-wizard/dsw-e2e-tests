@@ -14,7 +14,7 @@ describe('Menu', () => {
     }].forEach((roleItems) => {
         it('should contain correct items for ' + roleItems.role, () => {
             cy.loginAs(roleItems.role)
-            cy.visitApp('/welcome')
+            cy.visitApp('/dashboard')
 
             roleItems.contains.forEach((item) => {
                 cy.get('.menu li').contains(item)

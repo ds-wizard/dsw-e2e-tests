@@ -31,7 +31,7 @@ describe('Users Edit', () => {
         }
 
         // edit user profile
-        cy.clickIndexTableAction(user.email, 'Edit')
+        cy.clickListingItemAction(user.email, 'Edit')
         cy.url().should('contain', '/users/edit/')
         cy.fillFields(newUser)
         cy.clickBtn('Save')
@@ -39,13 +39,13 @@ describe('Users Edit', () => {
 
         // check it is correct in index table
         cy.visitApp('/users')
-        cy.getIndexTableRow(newUser.email)
+        cy.getListingItem(newUser.email)
             .should('contain', newUser.name)
             .and('contain', newUser.surname)
             .and('contain', newUser.s_role)
 
         // check it is correct when reopened
-        cy.clickIndexTableAction(newUser.email, 'Edit')
+        cy.clickListingItemAction(newUser.email, 'Edit')
         cy.checkFields(newUser)
     })
 
@@ -53,7 +53,7 @@ describe('Users Edit', () => {
         const password = 'new/passw0rd'
 
         // open password edit form and save
-        cy.clickIndexTableAction(user.email, 'Edit')
+        cy.clickListingItemAction(user.email, 'Edit')
         cy.url().should('contain', '/users/edit/')
         cy.get('.nav-tabs').should('exist') // make sure to not click Password link before it's there
         cy.clickLink('Password')
@@ -72,6 +72,6 @@ describe('Users Edit', () => {
         cy.logout()
         cy.fillFields({ email: user.email, password })
         cy.clickBtn('Log in')
-        cy.url().should('contain', '/welcome')
+        cy.url().should('contain', '/dashboard')
     })
 })

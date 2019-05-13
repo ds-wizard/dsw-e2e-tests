@@ -40,6 +40,7 @@ const getTokenFor = (role) => cy.request({
 
 Cypress.Commands.add('visitApp', (url) => {
     cy.visit(`${Cypress.env('url')}${url}`)
+    cy.get('.full-page-loader').should('not.exist')
 })
 
 
@@ -104,13 +105,18 @@ Cypress.Commands.add('createUser', (user) => {
 })
 
 
-Cypress.Commands.add('getIndexTableRow', (identifier) => {
-    cy.get('.index-table tr').contains(identifier).parent('tr')
+Cypress.Commands.add('getListingItem', (identifier) => {
+    cy.get('.list-group-listing .list-group-item').contains(identifier).closest('.list-group-item')
 })
 
 
-Cypress.Commands.add('clickIndexTableAction', (identifier, action) => {
-    cy.getIndexTableRow(identifier).contains(action).click({ force: true })
+Cypress.Commands.add('clickListingItemAction', (identifier, action) => {
+    cy.getListingItem(identifier).contains(action).click({ force: true })
+})
+
+
+Cypress.Commands.add('expectListingItemNotExist', (identifier) => {
+    cy.get('.list-group-listing .list-group-item').contains(identifier).should('not.exist')
 })
 
 
