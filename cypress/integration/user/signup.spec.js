@@ -50,6 +50,6 @@ describe('Sign up', () => {
             password: testPassword
         })
         cy.clickBtn('Log in')
-        cy.url().should('include', '/welcome')
+        cy.url().should('include', '/dashboard')
     })
 })

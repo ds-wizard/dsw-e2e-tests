@@ -1,5 +1,5 @@
 export function open(kmId) {
-    cy.clickIndexTableAction(kmId, 'Open Editor')
+    cy.clickListingItemAction(kmId, 'Open Editor')
     cy.url().should('contain', '/km-editor/edit')
     cy.get('.editor-header').should('exist')
 }

@@ -17,12 +17,12 @@ describe('Users Create', () => {
     })
 
     it('can be created', () => {
-        cy.clickBtn('Create User')
+        cy.clickBtn('Create')
         cy.fillFields(user)
         cy.clickBtn('Save')
 
         cy.url().should('match', /\/users$/)
-        cy.getIndexTableRow(user.email)
+        cy.getListingItem(user.email)
             .should('contain', user.name)
             .and('contain', user.surname)
             .and('contain', user.s_role)

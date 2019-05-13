@@ -20,7 +20,7 @@ describe('KM Editor Create', () => {
         cy.url().should('contain', '/km-editor/edit/')
 
         cy.visitApp('/km-editor')
-        cy.getIndexTableRow(kmId)
+        cy.getListingItem(kmId)
             .should('contain', kmName)
             .and('contain', '-')
     })
