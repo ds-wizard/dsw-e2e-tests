@@ -120,6 +120,11 @@ Cypress.Commands.add('expectListingItemNotExist', (identifier) => {
 })
 
 
+Cypress.Commands.add('expectEmptyListing', () => {
+    cy.get('.full-page-illustrated-message').contains('No data')
+})
+
+
 Cypress.Commands.add('fillFields', (fields) => {
     Object.entries(fields).forEach(([key, value]) => {
         if (key.startsWith('s_')) {
