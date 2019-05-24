@@ -106,7 +106,7 @@ Cypress.Commands.add('createUser', (user) => {
 
 
 Cypress.Commands.add('getListingItem', (identifier) => {
-    cy.get('.list-group-listing .list-group-item').contains(identifier).closest('.list-group-item')
+    cy.get('.Listing .list-group-item').contains(identifier).closest('.list-group-item')
 })
 
 
@@ -116,7 +116,7 @@ Cypress.Commands.add('clickListingItemAction', (identifier, action) => {
 
 
 Cypress.Commands.add('expectListingItemNotExist', (identifier) => {
-    cy.get('.list-group-listing .list-group-item').contains(identifier).should('not.exist')
+    cy.get('.Listing .list-group-item').contains(identifier).should('not.exist')
 })
 
 

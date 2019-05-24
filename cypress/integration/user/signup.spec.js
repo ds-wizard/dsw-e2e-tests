@@ -34,7 +34,7 @@ describe('Sign up', () => {
                 collection: 'actionKeys',
                 args: { userId: user.uuid }
             }).then(actionKey => {
-                cy.visitApp('/signup-confirmation/' + user.uuid + '/' + actionKey.hash)
+                cy.visitApp('/signup/' + user.uuid + '/' + actionKey.hash)
             })
         })
 

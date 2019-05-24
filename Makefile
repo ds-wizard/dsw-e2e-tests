@@ -26,7 +26,7 @@ all:
 
 .PHONY: open
 open:
-	CYPRESS_RETRIES=5 $(CYPRESS) open
+	CYPRESS_RETRIES=3 $(CYPRESS) open
 
 .PHONY: clean
 clean:

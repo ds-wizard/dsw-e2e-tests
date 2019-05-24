@@ -65,3 +65,9 @@ feedback:
   owner:
   repo:
   issueurl:
+
+registry:
+  enabled: true
+  url: https://api.registry-test.ds-wizard.org
+  token: KRYywxhfefpDcjQBN7Ruhg_3l0TJ0mUSmzvlxlLnjXJQkIk_pNSOotwcar1ONwUvIietD9I_aiabl12v-Z4xCxIS8xAakvRBmPPzF4U2Snxg1eD4GWYFhIWIWNQ8MUixvgj6yXQyKScdVfAxflHG8lBY3Miuygxpz3rY9wh_mZhGcQ5_W0r-yn5AEwsac0XNe-fCDM9adnlFJV2xy0wSC72d1r5_hCAhhPwud9b0YO_G3wePBLDEkH-O8RUJiFIWh9XsmQsGl3tzUfVJjfEcUpWYLRX8Xfs-mosnfApBspkJdFzZukRXnYx_MbytV_kNgJ63zWRwyn84trcg2GgW8w
+  pkgUrl: https://registry-test.ds-wizard.org/knowledge-models/:pkgId

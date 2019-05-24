@@ -22,6 +22,5 @@ describe('KM Editor Create', () => {
         cy.visitApp('/km-editor')
         cy.getListingItem(kmId)
             .should('contain', kmName)
-            .and('contain', '-')
     })
 })
