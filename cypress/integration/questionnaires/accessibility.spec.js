@@ -1,3 +1,6 @@
+import * as questionnaire from '../../support/questionnaire-helpers'
+
+
 describe('Questionnaires Accessibility', () => {
     const questionnaireName = 'My Accessibility Questionnaire'
     const kmId = 'test-km-1'
@@ -39,55 +42,55 @@ describe('Questionnaires Accessibility', () => {
     const testCases = [{
         creator: 'researcher',
         viewer: 'researcher',
-        visibility: 'PublicQuestionnaire',
+        visibility: questionnaire.Public,
         badge: 'public',
         expectResult: expectSeeAndFill
     }, {
         creator: 'researcher',
         viewer: 'researcher',
-        visibility: 'PrivateQuestionnaire',
+        visibility: questionnaire.Private,
         badge: 'private',
         expectResult: expectSeeAndFill
     }, {
         creator: 'researcher',
         viewer: 'researcher',
-        visibility: 'PublicReadOnlyQuestionnaire',
+        visibility: questionnaire.PublicReadOnly,
         badge: 'read-only',
         expectResult: expectSeeAndFill
     }, {
         creator: 'researcher',
         viewer: 'datasteward',
-        visibility: 'PublicQuestionnaire',
+        visibility: questionnaire.Public,
         badge: 'public',
         expectResult: expectSeeAndFill
     }, {
         creator: 'researcher',
         viewer: 'datasteward',
-        visibility: 'PrivateQuestionnaire',
+        visibility: questionnaire.Private,
         badge: 'private',
         expectResult: expectCannotSee
     }, {
         creator: 'researcher',
         viewer: 'datasteward',
-        visibility: 'PublicReadOnlyQuestionnaire',
+        visibility: questionnaire.PublicReadOnly,
         badge: 'read-only',
         expectResult: expectReadOnly
     }, {
         creator: 'researcher',
         viewer: 'admin',
-        visibility: 'PublicQuestionnaire',
+        visibility: questionnaire.Public,
         badge: 'public',
         expectResult: expectSeeAndFill
     }, {
         creator: 'researcher',
         viewer: 'admin',
-        visibility: 'PrivateQuestionnaire',
+        visibility: questionnaire.Private,
         badge: 'private',
         expectResult: expectSeeAndFill
     }, {
         creator: 'researcher',
         viewer: 'admin',
-        visibility: 'PublicReadOnlyQuestionnaire',
+        visibility: questionnaire.PublicReadOnly,
         badge: 'read-only',
         expectResult: expectSeeAndFill
     }]

@@ -1,0 +1,602 @@
+{
+    "metamodelVersion": 2,
+    "kmId": "basic-questionnaire-test-km",
+    "packages": [
+        {
+            "readme": "# Basic Questionnaire Test KM",
+            "createdAt": "2019-05-29T11:16:56.232Z",
+            "metamodelVersion": 2,
+            "kmId": "basic-questionnaire-test-km",
+            "parentPackageId": null,
+            "name": "Basic Questionnaire Test KM",
+            "events": [
+                {
+                    "path": [],
+                    "uuid": "08cd5636-b18d-4b4e-bb3f-178b77bc6274",
+                    "eventType": "AddKnowledgeModelEvent",
+                    "name": "New knowledge model",
+                    "kmUuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c"
+                },
+                {
+                    "tagUuids": {
+                        "changed": false
+                    },
+                    "path": [],
+                    "uuid": "0c3b544b-a90d-4663-a17b-91c73daa8347",
+                    "eventType": "EditKnowledgeModelEvent",
+                    "name": {
+                        "changed": true,
+                        "value": "Basic Questionnaire Test KM"
+                    },
+                    "chapterUuids": {
+                        "changed": false
+                    },
+                    "integrationUuids": {
+                        "changed": false
+                    },
+                    "kmUuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c"
+                },
+                {
+                    "chapterUuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        }
+                    ],
+                    "text": "Chapter text",
+                    "uuid": "1479a79e-5246-4f26-9924-bb8eb36ebd3a",
+                    "eventType": "AddChapterEvent",
+                    "title": "Chapter 1"
+                },
+                {
+                    "tagUuids": [],
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                            "type": "chapter"
+                        }
+                    ],
+                    "text": null,
+                    "uuid": "72f536d9-0cb2-4a23-9fb0-e09241845ed4",
+                    "questionUuid": "4ae3425e-31a3-475d-a201-3f12f0b69574",
+                    "questionType": "OptionsQuestion",
+                    "eventType": "AddQuestionEvent",
+                    "requiredLevel": null,
+                    "title": "Options Question 1"
+                },
+                {
+                    "advice": "This is an advice for answer 1.",
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                            "type": "chapter"
+                        },
+                        {
+                            "uuid": "4ae3425e-31a3-475d-a201-3f12f0b69574",
+                            "type": "question"
+                        }
+                    ],
+                    "uuid": "d1ce861f-8583-4d69-a92a-aa8cd4596afd",
+                    "eventType": "AddAnswerEvent",
+                    "metricMeasures": [],
+                    "label": "Answer 1",
+                    "answerUuid": "d27c39c7-6e2f-45a6-9d47-a750ba81c6c5"
+                },
+                {
+                    "advice": null,
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                            "type": "chapter"
+                        },
+                        {
+                            "uuid": "4ae3425e-31a3-475d-a201-3f12f0b69574",
+                            "type": "question"
+                        }
+                    ],
+                    "uuid": "33194d52-71b8-47ec-ada2-017338ee9246",
+                    "eventType": "AddAnswerEvent",
+                    "metricMeasures": [],
+                    "label": "Answer 2",
+                    "answerUuid": "9a997aeb-1b8c-496f-9b23-ce29ed7bd489"
+                },
+                {
+                    "tagUuids": [],
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                            "type": "chapter"
+                        },
+                        {
+                            "uuid": "4ae3425e-31a3-475d-a201-3f12f0b69574",
+                            "type": "question"
+                        },
+                        {
+                            "uuid": "9a997aeb-1b8c-496f-9b23-ce29ed7bd489",
+                            "type": "answer"
+                        }
+                    ],
+                    "text": null,
+                    "uuid": "6e24ce5c-5f42-4634-ae7c-3065455d392e",
+                    "questionUuid": "04f1ce83-dd52-4159-a5ab-862d8869bbcb",
+                    "questionType": "OptionsQuestion",
+                    "eventType": "AddQuestionEvent",
+                    "requiredLevel": null,
+                    "title": "Follow-up Question 1"
+                },
+                {
+                    "advice": null,
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                            "type": "chapter"
+                        },
+                        {
+                            "uuid": "4ae3425e-31a3-475d-a201-3f12f0b69574",
+                            "type": "question"
+                        },
+                        {
+                            "uuid": "9a997aeb-1b8c-496f-9b23-ce29ed7bd489",
+                            "type": "answer"
+                        },
+                        {
+                            "uuid": "04f1ce83-dd52-4159-a5ab-862d8869bbcb",
+                            "type": "question"
+                        }
+                    ],
+                    "uuid": "611497b8-3960-49d7-a731-cf527f585d73",
+                    "eventType": "AddAnswerEvent",
+                    "metricMeasures": [],
+                    "label": "Follow-up answer 1.1",
+                    "answerUuid": "db4b1cec-f849-4fb1-bd15-6233414498b8"
+                },
+                {
+                    "advice": null,
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                            "type": "chapter"
+                        },
+                        {
+                            "uuid": "4ae3425e-31a3-475d-a201-3f12f0b69574",
+                            "type": "question"
+                        },
+                        {
+                            "uuid": "9a997aeb-1b8c-496f-9b23-ce29ed7bd489",
+                            "type": "answer"
+                        },
+                        {
+                            "uuid": "04f1ce83-dd52-4159-a5ab-862d8869bbcb",
+                            "type": "question"
+                        }
+                    ],
+                    "uuid": "09fe095c-ecdf-4aa7-aecd-757033c1207b",
+                    "eventType": "AddAnswerEvent",
+                    "metricMeasures": [],
+                    "label": "Follow-up answer 1.2",
+                    "answerUuid": "42248912-dc05-40e2-ae58-227844853da9"
+                },
+                {
+                    "advice": {
+                        "changed": false
+                    },
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                            "type": "chapter"
+                        },
+                        {
+                            "uuid": "4ae3425e-31a3-475d-a201-3f12f0b69574",
+                            "type": "question"
+                        }
+                    ],
+                    "uuid": "8cf4c43c-edd7-4239-8a50-64701d3797dc",
+                    "eventType": "EditAnswerEvent",
+                    "metricMeasures": {
+                        "changed": false
+                    },
+                    "followUpUuids": {
+                        "changed": false
+                    },
+                    "label": {
+                        "changed": true,
+                        "value": "Answer 1.2"
+                    },
+                    "answerUuid": "d27c39c7-6e2f-45a6-9d47-a750ba81c6c5"
+                },
+                {
+                    "advice": {
+                        "changed": false
+                    },
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                            "type": "chapter"
+                        },
+                        {
+                            "uuid": "4ae3425e-31a3-475d-a201-3f12f0b69574",
+                            "type": "question"
+                        }
+                    ],
+                    "uuid": "881d68bc-7774-45fa-9933-bf2099942b37",
+                    "eventType": "EditAnswerEvent",
+                    "metricMeasures": {
+                        "changed": false
+                    },
+                    "followUpUuids": {
+                        "changed": false
+                    },
+                    "label": {
+                        "changed": true,
+                        "value": "Answer 1.2"
+                    },
+                    "answerUuid": "9a997aeb-1b8c-496f-9b23-ce29ed7bd489"
+                },
+                {
+                    "advice": {
+                        "changed": false
+                    },
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                            "type": "chapter"
+                        },
+                        {
+                            "uuid": "4ae3425e-31a3-475d-a201-3f12f0b69574",
+                            "type": "question"
+                        }
+                    ],
+                    "uuid": "c2ca726c-a591-44ec-8699-066d3b1197cb",
+                    "eventType": "EditAnswerEvent",
+                    "metricMeasures": {
+                        "changed": false
+                    },
+                    "followUpUuids": {
+                        "changed": false
+                    },
+                    "label": {
+                        "changed": true,
+                        "value": "Answer 1.1"
+                    },
+                    "answerUuid": "d27c39c7-6e2f-45a6-9d47-a750ba81c6c5"
+                },
+                {
+                    "tagUuids": [],
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                            "type": "chapter"
+                        }
+                    ],
+                    "itemTemplateTitle": "Item",
+                    "text": null,
+                    "uuid": "4f93ccf5-400b-488c-a5ce-b657a5fec5a1",
+                    "questionUuid": "5aea9458-6cfb-48db-8ed8-1d4d99b8076d",
+                    "questionType": "ListQuestion",
+                    "eventType": "AddQuestionEvent",
+                    "requiredLevel": null,
+                    "title": "List Question 1"
+                },
+                {
+                    "tagUuids": [],
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                            "type": "chapter"
+                        },
+                        {
+                            "uuid": "5aea9458-6cfb-48db-8ed8-1d4d99b8076d",
+                            "type": "question"
+                        }
+                    ],
+                    "text": null,
+                    "uuid": "b3c89f31-377e-4824-be4d-d44e2bc50095",
+                    "questionUuid": "6ec640fc-79b6-4efb-86da-b07c3d042fdd",
+                    "questionType": "OptionsQuestion",
+                    "eventType": "AddQuestionEvent",
+                    "requiredLevel": null,
+                    "title": "Item Question 1"
+                },
+                {
+                    "advice": null,
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                            "type": "chapter"
+                        },
+                        {
+                            "uuid": "5aea9458-6cfb-48db-8ed8-1d4d99b8076d",
+                            "type": "question"
+                        },
+                        {
+                            "uuid": "6ec640fc-79b6-4efb-86da-b07c3d042fdd",
+                            "type": "question"
+                        }
+                    ],
+                    "uuid": "24611dc4-9137-4b2b-8229-c8697d25ad79",
+                    "eventType": "AddAnswerEvent",
+                    "metricMeasures": [],
+                    "label": "Item answer 1.1",
+                    "answerUuid": "41e11667-12c2-4b49-9a75-257f055dad40"
+                },
+                {
+                    "advice": null,
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                            "type": "chapter"
+                        },
+                        {
+                            "uuid": "5aea9458-6cfb-48db-8ed8-1d4d99b8076d",
+                            "type": "question"
+                        },
+                        {
+                            "uuid": "6ec640fc-79b6-4efb-86da-b07c3d042fdd",
+                            "type": "question"
+                        }
+                    ],
+                    "uuid": "75d3d809-6284-4ec6-9dcc-5996a43e3840",
+                    "eventType": "AddAnswerEvent",
+                    "metricMeasures": [],
+                    "label": "Item answer 1.2",
+                    "answerUuid": "f672a29d-a00d-48e8-ab35-43a8fdaf695b"
+                },
+                {
+                    "tagUuids": [],
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                            "type": "chapter"
+                        },
+                        {
+                            "uuid": "5aea9458-6cfb-48db-8ed8-1d4d99b8076d",
+                            "type": "question"
+                        },
+                        {
+                            "uuid": "6ec640fc-79b6-4efb-86da-b07c3d042fdd",
+                            "type": "question"
+                        },
+                        {
+                            "uuid": "41e11667-12c2-4b49-9a75-257f055dad40",
+                            "type": "answer"
+                        }
+                    ],
+                    "text": null,
+                    "uuid": "8f520332-31c5-4504-9e10-16439fc12fc4",
+                    "questionUuid": "9e4abbbd-d1e9-44e7-9ba5-1098a5c2c3f9",
+                    "questionType": "ValueQuestion",
+                    "eventType": "AddQuestionEvent",
+                    "requiredLevel": null,
+                    "title": "Follow-up Question 2",
+                    "valueType": "StringValue"
+                },
+                {
+                    "tagUuids": [],
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                            "type": "chapter"
+                        }
+                    ],
+                    "text": null,
+                    "uuid": "72747def-98cf-4000-b03e-cbd46c95fabc",
+                    "questionUuid": "57aeb801-e56e-4039-bf8c-82acae654e2b",
+                    "questionType": "ValueQuestion",
+                    "eventType": "AddQuestionEvent",
+                    "requiredLevel": null,
+                    "title": "Value Question String",
+                    "valueType": "StringValue"
+                },
+                {
+                    "tagUuids": [],
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                            "type": "chapter"
+                        }
+                    ],
+                    "text": null,
+                    "uuid": "d47075d9-1d55-4439-97a1-525461a53a28",
+                    "questionUuid": "2abda64c-35de-412c-b24f-e4be61adc677",
+                    "questionType": "ValueQuestion",
+                    "eventType": "AddQuestionEvent",
+                    "requiredLevel": null,
+                    "title": "Value Question Date",
+                    "valueType": "DateValue"
+                },
+                {
+                    "tagUuids": [],
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                            "type": "chapter"
+                        }
+                    ],
+                    "text": null,
+                    "uuid": "369fbb85-610b-4883-970a-f65f3ec69b52",
+                    "questionUuid": "8145e04d-8042-4ba1-9397-d7ed8451a8c8",
+                    "questionType": "ValueQuestion",
+                    "eventType": "AddQuestionEvent",
+                    "requiredLevel": null,
+                    "title": "Value Question Number",
+                    "valueType": "NumberValue"
+                },
+                {
+                    "tagUuids": [],
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "16f2c2ec-7b12-4d5e-9477-4453e4cd9689",
+                            "type": "chapter"
+                        }
+                    ],
+                    "text": null,
+                    "uuid": "4c220a87-89cd-4884-a366-55e4fd0e0a62",
+                    "questionUuid": "fe292786-2c0b-40ba-871d-1df19a1dfe63",
+                    "questionType": "ValueQuestion",
+                    "eventType": "AddQuestionEvent",
+                    "requiredLevel": null,
+                    "title": "Value Question Text",
+                    "valueType": "TextValue"
+                },
+                {
+                    "chapterUuid": "0ec8301b-a418-4867-ac9d-ffc6b0aca3d0",
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        }
+                    ],
+                    "text": "Chapter text",
+                    "uuid": "240c27ae-fb11-4658-997d-c3f1f78cc41b",
+                    "eventType": "AddChapterEvent",
+                    "title": "Chapter 2"
+                },
+                {
+                    "tagUuids": [],
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "0ec8301b-a418-4867-ac9d-ffc6b0aca3d0",
+                            "type": "chapter"
+                        }
+                    ],
+                    "text": null,
+                    "uuid": "cd93e1fe-d8ce-4407-9f31-57d890365109",
+                    "questionUuid": "44a01c37-ba15-4de5-9949-4fef2e62633d",
+                    "questionType": "OptionsQuestion",
+                    "eventType": "AddQuestionEvent",
+                    "requiredLevel": null,
+                    "title": "Options Question 2"
+                },
+                {
+                    "advice": null,
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "0ec8301b-a418-4867-ac9d-ffc6b0aca3d0",
+                            "type": "chapter"
+                        },
+                        {
+                            "uuid": "44a01c37-ba15-4de5-9949-4fef2e62633d",
+                            "type": "question"
+                        }
+                    ],
+                    "uuid": "dae88ea1-1f92-4dcd-bbef-cc746a913672",
+                    "eventType": "AddAnswerEvent",
+                    "metricMeasures": [],
+                    "label": "Answer 2.1",
+                    "answerUuid": "ce26359f-fe14-4b05-8789-02b09277ef10"
+                },
+                {
+                    "advice": null,
+                    "path": [
+                        {
+                            "uuid": "f74b9d9d-973a-4cb6-8bef-d5232680728c",
+                            "type": "km"
+                        },
+                        {
+                            "uuid": "0ec8301b-a418-4867-ac9d-ffc6b0aca3d0",
+                            "type": "chapter"
+                        },
+                        {
+                            "uuid": "44a01c37-ba15-4de5-9949-4fef2e62633d",
+                            "type": "question"
+                        }
+                    ],
+                    "uuid": "6f42b004-4f54-418f-a4bb-1dbdfe1bfcf4",
+                    "eventType": "AddAnswerEvent",
+                    "metricMeasures": [],
+                    "label": "Answer 2.2",
+                    "answerUuid": "0a9830de-2e37-450a-8fa5-75c5c7d55edf"
+                }
+            ],
+            "version": "1.0.0",
+            "id": "dsw:basic-questionnaire-test-km:1.0.0",
+            "organizationId": "dsw",
+            "description": "KM for basic questionnaire testing"
+        }
+    ],
+    "name": "Basic Questionnaire Test KM",
+    "version": "1.0.0",
+    "id": "dsw:basic-questionnaire-test-km:1.0.0",
+    "organizationId": "dsw"
+}

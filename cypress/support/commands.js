@@ -1,29 +1,3 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This is will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
-
 const apiUrl = (url) => Cypress.env('api_url') + url
 
 const createHeaders = (token) => ({ Authorization: 'Bearer ' + token })
@@ -38,11 +12,7 @@ const getTokenFor = (role) => cy.request({
 })
 
 
-Cypress.Commands.add('visitApp', (url) => {
-    cy.visit(`${Cypress.env('url')}${url}`)
-    cy.get('.full-page-loader').should('not.exist')
-})
-
+// Authentication commands
 
 Cypress.Commands.add('loginAs', (role) => {
     getTokenFor(role).then((resp) => {
@@ -62,24 +32,43 @@ Cypress.Commands.add('loginAs', (role) => {
     })
 })
 
-
 Cypress.Commands.add('logout', () => {
     window.localStorage.removeItem('session')
     cy.visitApp('/login')
 })
 
 
-Cypress.Commands.add('createKMEditor', ({ kmId, name, parentPackageId }) => {
-    getTokenFor('datasteward').then((resp) => {
+// Navigation commands
+
+Cypress.Commands.add('visitApp', (url) => {
+    cy.visit(`${Cypress.env('url')}${url}`)
+    cy.get('.full-page-loader').should('not.exist')
+})
+
+Cypress.Commands.add('clickLink', (label) => {
+    cy.get('a').contains(label).click()
+})
+
+Cypress.Commands.add('clickBtn', (label) => {
+    cy.get('.btn').filter(':visible').contains(label).click()
+})
+
+
+// Users commands
+
+Cypress.Commands.add('createUser', (user) => {
+    getTokenFor('admin').then((resp) => {
         cy.request({
             method: 'POST',
-            url: apiUrl('/branches'),
+            url: apiUrl('/users'),
             headers: createHeaders(resp.body.token),
-            body: { kmId, name, parentPackageId, organizationId: null }
+            body: user
         })
     })
 })
 
+
+// Knowledge Models commands
 
 Cypress.Commands.add('importKM', (km) => {
     getTokenFor('datasteward').then((resp) => {
@@ -93,17 +82,35 @@ Cypress.Commands.add('importKM', (km) => {
 })
 
 
-Cypress.Commands.add('createUser', (user) => {
-    getTokenFor('admin').then((resp) => {
+// Questionnaires commands
+
+Cypress.Commands.add('createQuestionnaire', ({ accessibility, name, packageId }) => {
+    getTokenFor('researcher').then((resp) => {
         cy.request({
             method: 'POST',
-            url: apiUrl('/users'),
+            url: apiUrl('/questionnaires'),
             headers: createHeaders(resp.body.token),
-            body: user
+            body: { accessibility, name, packageId, tagUuids: [] }
         })
     })
 })
 
+
+// KM Editor commands
+
+Cypress.Commands.add('createKMEditor', ({ kmId, name, parentPackageId }) => {
+    getTokenFor('datasteward').then((resp) => {
+        cy.request({
+            method: 'POST',
+            url: apiUrl('/branches'),
+            headers: createHeaders(resp.body.token),
+            body: { kmId, name, parentPackageId, organizationId: null }
+        })
+    })
+})
+
+
+// Listing commands
 
 Cypress.Commands.add('getListingItem', (identifier) => {
     cy.get('.Listing .list-group-item').contains(identifier).closest('.list-group-item')
@@ -124,6 +131,8 @@ Cypress.Commands.add('expectEmptyListing', () => {
     cy.get('.full-page-illustrated-message').contains('No data')
 })
 
+
+// Form commands
 
 Cypress.Commands.add('fillFields', (fields) => {
     Object.entries(fields).forEach(([key, value]) => {
@@ -149,15 +158,7 @@ Cypress.Commands.add('checkFields', (fields) => {
 })
 
 
-Cypress.Commands.add('clickBtn', (label) => {
-    cy.get('.btn').filter(':visible').contains(label).click()
-})
-
-
-Cypress.Commands.add('clickLink', (label) => {
-    cy.get('a').contains(label).click()
-})
-
+// Custom expect commands
 
 Cypress.Commands.add('expectAlert', (type, text) => {
     cy.get(`.alert-${type}`).should('contain', text)
