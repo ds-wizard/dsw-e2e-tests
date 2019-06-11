@@ -30,7 +30,7 @@ describe('Basic Questionnaire Tests', () => {
         cy.loginAs('researcher')
         cy.visitApp('/questionnaires')
         cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
-        cy.get('.questionnaire-header').should('exist')
+        cy.get('.top-header').should('exist')
     })
 
 

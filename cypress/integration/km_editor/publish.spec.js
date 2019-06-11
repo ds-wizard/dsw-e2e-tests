@@ -31,13 +31,13 @@ describe('KM Editor Publish', () => {
 
         cy.url().should('contain', '/knowledge-models')
 
-        cy.getListingItem(kmId)
+        cy.getListingItem(`:${kmId}:`)
             .should('contain', kmName)
             .and('contain', '1.0.0')
 
-        cy.clickListingItemAction(kmId, 'View detail')
+        cy.clickListingItemAction(`:${kmId}:`, 'View detail')
         cy.url().should('contain', kmId)
-        cy.get('.header-content .name').should('contain', kmName)
+        cy.get('.top-header-title').should('contain', kmName)
         cy.get('.readme').should('contain', readme)
     })
 })

@@ -97,7 +97,7 @@
                     "uuid": "02b59eec-6994-4e1a-9fd9-b44b4000c23d",
                     "questionUuid": "0cfd88c9-13ea-41b2-b4e8-1a1ab98bac6c",
                     "questionType": "ValueQuestion",
-                    "valueType": "StringValue",
+                    "valueType": "StringQuestionValueType",
                     "eventType": "AddQuestionEvent",
                     "requiredLevel": null,
                     "title": "Value Question 1"

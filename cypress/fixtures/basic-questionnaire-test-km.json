@@ -425,7 +425,7 @@
                     "eventType": "AddQuestionEvent",
                     "requiredLevel": null,
                     "title": "Follow-up Question 2",
-                    "valueType": "StringValue"
+                    "valueType": "StringQuestionValueType"
                 },
                 {
                     "tagUuids": [],
@@ -446,7 +446,7 @@
                     "eventType": "AddQuestionEvent",
                     "requiredLevel": null,
                     "title": "Value Question String",
-                    "valueType": "StringValue"
+                    "valueType": "StringQuestionValueType"
                 },
                 {
                     "tagUuids": [],
@@ -467,7 +467,7 @@
                     "eventType": "AddQuestionEvent",
                     "requiredLevel": null,
                     "title": "Value Question Date",
-                    "valueType": "DateValue"
+                    "valueType": "DateQuestionValueType"
                 },
                 {
                     "tagUuids": [],
@@ -488,7 +488,7 @@
                     "eventType": "AddQuestionEvent",
                     "requiredLevel": null,
                     "title": "Value Question Number",
-                    "valueType": "NumberValue"
+                    "valueType": "NumberQuestionValueType"
                 },
                 {
                     "tagUuids": [],
@@ -509,7 +509,7 @@
                     "eventType": "AddQuestionEvent",
                     "requiredLevel": null,
                     "title": "Value Question Text",
-                    "valueType": "TextValue"
+                    "valueType": "TextQuestionValueType"
                 },
                 {
                     "chapterUuid": "0ec8301b-a418-4867-ac9d-ffc6b0aca3d0",
