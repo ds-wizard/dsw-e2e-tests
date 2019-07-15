@@ -21,8 +21,8 @@ services:
       - API_URL=http://localhost:3000
 
   mongo:
-      image: mongo:3.0.15
-      restart: always
-      ports:
-        - 27017:27017
-      command: mongod
+    image: mongo:3.0.15
+    restart: always
+    ports:
+      - 27017:27017
+    command: mongod

@@ -34,7 +34,7 @@ describe('KM Editor Edit Entity', () => {
             // Edit KM
             editor.open(kmId)
             cy.fillFields(km)
-            editor.save()
+            editor.saveAndClose()
 
             // Open editor again and check that changes were saved
             editor.open(kmId)
@@ -51,7 +51,7 @@ describe('KM Editor Edit Entity', () => {
             editor.open(kmId)
             editor.traverseChildren(['Chapter 1'])
             cy.fillFields(chapter)
-            editor.save()
+            editor.saveAndClose()
 
             // Open editor again and check that changes were saved
             editor.open(kmId)
@@ -70,7 +70,7 @@ describe('KM Editor Edit Entity', () => {
             editor.traverseChildren(['Tag 1'])
             cy.fillFields(tag)
             cy.get('.form-group-color-picker a:nth-child(7)').click()
-            editor.save()
+            editor.saveAndClose()
 
             // Open editor again and check that changes were saved
             editor.open(kmId)
@@ -109,7 +109,7 @@ describe('KM Editor Edit Entity', () => {
             getHeadersFormGroup().find('.input-group:last-child .btn').click()
             getHeadersFormGroup().find('.input-group:last-child input:first-child').clear().type('X-Auth')
             getHeadersFormGroup().find('.input-group:last-child input:nth-child(2)').clear().type('abcd')
-            editor.save()
+            editor.saveAndClose()
 
             // Open editor again and check that changes were saved
             editor.open(kmId)
@@ -199,7 +199,7 @@ describe('KM Editor Edit Entity', () => {
                 editor.open(kmId)
                 editor.traverseChildren(['Chapter 1', originalTitle])
                 cy.fillFields(question)
-                editor.save()
+                editor.saveAndClose()
 
                 // Open editor again and check that changes were saved
                 editor.open(kmId)
@@ -266,7 +266,7 @@ describe('KM Editor Edit Entity', () => {
                 editor.traverseChildren([...optionsQuestionPath, answerTitle])
                 cy.get('.table-metrics tbody tr:nth-child(4) .form-check-toggle').click()
                 cy.fillFields(answer)
-                editor.save()
+                editor.saveAndClose()
 
                 // Open editor again and check that changes were saved
                 editor.open(kmId)
@@ -284,7 +284,7 @@ describe('KM Editor Edit Entity', () => {
                 editor.open(kmId)
                 editor.traverseChildren([...listQuestionPath, followUpTitle])
                 cy.fillFields(question)
-                editor.save()
+                editor.saveAndClose()
 
                 // Open editor again and check that changes were saved
                 editor.open(kmId)
@@ -302,7 +302,7 @@ describe('KM Editor Edit Entity', () => {
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, referenceTitle])
                 cy.fillFields(reference)
-                editor.save()
+                editor.saveAndClose()
 
                 // Open editor again and check that changes were saved
                 editor.open(kmId)
@@ -320,7 +320,7 @@ describe('KM Editor Edit Entity', () => {
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, expertTitle])
                 cy.fillFields(expert)
-                editor.save()
+                editor.saveAndClose()
 
                 // Open editor again and check that changes were saved
                 editor.open(kmId)

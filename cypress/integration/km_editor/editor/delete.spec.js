@@ -144,7 +144,7 @@ describe('KM Editor Delete Entity', () => {
                     if (confirm) {
                         editor.confirmDelete()
                     }
-                    editor.save()
+                    editor.saveAndClose()
 
                     // Check that the entity is not there
                     editor.open(kmId)

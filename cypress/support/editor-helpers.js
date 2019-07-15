@@ -5,8 +5,9 @@ export function open(kmId) {
 }
 
 
-export function save() {
+export function saveAndClose() {
     cy.get('.btn').contains('Save').click()
+    cy.get('.btn-outline-primary').contains('Close').click()
 }
 
 

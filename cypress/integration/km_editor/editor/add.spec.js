@@ -30,7 +30,7 @@ describe('KM Editor Add Entity', () => {
             // Add chapter and save
             editor.open(kmId)
             editor.createChildren([['chapter', chapter]])
-            editor.save()
+            editor.saveAndClose()
 
             // Open editor again and check that the chapter is there
             editor.open(kmId)
@@ -49,7 +49,7 @@ describe('KM Editor Add Entity', () => {
             editor.open(kmId)
             editor.createChildren([['tag', tag]])
             cy.get('.form-group-color-picker a:nth-child(5)').click()
-            editor.save()
+            editor.saveAndClose()
 
             // Open editor again and check that the tag is there
             editor.open(kmId)
@@ -100,7 +100,7 @@ describe('KM Editor Add Entity', () => {
             addProp('name')
             addProp('database')
             addHeader('Authorization', 'Bearer $token')
-            editor.save()
+            editor.saveAndClose()
 
             // Open editor again and check that the integration is there
             editor.open(kmId)
@@ -146,7 +146,7 @@ describe('KM Editor Add Entity', () => {
                     ['chapter', chapter],
                     ['question', question]
                 ])
-                editor.save()
+                editor.saveAndClose()
 
                 // Open editor again and check that the question is there
                 editor.open(kmId)
@@ -185,7 +185,7 @@ describe('KM Editor Add Entity', () => {
             getIntegrationUuid().then((value) => {
                 cy.get('#integrationUuid').select(value)
             })
-            editor.save()
+            editor.saveAndClose()
 
             // Open editor again and check that the question is there
             editor.open(kmId)
@@ -391,7 +391,7 @@ describe('KM Editor Add Entity', () => {
                 editor.addInputChild('answer')
                 cy.get('.table-metrics tbody tr:nth-child(3) .form-check-toggle').click()
                 cy.fillFields(followUpAnswer)
-                editor.save()
+                editor.saveAndClose()
 
                 // Open editor again and check that the answer is there
                 editor.open(kmId)
@@ -416,7 +416,7 @@ describe('KM Editor Add Entity', () => {
                     ['answer', answer],
                     ['follow-up question', followUpQuestion]
                 ])
-                editor.save()
+                editor.saveAndClose()
 
                 // Open editor again and check that the follow-up question is there
                 editor.open(kmId)
@@ -437,7 +437,7 @@ describe('KM Editor Add Entity', () => {
                 // Add answer item question and its parents
                 editor.open(kmId)
                 editor.createChildren([...childrenList, ['question', itemQuestion]])
-                editor.save()
+                editor.saveAndClose()
 
                 // Open editor again and check that the answer item question is there
                 editor.open(kmId)
@@ -465,7 +465,7 @@ describe('KM Editor Add Entity', () => {
                     // Add reference and its parents
                     editor.open(kmId)
                     editor.createChildren([...childrenOptions, ['reference', reference]])
-                    editor.save()
+                    editor.saveAndClose()
 
                     // Open editor again and check that the reference is there
                     editor.open(kmId)
@@ -484,7 +484,7 @@ describe('KM Editor Add Entity', () => {
                 // Add expert and its parents
                 editor.open(kmId)
                 editor.createChildren([...childrenList, ['expert', expert]])
-                editor.save()
+                editor.saveAndClose()
 
                 // Open editor again and check that the expert is there
                 editor.open(kmId)
