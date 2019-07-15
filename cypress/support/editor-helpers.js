@@ -11,6 +11,11 @@ export function saveAndClose() {
 }
 
 
+export function discardChanges() {
+    cy.get('.btn').contains('Discard').click()
+}
+
+
 export function addInputChild(child) {
     cy.get('.link-add-child').contains(`Add ${child}`).click()
 }
@@ -51,6 +56,17 @@ export function shouldNotHaveChild(child) {
     const childName = escapeRegExp(child)
     const re = new RegExp(`^${childName}$`)
     cy.contains('.input-child a', re).should('not.exist')
+}
+
+export function openKM() {
+    cy.get('.nav-link').contains('Knowledge Model').click()
+    cy.get('.KMEditor__Editor__KMEditor').should('exist')
+}
+
+
+export function openTags() {
+    cy.get('.nav-link').contains('Tags').click()
+    cy.get('.KMEditor__Editor__TagEditor').should('exist')
 }
 
 

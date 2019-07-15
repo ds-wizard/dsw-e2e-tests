@@ -29,6 +29,7 @@ describe('KM Editor Preview', () => {
         cy.get('.tag-label').contains(tag).click()
     }
 
+
     // test cases
 
     before(() => {
@@ -41,6 +42,7 @@ describe('KM Editor Preview', () => {
         })
     })
 
+
     beforeEach(() => {
         cy.task('mongo:delete', {
             collection: 'branches',
@@ -50,6 +52,7 @@ describe('KM Editor Preview', () => {
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')
     })
+
 
     it('no tags selected', () => {
         editor.open(kmId)
@@ -62,6 +65,7 @@ describe('KM Editor Preview', () => {
             'Question 4'
         ], true)
     })
+
 
     it('select all and none', () => {
         editor.open(kmId)
@@ -85,6 +89,7 @@ describe('KM Editor Preview', () => {
             'Question 4'
         ], true)
     })
+
 
     it('select tag', () => {
         editor.open(kmId)
