@@ -3,6 +3,17 @@ export const PublicReadOnly = 'PublicReadOnlyQuestionnaire'
 export const Private = 'PrivateQuestionnaire'
 
 
+export function expectQuestion(question, visible) {
+    const predicate = visible ? 'exist' : 'not.exist'
+    cy.get('.form-group label').contains(question).should(predicate)
+}
+
+
+export function expectQuestions(questions, visible) {
+    questions.forEach(q => expectQuestion(q, visible))
+}
+
+
 export function selectAnswer(answer) {
     cy.get('label').contains(answer).click()
 }

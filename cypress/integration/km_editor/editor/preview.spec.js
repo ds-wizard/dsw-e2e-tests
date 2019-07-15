@@ -1,34 +1,12 @@
 import * as editor from '../../../support/editor-helpers'
+import * as questionnaire from '../../../support/questionnaire-helpers'
+import * as tagSelect from '../../../support/tag-select-helpers'
 
 
 describe('KM Editor Preview', () => {
     const kmName = 'Test Knowledge Model'
     const kmId = 'km-with-tags'
     const parentPackageId = 'mto:km-with-tags:1.0.0'
-
-    // helpers
-
-    const expectQuestion = (question, visible) => {
-        const predicate = visible ? 'exist' : 'not.exist'
-        cy.get('.form-group label').contains(question).should(predicate)
-    }
-
-    const expectQuestions = (questions, visible) => {
-        questions.forEach(q => expectQuestion(q, visible))
-    }
-
-    const selectTagsNone = () => {
-        cy.get('.tag-selection-header').contains('Select None').click()
-    }
-
-    const selectTagsAll = () => {
-        cy.get('.tag-selection-header').contains('Select All').click()
-    }
-
-    const selectTag = (tag) => {
-        cy.get('.tag-label').contains(tag).click()
-    }
-
 
     // test cases
 
@@ -58,7 +36,7 @@ describe('KM Editor Preview', () => {
         editor.open(kmId)
         editor.openPreview()
 
-        expectQuestions([
+        questionnaire.expectQuestions([
             'Question 1',
             'Question 2',
             'Question 3',
@@ -71,18 +49,18 @@ describe('KM Editor Preview', () => {
         editor.open(kmId)
         editor.openPreview()
 
-        selectTagsAll()
-        expectQuestions([
+        tagSelect.selectAll()
+        questionnaire.expectQuestions([
             'Question 1',
             'Question 2',
             'Question 3'
         ], true)
-        expectQuestions([
+        questionnaire.expectQuestions([
             'Question 4'
         ], false)
 
-        selectTagsNone()
-        expectQuestions([
+        tagSelect.selectNone()
+        questionnaire.expectQuestions([
             'Question 1',
             'Question 2',
             'Question 3',
@@ -126,11 +104,11 @@ describe('KM Editor Preview', () => {
         }]
 
         testCases.forEach(({ tags, visible, hidden }) => {
-            selectTagsNone()
-            tags.forEach(selectTag)
+            tagSelect.selectNone()
+            tagSelect.selectMultiple(tags)
 
-            expectQuestions(visible, true)
-            expectQuestions(hidden, false)
+            questionnaire.expectQuestions(visible, true)
+            questionnaire.expectQuestions(hidden, false)
         })
     })
 })
