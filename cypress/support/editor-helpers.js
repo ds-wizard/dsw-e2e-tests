@@ -54,6 +54,12 @@ export function shouldNotHaveChild(child) {
 }
 
 
+export function openPreview() {
+    cy.get('.nav-link').contains('Preview').click()
+    cy.get('.KMEditor__Editor__Preview').should('exist')
+}
+
+
 function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
