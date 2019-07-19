@@ -47,3 +47,35 @@ export function typeAnswerText(label, answer) {
 export function checkAnswerText(label, answer) {
     cy.get('label').contains(label).closest('.form-group').find('textarea').should('have.value', answer)
 }
+
+
+export function addTodoFor(question) {
+    cy.get('.form-group').contains(question).find('.action-add-todo').click()
+}
+
+
+export function removeTodoFor(question) {
+    cy.get('.form-group').contains(question).find('.action-todo a').click()
+}
+
+
+export function expectTodo(chapter, question) {
+    cy.get('.Questionnaire .nav-link').contains('TODOs').click()
+    cy.get('.list-group-item').contains(question)
+        .closest('.list-group-item').find('small').contains(chapter)
+        .closest('.list-group-item').click()
+    cy.get('.form-group').contains(question).should('be.visible')
+        .find('.action-todo').contains('TODO')
+
+}
+
+
+export function expectTodoCount(count) {
+    cy.get('.Questionnaire .nav-link').contains('TODOs').find('.badge').contains(count)
+}
+
+
+export function expectNoTodo() {
+    cy.get('.Questionnaire .nav-link').contains('TODOs').should('not.exist')
+    cy.get('.action-todo').should('not.exist')
+}
