@@ -98,13 +98,13 @@ Cypress.Commands.add('createQuestionnaire', ({ accessibility, name, packageId })
 
 // KM Editor commands
 
-Cypress.Commands.add('createKMEditor', ({ kmId, name, parentPackageId }) => {
+Cypress.Commands.add('createKMEditor', ({ kmId, name, previousPackageId }) => {
     getTokenFor('datasteward').then((resp) => {
         cy.request({
             method: 'POST',
             url: apiUrl('/branches'),
             headers: createHeaders(resp.body.token),
-            body: { kmId, name, parentPackageId, organizationId: null }
+            body: { kmId, name, previousPackageId, organizationId: null }
         })
     })
 })

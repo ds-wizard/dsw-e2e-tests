@@ -4,7 +4,7 @@ import * as editor from '../../../support/editor-helpers'
 describe('KM Editor Tags', () => {
     const kmName = 'Test Knowledge Model'
     const kmId = 'km-with-tags'
-    const parentPackageId = 'mto:km-with-tags:1.0.0'
+    const previousPackageId = 'mto:km-with-tags:1.0.0'
 
     before(() => {
         cy.task('mongo:delete', {
@@ -22,7 +22,7 @@ describe('KM Editor Tags', () => {
             collection: 'branches',
             args: { kmId }
         })
-        cy.createKMEditor({ kmId, name: kmName, parentPackageId })
+        cy.createKMEditor({ kmId, name: kmName, previousPackageId })
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')
     })

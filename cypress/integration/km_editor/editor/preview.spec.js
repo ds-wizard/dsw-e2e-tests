@@ -6,7 +6,7 @@ import * as tagSelect from '../../../support/tag-select-helpers'
 describe('KM Editor Preview', () => {
     const kmName = 'Test Knowledge Model'
     const kmId = 'km-with-tags'
-    const parentPackageId = 'mto:km-with-tags:1.0.0'
+    const previousPackageId = 'mto:km-with-tags:1.0.0'
 
     // test cases
 
@@ -26,7 +26,7 @@ describe('KM Editor Preview', () => {
             collection: 'branches',
             args: { kmId }
         })
-        cy.createKMEditor({ kmId, name: kmName, parentPackageId })
+        cy.createKMEditor({ kmId, name: kmName, previousPackageId })
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')
     })

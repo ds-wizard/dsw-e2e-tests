@@ -4,13 +4,13 @@ import * as editor from '../../../support/editor-helpers'
 describe('KM Editor Delete Entity', () => {
     const kmName = 'Test Knowledge Model'
     const kmId = 'test-km'
-    const parentKmId = 'test-km-1'
-    const parentPackageId = 'dsw:test-km-1:1.0.0'
+    const previousKmId = 'test-km-1'
+    const previousPackageId = 'dsw:test-km-1:1.0.0'
 
     before(() => {
         cy.task('mongo:delete', {
             collection: 'packages',
-            args: { kmId: parentKmId }
+            args: { kmId: previousKmId }
         })
         cy.fixture('test-km-1').then((km) => {
             cy.importKM(km)
@@ -22,7 +22,7 @@ describe('KM Editor Delete Entity', () => {
             collection: 'branches',
             args: { kmId }
         })
-        cy.createKMEditor({ kmId, name: kmName, parentPackageId })
+        cy.createKMEditor({ kmId, name: kmName, previousPackageId })
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')
     })
