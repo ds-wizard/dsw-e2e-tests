@@ -59,6 +59,11 @@ export function removeTodoFor(question) {
 }
 
 
+export function expectTodoFor(question) {
+    cy.get('.form-group').contains(question).find('.action-todo a').should('exist')
+}
+
+
 export function expectTodo(chapter, question) {
     cy.get('.Questionnaire .nav-link').contains('TODOs').click()
     cy.get('.list-group-item').contains(question)
