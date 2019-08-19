@@ -1,11 +1,11 @@
 {
-    "metamodelVersion": 2,
+    "metamodelVersion": 3,
     "kmId": "basic-questionnaire-test-km",
     "packages": [
         {
             "readme": "# Basic Questionnaire Test KM",
             "createdAt": "2019-05-29T11:16:56.232Z",
-            "metamodelVersion": 2,
+            "metamodelVersion": 3,
             "kmId": "basic-questionnaire-test-km",
             "parentPackageId": null,
             "name": "Basic Questionnaire Test KM",

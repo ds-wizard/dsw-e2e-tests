@@ -1,9 +1,9 @@
 {
-    "metamodelVersion": 1,
+    "metamodelVersion": 3,
     "kmId": "test-km-1",
     "packages": [
         {
-            "metamodelVersion": 1,
+            "metamodelVersion": 3,
             "kmId": "test-km-1",
             "parentPackageId": null,
             "name": "Test Knowledge Model 1",

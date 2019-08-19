@@ -14,7 +14,7 @@ describe('KM Editor Publish', () => {
             collection: 'packages',
             args: { kmId }
         })
-        cy.createKMEditor({ kmId, name: kmName, parentPackageId: null })
+        cy.createKMEditor({ kmId, name: kmName, previousPackageId: null })
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')
     })
