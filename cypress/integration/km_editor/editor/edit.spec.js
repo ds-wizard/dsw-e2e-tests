@@ -141,8 +141,7 @@ describe('KM Editor Edit Entity', () => {
             question: {
                 title: 'Another List Question',
                 text: 'Another list question text',
-                s_requiredLevel: '2',
-                itemTemplateTitle: 'New Item Title'
+                s_requiredLevel: '2'
             }
         }, {
             testName: 'edit ValueQuestion',
@@ -172,8 +171,7 @@ describe('KM Editor Edit Entity', () => {
             originalTitle: 'Options Question 1',
             question: {
                 title: 'List Question 2',
-                s_questionType: 'ListQuestion',
-                itemTemplateTitle: 'New Item Title'
+                s_questionType: 'ListQuestion'
             }
         }, {
             testName: 'change to ValueQuestion',

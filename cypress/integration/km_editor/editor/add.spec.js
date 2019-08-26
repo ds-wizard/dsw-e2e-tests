@@ -126,8 +126,7 @@ describe('KM Editor Add Entity', () => {
             s_questionType: 'ListQuestion',
             title: 'What databases will you use?',
             text: '',
-            s_requiredLevel: '2',
-            itemTemplateTitle: 'Database Name'
+            s_requiredLevel: '2'
         }, {
             s_questionType: 'ValueQuestion',
             title: 'How many researchers will work on the project?',
