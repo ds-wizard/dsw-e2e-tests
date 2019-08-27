@@ -43,7 +43,7 @@ export function traverseChildren(path) {
 
 
 export function deleteCurrent() {
-    cy.get('.btn').contains('Delete').click()
+    cy.get('.btn[title="Delete"]').click()
 }
 
 
