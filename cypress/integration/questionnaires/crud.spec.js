@@ -79,6 +79,6 @@ describe('Questionnaires CRUD', () => {
         cy.clickBtn('Delete')
 
         cy.expectListingItemNotExist(questionnaire.name)
-        cy.expectAlert('success', 'Questionnaire was sucessfully deleted')
+        cy.expectAlert('success', 'Questionnaire was successfully deleted.')
     })
 })

@@ -21,7 +21,7 @@ describe('Users Index', () => {
         cy.clickListingItemAction(user.email, 'Delete')
         cy.get('.modal-cover').should('be.visible')
         cy.clickBtn('Delete')
-        cy.expectAlert('success', 'User was sucessfully deleted')
+        cy.expectAlert('success', 'User was successfully deleted.')
         cy.expectListingItemNotExist(user.email)
     })
 })
