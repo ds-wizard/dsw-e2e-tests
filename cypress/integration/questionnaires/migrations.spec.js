@@ -60,6 +60,7 @@ describe('Questionnaire Migrations', () => {
         // resolve
         cy.clickBtn('Resolve')
         cy.clickBtn('Finalize Migration')
+        cy.url().should('contain', '/questionnaires/detail/')
 
         // check correct version
         cy.get('.top-header-title').contains('1.1.0')
@@ -82,6 +83,7 @@ describe('Questionnaire Migrations', () => {
         // resolve
         cy.clickBtn('Resolve')
         cy.clickBtn('Finalize Migration')
+        cy.url().should('contain', '/questionnaires/detail/')
 
         // check correct version
         cy.get('.top-header-title').contains('1.2.0')
@@ -104,6 +106,7 @@ describe('Questionnaire Migrations', () => {
         // resolve
         cy.clickBtn('Resolve')
         cy.clickBtn('Finalize Migration')
+        cy.url().should('contain', '/questionnaires/detail/')
 
         // check correct version
         cy.get('.top-header-title').contains('1.3.0')
@@ -126,6 +129,7 @@ describe('Questionnaire Migrations', () => {
         // resolve
         cy.clickBtn('Resolve')
         cy.clickBtn('Finalize Migration')
+        cy.url().should('contain', '/questionnaires/detail/')
 
         // check correct version
         cy.get('.top-header-title').contains('1.4.0')
@@ -148,6 +152,7 @@ describe('Questionnaire Migrations', () => {
         // resolve
         cy.clickBtn('Resolve')
         cy.clickBtn('Finalize Migration')
+        cy.url().should('contain', '/questionnaires/detail/')
 
         // check correct version
         cy.get('.top-header-title').contains('1.5.0')
@@ -166,6 +171,7 @@ describe('Questionnaire Migrations', () => {
         // check changes
         cy.get('.full-page-illustrated-message').contains('No changes to review')
         cy.clickBtn('Finalize Migration')
+        cy.url().should('contain', '/questionnaires/detail/')
 
         // check correct version
         cy.get('.top-header-title').contains('1.6.0')
@@ -195,6 +201,7 @@ describe('Questionnaire Migrations', () => {
         // resolve
         cy.clickBtn('Resolve')
         cy.clickBtn('Finalize Migration')
+        cy.url().should('contain', '/questionnaires/detail/')
 
         // check correct version
         cy.get('.top-header-title').contains('1.6.0')
@@ -210,6 +217,7 @@ describe('Questionnaire Migrations', () => {
         // check changes
         cy.get('.full-page-illustrated-message').contains('No changes to review')
         cy.clickBtn('Finalize Migration')
+        cy.url().should('contain', '/questionnaires/detail/')
 
         // check correct version
         cy.get('.top-header-title').contains('1.7.0')
@@ -239,6 +247,7 @@ describe('Questionnaire Migrations', () => {
         // resolve
         cy.clickBtn('Resolve')
         cy.clickBtn('Finalize Migration')
+        cy.url().should('contain', '/questionnaires/detail/')
 
         // check correct version
         cy.get('.top-header-title').contains('1.7.0')
@@ -258,6 +267,7 @@ describe('Questionnaire Migrations', () => {
         // resolve
         cy.clickBtn('Resolve')
         cy.clickBtn('Finalize Migration')
+        cy.url().should('contain', '/questionnaires/detail/')
 
         // check correct version
         cy.get('.top-header-title').contains('1.1.0')
