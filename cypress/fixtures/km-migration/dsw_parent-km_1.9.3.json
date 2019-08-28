@@ -2157,7 +2157,7 @@
           "questionType": "ValueQuestion",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
-          "title": "Followup value 1.1a.1",
+          "title": "Followup value 1.1a.2",
           "valueType": "StringQuestionValueType"
         },
         {
@@ -2188,52 +2188,6 @@
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Followup list 1.1a.3"
-        },
-        {
-          "tagUuids": {
-            "changed": false
-          },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            },
-            {
-              "uuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
-              "type": "answer"
-            }
-          ],
-          "text": {
-            "changed": false
-          },
-          "uuid": "b3eaeac8-0ed3-461a-90b4-fb172b945af2",
-          "expertUuids": {
-            "changed": false
-          },
-          "questionUuid": "0e6e91e5-99ea-40d7-be81-da26c05af8ff",
-          "questionType": "ValueQuestion",
-          "eventType": "EditQuestionEvent",
-          "requiredLevel": {
-            "changed": false
-          },
-          "referenceUuids": {
-            "changed": false
-          },
-          "title": {
-            "changed": true,
-            "value": "Followup value 1.1a.2"
-          },
-          "valueType": {
-            "changed": false
-          }
         }
       ],
       "version": "1.8.0",

@@ -520,7 +520,6 @@ describe('KM Editor Migrations', () => {
         migration.verifyChildPackageForMigration('1.4.0', '1.3.2')
     })
 
-
     it('can migrate with applying "edit tag"', () => {
         migration.createMigration('1.4.0', '1.4.1')
 
@@ -585,7 +584,8 @@ describe('KM Editor Migrations', () => {
             { 'label': 'Text', 'validate': (x) => { } },
             {
                 'label': 'Tags', 'validate': (x) => {
-                    x.get('ins').contains('Tag 01')// !!! MISSING
+                    x.get('ul.ins li').should('have.length', 1)
+                    x.get('ul.ins li').eq(0).contains('Tag 01')
                 }
             },
             { 'label': 'Answers', 'validate': (x) => { } },
@@ -980,6 +980,11 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
+                'label': 'Props', 'validate': (x) => {
+                    x.contains('-')
+                }
+            },
+            {
                 'label': 'Tags', 'validate': (x) => {
                     x.contains('-')
                 }
@@ -1062,6 +1067,11 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
+                'label': 'Questions', 'validate': (x) => {
+                    x.contains('-')
+                }
+            },
+            {
                 'label': 'References', 'validate': (x) => {
                     x.contains('-')
                 }
@@ -1137,6 +1147,16 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
+                'label': 'Integration', 'validate': (x) => {
+                    // TODO!!
+                }
+            },
+            {
+                'label': 'Props', 'validate': (x) => {
+                    // TODO!!
+                }
+            },
+            {
                 'label': 'Tags', 'validate': (x) => {
                     x.contains('-')
                 }
@@ -1176,6 +1196,16 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
+                'label': 'Integration', 'validate': (x) => {
+                    // TODO!!
+                }
+            },
+            {
+                'label': 'Props', 'validate': (x) => {
+                    // TODO!!
+                }
+            },
+            {
                 'label': 'Tags', 'validate': (x) => {
                     x.contains('-')
                 }
@@ -1188,12 +1218,6 @@ describe('KM Editor Migrations', () => {
             {
                 'label': 'Experts', 'validate': (x) => {
                     x.contains('-')
-                }
-            },
-            { // !!! MISSING
-                'label': 'Integration', 'validate': (x) => {
-                    x.get('del').contains('Dummy Integration')
-                    x.get('ins').contains('New Dummy Integration')
                 }
             }
         ])
@@ -1230,12 +1254,12 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Value Type', 'validate': (x) => { // !!! Shouldnt be here anymore!
-                    x.contains('Number')
+                'label': 'Tags', 'validate': (x) => {
+                    x.contains('-')
                 }
             },
             {
-                'label': 'Tags', 'validate': (x) => {
+                'label': 'Questions', 'validate': (x) => {
                     x.contains('-')
                 }
             },
@@ -1442,8 +1466,13 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Value Type', 'validate': (x) => { // !!! Shouldnt be here, integration instead!
-                    x.contains('Number')
+                'label': 'Integration', 'validate': (x) => {
+                    // TODO!!
+                }
+            },
+            {
+                'label': 'Props', 'validate': (x) => {
+                    x.contains('-')
                 }
             },
             {
@@ -1477,7 +1506,11 @@ describe('KM Editor Migrations', () => {
 
         cy.contains('Delete question')
         migration.checkMigrationForm([
-            // ??? No Question Type?
+            {
+                'label': 'Question Type', 'validate': (x) => {
+                    x.get('del').contains('Value')
+                }
+            },
             {
                 'label': 'Title', 'validate': (x) => {
                     x.get('del').contains('Question 1.2 (integration)')
@@ -1490,17 +1523,23 @@ describe('KM Editor Migrations', () => {
             },
             {
                 'label': 'Value Type', 'validate': (x) => {
-                    x.contains('String')
+                    x.get('del').contains('String')
                 }
             },
             {
-                'label': 'Answers', 'validate': (x) => {} /// !!! SHOULD BE TAGS
+                'label': 'Tags', 'validate': (x) => {
+                    x.contains('-')
+                }
             },
             {
-                'label': 'References', 'validate': (x) => {}
+                'label': 'References', 'validate': (x) => {
+                    x.contains('-')
+                }
             },
             {
-                'label': 'Experts', 'validate': (x) => {}
+                'label': 'Experts', 'validate': (x) => {
+                    x.contains('-')
+                }
             }
         ])
         migration.checkDiffTreeDeleted(['Question 1.2 (integration)'])
@@ -1508,7 +1547,11 @@ describe('KM Editor Migrations', () => {
 
         cy.contains('Question 1.3 (options)')
         migration.checkMigrationForm([
-            // ??? No Question Type?
+            {
+                'label': 'Question Type', 'validate': (x) => {
+                    x.get('del').contains('Options')
+                }
+            },
             {
                 'label': 'Title', 'validate': (x) => {
                     x.get('del').contains('Question 1.3 (options)')
@@ -1520,22 +1563,36 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Answers', 'validate': (x) => {} 
+                'label': 'Tags', 'validate': (x) => {
+                    x.contains('-')
+                } 
             },
             {
-                'label': 'References', 'validate': (x) => {}
+                'label': 'Answers', 'validate': (x) => {
+                    x.contains('-')
+                } 
             },
             {
-                'label': 'Experts', 'validate': (x) => {}
+                'label': 'References', 'validate': (x) => {
+                    x.contains('-')
+                }
+            },
+            {
+                'label': 'Experts', 'validate': (x) => {
+                    x.contains('-')
+                }
             }
-            /// !!! MISSING TAGS
         ])
         migration.checkDiffTreeDeleted(['Question 1.3 (options)'])
         cy.clickBtn('Apply')
 
         cy.contains('Question 1.4 (items)')
         migration.checkMigrationForm([
-            // ??? No Question Type?
+            {
+                'label': 'Question Type', 'validate': (x) => {
+                    x.get('del').contains('List')
+                }
+            },
             {
                 'label': 'Title', 'validate': (x) => {
                     x.get('del').contains('Question 1.4 (items)')
@@ -1547,13 +1604,24 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Answers', 'validate': (x) => {} /// !!! SHOULD BE TAGS
+                'label': 'Tags', 'validate': (x) => {
+                    x.contains('-')
+                }
             },
             {
-                'label': 'References', 'validate': (x) => {}
+                'label': 'Questions', 'validate': (x) => {
+                    x.contains('-')
+                }
             },
             {
-                'label': 'Experts', 'validate': (x) => {}
+                'label': 'References', 'validate': (x) => {
+                    x.contains('-')
+                }
+            },
+            {
+                'label': 'Experts', 'validate': (x) => {
+                    x.contains('-')
+                }
             }
         ])
         migration.checkDiffTreeDeleted(['Question 1.4 (items)'])
@@ -1561,7 +1629,11 @@ describe('KM Editor Migrations', () => {
 
         cy.contains('Question 1.5 (value)')
         migration.checkMigrationForm([
-            // ??? No Question Type?
+            {
+                'label': 'Question Type', 'validate': (x) => {
+                    x.get('del').contains('Value')
+                }
+            },
             {
                 'label': 'Title', 'validate': (x) => {
                     x.get('del').contains('Question 1.5 (value)')
@@ -1578,13 +1650,19 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Answers', 'validate': (x) => {} /// !!! SHOULDNT BE HERE
+                'label': 'Tags', 'validate': (x) => {
+                    x.contains('-')
+                }
             },
             {
-                'label': 'References', 'validate': (x) => {}
+                'label': 'References', 'validate': (x) => {
+                    x.contains('-')
+                }
             },
             {
-                'label': 'Experts', 'validate': (x) => {}
+                'label': 'Experts', 'validate': (x) => {
+                    x.contains('-')
+                }
             }
         ])
         migration.checkDiffTreeDeleted(['Question 1.5 (value)'])
@@ -1595,10 +1673,537 @@ describe('KM Editor Migrations', () => {
     })
 
     // ANSWER
+    it('can migrate with applying "add answer"', () => {
+        migration.createMigration('1.6.3', '1.7.0')
+
+        cy.contains('Add answer')
+        migration.checkMigrationForm([
+            {
+                'label': 'Label', 'validate': (x) => {
+                    x.get('ins').contains('Answer 1.1c')
+                }
+            },
+            {
+                'label': 'Advice', 'validate': (x) => {}
+            }
+        ])
+        migration.checkDiffTreeAdded(['Answer 1.1c'])
+        cy.clickBtn('Apply')
+
+        cy.contains('Answer 1.1d')
+        migration.checkMigrationForm([
+            {
+                'label': 'Label', 'validate': (x) => {
+                    x.get('ins').contains('Answer 1.1d')
+                }
+            },
+            {
+                'label': 'Advice', 'validate': (x) => {
+                    x.get('ins').contains('are u sure?')
+                }
+            }
+        ])
+        migration.checkDiffTreeAdded(['Answer 1.1d'])
+        cy.clickBtn('Apply')
+
+        migration.finishMigrationAndPublish(1, 7, 0)
+        migration.verifyChildPackageForMigration('1.7.0', '1.6.3')
+    })
+
+    it('can migrate with applying "edit answer"', () => {
+        migration.createMigration('1.7.0', '1.7.1')
+
+        cy.contains('Edit question') // reorder
+        migration.checkMigrationForm([
+            {
+                'label': 'Question Type', 'validate': (x) => {
+                    x.contains('Options')
+                }
+            },
+            {
+                'label': 'Title', 'validate': (x) => {
+                    x.contains('Question 1.1')
+                }
+            },
+            {
+                'label': 'Text', 'validate': (x) => {}
+            },
+            {
+                'label': 'Tags', 'validate': (x) => {
+                    x.contains('-')
+                }
+            },
+            {
+                'label': 'Answers', 'validate': (x) => {
+                    x.get('ul.del li').should('have.length', 4)
+                    x.get('ul.del li').eq(0).contains('Answer 1.1a')
+                    x.get('ul.del li').eq(1).contains('Answer 1.1b')
+                    x.get('ul.del li').eq(2).contains('Answer 1.1c')
+                    x.get('ul.del li').eq(3).contains('Answer 1.1d')
+                    x.get('ul.ins li').should('have.length', 4)
+                    x.get('ul.ins li').eq(0).contains('Answer 1.1a')
+                    x.get('ul.ins li').eq(1).contains('Answer 1.1b')
+                    x.get('ul.ins li').eq(2).contains('Answer 1.1d')
+                    x.get('ul.ins li').eq(3).contains('Answer 1.1c')
+                }
+            },
+            {
+                'label': 'References', 'validate': (x) => {
+                    x.contains('-')
+                }
+            },
+            {
+                'label': 'Experts', 'validate': (x) => {
+                    x.contains('-')
+                }
+            }
+        ])
+        migration.checkDiffTreeEdited(['Question 1.1'])
+        cy.clickBtn('Apply')
+
+        cy.contains('Edit answer')
+        migration.checkMigrationForm([
+            {
+                'label': 'Label', 'validate': (x) => {
+                    x.get('del').contains('Answer 1.1d')
+                    x.get('ins').contains('Answer 1.1 one')
+                }
+            },
+            {
+                'label': 'Advice', 'validate': (x) => {
+                    x.get('del').contains('are u sure?')
+                    x.get('ins').contains('are you really sure?')
+                }
+            },
+            {
+                'label': 'Questions', 'validate': (x) => {
+                    x.contains('-')
+                }
+            }
+            // metric measures?
+        ])
+        migration.checkDiffTreeEdited(['Answer 1.1 one'])
+        cy.clickBtn('Apply')
+
+        cy.contains('Edit answer')
+        migration.checkMigrationForm([
+            {
+                'label': 'Label', 'validate': (x) => {
+                    x.get('del').contains('Answer 1.1c')
+                    x.get('ins').contains('Answer 1.1 two')
+                }
+            },
+            {
+                'label': 'Advice', 'validate': (x) => {
+                    x.get('ins').contains('Yay!')
+                }
+            },
+            {
+                'label': 'Questions', 'validate': (x) => {
+                    x.contains('-')
+                }
+            }
+            // metric measures?
+        ])
+        migration.checkDiffTreeEdited(['Answer 1.1 two'])
+        cy.clickBtn('Apply')
+
+        migration.finishMigrationAndPublish(1, 7, 1)
+        migration.verifyChildPackageForMigration('1.7.1', '1.7.0')
+    })
+
+
+    it('can migrate with applying "delete answer"', () => {
+        migration.createMigration('1.7.1', '1.7.2')
+
+        cy.contains('Delete answer')
+        migration.checkMigrationForm([
+            {
+                'label': 'Label', 'validate': (x) => {
+                    x.get('del').contains('Answer 1.1 one')
+                }
+            },
+            {
+                'label': 'Advice', 'validate': (x) => {
+                    x.get('del').contains('are you really sure?')
+                }
+            },
+            {
+                'label': 'Questions', 'validate': (x) => {
+                    x.contains('-')
+                }
+            }
+            // metric measures?
+        ])
+        migration.checkDiffTreeDeleted(['Answer 1.1 one'])
+        cy.clickBtn('Apply')
+
+        cy.contains('Answer 1.1 two')
+        migration.checkMigrationForm([
+            {
+                'label': 'Label', 'validate': (x) => {
+                    x.get('del').contains('Answer 1.1 two')
+                }
+            },
+            {
+                'label': 'Advice', 'validate': (x) => {
+                    x.get('del').contains('Yay!')
+                }
+            },
+            {
+                'label': 'Questions', 'validate': (x) => {
+                    x.contains('-')
+                }
+            }
+            // metric measures?
+        ])
+        migration.checkDiffTreeDeleted(['Answer 1.1 two'])
+        cy.clickBtn('Apply')
+
+        migration.finishMigrationAndPublish(1, 7, 2)
+        migration.verifyChildPackageForMigration('1.7.2', '1.7.1')
+    })
 
     // FOLLOW-UP QUESTION
+    it('can migrate with applying "add follow-up question"', () => {
+        migration.createMigration('1.7.2', '1.8.0')
 
+        cy.contains('Add question')
+        migration.checkMigrationForm([
+            {
+                'label': 'Question Type', 'validate': (x) => {
+                    x.get('ins').contains('Options')
+                }
+            },
+            {
+                'label': 'Title', 'validate': (x) => {
+                    x.get('ins').contains('Followup options 1.1a.1')
+                }
+            },
+            {
+                'label': 'Text', 'validate': (x) => {}
+            },
+            {
+                'label': 'Tags', 'validate': (x) => {
+                    x.contains('-')
+                }
+            }
+            // metric measures?
+        ])
+        migration.checkDiffTreeAdded(['Followup options 1.1a.1'])
+        cy.clickBtn('Apply')
+
+        cy.contains('Followup value 1.1a.2')
+        migration.checkMigrationForm([
+            {
+                'label': 'Question Type', 'validate': (x) => {
+                    x.get('ins').contains('Value')
+                }
+            },
+            {
+                'label': 'Title', 'validate': (x) => {
+                    x.get('ins').contains('Followup value 1.1a.2')
+                }
+            },
+            {
+                'label': 'Text', 'validate': (x) => {}
+            },
+            {
+                'label': 'Value Type', 'validate': (x) => {
+                    x.get('ins').contains('String')
+                }
+            },
+            {
+                'label': 'Tags', 'validate': (x) => {
+                    x.contains('-')
+                }
+            }
+            // metric measures?
+        ])
+        migration.checkDiffTreeAdded(['Followup value 1.1a.2'])
+        cy.clickBtn('Apply')
+
+        cy.contains('Followup list 1.1a.3')
+        migration.checkMigrationForm([
+            {
+                'label': 'Question Type', 'validate': (x) => {
+                    x.get('ins').contains('List')
+                }
+            },
+            {
+                'label': 'Title', 'validate': (x) => {
+                    x.get('ins').contains('Followup list 1.1a.3')
+                }
+            },
+            {
+                'label': 'Text', 'validate': (x) => {}
+            },
+            {
+                'label': 'Tags', 'validate': (x) => {
+                    x.contains('-')
+                }
+            }
+            // metric measures?
+        ])
+        migration.checkDiffTreeAdded(['Followup list 1.1a.3'])
+        cy.clickBtn('Apply')
+
+        migration.finishMigrationAndPublish(1, 8, 0)
+        migration.verifyChildPackageForMigration('1.8.0', '1.7.2')
+    })
+
+    it('can migrate with applying "edit follow-up question"', () => {
+        migration.createMigration('1.8.0', '1.8.1')
+
+        cy.contains('Edit answer')  // reorder followups
+        migration.checkMigrationForm([
+            {
+                'label': 'Label', 'validate': (x) => {
+                    x.contains('Answer 1.1a')
+                }
+            },
+            {
+                'label': 'Advice', 'validate': (x) => {}
+            },
+            {
+                'label': 'Questions', 'validate': (x) => {
+                    x.get('ul.del > li').should('have.length', 4)
+                    x.get('ul.del > li').eq(0).contains('Custom followup')
+                    x.get('ul.del > li').eq(1).contains('Followup options 1.1a.1')
+                    x.get('ul.del > li').eq(2).contains('Followup value 1.1a.2')
+                    x.get('ul.del > li').eq(3).contains('Followup list 1.1a.3')
+                    x.get('ul.ins > li').should('have.length', 4)
+                    x.get('ul.ins > li').eq(0).contains('Followup value 1.1a.2')
+                    x.get('ul.ins > li').eq(1).contains('Followup list 1.1a.3')
+                    x.get('ul.ins > li').eq(2).contains('Followup options 1.1a.1')
+                    x.get('ul.ins > li').eq(3).contains('Custom followup')
+                }
+            }
+        ])
+        migration.checkDiffTreeEdited(['Answer 1.1a'])
+        cy.clickBtn('Apply')
+
+        cy.contains('Followup options 1.1a.1')
+        migration.checkMigrationForm([
+            {
+                'label': 'Question Type', 'validate': (x) => {
+                    x.contains('Options')
+                }
+            },
+            {
+                'label': 'Title', 'validate': (x) => {
+                    x.get('del').contains('Followup options 1.1a.1')
+                    x.get('ins').contains('Followup options 1.1a.4')
+                }
+            },
+            {
+                'label': 'Text', 'validate': (x) => {}
+            },
+            {
+                'label': 'Tags', 'validate': (x) => {
+                    x.contains('-')
+                }
+            },
+            {
+                'label': 'Answers', 'validate': (x) => {
+                    x.contains('-')
+                }
+            },
+            {
+                'label': 'References', 'validate': (x) => {
+                    x.contains('-')
+                }
+            },
+            {
+                'label': 'Experts', 'validate': (x) => {
+                    x.contains('-')
+                }
+            }
+        ])
+        migration.checkDiffTreeEdited(['Followup options 1.1a.4'])
+        cy.clickBtn('Apply')
+
+        cy.contains('Add reference')
+        migration.checkDiffTreeAdded(['See also'])
+        cy.clickBtn('Apply')
+
+        cy.contains('Followup list 1.1a.3')
+        migration.checkMigrationForm([
+            {
+                'label': 'Question Type', 'validate': (x) => {
+                    x.contains('List')
+                }
+            },
+            {
+                'label': 'Title', 'validate': (x) => {
+                    x.contains('Followup list 1.1a.3')
+                }
+            },
+            {
+                'label': 'Text', 'validate': (x) => {
+                    x.get('ins').contains('some items')
+                }
+            },
+            {
+                'label': 'Tags', 'validate': (x) => {
+                    x.contains('-')
+                }
+            },
+            {
+                'label': 'Questions', 'validate': (x) => {
+                    x.contains('-')
+                }
+            },
+            {
+                'label': 'References', 'validate': (x) => {
+                    x.contains('-')
+                }
+            },
+            {
+                'label': 'Experts', 'validate': (x) => {
+                    x.contains('-')
+                }
+            }
+        ])
+        migration.checkDiffTreeEdited(['Followup list 1.1a.3'])
+        cy.clickBtn('Apply')
+
+        cy.contains('Add question')
+        migration.checkDiffTreeAdded(['New question'])
+        cy.clickBtn('Apply')
+
+        cy.contains('Followup value 1.1a.2')
+        migration.checkMigrationForm([
+            {
+                'label': 'Question Type', 'validate': (x) => {
+                    x.contains('Value')
+                }
+            },
+            {
+                'label': 'Title', 'validate': (x) => {
+                    x.contains('Followup value 1.1a.2')
+                }
+            },
+            {
+                'label': 'Text', 'validate': (x) => {}
+            },
+            {
+                'label': 'Value Type', 'validate': (x) => {
+                    x.get('del').contains('String')
+                    x.get('ins').contains('Date')
+                }
+            },
+            {
+                'label': 'Tags', 'validate': (x) => {
+                    x.contains('-')
+                }
+            },
+            {
+                'label': 'References', 'validate': (x) => {
+                    x.contains('-')
+                }
+            },
+            {
+                'label': 'Experts', 'validate': (x) => {
+                    x.contains('-')
+                }
+            }
+        ])
+        migration.checkDiffTreeEdited(['Followup value 1.1a.2'])
+        cy.clickBtn('Apply')
+
+        cy.contains('Followup options 1.1a.1')
+        migration.checkDiffTreeAdded(['Followup options 1.1a.1'])
+        cy.clickBtn('Apply')
+
+        cy.contains('Answer 1.1a')  // reorder followups
+        migration.checkMigrationForm([
+            {
+                'label': 'Label', 'validate': (x) => {
+                    x.contains('Answer 1.1a')
+                }
+            },
+            {
+                'label': 'Advice', 'validate': (x) => {}
+            },
+            {
+                'label': 'Questions', 'validate': (x) => {
+                    x.get('ul.del > li').should('have.length', 5)
+                    x.get('ul.del > li').eq(0).contains('Followup value 1.1a.2')
+                    x.get('ul.del > li').eq(1).contains('Followup list 1.1a.3')
+                    x.get('ul.del > li').eq(2).contains('Followup options 1.1a.4')
+                    x.get('ul.ins > li').eq(3).contains('Custom followup')
+                    x.get('ul.del > li').eq(4).contains('Followup options 1.1a.1')
+                    x.get('ul.ins > li').should('have.length', 5)
+                    x.get('ul.ins > li').eq(0).contains('Followup options 1.1a.1')
+                    x.get('ul.ins > li').eq(1).contains('Followup value 1.1a.2')
+                    x.get('ul.ins > li').eq(2).contains('Followup list 1.1a.3')
+                    x.get('ul.ins > li').eq(3).contains('Followup options 1.1a.4')
+                    x.get('ul.ins > li').eq(4).contains('Custom followup')
+                    // MISSING CUSTOM ???
+                }
+            }
+        ])
+        migration.checkDiffTreeEdited(['Answer 1.1a'])
+        cy.clickBtn('Apply')
+
+        migration.finishMigrationAndPublish(1, 8, 1)
+        migration.verifyChildPackageForMigration('1.8.1', '1.8.0')
+    })
+
+    it('can migrate with applying "delete follow-up question"', () => {
+        migration.createMigration('1.8.1', '1.8.2')
+
+        cy.contains('Delete question')
+        migration.checkDiffTreeDeleted(['Followup options 1.1a.1'])
+        cy.clickBtn('Apply')
+
+        cy.contains('Followup list 1.1a.3')
+        migration.checkDiffTreeDeleted(['Followup list 1.1a.3'])
+        cy.clickBtn('Apply')
+
+        cy.contains('Followup value 1.1a.2')
+        migration.checkDiffTreeDeleted(['Followup value 1.1a.2'])
+        cy.clickBtn('Apply')
+
+        cy.contains('Followup options 1.1a.4')
+        migration.checkDiffTreeDeleted(['Followup options 1.1a.4'])
+        cy.clickBtn('Apply')
+
+        migration.finishMigrationAndPublish(1, 8, 2)
+        migration.verifyChildPackageForMigration('1.8.2', '1.8.1')
+    })
+/*
     // ITEM TEMPLATE QUESTION
+    it('can migrate with applying "add item template question"', () => {
+        migration.createMigration('1.8.2', '1.9.0')
+
+        cy.contains('Add question')
+        cy.clickBtn('Apply')
+
+        cy.contains('Items options')
+        cy.clickBtn('Apply')
+
+        cy.contains('New answer')
+        cy.clickBtn('Apply')
+
+        cy.contains('Items list')
+        cy.clickBtn('Apply')
+
+        cy.contains('Items value')
+        cy.clickBtn('Apply')
+
+        cy.contains('Dummy integration')
+        cy.clickBtn('Apply')
+
+        cy.contains('Items integration')
+        cy.clickBtn('Apply')
+
+        migration.finishMigrationAndPublish(1, 9, 0)
+        migration.verifyChildPackageForMigration('1.9.0', '1.8.2')
+    })
+*/
+    // TODO: edit KM
 
     // TODO: migrate with rejects
 })
