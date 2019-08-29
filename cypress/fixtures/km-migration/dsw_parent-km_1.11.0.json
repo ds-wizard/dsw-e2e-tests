@@ -1,28 +1,29 @@
 {
-  "metamodelVersion": 3,
+  "metamodelVersion": 4,
   "kmId": "parent-km",
   "packages": [
     {
       "readme": "- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T10:56:00.644Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
-          "path": [],
           "uuid": "8a8c34ac-ae0b-4ada-87ba-bcb16f7fe592",
+          "entityUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
+          "parentUuid": "00000000-0000-0000-0000-000000000000",
           "eventType": "AddKnowledgeModelEvent",
-          "name": "New knowledge model",
-          "kmUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c"
+          "name": "New knowledge model"
         },
         {
           "tagUuids": {
             "changed": false
           },
-          "path": [],
           "uuid": "c28c980e-80fc-464c-a633-efa8406a2380",
+          "entityUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
+          "parentUuid": "00000000-0000-0000-0000-000000000000",
           "eventType": "EditKnowledgeModelEvent",
           "name": {
             "changed": true,
@@ -33,78 +34,40 @@
           },
           "integrationUuids": {
             "changed": false
-          },
-          "kmUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c"
+          }
         },
         {
-          "chapterUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "text": "Chapter text",
           "uuid": "c092d8c4-1a73-43f6-aeef-da824b02c3db",
+          "entityUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
           "eventType": "AddChapterEvent",
           "title": "Chapter 1"
         },
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "text": null,
           "uuid": "ad849048-e8c3-438c-82d6-1c42369c2778",
-          "questionUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
+          "entityUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "questionType": "OptionsQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Question 1"
         },
         {
           "advice": null,
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "25f2b35e-d8d1-491d-9893-a2acdcd37d61",
+          "entityUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "eventType": "AddAnswerEvent",
           "metricMeasures": [],
-          "label": "Answer 1.1.1",
-          "answerUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4"
+          "label": "Answer 1.1.1"
         },
         {
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "text": {
             "changed": false
           },
@@ -112,8 +75,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
+          "entityUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "questionType": "OptionsQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": false
@@ -131,45 +95,20 @@
         },
         {
           "advice": null,
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "1e1856ff-23a8-4ae0-a018-204ec170c889",
+          "entityUuid": "636e34f8-e88f-4ee6-8c41-d00103b5b4ec",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "eventType": "AddAnswerEvent",
           "metricMeasures": [],
-          "label": "Answer 1.1b",
-          "answerUuid": "636e34f8-e88f-4ee6-8c41-d00103b5b4ec"
+          "label": "Answer 1.1b"
         },
         {
           "advice": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "2cf05fbb-6071-4fc8-9422-db0a628b908f",
+          "entityUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "eventType": "EditAnswerEvent",
           "metricMeasures": {
             "changed": false
@@ -180,8 +119,7 @@
           "label": {
             "changed": true,
             "value": "Answer 1.1a"
-          },
-          "answerUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4"
+          }
         }
       ],
       "version": "1.0.0",
@@ -195,40 +133,26 @@
     {
       "readme": "- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T10:59:29.805Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
-          "chapterUuid": "7d05406b-31ea-4404-9931-e87a23b56eae",
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "text": "Chapter text",
           "uuid": "1a6a2d81-96b0-48ef-8c15-6668be5133e0",
+          "entityUuid": "7d05406b-31ea-4404-9931-e87a23b56eae",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
           "eventType": "AddChapterEvent",
           "title": "Chapter 2"
         },
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "7d05406b-31ea-4404-9931-e87a23b56eae",
-              "type": "chapter"
-            }
-          ],
           "text": null,
           "uuid": "fb9fe60e-ebec-4c73-a157-189c125e4197",
-          "questionUuid": "755ce00c-46ff-4244-83aa-8616dcfc1750",
+          "entityUuid": "755ce00c-46ff-4244-83aa-8616dcfc1750",
           "questionType": "ValueQuestion",
+          "parentUuid": "7d05406b-31ea-4404-9931-e87a23b56eae",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Question 2.1",
@@ -236,20 +160,11 @@
         },
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "7d05406b-31ea-4404-9931-e87a23b56eae",
-              "type": "chapter"
-            }
-          ],
           "text": null,
           "uuid": "db1be474-da77-4ce9-80df-8ebc9d108d3d",
-          "questionUuid": "e592bfca-d65a-4ca1-a7a5-7bd8e73adb89",
+          "entityUuid": "e592bfca-d65a-4ca1-a7a5-7bd8e73adb89",
           "questionType": "OptionsQuestion",
+          "parentUuid": "7d05406b-31ea-4404-9931-e87a23b56eae",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Question 2.2"
@@ -266,19 +181,12 @@
     {
       "readme": "- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T11:01:00.351Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
-          "chapterUuid": "7d05406b-31ea-4404-9931-e87a23b56eae",
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "text": {
             "changed": false
           },
@@ -290,19 +198,14 @@
               "755ce00c-46ff-4244-83aa-8616dcfc1750"
             ]
           },
+          "entityUuid": "7d05406b-31ea-4404-9931-e87a23b56eae",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
           "eventType": "EditChapterEvent",
           "title": {
             "changed": false
           }
         },
         {
-          "chapterUuid": "7d05406b-31ea-4404-9931-e87a23b56eae",
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "text": {
             "changed": true,
             "value": "**New** chapter text"
@@ -311,6 +214,8 @@
           "questionUuids": {
             "changed": false
           },
+          "entityUuid": "7d05406b-31ea-4404-9931-e87a23b56eae",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
           "eventType": "EditChapterEvent",
           "title": {
             "changed": false
@@ -328,20 +233,15 @@
     {
       "readme": "- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T11:01:42.19Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
-          "chapterUuid": "7d05406b-31ea-4404-9931-e87a23b56eae",
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "uuid": "60575da5-6e8f-43e4-9829-ca535618f060",
+          "entityUuid": "7d05406b-31ea-4404-9931-e87a23b56eae",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
           "eventType": "DeleteChapterEvent"
         }
       ],
@@ -356,29 +256,16 @@
     {
       "readme": "- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T11:03:00.448Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
           "email": "leonardo.da.vinci@science.it",
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "0e7c20a4-4181-49c9-8a7b-1014d6500f60",
-          "expertUuid": "d39302b4-c2fd-4635-a9ca-155e9f1f95d0",
+          "entityUuid": "d39302b4-c2fd-4635-a9ca-155e9f1f95d0",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "eventType": "AddExpertEvent",
           "name": "Leonardo da Vinci"
         }
@@ -394,7 +281,7 @@
     {
       "readme": "- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T11:04:24.638Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
@@ -404,22 +291,9 @@
             "changed": true,
             "value": "leonardo.da.vinci@images.it"
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "d0986c0b-42d9-4311-a1b2-b66004fc6ca3",
-          "expertUuid": "d39302b4-c2fd-4635-a9ca-155e9f1f95d0",
+          "entityUuid": "d39302b4-c2fd-4635-a9ca-155e9f1f95d0",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "eventType": "EditExpertEvent",
           "name": {
             "changed": true,
@@ -438,28 +312,15 @@
     {
       "readme": "- DELETE: expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T11:04:49.765Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "fddcc925-ac70-4caa-a6ba-01ae6d9ca946",
-          "expertUuid": "d39302b4-c2fd-4635-a9ca-155e9f1f95d0",
+          "entityUuid": "d39302b4-c2fd-4635-a9ca-155e9f1f95d0",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "eventType": "DeleteExpertEvent"
         }
       ],
@@ -474,74 +335,35 @@
     {
       "readme": "- ADD: references of all 3 types\n- DELETE: expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T15:30:03.882Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "c9e7f61c-4037-4d83-93fe-9ab4be9cb04b",
+          "entityUuid": "d1fd706d-c8b4-4574-8811-e6d4ee0d3e56",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "eventType": "AddReferenceEvent",
           "shortUuid": "atq",
-          "referenceType": "ResourcePageReference",
-          "referenceUuid": "d1fd706d-c8b4-4574-8811-e6d4ee0d3e56"
+          "referenceType": "ResourcePageReference"
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "227d70b9-6ace-4bc7-8051-3c334bd9c865",
           "url": "http://example.com",
+          "entityUuid": "29491e33-8dcf-4267-a210-1961106be8b1",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "eventType": "AddReferenceEvent",
           "referenceType": "URLReference",
-          "referenceUuid": "29491e33-8dcf-4267-a210-1961106be8b1",
           "label": "See also"
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "bba8dfa4-93f9-445e-b35d-cc00e07fb700",
+          "entityUuid": "e6e5b78a-efee-4f9b-b378-6e950827b0c2",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "targetUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "eventType": "AddReferenceEvent",
           "referenceType": "CrossReference",
-          "referenceUuid": "e6e5b78a-efee-4f9b-b378-6e950827b0c2",
           "description": "Self-reference for testing"
         }
       ],
@@ -556,85 +378,46 @@
     {
       "readme": "- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T15:32:40.536Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "65d2540b-e268-42bc-9d6b-d2375b9f96ea",
+          "entityUuid": "d1fd706d-c8b4-4574-8811-e6d4ee0d3e56",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "eventType": "EditReferenceEvent",
           "shortUuid": {
             "changed": true,
             "value": "xyz"
           },
-          "referenceType": "ResourcePageReference",
-          "referenceUuid": "d1fd706d-c8b4-4574-8811-e6d4ee0d3e56"
+          "referenceType": "ResourcePageReference"
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "f1dcd85e-62f5-4c37-9fcf-8b8ef10d5d4b",
           "url": {
             "changed": true,
             "value": "http://google.com"
           },
+          "entityUuid": "29491e33-8dcf-4267-a210-1961106be8b1",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "eventType": "EditReferenceEvent",
           "referenceType": "URLReference",
-          "referenceUuid": "29491e33-8dcf-4267-a210-1961106be8b1",
           "label": {
             "changed": true,
             "value": "Better Google it"
           }
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "0f8be8eb-e9f9-494c-a251-0a0ba33aaa86",
+          "entityUuid": "e6e5b78a-efee-4f9b-b378-6e950827b0c2",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "targetUuid": {
             "changed": false
           },
           "eventType": "EditReferenceEvent",
           "referenceType": "CrossReference",
-          "referenceUuid": "e6e5b78a-efee-4f9b-b378-6e950827b0c2",
           "description": {
             "changed": true,
             "value": "Self-reference just for testing"
@@ -644,16 +427,6 @@
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "text": {
             "changed": false
           },
@@ -661,8 +434,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
+          "entityUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "questionType": "OptionsQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": false
@@ -694,67 +468,28 @@
     {
       "readme": "- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T15:33:26.876Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "aaf9ef18-7bb4-4c03-a891-fd45fce523e6",
-          "eventType": "DeleteReferenceEvent",
-          "referenceUuid": "29491e33-8dcf-4267-a210-1961106be8b1"
+          "entityUuid": "29491e33-8dcf-4267-a210-1961106be8b1",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
+          "eventType": "DeleteReferenceEvent"
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "990aac24-7409-4af8-9180-b3bf1090c904",
-          "eventType": "DeleteReferenceEvent",
-          "referenceUuid": "e6e5b78a-efee-4f9b-b378-6e950827b0c2"
+          "entityUuid": "e6e5b78a-efee-4f9b-b378-6e950827b0c2",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
+          "eventType": "DeleteReferenceEvent"
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "fd97fa49-4338-4568-8d57-d06abb1cbb43",
-          "eventType": "DeleteReferenceEvent",
-          "referenceUuid": "d1fd706d-c8b4-4574-8811-e6d4ee0d3e56"
+          "entityUuid": "d1fd706d-c8b4-4574-8811-e6d4ee0d3e56",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
+          "eventType": "DeleteReferenceEvent"
         }
       ],
       "version": "1.3.2",
@@ -768,35 +503,25 @@
     {
       "readme": "- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T15:35:29.242Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
-          "tagUuid": "22ebd3f4-6bed-419e-bf74-482cd7396e45",
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "color": "#3498DB",
           "uuid": "9fa64b40-1e8a-4b11-b9ce-4dda6758caad",
+          "entityUuid": "22ebd3f4-6bed-419e-bf74-482cd7396e45",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
           "eventType": "AddTagEvent",
           "name": "Tag 1",
           "description": "First tag"
         },
         {
-          "tagUuid": "c14563e2-444b-49f7-a95f-1e695434fd33",
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "color": "#D35400",
           "uuid": "f9057be2-57f2-4089-8534-7dcd419d795a",
+          "entityUuid": "c14563e2-444b-49f7-a95f-1e695434fd33",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
           "eventType": "AddTagEvent",
           "name": "Tag 2",
           "description": "The second tag"
@@ -813,24 +538,19 @@
     {
       "readme": "- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T15:37:00.169Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
-          "tagUuid": "c14563e2-444b-49f7-a95f-1e695434fd33",
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "color": {
             "changed": true,
             "value": "#8E44AD"
           },
           "uuid": "0b66a862-6f24-425f-ab21-8d8c463e947b",
+          "entityUuid": "c14563e2-444b-49f7-a95f-1e695434fd33",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
           "eventType": "EditTagEvent",
           "name": {
             "changed": false
@@ -840,18 +560,13 @@
           }
         },
         {
-          "tagUuid": "22ebd3f4-6bed-419e-bf74-482cd7396e45",
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "color": {
             "changed": true,
             "value": "#16A085"
           },
           "uuid": "196c429f-9004-44f6-a415-28bbacf23a58",
+          "entityUuid": "22ebd3f4-6bed-419e-bf74-482cd7396e45",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
           "eventType": "EditTagEvent",
           "name": {
             "changed": true,
@@ -869,16 +584,6 @@
               "22ebd3f4-6bed-419e-bf74-482cd7396e45"
             ]
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "text": {
             "changed": false
           },
@@ -886,8 +591,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
+          "entityUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "questionType": "OptionsQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": false
@@ -914,31 +620,21 @@
     {
       "readme": "- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T15:37:57.951Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
-          "tagUuid": "22ebd3f4-6bed-419e-bf74-482cd7396e45",
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "uuid": "6560f955-5d81-4bc4-9117-068bdee4db0a",
+          "entityUuid": "22ebd3f4-6bed-419e-bf74-482cd7396e45",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
           "eventType": "DeleteTagEvent"
         },
         {
-          "tagUuid": "c14563e2-444b-49f7-a95f-1e695434fd33",
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "uuid": "7efc1b58-d74b-4d35-b7ab-1418808b83ad",
+          "entityUuid": "c14563e2-444b-49f7-a95f-1e695434fd33",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
           "eventType": "DeleteTagEvent"
         }
       ],
@@ -953,25 +649,21 @@
     {
       "readme": "- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T15:40:06.034Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
           "requestUrl": "/",
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "uuid": "5fed062d-41c9-48bd-b0f1-72441aefd981",
+          "entityUuid": "214e3e46-a4fd-4208-815f-1b671241610c",
           "props": [
             "prop1",
             "prop2"
           ],
           "responseNameField": "name",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
           "responseIdField": "id",
           "eventType": "AddIntegrationEvent",
           "name": "My Test Integration",
@@ -979,7 +671,6 @@
             "Accept": "application-json"
           },
           "id": "idIntegration",
-          "integrationUuid": "214e3e46-a4fd-4208-815f-1b671241610c",
           "responseListField": "items",
           "logo": "some logo",
           "requestMethod": "GET",
@@ -998,7 +689,7 @@
     {
       "readme": "- EDIT: integration changed\n- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T15:41:44.042Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
@@ -1008,13 +699,8 @@
             "changed": true,
             "value": "/all"
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "uuid": "061f5fd2-fdcd-4882-befe-8a740c542878",
+          "entityUuid": "214e3e46-a4fd-4208-815f-1b671241610c",
           "props": {
             "changed": true,
             "value": [
@@ -1027,6 +713,7 @@
             "changed": true,
             "value": "title"
           },
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
           "responseIdField": {
             "changed": true,
             "value": "doi"
@@ -1047,7 +734,6 @@
             "changed": true,
             "value": "google"
           },
-          "integrationUuid": "214e3e46-a4fd-4208-815f-1b671241610c",
           "responseListField": {
             "changed": true,
             "value": "fields"
@@ -1081,21 +767,16 @@
     {
       "readme": "- DELETE: integration deleted\n- EDIT: integration changed\n- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T15:45:54.47Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "uuid": "974f0ecf-208f-4316-80ba-7ea1e2585da1",
-          "eventType": "DeleteIntegrationEvent",
-          "integrationUuid": "214e3e46-a4fd-4208-815f-1b671241610c"
+          "entityUuid": "214e3e46-a4fd-4208-815f-1b671241610c",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
+          "eventType": "DeleteIntegrationEvent"
         }
       ],
       "version": "1.5.2",
@@ -1109,68 +790,40 @@
     {
       "readme": "- ADD: questions of all types directly to chapter and one integration\n- DELETE: integration deleted\n- EDIT: integration changed\n- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T15:48:05.055Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "text": null,
           "uuid": "4eea8d70-646f-4640-b6bd-205a8f57e806",
-          "questionUuid": "42927acf-085c-4050-a1ed-0ebc8a2bd2e7",
+          "entityUuid": "42927acf-085c-4050-a1ed-0ebc8a2bd2e7",
           "questionType": "OptionsQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Question 1.2"
         },
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
-          "itemTemplateTitle": "Item",
           "text": "Some text",
           "uuid": "d45f1014-9c89-4678-baa8-db9850d4b5c9",
-          "questionUuid": "d2ae2fec-4963-435a-94d0-6a2e9890f9e3",
+          "entityUuid": "d2ae2fec-4963-435a-94d0-6a2e9890f9e3",
           "questionType": "ListQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Question 1.3"
         },
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "text": null,
           "uuid": "65ec27bb-2579-4d4c-b641-7de47392363c",
-          "questionUuid": "9ed9f0d2-985f-4fef-9a2a-f5bbd21072f7",
+          "entityUuid": "9ed9f0d2-985f-4fef-9a2a-f5bbd21072f7",
           "questionType": "ValueQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Question 1.4",
@@ -1178,21 +831,16 @@
         },
         {
           "requestUrl": "/",
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "uuid": "be7b2164-f50f-4486-81e5-26c1858944bd",
+          "entityUuid": "a69cba62-b6c7-43ec-a23c-3990ceffc6d2",
           "props": [],
           "responseNameField": "name",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
           "responseIdField": "id",
           "eventType": "AddIntegrationEvent",
           "name": "Dummy Integration",
           "requestHeaders": {},
           "id": "dummy",
-          "integrationUuid": "a69cba62-b6c7-43ec-a23c-3990ceffc6d2",
           "responseListField": "",
           "logo": "",
           "requestMethod": "GET",
@@ -1201,21 +849,12 @@
         },
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "text": null,
           "uuid": "2e7584bf-c129-49cb-82d0-04da97124cee",
-          "questionUuid": "b6a8b4be-ec2a-448e-8fe8-d8fae825f335",
+          "entityUuid": "b6a8b4be-ec2a-448e-8fe8-d8fae825f335",
           "questionType": "IntegrationQuestion",
           "props": {},
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Question 1.5",
@@ -1233,7 +872,7 @@
     {
       "readme": "- EDIT: changed all questions and added one more integration\n- ADD: questions of all types directly to chapter and one integration\n- DELETE: integration deleted\n- EDIT: integration changed\n- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T15:52:07.953Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
@@ -1242,16 +881,6 @@
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "text": {
             "changed": true,
             "value": "Some options question"
@@ -1260,8 +889,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "42927acf-085c-4050-a1ed-0ebc8a2bd2e7",
+          "entityUuid": "42927acf-085c-4050-a1ed-0ebc8a2bd2e7",
           "questionType": "OptionsQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": true,
@@ -1282,19 +912,6 @@
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
-          "itemTemplateTitle": {
-            "changed": false
-          },
           "text": {
             "changed": true,
             "value": "Some list question"
@@ -1303,8 +920,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "d2ae2fec-4963-435a-94d0-6a2e9890f9e3",
+          "entityUuid": "d2ae2fec-4963-435a-94d0-6a2e9890f9e3",
           "questionType": "ListQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": true,
@@ -1325,16 +943,6 @@
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "text": {
             "changed": true,
             "value": "some number that used to be string"
@@ -1343,8 +951,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "9ed9f0d2-985f-4fef-9a2a-f5bbd21072f7",
+          "entityUuid": "9ed9f0d2-985f-4fef-9a2a-f5bbd21072f7",
           "questionType": "ValueQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": false
@@ -1365,16 +974,6 @@
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "text": {
             "changed": true,
             "value": "integration question that changed integration"
@@ -1383,11 +982,12 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "b6a8b4be-ec2a-448e-8fe8-d8fae825f335",
+          "entityUuid": "b6a8b4be-ec2a-448e-8fe8-d8fae825f335",
           "questionType": "IntegrationQuestion",
           "props": {
             "changed": false
           },
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": false
@@ -1405,21 +1005,16 @@
         },
         {
           "requestUrl": "/",
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "uuid": "1cce11e4-bb09-4169-9de6-fb6b3a355141",
+          "entityUuid": "fec7a4dd-5060-4e83-b831-927727d53d30",
           "props": [],
           "responseNameField": "name",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
           "responseIdField": "id",
           "eventType": "AddIntegrationEvent",
           "name": "New Dummy Integration",
           "requestHeaders": {},
           "id": "dummy2",
-          "integrationUuid": "fec7a4dd-5060-4e83-b831-927727d53d30",
           "responseListField": "",
           "logo": "",
           "requestMethod": "GET",
@@ -1430,16 +1025,6 @@
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "text": {
             "changed": false
           },
@@ -1447,11 +1032,12 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "b6a8b4be-ec2a-448e-8fe8-d8fae825f335",
+          "entityUuid": "b6a8b4be-ec2a-448e-8fe8-d8fae825f335",
           "questionType": "IntegrationQuestion",
           "props": {
             "changed": false
           },
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": false
@@ -1479,39 +1065,20 @@
     {
       "readme": "- EDIT: remove integration, changed type of questions\n- EDIT: changed all questions and added one more integration\n- ADD: questions of all types directly to chapter and one integration\n- DELETE: integration deleted\n- EDIT: integration changed\n- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T15:56:03.305Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "uuid": "ebdc4add-a99a-4b80-afad-660f19106b9d",
-          "eventType": "DeleteIntegrationEvent",
-          "integrationUuid": "fec7a4dd-5060-4e83-b831-927727d53d30"
+          "entityUuid": "fec7a4dd-5060-4e83-b831-927727d53d30",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
+          "eventType": "DeleteIntegrationEvent"
         },
         {
           "tagUuids": {
             "changed": false
-          },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
-          "itemTemplateTitle": {
-            "changed": true,
-            "value": "Item"
           },
           "text": {
             "changed": false
@@ -1520,8 +1087,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "9ed9f0d2-985f-4fef-9a2a-f5bbd21072f7",
+          "entityUuid": "9ed9f0d2-985f-4fef-9a2a-f5bbd21072f7",
           "questionType": "ListQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": false
@@ -1541,16 +1109,6 @@
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "text": {
             "changed": false
           },
@@ -1558,8 +1116,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "b6a8b4be-ec2a-448e-8fe8-d8fae825f335",
+          "entityUuid": "b6a8b4be-ec2a-448e-8fe8-d8fae825f335",
           "questionType": "ValueQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": false
@@ -1579,16 +1138,6 @@
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "text": {
             "changed": false
           },
@@ -1596,8 +1145,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "d2ae2fec-4963-435a-94d0-6a2e9890f9e3",
+          "entityUuid": "d2ae2fec-4963-435a-94d0-6a2e9890f9e3",
           "questionType": "OptionsQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": false
@@ -1616,16 +1166,6 @@
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "text": {
             "changed": false
           },
@@ -1633,8 +1173,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "d2ae2fec-4963-435a-94d0-6a2e9890f9e3",
+          "entityUuid": "d2ae2fec-4963-435a-94d0-6a2e9890f9e3",
           "questionType": "OptionsQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": false
@@ -1654,16 +1195,6 @@
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "text": {
             "changed": false
           },
@@ -1671,8 +1202,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "42927acf-085c-4050-a1ed-0ebc8a2bd2e7",
+          "entityUuid": "42927acf-085c-4050-a1ed-0ebc8a2bd2e7",
           "questionType": "ValueQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": false
@@ -1693,16 +1225,6 @@
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "text": {
             "changed": false
           },
@@ -1710,12 +1232,13 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "42927acf-085c-4050-a1ed-0ebc8a2bd2e7",
+          "entityUuid": "42927acf-085c-4050-a1ed-0ebc8a2bd2e7",
           "questionType": "IntegrationQuestion",
           "props": {
             "changed": true,
             "value": {}
           },
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": false
@@ -1744,80 +1267,39 @@
     {
       "readme": "- DELETE: deleted integration and added questions\n- EDIT: remove integration, changed type of questions\n- EDIT: changed all questions and added one more integration\n- ADD: questions of all types directly to chapter and one integration\n- DELETE: integration deleted\n- EDIT: integration changed\n- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T15:56:44.318Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "uuid": "dce24a0f-9bc6-4a3f-ac86-468a41603383",
-          "eventType": "DeleteIntegrationEvent",
-          "integrationUuid": "a69cba62-b6c7-43ec-a23c-3990ceffc6d2"
+          "entityUuid": "a69cba62-b6c7-43ec-a23c-3990ceffc6d2",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
+          "eventType": "DeleteIntegrationEvent"
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "uuid": "5bd4a2be-a576-4ece-bbf2-37ff4cff4549",
-          "questionUuid": "42927acf-085c-4050-a1ed-0ebc8a2bd2e7",
+          "entityUuid": "42927acf-085c-4050-a1ed-0ebc8a2bd2e7",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "DeleteQuestionEvent"
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "uuid": "2d4f3878-cbb5-494d-b8cb-0b0d4e60a68c",
-          "questionUuid": "d2ae2fec-4963-435a-94d0-6a2e9890f9e3",
+          "entityUuid": "d2ae2fec-4963-435a-94d0-6a2e9890f9e3",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "DeleteQuestionEvent"
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "uuid": "489d747f-7795-4eac-bab7-9191d0db414f",
-          "questionUuid": "9ed9f0d2-985f-4fef-9a2a-f5bbd21072f7",
+          "entityUuid": "9ed9f0d2-985f-4fef-9a2a-f5bbd21072f7",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "DeleteQuestionEvent"
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "uuid": "54302389-bfe1-45ce-9527-df5afb45ba36",
-          "questionUuid": "b6a8b4be-ec2a-448e-8fe8-d8fae825f335",
+          "entityUuid": "b6a8b4be-ec2a-448e-8fe8-d8fae825f335",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "DeleteQuestionEvent"
         }
       ],
@@ -1832,54 +1314,28 @@
     {
       "readme": "- ADD: answers to existing question\n- DELETE: deleted integration and added questions\n- EDIT: remove integration, changed type of questions\n- EDIT: changed all questions and added one more integration\n- ADD: questions of all types directly to chapter and one integration\n- DELETE: integration deleted\n- EDIT: integration changed\n- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T15:59:22.053Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
           "advice": null,
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "9fff84eb-bc94-4577-b03d-1dedfebc4c9a",
+          "entityUuid": "48a4976a-86f2-46a3-afe7-3556a7f2f8f9",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "eventType": "AddAnswerEvent",
           "metricMeasures": [],
-          "label": "Answer 1.1c",
-          "answerUuid": "48a4976a-86f2-46a3-afe7-3556a7f2f8f9"
+          "label": "Answer 1.1c"
         },
         {
           "advice": "are u sure?",
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "6ad4c1a1-d869-4b31-a0f9-ce99d15059fd",
+          "entityUuid": "acd65adb-33d9-4398-a326-b7f859c70beb",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "eventType": "AddAnswerEvent",
           "metricMeasures": [],
-          "label": "Answer 1.1d",
-          "answerUuid": "acd65adb-33d9-4398-a326-b7f859c70beb"
+          "label": "Answer 1.1d"
         }
       ],
       "version": "1.7.0",
@@ -1893,7 +1349,7 @@
     {
       "readme": "- EDIT: change answers and switch them in question\n- ADD: answers to existing question\n- DELETE: deleted integration and added questions\n- EDIT: remove integration, changed type of questions\n- EDIT: changed all questions and added one more integration\n- ADD: questions of all types directly to chapter and one integration\n- DELETE: integration deleted\n- EDIT: integration changed\n- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T16:00:58.515Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
@@ -1902,16 +1358,6 @@
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
           "text": {
             "changed": false
           },
@@ -1919,8 +1365,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
+          "entityUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "questionType": "OptionsQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": false
@@ -1946,21 +1393,9 @@
             "changed": true,
             "value": "are you really sure?"
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "72fc7f05-644c-4bd2-b77b-190952934138",
+          "entityUuid": "acd65adb-33d9-4398-a326-b7f859c70beb",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "eventType": "EditAnswerEvent",
           "metricMeasures": {
             "changed": true,
@@ -1983,29 +1418,16 @@
           "label": {
             "changed": true,
             "value": "Answer 1.1 one"
-          },
-          "answerUuid": "acd65adb-33d9-4398-a326-b7f859c70beb"
+          }
         },
         {
           "advice": {
             "changed": true,
             "value": "Yay!"
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "eb77d742-42f9-4216-b53a-e8512a84898c",
+          "entityUuid": "48a4976a-86f2-46a3-afe7-3556a7f2f8f9",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "eventType": "EditAnswerEvent",
           "metricMeasures": {
             "changed": true,
@@ -2028,8 +1450,7 @@
           "label": {
             "changed": true,
             "value": "Answer 1.1 two"
-          },
-          "answerUuid": "48a4976a-86f2-46a3-afe7-3556a7f2f8f9"
+          }
         }
       ],
       "version": "1.7.1",
@@ -2043,48 +1464,22 @@
     {
       "readme": "- DELETE: answers that were added\n- EDIT: change answers and switch them in question\n- ADD: answers to existing question\n- DELETE: deleted integration and added questions\n- EDIT: remove integration, changed type of questions\n- EDIT: changed all questions and added one more integration\n- ADD: questions of all types directly to chapter and one integration\n- DELETE: integration deleted\n- EDIT: integration changed\n- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T16:01:29.122Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "134b55b7-c5d6-45ce-8879-39256043c9b1",
-          "eventType": "DeleteAnswerEvent",
-          "answerUuid": "acd65adb-33d9-4398-a326-b7f859c70beb"
+          "entityUuid": "acd65adb-33d9-4398-a326-b7f859c70beb",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
+          "eventType": "DeleteAnswerEvent"
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "9765b08a-bc7c-41a6-8485-b51164b744d8",
-          "eventType": "DeleteAnswerEvent",
-          "answerUuid": "48a4976a-86f2-46a3-afe7-3556a7f2f8f9"
+          "entityUuid": "48a4976a-86f2-46a3-afe7-3556a7f2f8f9",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
+          "eventType": "DeleteAnswerEvent"
         }
       ],
       "version": "1.7.2",
@@ -2098,63 +1493,29 @@
     {
       "readme": "- ADD: follow ups\n- DELETE: answers that were added\n- EDIT: change answers and switch them in question\n- ADD: answers to existing question\n- DELETE: deleted integration and added questions\n- EDIT: remove integration, changed type of questions\n- EDIT: changed all questions and added one more integration\n- ADD: questions of all types directly to chapter and one integration\n- DELETE: integration deleted\n- EDIT: integration changed\n- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T17:16:46.371Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            },
-            {
-              "uuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
-              "type": "answer"
-            }
-          ],
           "text": null,
           "uuid": "42d14c51-19e3-444a-b63b-8f63908b87b7",
-          "questionUuid": "bd5761ee-6f32-4103-8683-e456f2bba540",
+          "entityUuid": "bd5761ee-6f32-4103-8683-e456f2bba540",
           "questionType": "OptionsQuestion",
+          "parentUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Followup options 1.1a.1"
         },
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            },
-            {
-              "uuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
-              "type": "answer"
-            }
-          ],
           "text": null,
           "uuid": "78461d3b-788c-4c59-9346-851e31d87a26",
-          "questionUuid": "0e6e91e5-99ea-40d7-be81-da26c05af8ff",
+          "entityUuid": "0e6e91e5-99ea-40d7-be81-da26c05af8ff",
           "questionType": "ValueQuestion",
+          "parentUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Followup value 1.1a.2",
@@ -2162,29 +1523,11 @@
         },
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            },
-            {
-              "uuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
-              "type": "answer"
-            }
-          ],
-          "itemTemplateTitle": "Item",
           "text": null,
           "uuid": "a3a74fae-5926-4f14-a4dd-13907531c331",
-          "questionUuid": "2211efcc-f530-4cfe-88f8-d6035d960658",
+          "entityUuid": "2211efcc-f530-4cfe-88f8-d6035d960658",
           "questionType": "ListQuestion",
+          "parentUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Followup list 1.1a.3"
@@ -2201,7 +1544,7 @@
     {
       "readme": "- EDIT: changed follow ups and added a new one\n- ADD: follow ups\n- DELETE: answers that were added\n- EDIT: change answers and switch them in question\n- ADD: answers to existing question\n- DELETE: deleted integration and added questions\n- EDIT: remove integration, changed type of questions\n- EDIT: changed all questions and added one more integration\n- ADD: questions of all types directly to chapter and one integration\n- DELETE: integration deleted\n- EDIT: integration changed\n- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T17:19:19.382Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
@@ -2210,21 +1553,9 @@
           "advice": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "3a4a711f-123e-43db-9708-3322365abf5a",
+          "entityUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "eventType": "EditAnswerEvent",
           "metricMeasures": {
             "changed": false
@@ -2239,31 +1570,12 @@
           },
           "label": {
             "changed": false
-          },
-          "answerUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4"
+          }
         },
         {
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            },
-            {
-              "uuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
-              "type": "answer"
-            }
-          ],
           "text": {
             "changed": false
           },
@@ -2271,8 +1583,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "bd5761ee-6f32-4103-8683-e456f2bba540",
+          "entityUuid": "bd5761ee-6f32-4103-8683-e456f2bba540",
           "questionType": "OptionsQuestion",
+          "parentUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": false
@@ -2289,58 +1602,16 @@
           }
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            },
-            {
-              "uuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
-              "type": "answer"
-            },
-            {
-              "uuid": "bd5761ee-6f32-4103-8683-e456f2bba540",
-              "type": "question"
-            }
-          ],
           "uuid": "1b45ba27-6dfd-47cf-8bb5-82997be47ee5",
           "url": "http://example.com",
+          "entityUuid": "99274ad3-613d-4624-812c-0ff9a9f84f8f",
+          "parentUuid": "bd5761ee-6f32-4103-8683-e456f2bba540",
           "eventType": "AddReferenceEvent",
           "referenceType": "URLReference",
-          "referenceUuid": "99274ad3-613d-4624-812c-0ff9a9f84f8f",
           "label": "See also"
         },
         {
           "tagUuids": {
-            "changed": false
-          },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            },
-            {
-              "uuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
-              "type": "answer"
-            }
-          ],
-          "itemTemplateTitle": {
             "changed": false
           },
           "text": {
@@ -2351,8 +1622,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "2211efcc-f530-4cfe-88f8-d6035d960658",
+          "entityUuid": "2211efcc-f530-4cfe-88f8-d6035d960658",
           "questionType": "ListQuestion",
+          "parentUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": true,
@@ -2370,32 +1642,11 @@
         },
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            },
-            {
-              "uuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
-              "type": "answer"
-            },
-            {
-              "uuid": "2211efcc-f530-4cfe-88f8-d6035d960658",
-              "type": "question"
-            }
-          ],
           "text": null,
           "uuid": "874e5f1b-2bce-46c1-9bd7-27c490ae0e02",
-          "questionUuid": "c1f05be7-4a9e-4557-9e29-ecf918decab9",
+          "entityUuid": "c1f05be7-4a9e-4557-9e29-ecf918decab9",
           "questionType": "OptionsQuestion",
+          "parentUuid": "2211efcc-f530-4cfe-88f8-d6035d960658",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "New question"
@@ -2404,24 +1655,6 @@
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            },
-            {
-              "uuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
-              "type": "answer"
-            }
-          ],
           "text": {
             "changed": false
           },
@@ -2429,8 +1662,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "0e6e91e5-99ea-40d7-be81-da26c05af8ff",
+          "entityUuid": "0e6e91e5-99ea-40d7-be81-da26c05af8ff",
           "questionType": "ValueQuestion",
+          "parentUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": true,
@@ -2449,28 +1683,11 @@
         },
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            },
-            {
-              "uuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
-              "type": "answer"
-            }
-          ],
           "text": null,
           "uuid": "b145070b-833d-4fbd-83ce-00a9b01919f0",
-          "questionUuid": "54459399-a55b-4656-aea9-5bfc0f4d830c",
+          "entityUuid": "54459399-a55b-4656-aea9-5bfc0f4d830c",
           "questionType": "OptionsQuestion",
+          "parentUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Followup options 1.1a.1"
@@ -2479,21 +1696,9 @@
           "advice": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            }
-          ],
           "uuid": "75d7c70c-0665-45e5-852b-fa91dfd3414b",
+          "entityUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
           "eventType": "EditAnswerEvent",
           "metricMeasures": {
             "changed": false
@@ -2509,8 +1714,7 @@
           },
           "label": {
             "changed": false
-          },
-          "answerUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4"
+          }
         }
       ],
       "version": "1.8.1",
@@ -2524,101 +1728,33 @@
     {
       "readme": "- DELETE: follow ups deleted\n- EDIT: changed follow ups and added a new one\n- ADD: follow ups\n- DELETE: answers that were added\n- EDIT: change answers and switch them in question\n- ADD: answers to existing question\n- DELETE: deleted integration and added questions\n- EDIT: remove integration, changed type of questions\n- EDIT: changed all questions and added one more integration\n- ADD: questions of all types directly to chapter and one integration\n- DELETE: integration deleted\n- EDIT: integration changed\n- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T17:19:53.175Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            },
-            {
-              "uuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
-              "type": "answer"
-            }
-          ],
           "uuid": "3e27d197-78d5-4746-90a5-fc5a6dad82b6",
-          "questionUuid": "54459399-a55b-4656-aea9-5bfc0f4d830c",
+          "entityUuid": "54459399-a55b-4656-aea9-5bfc0f4d830c",
+          "parentUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
           "eventType": "DeleteQuestionEvent"
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            },
-            {
-              "uuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
-              "type": "answer"
-            }
-          ],
           "uuid": "4a4b6b6e-0e96-4b5d-b622-18efff214d66",
-          "questionUuid": "2211efcc-f530-4cfe-88f8-d6035d960658",
+          "entityUuid": "2211efcc-f530-4cfe-88f8-d6035d960658",
+          "parentUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
           "eventType": "DeleteQuestionEvent"
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            },
-            {
-              "uuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
-              "type": "answer"
-            }
-          ],
           "uuid": "36141470-c609-4b44-8407-388c88116114",
-          "questionUuid": "0e6e91e5-99ea-40d7-be81-da26c05af8ff",
+          "entityUuid": "0e6e91e5-99ea-40d7-be81-da26c05af8ff",
+          "parentUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
           "eventType": "DeleteQuestionEvent"
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
-              "type": "question"
-            },
-            {
-              "uuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
-              "type": "answer"
-            }
-          ],
           "uuid": "ed86bc77-1add-46aa-80f1-f49562d22d44",
-          "questionUuid": "bd5761ee-6f32-4103-8683-e456f2bba540",
+          "entityUuid": "bd5761ee-6f32-4103-8683-e456f2bba540",
+          "parentUuid": "116a80c4-24b1-41d0-b843-3c05a38e00f4",
           "eventType": "DeleteQuestionEvent"
         }
       ],
@@ -2633,127 +1769,60 @@
     {
       "readme": "- ADD: list question with item template questions\n- DELETE: follow ups deleted\n- EDIT: changed follow ups and added a new one\n- ADD: follow ups\n- DELETE: answers that were added\n- EDIT: change answers and switch them in question\n- ADD: answers to existing question\n- DELETE: deleted integration and added questions\n- EDIT: remove integration, changed type of questions\n- EDIT: changed all questions and added one more integration\n- ADD: questions of all types directly to chapter and one integration\n- DELETE: integration deleted\n- EDIT: integration changed\n- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T17:22:24.656Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
-          "itemTemplateTitle": "Item",
           "text": "Question with items",
           "uuid": "6720a49a-3a7c-47b3-ba4d-938052879482",
-          "questionUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
+          "entityUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
           "questionType": "ListQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Question 1.2"
         },
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
-              "type": "question"
-            }
-          ],
           "text": null,
           "uuid": "91bc7dfb-a42b-449c-a548-9c229a163b2c",
-          "questionUuid": "02eb83c2-821a-4e10-8719-74f9d2438ba6",
+          "entityUuid": "02eb83c2-821a-4e10-8719-74f9d2438ba6",
           "questionType": "OptionsQuestion",
+          "parentUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Items options"
         },
         {
           "advice": null,
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
-              "type": "question"
-            },
-            {
-              "uuid": "02eb83c2-821a-4e10-8719-74f9d2438ba6",
-              "type": "question"
-            }
-          ],
           "uuid": "7749b8d9-f4e1-48c5-a938-c16195f3c1aa",
+          "entityUuid": "46faee69-854d-4d50-ab48-655f853c52d3",
+          "parentUuid": "02eb83c2-821a-4e10-8719-74f9d2438ba6",
           "eventType": "AddAnswerEvent",
           "metricMeasures": [],
-          "label": "New answer",
-          "answerUuid": "46faee69-854d-4d50-ab48-655f853c52d3"
+          "label": "New answer"
         },
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
-              "type": "question"
-            }
-          ],
-          "itemTemplateTitle": "Item",
           "text": null,
           "uuid": "cf564267-dbb5-4fb6-b833-c33a4821d7fa",
-          "questionUuid": "6392c7c9-26ed-430d-8d63-9f2ee9b0c496",
+          "entityUuid": "6392c7c9-26ed-430d-8d63-9f2ee9b0c496",
           "questionType": "ListQuestion",
+          "parentUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Items list"
         },
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
-              "type": "question"
-            }
-          ],
           "text": null,
           "uuid": "6d29e822-a0ff-4f80-9328-9bb0123658df",
-          "questionUuid": "296c41a5-9405-4ce2-94e3-38f245ab3394",
+          "entityUuid": "296c41a5-9405-4ce2-94e3-38f245ab3394",
           "questionType": "ValueQuestion",
+          "parentUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Items value",
@@ -2761,21 +1830,16 @@
         },
         {
           "requestUrl": "/",
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            }
-          ],
           "uuid": "bb7eb904-4b35-4289-b25a-a1b19c343205",
+          "entityUuid": "d1aa25dd-c3db-46c8-b033-3c3af51073fc",
           "props": [],
           "responseNameField": "name",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
           "responseIdField": "id",
           "eventType": "AddIntegrationEvent",
           "name": "Dummy integration",
           "requestHeaders": {},
           "id": "dummy",
-          "integrationUuid": "d1aa25dd-c3db-46c8-b033-3c3af51073fc",
           "responseListField": "",
           "logo": "",
           "requestMethod": "GET",
@@ -2784,25 +1848,12 @@
         },
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
-              "type": "question"
-            }
-          ],
           "text": null,
           "uuid": "ce63caf1-e11a-45d6-97a7-68c1991aa53b",
-          "questionUuid": "942c3537-4483-42a9-9eaf-4199b50af36c",
+          "entityUuid": "942c3537-4483-42a9-9eaf-4199b50af36c",
           "questionType": "IntegrationQuestion",
           "props": {},
+          "parentUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Items integration",
@@ -2820,135 +1871,47 @@
     {
       "readme": "- EDIT: changes item template questions including more nesting\n- ADD: list question with item template questions\n- DELETE: follow ups deleted\n- EDIT: changed follow ups and added a new one\n- ADD: follow ups\n- DELETE: answers that were added\n- EDIT: change answers and switch them in question\n- ADD: answers to existing question\n- DELETE: deleted integration and added questions\n- EDIT: remove integration, changed type of questions\n- EDIT: changed all questions and added one more integration\n- ADD: questions of all types directly to chapter and one integration\n- DELETE: integration deleted\n- EDIT: integration changed\n- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T17:24:01.515Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
-              "type": "question"
-            },
-            {
-              "uuid": "02eb83c2-821a-4e10-8719-74f9d2438ba6",
-              "type": "question"
-            },
-            {
-              "uuid": "46faee69-854d-4d50-ab48-655f853c52d3",
-              "type": "answer"
-            }
-          ],
           "text": null,
           "uuid": "7bf90a1c-584e-485e-ba2c-33dbb5d1f289",
-          "questionUuid": "ae3a5f8c-94c2-45e0-9c11-8371a4e2d8f5",
+          "entityUuid": "ae3a5f8c-94c2-45e0-9c11-8371a4e2d8f5",
           "questionType": "OptionsQuestion",
+          "parentUuid": "46faee69-854d-4d50-ab48-655f853c52d3",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Some follow-up"
         },
         {
           "advice": null,
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
-              "type": "question"
-            },
-            {
-              "uuid": "02eb83c2-821a-4e10-8719-74f9d2438ba6",
-              "type": "question"
-            },
-            {
-              "uuid": "46faee69-854d-4d50-ab48-655f853c52d3",
-              "type": "answer"
-            },
-            {
-              "uuid": "ae3a5f8c-94c2-45e0-9c11-8371a4e2d8f5",
-              "type": "question"
-            }
-          ],
           "uuid": "5bcbcadb-7c37-417e-b0c1-9d7d656fef97",
+          "entityUuid": "b6f612f5-f4e2-4258-b798-b2940f909ba0",
+          "parentUuid": "ae3a5f8c-94c2-45e0-9c11-8371a4e2d8f5",
           "eventType": "AddAnswerEvent",
           "metricMeasures": [],
-          "label": "Yes",
-          "answerUuid": "b6f612f5-f4e2-4258-b798-b2940f909ba0"
+          "label": "Yes"
         },
         {
           "advice": null,
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
-              "type": "question"
-            },
-            {
-              "uuid": "02eb83c2-821a-4e10-8719-74f9d2438ba6",
-              "type": "question"
-            },
-            {
-              "uuid": "46faee69-854d-4d50-ab48-655f853c52d3",
-              "type": "answer"
-            },
-            {
-              "uuid": "ae3a5f8c-94c2-45e0-9c11-8371a4e2d8f5",
-              "type": "question"
-            }
-          ],
           "uuid": "db6a9849-984d-4992-beba-933a8208d114",
+          "entityUuid": "f88d9a2c-0739-4826-ad64-d0be5de359e2",
+          "parentUuid": "ae3a5f8c-94c2-45e0-9c11-8371a4e2d8f5",
           "eventType": "AddAnswerEvent",
           "metricMeasures": [],
-          "label": "No",
-          "answerUuid": "f88d9a2c-0739-4826-ad64-d0be5de359e2"
+          "label": "No"
         },
         {
           "tagUuids": [],
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
-              "type": "question"
-            },
-            {
-              "uuid": "6392c7c9-26ed-430d-8d63-9f2ee9b0c496",
-              "type": "question"
-            }
-          ],
           "text": null,
           "uuid": "e883e684-7653-4b01-81e8-2c5771d0cd1f",
-          "questionUuid": "868e58c9-ec4f-4540-8960-aa62ce03269f",
+          "entityUuid": "868e58c9-ec4f-4540-8960-aa62ce03269f",
           "questionType": "OptionsQuestion",
+          "parentUuid": "6392c7c9-26ed-430d-8d63-9f2ee9b0c496",
           "eventType": "AddQuestionEvent",
           "requiredLevel": null,
           "title": "Another item template question"
@@ -2957,20 +1920,6 @@
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
-              "type": "question"
-            }
-          ],
           "text": {
             "changed": false
           },
@@ -2978,8 +1927,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "296c41a5-9405-4ce2-94e3-38f245ab3394",
+          "entityUuid": "296c41a5-9405-4ce2-94e3-38f245ab3394",
           "questionType": "ValueQuestion",
+          "parentUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": true,
@@ -2999,24 +1949,6 @@
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
-              "type": "question"
-            }
-          ],
-          "itemTemplateTitle": {
-            "changed": true,
-            "value": "Item"
-          },
           "text": {
             "changed": false
           },
@@ -3024,8 +1956,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "942c3537-4483-42a9-9eaf-4199b50af36c",
+          "entityUuid": "942c3537-4483-42a9-9eaf-4199b50af36c",
           "questionType": "ListQuestion",
+          "parentUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": false
@@ -3044,23 +1977,6 @@
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
-              "type": "question"
-            }
-          ],
-          "itemTemplateTitle": {
-            "changed": false
-          },
           "text": {
             "changed": false
           },
@@ -3068,8 +1984,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "942c3537-4483-42a9-9eaf-4199b50af36c",
+          "entityUuid": "942c3537-4483-42a9-9eaf-4199b50af36c",
           "questionType": "ListQuestion",
+          "parentUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": false
@@ -3089,19 +2006,6 @@
           "tagUuids": {
             "changed": false
           },
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            }
-          ],
-          "itemTemplateTitle": {
-            "changed": false
-          },
           "text": {
             "changed": false
           },
@@ -3109,8 +2013,9 @@
           "expertUuids": {
             "changed": false
           },
-          "questionUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
+          "entityUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
           "questionType": "ListQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
           "eventType": "EditQuestionEvent",
           "requiredLevel": {
             "changed": false
@@ -3143,59 +2048,21 @@
     {
       "readme": "- DELETE: nested questions removed\n- EDIT: changes item template questions including more nesting\n- ADD: list question with item template questions\n- DELETE: follow ups deleted\n- EDIT: changed follow ups and added a new one\n- ADD: follow ups\n- DELETE: answers that were added\n- EDIT: change answers and switch them in question\n- ADD: answers to existing question\n- DELETE: deleted integration and added questions\n- EDIT: remove integration, changed type of questions\n- EDIT: changed all questions and added one more integration\n- ADD: questions of all types directly to chapter and one integration\n- DELETE: integration deleted\n- EDIT: integration changed\n- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T17:24:57.857Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
-              "type": "question"
-            },
-            {
-              "uuid": "02eb83c2-821a-4e10-8719-74f9d2438ba6",
-              "type": "question"
-            },
-            {
-              "uuid": "46faee69-854d-4d50-ab48-655f853c52d3",
-              "type": "answer"
-            }
-          ],
           "uuid": "fff055e3-7498-4543-b43f-6c8ae85626d0",
-          "questionUuid": "ae3a5f8c-94c2-45e0-9c11-8371a4e2d8f5",
+          "entityUuid": "ae3a5f8c-94c2-45e0-9c11-8371a4e2d8f5",
+          "parentUuid": "46faee69-854d-4d50-ab48-655f853c52d3",
           "eventType": "DeleteQuestionEvent"
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
-              "type": "question"
-            },
-            {
-              "uuid": "6392c7c9-26ed-430d-8d63-9f2ee9b0c496",
-              "type": "question"
-            }
-          ],
           "uuid": "5883b713-78cb-4c9d-a7ef-ab0de8f62918",
-          "questionUuid": "868e58c9-ec4f-4540-8960-aa62ce03269f",
+          "entityUuid": "868e58c9-ec4f-4540-8960-aa62ce03269f",
+          "parentUuid": "6392c7c9-26ed-430d-8d63-9f2ee9b0c496",
           "eventType": "DeleteQuestionEvent"
         }
       ],
@@ -3210,85 +2077,33 @@
     {
       "readme": "- DELETE: item template questions removed\n- DELETE: nested questions removed\n- EDIT: changes item template questions including more nesting\n- ADD: list question with item template questions\n- DELETE: follow ups deleted\n- EDIT: changed follow ups and added a new one\n- ADD: follow ups\n- DELETE: answers that were added\n- EDIT: change answers and switch them in question\n- ADD: answers to existing question\n- DELETE: deleted integration and added questions\n- EDIT: remove integration, changed type of questions\n- EDIT: changed all questions and added one more integration\n- ADD: questions of all types directly to chapter and one integration\n- DELETE: integration deleted\n- EDIT: integration changed\n- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
       "createdAt": "2019-08-17T17:26:25.031Z",
-      "metamodelVersion": 3,
+      "metamodelVersion": 4,
       "kmId": "parent-km",
       "forkOfPackageId": null,
       "name": "Parent KM",
       "events": [
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
-              "type": "question"
-            }
-          ],
           "uuid": "142ece51-d301-49ac-9355-ae36540650e7",
-          "questionUuid": "6392c7c9-26ed-430d-8d63-9f2ee9b0c496",
+          "entityUuid": "6392c7c9-26ed-430d-8d63-9f2ee9b0c496",
+          "parentUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
           "eventType": "DeleteQuestionEvent"
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
-              "type": "question"
-            }
-          ],
           "uuid": "4a81de49-c5d4-47a1-9a63-78420246f26c",
-          "questionUuid": "296c41a5-9405-4ce2-94e3-38f245ab3394",
+          "entityUuid": "296c41a5-9405-4ce2-94e3-38f245ab3394",
+          "parentUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
           "eventType": "DeleteQuestionEvent"
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
-              "type": "question"
-            }
-          ],
           "uuid": "7cb52202-3dae-4758-aecf-b05f3fb3c7b9",
-          "questionUuid": "02eb83c2-821a-4e10-8719-74f9d2438ba6",
+          "entityUuid": "02eb83c2-821a-4e10-8719-74f9d2438ba6",
+          "parentUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
           "eventType": "DeleteQuestionEvent"
         },
         {
-          "path": [
-            {
-              "uuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
-              "type": "km"
-            },
-            {
-              "uuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
-              "type": "chapter"
-            },
-            {
-              "uuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
-              "type": "question"
-            }
-          ],
           "uuid": "58fa4f6a-44fc-4bf9-8f88-bd5d3a706b31",
-          "questionUuid": "942c3537-4483-42a9-9eaf-4199b50af36c",
+          "entityUuid": "942c3537-4483-42a9-9eaf-4199b50af36c",
+          "parentUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
           "eventType": "DeleteQuestionEvent"
         }
       ],
@@ -3299,10 +2114,387 @@
       "organizationId": "dsw",
       "previousPackageId": "dsw:parent-km:1.9.2",
       "description": "Parent KM for KM Migration E2E testing"
+    },
+    {
+      "readme": "- EDIT: knowledge model title, chapters/integrations order\n- DELETE: item template questions removed\n- DELETE: nested questions removed\n- EDIT: changes item template questions including more nesting\n- ADD: list question with item template questions\n- DELETE: follow ups deleted\n- EDIT: changed follow ups and added a new one\n- ADD: follow ups\n- DELETE: answers that were added\n- EDIT: change answers and switch them in question\n- ADD: answers to existing question\n- DELETE: deleted integration and added questions\n- EDIT: remove integration, changed type of questions\n- EDIT: changed all questions and added one more integration\n- ADD: questions of all types directly to chapter and one integration\n- DELETE: integration deleted\n- EDIT: integration changed\n- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
+      "createdAt": "2019-08-28T17:44:43.836Z",
+      "metamodelVersion": 4,
+      "kmId": "parent-km",
+      "forkOfPackageId": null,
+      "name": "Parent KM",
+      "events": [
+        {
+          "tagUuids": {
+            "changed": false
+          },
+          "uuid": "dd4d41ce-9359-47a3-b40f-b631da454ca7",
+          "entityUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
+          "parentUuid": "00000000-0000-0000-0000-000000000000",
+          "eventType": "EditKnowledgeModelEvent",
+          "name": {
+            "changed": true,
+            "value": "Parenting KM"
+          },
+          "chapterUuids": {
+            "changed": false
+          },
+          "integrationUuids": {
+            "changed": false
+          }
+        },
+        {
+          "text": "Some introduction text",
+          "uuid": "e02f74e0-40b7-428d-bd3e-25d9898f2a46",
+          "entityUuid": "7b582adc-57c4-46c0-9d8d-790befed6533",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
+          "eventType": "AddChapterEvent",
+          "title": "Intro"
+        },
+        {
+          "tagUuids": {
+            "changed": false
+          },
+          "uuid": "6e2e038c-70c4-4b17-b33a-413b28730f93",
+          "entityUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
+          "parentUuid": "00000000-0000-0000-0000-000000000000",
+          "eventType": "EditKnowledgeModelEvent",
+          "name": {
+            "changed": false
+          },
+          "chapterUuids": {
+            "changed": true,
+            "value": [
+              "7b582adc-57c4-46c0-9d8d-790befed6533",
+              "2145d321-de7b-4213-a78d-6a9a863a4b1f"
+            ]
+          },
+          "integrationUuids": {
+            "changed": false
+          }
+        },
+        {
+          "requestUrl": "/",
+          "uuid": "e80babb4-3309-4880-96ce-ce8eb4ab0f43",
+          "entityUuid": "5f1c5d50-67a9-4731-829c-b04fb84a5ccc",
+          "props": [],
+          "responseNameField": "name",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
+          "responseIdField": "id",
+          "eventType": "AddIntegrationEvent",
+          "name": "New Integration",
+          "requestHeaders": {},
+          "id": "second",
+          "responseListField": "",
+          "logo": "",
+          "requestMethod": "GET",
+          "itemUrl": "",
+          "requestBody": ""
+        },
+        {
+          "tagUuids": {
+            "changed": false
+          },
+          "uuid": "c065c326-8499-42ff-92ea-33d3c9b48f89",
+          "entityUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
+          "parentUuid": "00000000-0000-0000-0000-000000000000",
+          "eventType": "EditKnowledgeModelEvent",
+          "name": {
+            "changed": false
+          },
+          "chapterUuids": {
+            "changed": false
+          },
+          "integrationUuids": {
+            "changed": true,
+            "value": [
+              "5f1c5d50-67a9-4731-829c-b04fb84a5ccc",
+              "d1aa25dd-c3db-46c8-b033-3c3af51073fc"
+            ]
+          }
+        }
+      ],
+      "version": "1.10.0",
+      "id": "dsw:parent-km:1.10.0",
+      "mergeCheckpointPackageId": null,
+      "license": "nolicense",
+      "organizationId": "dsw",
+      "previousPackageId": "dsw:parent-km:1.9.3",
+      "description": "Parent KM for KM Migration E2E testing"
+    },
+    {
+      "readme": "- *: various edits\n- EDIT: knowledge model title, chapters/integrations order\n- DELETE: item template questions removed\n- DELETE: nested questions removed\n- EDIT: changes item template questions including more nesting\n- ADD: list question with item template questions\n- DELETE: follow ups deleted\n- EDIT: changed follow ups and added a new one\n- ADD: follow ups\n- DELETE: answers that were added\n- EDIT: change answers and switch them in question\n- ADD: answers to existing question\n- DELETE: deleted integration and added questions\n- EDIT: remove integration, changed type of questions\n- EDIT: changed all questions and added one more integration\n- ADD: questions of all types directly to chapter and one integration\n- DELETE: integration deleted\n- EDIT: integration changed\n- ADD: integration added\n- DELETE: tags deleted\n- EDIT: tags changed and one assigned to question 1.1\n- ADD: tags added\n- DELETE: delete references\n- EDIT: edit references and switch them\n- ADD: references of all 3 types\n- DELETE: delete expert\n- EDIT: expert change name and email\n- ADD: expert for question 1.1\n- DELETE: chapter 2\n- EDIT: switched question order in chapter 2, new chapter 2 text\n- ADD: chapter 2 with 2 questions \n- Base model with 1 chapter, 1 question with 2 answers",
+      "createdAt": "2019-08-29T09:06:30.668Z",
+      "metamodelVersion": 4,
+      "kmId": "parent-km",
+      "forkOfPackageId": null,
+      "name": "Parent KM",
+      "events": [
+        {
+          "tagUuids": {
+            "changed": false
+          },
+          "uuid": "40dd4f1b-6f4f-4e20-9cb8-d20640615658",
+          "entityUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
+          "parentUuid": "00000000-0000-0000-0000-000000000000",
+          "eventType": "EditKnowledgeModelEvent",
+          "name": {
+            "changed": false
+          },
+          "chapterUuids": {
+            "changed": false
+          },
+          "integrationUuids": {
+            "changed": true,
+            "value": [
+              "d1aa25dd-c3db-46c8-b033-3c3af51073fc",
+              "5f1c5d50-67a9-4731-829c-b04fb84a5ccc"
+            ]
+          }
+        },
+        {
+          "tagUuids": {
+            "changed": false
+          },
+          "text": {
+            "changed": false
+          },
+          "uuid": "3b05fefe-7f50-40d3-a374-62d0229c1c3b",
+          "expertUuids": {
+            "changed": false
+          },
+          "entityUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
+          "questionType": "OptionsQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
+          "eventType": "EditQuestionEvent",
+          "requiredLevel": {
+            "changed": false
+          },
+          "answerUuids": {
+            "changed": true,
+            "value": [
+              "636e34f8-e88f-4ee6-8c41-d00103b5b4ec",
+              "116a80c4-24b1-41d0-b843-3c05a38e00f4"
+            ]
+          },
+          "referenceUuids": {
+            "changed": false
+          },
+          "title": {
+            "changed": false
+          }
+        },
+        {
+          "email": "expert@example.com",
+          "uuid": "35573362-46ef-41b6-a364-e66a0819a9c0",
+          "entityUuid": "3eb33aee-8aa1-4c40-b068-395ae089f141",
+          "parentUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
+          "eventType": "AddExpertEvent",
+          "name": "Our Specialist 1"
+        },
+        {
+          "email": "expert@example.com",
+          "uuid": "6d33f09f-6850-49aa-998f-2cd968d3fa15",
+          "entityUuid": "19916f72-27c2-4026-b374-63739a28811f",
+          "parentUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
+          "eventType": "AddExpertEvent",
+          "name": "Our Specialist 0"
+        },
+        {
+          "tagUuids": {
+            "changed": false
+          },
+          "text": {
+            "changed": false
+          },
+          "uuid": "9a43f247-abff-45e6-8241-70edfb9c9e5f",
+          "expertUuids": {
+            "changed": true,
+            "value": [
+              "19916f72-27c2-4026-b374-63739a28811f",
+              "3eb33aee-8aa1-4c40-b068-395ae089f141"
+            ]
+          },
+          "entityUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
+          "questionType": "ListQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
+          "eventType": "EditQuestionEvent",
+          "requiredLevel": {
+            "changed": false
+          },
+          "itemTemplateQuestionUuids": {
+            "changed": false
+          },
+          "referenceUuids": {
+            "changed": false
+          },
+          "title": {
+            "changed": false
+          }
+        },
+        {
+          "text": "Chapter text",
+          "uuid": "dec48838-b562-4c7d-97cf-6d7fcfb9b2de",
+          "entityUuid": "7a1ccbc1-5320-46b8-970c-61de894edc14",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
+          "eventType": "AddChapterEvent",
+          "title": "Extra chapter"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "c5ee28a3-8c6b-45e6-a634-599a99c42c9c",
+          "entityUuid": "ff492cc2-ffde-45a4-b030-66fa97f76d70",
+          "questionType": "OptionsQuestion",
+          "parentUuid": "7a1ccbc1-5320-46b8-970c-61de894edc14",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Extra question"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "813a5c88-1c8f-4370-a48e-4886235a7878",
+          "entityUuid": "30e6b4fa-652a-4032-a8fe-d21323ad1396",
+          "questionType": "OptionsQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Question 1.0"
+        },
+        {
+          "text": {
+            "changed": false
+          },
+          "uuid": "6a63d89b-8886-4bf0-981c-0f044f9d0863",
+          "questionUuids": {
+            "changed": true,
+            "value": [
+              "30e6b4fa-652a-4032-a8fe-d21323ad1396",
+              "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
+              "9d70e07c-23bb-41e6-a305-0fa7782fb483"
+            ]
+          },
+          "entityUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
+          "eventType": "EditChapterEvent",
+          "title": {
+            "changed": false
+          }
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "2ade8b0d-f084-4481-98be-d9d2ea4f9b16",
+          "entityUuid": "f26b339b-8430-4ffe-a07f-869c0ce73055",
+          "questionType": "OptionsQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Extraordinary question"
+        },
+        {
+          "advice": null,
+          "uuid": "7fba5383-5374-49e8-a645-b7fad2ba657f",
+          "entityUuid": "914637e3-d7b3-406e-8266-0e898811219b",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
+          "eventType": "AddAnswerEvent",
+          "metricMeasures": [],
+          "label": "Answer 1.1c"
+        },
+        {
+          "tagUuids": {
+            "changed": false
+          },
+          "text": {
+            "changed": false
+          },
+          "uuid": "9f45376d-75b1-4ed7-9211-0f066c121304",
+          "expertUuids": {
+            "changed": false
+          },
+          "entityUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
+          "questionType": "OptionsQuestion",
+          "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
+          "eventType": "EditQuestionEvent",
+          "requiredLevel": {
+            "changed": false
+          },
+          "answerUuids": {
+            "changed": true,
+            "value": [
+              "914637e3-d7b3-406e-8266-0e898811219b",
+              "636e34f8-e88f-4ee6-8c41-d00103b5b4ec",
+              "116a80c4-24b1-41d0-b843-3c05a38e00f4"
+            ]
+          },
+          "referenceUuids": {
+            "changed": false
+          },
+          "title": {
+            "changed": false
+          }
+        },
+        {
+          "uuid": "9d01e655-29d4-4c9e-a8c5-0de04996ff4e",
+          "entityUuid": "0f1e6cba-370d-4469-80ca-0666045d1023",
+          "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
+          "eventType": "AddReferenceEvent",
+          "shortUuid": "nope",
+          "referenceType": "ResourcePageReference"
+        },
+        {
+          "requestUrl": "/",
+          "uuid": "be06f0e8-677c-4cc5-9f21-4d906b405407",
+          "entityUuid": "42740dec-2e74-4c4a-aedc-2b35f0fb3808",
+          "props": [],
+          "responseNameField": "name",
+          "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
+          "responseIdField": "id",
+          "eventType": "AddIntegrationEvent",
+          "name": "Extra integration",
+          "requestHeaders": {},
+          "id": "extraIntegration",
+          "responseListField": "",
+          "logo": "",
+          "requestMethod": "GET",
+          "itemUrl": "",
+          "requestBody": ""
+        },
+        {
+          "tagUuids": {
+            "changed": false
+          },
+          "uuid": "998bc20d-35b0-4fcb-9bf5-94c02e66799b",
+          "entityUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
+          "parentUuid": "00000000-0000-0000-0000-000000000000",
+          "eventType": "EditKnowledgeModelEvent",
+          "name": {
+            "changed": false
+          },
+          "chapterUuids": {
+            "changed": false
+          },
+          "integrationUuids": {
+            "changed": true,
+            "value": [
+              "d1aa25dd-c3db-46c8-b033-3c3af51073fc",
+              "5f1c5d50-67a9-4731-829c-b04fb84a5ccc",
+              "42740dec-2e74-4c4a-aedc-2b35f0fb3808"
+            ]
+          }
+        }
+      ],
+      "version": "1.11.0",
+      "id": "dsw:parent-km:1.11.0",
+      "mergeCheckpointPackageId": null,
+      "license": "nolicense",
+      "organizationId": "dsw",
+      "previousPackageId": "dsw:parent-km:1.10.0",
+      "description": "Parent KM for KM Migration E2E testing"
     }
   ],
   "name": "Parent KM",
-  "version": "1.9.3",
-  "id": "dsw:parent-km:1.9.3",
+  "version": "1.11.0",
+  "id": "dsw:parent-km:1.11.0",
   "organizationId": "dsw"
 }
