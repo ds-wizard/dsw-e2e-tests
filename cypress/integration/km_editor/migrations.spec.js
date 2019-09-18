@@ -384,10 +384,10 @@ describe('KM Editor Migrations', () => {
         migration.checkDiffTreeEdited(['4ae6a08a-c94e-4a0f-8391-24765ad8fdb4'])
         cy.clickBtn('Apply')
 
-        cy.contains('Question Type') // Change order of references
+        cy.contains('Type') // Change order of references
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.contains('Options')
                 }
             },
@@ -587,7 +587,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Edit question')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.contains('Options')
                 }
             },
@@ -894,7 +894,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Add question')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.get('ins').contains('Options')
                 }
             },
@@ -918,7 +918,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Question 1.3')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.get('ins').contains('List')
                 }
             },
@@ -944,7 +944,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Question 1.4')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.get('ins').contains('Value')
                 }
             },
@@ -976,7 +976,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Question 1.5')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.get('ins').contains('Integration')
                 }
             },
@@ -1017,7 +1017,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Edit question')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.contains('Options')
                 }
             },
@@ -1059,7 +1059,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Question 1.3')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.contains('List')
                 }
             },
@@ -1102,7 +1102,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Question 1.4')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.contains('Value')
                 }
             },
@@ -1145,7 +1145,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Question 1.5')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.contains('Integration')
                 }
             },
@@ -1191,7 +1191,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Question 1.5')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.contains('Integration')
                 }
             },
@@ -1243,7 +1243,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Edit question')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.get('del').contains('Value')
                     x.get('ins').contains('List')
                 }
@@ -1286,7 +1286,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Question 1.5 (value)')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.contains('Value')
                 }
             },
@@ -1328,7 +1328,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Question 1.3 (list)')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.get('del').contains('List')
                     x.get('ins').contains('Options')
                 }
@@ -1370,7 +1370,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Question 1.3 (options)')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.contains('Options')
                 }
             },
@@ -1412,7 +1412,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Question 1.2 (value)')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.get('del').contains('Options')
                     x.get('ins').contains('Value')
                 }
@@ -1455,7 +1455,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Question 1.2 (integration)')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.get('del').contains('Value')
                     x.get('ins').contains('Integration')
                 }
@@ -1511,7 +1511,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Delete question')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.get('del').contains('Value')
                 }
             },
@@ -1552,7 +1552,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Question 1.3 (options)')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.get('del').contains('Options')
                 }
             },
@@ -1569,12 +1569,12 @@ describe('KM Editor Migrations', () => {
             {
                 'label': 'Tags', 'validate': (x) => {
                     x.contains('-')
-                } 
+                }
             },
             {
                 'label': 'Answers', 'validate': (x) => {
                     x.contains('-')
-                } 
+                }
             },
             {
                 'label': 'References', 'validate': (x) => {
@@ -1593,7 +1593,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Question 1.4 (items)')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.get('del').contains('List')
                 }
             },
@@ -1634,7 +1634,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Question 1.5 (value)')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.get('del').contains('Value')
                 }
             },
@@ -1730,7 +1730,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Edit question') // reorder
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.contains('Options')
                 }
             },
@@ -1909,7 +1909,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Add question')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.get('ins').contains('Options')
                 }
             },
@@ -1933,7 +1933,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Followup value 1.1a.2')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.get('ins').contains('Value')
                 }
             },
@@ -1962,7 +1962,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Followup list 1.1a.3')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.get('ins').contains('List')
                 }
             },
@@ -2026,7 +2026,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Followup options 1.1a.1')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.contains('Options')
                 }
             },
@@ -2070,7 +2070,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Followup list 1.1a.3')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.contains('List')
                 }
             },
@@ -2115,7 +2115,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Followup value 1.1a.2')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.contains('Value')
                 }
             },
@@ -2275,7 +2275,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Question 1.2') // reorder
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.contains('List')
                 }
             },
@@ -2503,7 +2503,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Edit question')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.contains('Options')
                 },
             },
@@ -2555,7 +2555,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Question 1.2')
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.contains('List')
                 },
             },
@@ -2646,7 +2646,7 @@ describe('KM Editor Migrations', () => {
 
         migration.checkMigrationForm([
             {
-                'label': 'Question Type', 'validate': (x) => {
+                'label': 'Type', 'validate': (x) => {
                     x.contains('Options')
                 },
             },

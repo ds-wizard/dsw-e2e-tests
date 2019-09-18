@@ -1,16 +1,16 @@
 describe('Menu', () => {
     [{
         role: 'admin',
-        contains: ['Organization', 'Users', 'Knowledge Models', 'Questionnaire', 'KM Editor'],
+        contains: ['Organization', 'Users', 'Knowledge Model Editor', 'Knowledge Models', 'Questionnaire'],
         notContais: []
     }, {
         role: 'datasteward',
-        contains: ['Knowledge Models', 'Questionnaire', 'KM Editor'],
+        contains: ['Knowledge Model Editor', 'Knowledge Models', 'Questionnaire'],
         notContais: ['Organization', 'Users']
     }, {
         role: 'researcher',
         contains: ['Knowledge Models', 'Questionnaire'],
-        notContais: ['Organization', 'Users', 'KM Editor']
+        notContais: ['Organization', 'Users', 'Knowledge Model Editor']
     }].forEach((roleItems) => {
         it('should contain correct items for ' + roleItems.role, () => {
             cy.loginAs(roleItems.role)

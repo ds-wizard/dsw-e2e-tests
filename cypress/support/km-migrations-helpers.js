@@ -15,7 +15,6 @@ export function verifyPackageWithBundle(packageId, fixtureName, pkgParams) {
           const parentPkg = parentPkgBundle.packages.filter(innerPkg => {
               return innerPkg.id == packageId
           })[0]
-          
           Object.keys(pkgParams).forEach((key) => {
             cy.wrap(pkg).its(key).should('be', pkgParams[key])
           })

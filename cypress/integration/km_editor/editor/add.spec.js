@@ -388,7 +388,7 @@ describe('KM Editor Add Entity', () => {
 
                 // Add answer and save
                 editor.addInputChild('answer')
-                cy.get('.table-metrics tbody tr:nth-child(3) .form-check-toggle').click()
+                cy.get('.metric-view:nth-child(3) .form-check-toggle').click()
                 cy.fillFields(followUpAnswer)
                 editor.saveAndClose()
 

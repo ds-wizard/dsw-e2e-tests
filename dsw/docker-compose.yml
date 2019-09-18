@@ -2,7 +2,7 @@ version: '3'
 services:
 
   dsw_server:
-    image: datastewardshipwizard/server:develop
+    image: datastewardshipwizard/server:1.10.1-rc.1
     restart: always
     ports:
       - 3000:3000
@@ -13,7 +13,7 @@ services:
       - mongo
 
   dsw_client:
-    image: datastewardshipwizard/client:develop
+    image: datastewardshipwizard/client:1.10.1-rc.1
     restart: always
     ports:
       - 8080:80

@@ -262,7 +262,7 @@ describe('KM Editor Edit Entity', () => {
                 // Open editor and edit answer
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, answerTitle])
-                cy.get('.table-metrics tbody tr:nth-child(4) .form-check-toggle').click()
+                cy.get('.metric-view:nth-child(4) .form-check-toggle').click()
                 cy.fillFields(answer)
                 editor.saveAndClose()
 
