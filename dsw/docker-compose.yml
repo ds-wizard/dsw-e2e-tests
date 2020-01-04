@@ -2,18 +2,18 @@ version: '3'
 services:
 
   dsw_server:
-    image: datastewardshipwizard/server:1.10.1-rc.1
+    image: datastewardshipwizard/wizard-server:develop
     restart: always
     ports:
       - 3000:3000
     volumes:
-      - ./server/application.yml:/dsw/config/application.yml
-      - ./server/integration.yml:/dsw/config/integration.yml
+      - ./server/application.yml:/application/engine-wizard/config/application.yml
+      - ./server/integration.yml:/application/engine-wizard/config/integration.yml
     links:
       - mongo
 
   dsw_client:
-    image: datastewardshipwizard/client:1.10.1-rc.1
+    image: datastewardshipwizard/wizard-client:develop
     restart: always
     ports:
       - 8080:80
