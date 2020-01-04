@@ -177,6 +177,7 @@ describe('Questionnaire Migrations', () => {
         cy.get('.top-header-title').contains('1.6.0')
         questionnaire.selectAnswer('Yes')
         cy.get('.form-group label').contains('Can you speak their language?').should('exist')
+        cy.clickBtn('Discard')
     })
 
 
@@ -188,7 +189,7 @@ describe('Questionnaire Migrations', () => {
         cy.visitApp('/questionnaires')
         cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
         questionnaire.selectAnswer('Yes')
-        cy.clickBtn('Save')
+        questionnaire.saveAndClose()
 
         // initialize migration
         createMigrationTo(6)
@@ -224,6 +225,7 @@ describe('Questionnaire Migrations', () => {
         questionnaire.selectAnswer('Yes')
         cy.get('.form-group label').contains('Can you speak any of the languages used in the destination?').should('exist')
         cy.get('.form-group label').contains('Can you speak their language?').should('not.exist')
+        cy.clickBtn('Discard')
     })
 
 
@@ -235,7 +237,7 @@ describe('Questionnaire Migrations', () => {
         cy.visitApp('/questionnaires')
         cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
         questionnaire.selectAnswer('Yes')
-        cy.clickBtn('Save')
+        questionnaire.saveAndClose()
 
         // initialize migration
         createMigrationTo(7)

@@ -84,3 +84,9 @@ export function expectNoTodo() {
     cy.get('.Questionnaire .nav-link').contains('TODOs').should('not.exist')
     cy.get('.action-todo').should('not.exist')
 }
+
+
+export function saveAndClose() {
+    cy.clickBtn('Save')
+    cy.clickBtn('Close')
+}

@@ -38,7 +38,7 @@ describe('Basic Questionnaire Tests', () => {
         // select answer and save
         questionnaire.selectAnswer('Answer 1.1')
         cy.get('.alert-info').contains('This is an advice for answer 1.').should('be.visible')
-        cy.clickBtn('Save')
+        questionnaire.saveAndClose()
 
         // reopen and check the answer
         cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
@@ -49,7 +49,7 @@ describe('Basic Questionnaire Tests', () => {
         cy.clickLink('Clear answer')
         questionnaire.checkAnswerNotChecked('Answer 1.1')
         cy.get('.alert-info').contains('This is an advice for answer 1.').should('not.be.visible')
-        cy.clickBtn('Save')
+        questionnaire.saveAndClose()
 
         // reopen and check it was cleared
         cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
@@ -61,7 +61,7 @@ describe('Basic Questionnaire Tests', () => {
     it('answer follow-up question', () => {
         questionnaire.selectAnswer('Answer 1.2')
         questionnaire.selectAnswer('Follow-up answer 1.2')
-        cy.clickBtn('Save')
+        questionnaire.saveAndClose()
 
         cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
         questionnaire.checkAnswerChecked('Answer 1.2')
@@ -79,7 +79,7 @@ describe('Basic Questionnaire Tests', () => {
         // Add another item and save
         cy.clickBtn('Add')
         cy.get('.badge-human-identifier').contains('2.b.1').should('exist')
-        cy.clickBtn('Save')
+        questionnaire.saveAndClose()
 
         // Reopen questionnaire and check answers
         cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
@@ -92,7 +92,7 @@ describe('Basic Questionnaire Tests', () => {
         cy.get('.item:first-child() .btn-item-delete').click()
         cy.get('.badge-human-identifier').contains('2.a.1').should('not.exist')
         cy.get('.badge-human-identifier').contains('2.b.1').should('not.exist')
-        cy.clickBtn('Save')
+        questionnaire.saveAndClose()
 
         // Reopen and check items are not there
         cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
@@ -115,7 +115,7 @@ describe('Basic Questionnaire Tests', () => {
         it(`answer ${test.label}`, () => {
             // type answer and save
             questionnaire.typeAnswer(test.label, test.value)
-            cy.clickBtn('Save')
+            questionnaire.saveAndClose()
 
             // reopen questionnaire and check that the answer is there
             cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
@@ -130,7 +130,7 @@ describe('Basic Questionnaire Tests', () => {
 
         // type answer and save
         questionnaire.typeAnswerText(label, value)
-        cy.clickBtn('Save')
+        questionnaire.saveAndClose()
 
         // reopen questionnaire and check that the answer is there
         cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
@@ -146,7 +146,7 @@ describe('Basic Questionnaire Tests', () => {
         cy.clickBtn('Add')
         questionnaire.selectAnswer('Item answer 1.1')
         questionnaire.typeAnswer(label, value)
-        cy.clickBtn('Save')
+        questionnaire.saveAndClose()
 
         // reopen questionnaire and check answers
         cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
@@ -158,7 +158,7 @@ describe('Basic Questionnaire Tests', () => {
     it('answer question in different chapter', () => {
         cy.get('.nav-link').contains('Chapter 2').click()
         questionnaire.selectAnswer('Answer 2.2')
-        cy.clickBtn('Save')
+        questionnaire.saveAndClose()
 
         cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
         cy.get('.nav-link').contains('Chapter 2').click()
