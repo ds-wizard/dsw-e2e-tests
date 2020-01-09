@@ -3,6 +3,13 @@ export const PublicReadOnly = 'PublicReadOnlyQuestionnaire'
 export const Private = 'PrivateQuestionnaire'
 
 
+export function open(questionnaireName) {
+    cy.visitApp('/questionnaires')
+    cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
+    cy.get('.top-header').should('exist')
+}
+
+
 export function expectQuestion(question, visible) {
     const predicate = visible ? 'exist' : 'not.exist'
     cy.get('.form-group label').contains(question).should(predicate)
@@ -16,6 +23,11 @@ export function expectQuestions(questions, visible) {
 
 export function selectAnswer(answer) {
     cy.get('label').contains(answer).click()
+}
+
+
+export function openChapter(chapter) {
+    cy.get('.chapter-list .nav-link').contains(chapter).click()
 }
 
 
@@ -89,4 +101,17 @@ export function expectNoTodo() {
 export function saveAndClose() {
     cy.clickBtn('Save')
     cy.clickBtn('Close')
+}
+
+
+export function resolveAndFinalizeMigration() {
+    cy.clickBtn('Resolve')
+    cy.clickBtn('Finalize Migration')
+    cy.url().should('contain', '/questionnaires/detail/')
+}
+
+
+export function finalizeMigration() {
+    cy.clickBtn('Finalize Migration')
+    cy.url().should('contain', '/questionnaires/detail/')
 }

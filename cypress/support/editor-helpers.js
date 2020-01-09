@@ -76,6 +76,21 @@ export function openPreview() {
 }
 
 
+export function moveModalOpenItem(child) {
+    const childName = escapeRegExp(child)
+    const re = new RegExp(`^${childName}$`)
+    cy.get('.diff-tree-input').contains(re).closest('li').find('.caret').click()
+}
+
+
+export function moveModalSelect(child) {
+    const childName = escapeRegExp(child)
+    const re = new RegExp(`^${childName}$`)
+    cy.get('.diff-tree-input').contains(re).click()
+    cy.get('.btn-primary').contains('Move').click()
+}
+
+
 function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }

@@ -2,7 +2,7 @@ version: '3'
 services:
 
   dsw_server:
-    image: datastewardshipwizard/wizard-server:develop
+    image: docker.ds-wizard.org/engine/wizard-server:develop
     restart: always
     ports:
       - 3000:3000

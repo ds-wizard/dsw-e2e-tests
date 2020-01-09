@@ -3,46 +3,47 @@ import * as questionnaire from '../../support/questionnaire-helpers'
 
 describe('Questionnaire Migrations', () => {
     const questionnaireName = 'Test Questionnaire'
-    const getKM = (minor) => `questionnaire-migration/dsw_vacation-planning_1.${minor}.0.json`
-    const getPackageId = (minor) => `dsw:vacation-planning:1.${minor}.0`
+    const getKM = (km, minor) => `questionnaire-migration/dsw_${km}_1.${minor}.0.json`
+    const getPackageId = (km, minor) => `dsw:${km}:1.${minor}.0`
 
-
-    const createQuestionnaire = (minor) => {
+    const createQuestionnaire = (km, minor) => {
         cy.createQuestionnaire({
             accessibility: questionnaire.PublicReadOnly,
             name: questionnaireName,
-            packageId: getPackageId(minor)
+            packageId: getPackageId(km, minor)
         })
     }
 
-
-    const createMigrationTo = (minor) => {
+    const createMigrationTo = (km, minor) => {
         cy.visitApp('/questionnaires')
         cy.clickListingItemAction(questionnaireName, 'Create Migration')
-        cy.fillFields({ s_packageId: getPackageId(minor) })
+        cy.fillFields({ s_packageId: getPackageId(km, minor) })
         cy.clickBtn('Create')
         cy.get('.Questionnaire__Migration').should('exist')
     }
 
-
-    before(() => {
+    const importKM = (kmId, minorVersions) => {
         cy.task('mongo:delete', {
             collection: 'packages',
-            args: { kmId: 'vacation-planning' }
+            args: { kmId }
         })
 
-        for (let i = 0; i < 8; i++) {
-            cy.fixture(getKM(i)).then((km) => {
-                cy.importKM(km)
-            })
-        }
+        cy.fixture(getKM(kmId, minorVersions)).then((km) => {
+            cy.importKM(km)
+        })
+    }
+
+
+    before(() => {
+        importKM('vacation-planning', 7)
+        importKM('move-test', 5)
     })
 
 
     beforeEach(() => {
         cy.task('mongo:delete', {
             collection: 'questionnaires',
-            args: { name: questionnaireName }
+            args: {}
         })
         cy.loginAs('researcher')
     })
@@ -50,17 +51,13 @@ describe('Questionnaire Migrations', () => {
 
     it('question title change', () => {
         // initialize migration
-        createQuestionnaire(0)
-        createMigrationTo(1)
+        createQuestionnaire('vacation-planning', 0)
+        createMigrationTo('vacation-planning', 1)
 
-        // check changes
+        // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Question Changed')
         cy.get('#question-3b5f1365-20c2-4493-9768-2e2644597356').should('have.class', 'highlighted').and('be.visible')
-
-        // resolve
-        cy.clickBtn('Resolve')
-        cy.clickBtn('Finalize Migration')
-        cy.url().should('contain', '/questionnaires/detail/')
+        questionnaire.resolveAndFinalizeMigration()
 
         // check correct version
         cy.get('.top-header-title').contains('1.1.0')
@@ -73,41 +70,33 @@ describe('Questionnaire Migrations', () => {
 
     it('question text change', () => {
         // initialize migration
-        createQuestionnaire(1)
-        createMigrationTo(2)
+        createQuestionnaire('vacation-planning', 1)
+        createMigrationTo('vacation-planning', 2)
 
-        // check changes
+        // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Question Changed').click()
         cy.get('#question-c0964b2e-b5b2-48ac-94f2-7d11e3626a94').should('have.class', 'highlighted').and('be.visible')
-
-        // resolve
-        cy.clickBtn('Resolve')
-        cy.clickBtn('Finalize Migration')
-        cy.url().should('contain', '/questionnaires/detail/')
-
+        questionnaire.resolveAndFinalizeMigration()
+        
         // check correct version
         cy.get('.top-header-title').contains('1.2.0')
 
         // check migrated things
-        cy.get('.chapter-list .nav-link').contains('After you return').click()
+        questionnaire.openChapter('After you return')
         cy.get('.form-group .form-text').contains('Also, think about how you share them with your friends.').should('exist')
     })
 
 
     it('question level change', () => {
         // initialize migration
-        createQuestionnaire(2)
-        createMigrationTo(3)
+        createQuestionnaire('vacation-planning', 2)
+        createMigrationTo('vacation-planning', 3)
 
-        // check changes
+        // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Question Changed').click()
         cy.get('#question-045ff688-fdfa-4d9b-941f-df9c725e0f81').should('have.class', 'highlighted').and('be.visible')
-
-        // resolve
-        cy.clickBtn('Resolve')
-        cy.clickBtn('Finalize Migration')
-        cy.url().should('contain', '/questionnaires/detail/')
-
+        questionnaire.resolveAndFinalizeMigration()
+        
         // check correct version
         cy.get('.top-header-title').contains('1.3.0')
 
@@ -118,19 +107,15 @@ describe('Questionnaire Migrations', () => {
 
     it('answer change', () => {
         // initialize migration
-        createQuestionnaire(3)
-        createMigrationTo(4)
+        createQuestionnaire('vacation-planning', 3)
+        createMigrationTo('vacation-planning', 4)
 
-        // check changes
+        // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Question Changed').click()
         cy.get('#question-59b4c6e8-ac0d-40b9-9865-e2c5b86f2dba').should('have.class', 'highlighted').and('be.visible')
         cy.get('.radio .diff-added').contains(' or motorbike')
-
-        // resolve
-        cy.clickBtn('Resolve')
-        cy.clickBtn('Finalize Migration')
-        cy.url().should('contain', '/questionnaires/detail/')
-
+        questionnaire.resolveAndFinalizeMigration()
+        
         // check correct version
         cy.get('.top-header-title').contains('1.4.0')
 
@@ -141,37 +126,32 @@ describe('Questionnaire Migrations', () => {
 
     it('new question', () => {
         // initialize migration
-        createQuestionnaire(4)
-        createMigrationTo(5)
+        createQuestionnaire('vacation-planning', 4)
+        createMigrationTo('vacation-planning', 5)
 
-        // check changes
+        // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('New Question').click()
         cy.get('#question-66c327ea-39fe-402a-9a7c-b5ab349ccebe').should('have.class', 'highlighted').and('be.visible')
         cy.get('label .diff-added').contains('Will you organize a presentation about your vacation?')
-
-        // resolve
-        cy.clickBtn('Resolve')
-        cy.clickBtn('Finalize Migration')
-        cy.url().should('contain', '/questionnaires/detail/')
+        questionnaire.resolveAndFinalizeMigration()
 
         // check correct version
         cy.get('.top-header-title').contains('1.5.0')
 
         // check migrated things
-        cy.get('.chapter-list .nav-link').contains('After you return').click()
+        questionnaire.openChapter('After you return')
         cy.get('.form-group label').contains('Will you organize a presentation about your vacation?').should('exist')
     })
 
 
     it('new nested question (not open)', () => {
         // initialize migration
-        createQuestionnaire(5)
-        createMigrationTo(6)
+        createQuestionnaire('vacation-planning', 5)
+        createMigrationTo('vacation-planning', 6)
 
-        // check changes
+        // check changes and finalize
         cy.get('.full-page-illustrated-message').contains('No changes to review')
-        cy.clickBtn('Finalize Migration')
-        cy.url().should('contain', '/questionnaires/detail/')
+        questionnaire.finalizeMigration()
 
         // check correct version
         cy.get('.top-header-title').contains('1.6.0')
@@ -183,7 +163,7 @@ describe('Questionnaire Migrations', () => {
 
     it('new nested question (open)', () => {
         // initialize questionnaire
-        createQuestionnaire(5)
+        createQuestionnaire('vacation-planning', 5)
 
         // fill the answer, so the subtree is open
         cy.visitApp('/questionnaires')
@@ -192,18 +172,14 @@ describe('Questionnaire Migrations', () => {
         questionnaire.saveAndClose()
 
         // initialize migration
-        createMigrationTo(6)
+        createMigrationTo('vacation-planning', 6)
 
-        // check changes
+        // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('New Question').click()
         cy.get('#question-bb34bf7c-ca61-4b69-8800-3be9d5f1e50c').should('have.class', 'highlighted').and('be.visible')
         cy.get('label .diff-added').contains('Can you speak their language?')
-
-        // resolve
-        cy.clickBtn('Resolve')
-        cy.clickBtn('Finalize Migration')
-        cy.url().should('contain', '/questionnaires/detail/')
-
+        questionnaire.resolveAndFinalizeMigration()
+      
         // check correct version
         cy.get('.top-header-title').contains('1.6.0')
         cy.get('.form-group label').contains('Can you speak their language?').should('exist')
@@ -212,13 +188,12 @@ describe('Questionnaire Migrations', () => {
 
     it('changed question (not open)', () => {
         // initialize migration
-        createQuestionnaire(6)
-        createMigrationTo(7)
+        createQuestionnaire('vacation-planning', 6)
+        createMigrationTo('vacation-planning', 7)
 
-        // check changes
+        // check changes and finalize
         cy.get('.full-page-illustrated-message').contains('No changes to review')
-        cy.clickBtn('Finalize Migration')
-        cy.url().should('contain', '/questionnaires/detail/')
+        questionnaire.finalizeMigration()
 
         // check correct version
         cy.get('.top-header-title').contains('1.7.0')
@@ -231,7 +206,7 @@ describe('Questionnaire Migrations', () => {
 
     it('changed question (open)', () => {
         // initialize questionnaire
-        createQuestionnaire(6)
+        createQuestionnaire('vacation-planning', 6)
 
         // fill the answer, so the subtree is open
         cy.visitApp('/questionnaires')
@@ -240,16 +215,12 @@ describe('Questionnaire Migrations', () => {
         questionnaire.saveAndClose()
 
         // initialize migration
-        createMigrationTo(7)
+        createMigrationTo('vacation-planning', 7)
 
-        // check changes
+        // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Question Changed').click()
         cy.get('#question-bb34bf7c-ca61-4b69-8800-3be9d5f1e50c').should('have.class', 'highlighted').and('be.visible')
-
-        // resolve
-        cy.clickBtn('Resolve')
-        cy.clickBtn('Finalize Migration')
-        cy.url().should('contain', '/questionnaires/detail/')
+        questionnaire.resolveAndFinalizeMigration()
 
         // check correct version
         cy.get('.top-header-title').contains('1.7.0')
@@ -260,16 +231,14 @@ describe('Questionnaire Migrations', () => {
 
     it('add todo', () => {
         // initialize migration
-        createQuestionnaire(0)
-        createMigrationTo(1)
+        createQuestionnaire('vacation-planning', 0)
+        createMigrationTo('vacation-planning', 1)
 
         // add todo
         questionnaire.addTodoFor('How many people will be in your group?')
 
         // resolve
-        cy.clickBtn('Resolve')
-        cy.clickBtn('Finalize Migration')
-        cy.url().should('contain', '/questionnaires/detail/')
+        questionnaire.resolveAndFinalizeMigration()
 
         // check correct version
         cy.get('.top-header-title').contains('1.1.0')
@@ -277,5 +246,138 @@ describe('Questionnaire Migrations', () => {
         // check todo
         questionnaire.expectTodoCount(1)
         questionnaire.expectTodoFor('How many people will be in your group?')
+    })
+
+    it('move answer with follow-ups', () => {
+        // initialize questionnaire
+        createQuestionnaire('move-test', 0)
+
+        // fill in the answer subtree
+        cy.visitApp('/questionnaires')
+        cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
+        questionnaire.selectAnswer('Answer 1.1')
+        questionnaire.selectAnswer('Answer 3.1')
+        questionnaire.saveAndClose()
+
+        // initialize migration
+        createMigrationTo('move-test', 1)
+
+        // check changes and finalize
+        cy.get('.full-page-illustrated-message').contains('No changes to review')
+        questionnaire.finalizeMigration()
+
+        // check migrated things
+        cy.get('#question-f9ad8598-4789-4b8a-8254-39af6a8d7101').contains('Answer 1.1')
+        questionnaire.checkAnswerNotChecked('Answer 1.1')
+        questionnaire.selectAnswer('Answer 1.1')
+        questionnaire.checkAnswerNotChecked('Answer 3.1')
+        questionnaire.saveAndClose()
+    })
+
+    it('move question with answers from chapter to chapter', () => {
+        // initialize questionnaire
+        createQuestionnaire('move-test', 1)
+
+        // fill in the answers
+        cy.visitApp('/questionnaires')
+        cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
+        questionnaire.selectAnswer('Answer 1.1')
+        questionnaire.selectAnswer('Answer 3.2')
+        questionnaire.saveAndClose()
+
+        // initialize migration
+        createMigrationTo('move-test', 2)
+
+        // check changes and finalize
+        cy.get('.changes-view .list-group-item').contains('Moved Question').click()
+        cy.get('#question-f9ad8598-4789-4b8a-8254-39af6a8d7101').should('have.class', 'highlighted').and('be.visible')
+        questionnaire.resolveAndFinalizeMigration()
+
+        // check migrated things
+        questionnaire.openChapter('Chapter 2')
+        questionnaire.checkAnswerChecked('Answer 1.1')
+        questionnaire.checkAnswerChecked('Answer 3.2')
+    })
+
+    it('move question within an item', () => {
+        // initialize questionnaire
+        createQuestionnaire('move-test', 2)
+
+        // fill in the answers
+        questionnaire.open(questionnaireName)
+        cy.clickBtn('Add')
+        questionnaire.selectAnswer('Answer 5.1')
+        questionnaire.selectAnswer('Answer 6.2')
+        cy.get('#question-d2135066-b758-4e4a-bf0d-3f770426b67c > .btn').contains('Add').click()
+        questionnaire.selectAnswer('Answer 8.2')
+        questionnaire.typeAnswer('Question 9', 'Value')
+        questionnaire.saveAndClose()
+
+        // initialize migration
+        createMigrationTo('move-test', 3)
+
+        // check changes and finalize
+        cy.get('.changes-view .list-group-item').contains('Moved Question').click()
+        cy.get('#question-d2135066-b758-4e4a-bf0d-3f770426b67c').should('have.class', 'highlighted').and('be.visible')
+        questionnaire.resolveAndFinalizeMigration()
+
+        // check migrated things
+        cy.get('#question-ff773f6b-b1b8-4d08-bffa-133736f8c850').contains('Question 7')
+        questionnaire.checkAnswerChecked('Answer 5.1')
+        questionnaire.checkAnswerChecked('Answer 6.2')
+        questionnaire.checkAnswerChecked('Answer 8.2')
+        questionnaire.checkAnswer('Question 9', 'Value')
+    })
+
+    it('move question out of an item', () => {
+        // initialize questionnaire
+        createQuestionnaire('move-test', 3)
+
+        // fill in the answers
+        questionnaire.open(questionnaireName)
+        cy.clickBtn('Add')
+        questionnaire.selectAnswer('Answer 6.2')
+        cy.get('#question-d2135066-b758-4e4a-bf0d-3f770426b67c > .btn').contains('Add').click()
+        questionnaire.selectAnswer('Answer 8.2')
+        questionnaire.typeAnswer('Question 9', 'Value')
+        questionnaire.saveAndClose()
+
+        // initialize migration
+        createMigrationTo('move-test', 4)
+    
+        // check changes and finalize
+        cy.get('.changes-view .list-group-item').contains('Moved Question').click()
+        cy.get('#question-ff773f6b-b1b8-4d08-bffa-133736f8c850').should('have.class', 'highlighted').and('be.visible')
+        questionnaire.resolveAndFinalizeMigration()
+
+        // check migrated things
+        questionnaire.openChapter('Chapter 2')
+        questionnaire.checkAnswerNotChecked('Answer 6.2')
+    })
+
+    it('move question into an item', () => {
+        // initialize questionnaire
+        createQuestionnaire('move-test', 4)
+    
+        // fill in the answers 
+        questionnaire.open(questionnaireName)
+        cy.clickBtn('Add')
+        questionnaire.selectAnswer('Answer 5.1')
+        questionnaire.openChapter('Chapter 2')
+        questionnaire.selectAnswer('Answer 1.1')
+        questionnaire.selectAnswer('Answer 3.1')
+        questionnaire.saveAndClose()
+
+        // initialize migration
+        createMigrationTo('move-test', 5)
+
+        // check changes and finalize
+        cy.get('.changes-view .list-group-item').contains('Moved Question').click()
+        cy.get('#question-f9ad8598-4789-4b8a-8254-39af6a8d7101').should('have.class', 'highlighted').and('be.visible')
+        questionnaire.resolveAndFinalizeMigration()
+
+        // check migrated things
+        cy.get('#question-538f78ec-dded-4b6e-9c85-825a0c2b09bc').contains('Question 2')
+        questionnaire.checkAnswerNotChecked('Answer 1.1')
     })
 })

@@ -20,7 +20,7 @@ describe('Basic Questionnaire Tests', () => {
     beforeEach(() => {
         cy.task('mongo:delete', {
             collection: 'questionnaires',
-            args: { name: questionnaireName }
+            args: {}
         })
         cy.createQuestionnaire({
             accessibility: questionnaire.PublicReadOnly,

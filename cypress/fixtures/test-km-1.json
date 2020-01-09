@@ -48,6 +48,19 @@
                     "title": "Chapter 1"
                 },
                 {
+                    "chapterUuid": "153861ab-86be-4006-aa6b-bc8bd2ed2f31",
+                    "path": [
+                        {
+                            "uuid": "05917b70-873f-449f-ab3c-fad225da403e",
+                            "type": "km"
+                        }
+                    ],
+                    "text": "Chapter text",
+                    "uuid": "082b924e-74eb-4dbd-b9e6-1578101fa727",
+                    "eventType": "AddChapterEvent",
+                    "title": "Chapter 2"
+                },
+                {
                     "tagUuid": "07d3275f-71f9-4384-9074-de34650ae1a3",
                     "path": [
                         {

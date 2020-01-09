@@ -1,0 +1,233 @@
+{
+    "metamodelVersion": 5,
+    "kmId": "move-parent-km",
+    "packages": [
+        {
+            "readme": "# Move Parent\n\n- 1.0.0 - Initial KM",
+            "createdAt": "2020-01-10T08:28:02.081Z",
+            "metamodelVersion": 5,
+            "kmId": "move-parent-km",
+            "forkOfPackageId": null,
+            "name": "Move Parent",
+            "events": [
+                {
+                    "uuid": "f35cfde3-9e9b-475f-b7cf-b2f40bfdc849",
+                    "entityUuid": "3ab56dc9-8aa0-4bfe-b0cb-2f175f0a9159",
+                    "parentUuid": "00000000-0000-0000-0000-000000000000",
+                    "eventType": "AddKnowledgeModelEvent",
+                    "name": "New knowledge model"
+                },
+                {
+                    "tagUuids": {
+                        "changed": false
+                    },
+                    "uuid": "cec37055-93c9-4ba7-aae1-d72d74cf6f5e",
+                    "entityUuid": "3ab56dc9-8aa0-4bfe-b0cb-2f175f0a9159",
+                    "parentUuid": "00000000-0000-0000-0000-000000000000",
+                    "eventType": "EditKnowledgeModelEvent",
+                    "name": {
+                        "changed": true,
+                        "value": "Move Parent KM"
+                    },
+                    "chapterUuids": {
+                        "changed": false
+                    },
+                    "integrationUuids": {
+                        "changed": false
+                    }
+                },
+                {
+                    "text": "Chapter text",
+                    "uuid": "8ab1a00d-9328-494d-8433-7f95361c3449",
+                    "entityUuid": "c2089a84-d337-4fd1-bcc3-ea242ee1fb9a",
+                    "parentUuid": "3ab56dc9-8aa0-4bfe-b0cb-2f175f0a9159",
+                    "eventType": "AddChapterEvent",
+                    "title": "Chapter 1"
+                },
+                {
+                    "tagUuids": [],
+                    "text": null,
+                    "uuid": "7c2baa2f-eb80-4610-981c-281269ff9332",
+                    "entityUuid": "57bcdbb2-69ce-40aa-8203-05c1f69babf0",
+                    "questionType": "OptionsQuestion",
+                    "parentUuid": "c2089a84-d337-4fd1-bcc3-ea242ee1fb9a",
+                    "eventType": "AddQuestionEvent",
+                    "requiredLevel": null,
+                    "title": "Question 1"
+                },
+                {
+                    "advice": null,
+                    "uuid": "a2c5977a-1406-4840-a2b4-24ab2c5b5a74",
+                    "entityUuid": "886cd093-3952-4eb1-93fb-03cb1fb1caef",
+                    "parentUuid": "57bcdbb2-69ce-40aa-8203-05c1f69babf0",
+                    "eventType": "AddAnswerEvent",
+                    "metricMeasures": [],
+                    "label": "Answer 1.1"
+                },
+                {
+                    "advice": null,
+                    "uuid": "3474ce44-0449-43bf-bb07-c2366f00b3fe",
+                    "entityUuid": "f1596bba-cfe2-4ff8-9d79-b7d708f8ef3c",
+                    "parentUuid": "57bcdbb2-69ce-40aa-8203-05c1f69babf0",
+                    "eventType": "AddAnswerEvent",
+                    "metricMeasures": [],
+                    "label": "Answer 1.2"
+                },
+                {
+                    "uuid": "c6a701c6-419a-4ecd-820b-50470d1e0ac0",
+                    "url": "http://example.com",
+                    "entityUuid": "9da53dd6-5bbe-4ebc-9793-29bb1acaf073",
+                    "parentUuid": "57bcdbb2-69ce-40aa-8203-05c1f69babf0",
+                    "eventType": "AddReferenceEvent",
+                    "referenceType": "URLReference",
+                    "label": "Reference 1.1"
+                },
+                {
+                    "email": "expert@example.com",
+                    "uuid": "a4d88296-8418-4ce7-af17-c45522be61f3",
+                    "entityUuid": "6a106a5b-a51a-4434-8314-ddabbc87b543",
+                    "parentUuid": "57bcdbb2-69ce-40aa-8203-05c1f69babf0",
+                    "eventType": "AddExpertEvent",
+                    "name": "Expert 1.1"
+                },
+                {
+                    "tagUuids": [],
+                    "text": null,
+                    "uuid": "7fdfe567-22f0-4e28-adab-1152c3c9d3ac",
+                    "entityUuid": "9ae39a2e-fe0d-40bc-94b2-14b38983232e",
+                    "questionType": "OptionsQuestion",
+                    "parentUuid": "c2089a84-d337-4fd1-bcc3-ea242ee1fb9a",
+                    "eventType": "AddQuestionEvent",
+                    "requiredLevel": null,
+                    "title": "Question 2"
+                },
+                {
+                    "text": "Chapter text",
+                    "uuid": "4232b2a6-3e61-4fc6-88e1-5086e42723e4",
+                    "entityUuid": "e8f4d357-5d2c-43bd-891e-b1838d9c692c",
+                    "parentUuid": "3ab56dc9-8aa0-4bfe-b0cb-2f175f0a9159",
+                    "eventType": "AddChapterEvent",
+                    "title": "Chapter 2"
+                },
+                {
+                    "tagUuids": [],
+                    "text": null,
+                    "uuid": "13aff5ac-abbf-4231-8670-7a01f8577d69",
+                    "entityUuid": "14c9bc82-a49f-48ab-9c38-8f039a28057d",
+                    "questionType": "ListQuestion",
+                    "parentUuid": "e8f4d357-5d2c-43bd-891e-b1838d9c692c",
+                    "eventType": "AddQuestionEvent",
+                    "requiredLevel": null,
+                    "title": "Question 3"
+                }
+            ],
+            "version": "1.0.0",
+            "id": "dsw:move-parent-km:1.0.0",
+            "mergeCheckpointPackageId": null,
+            "license": "CC-BY-4.0",
+            "organizationId": "dsw",
+            "previousPackageId": null,
+            "description": "Parent KM for Move Tests"
+        },
+        {
+            "readme": "# Move Parent\n\n- 1.1.0 - Move Reference: C1.Q1 -> C1.Q2\n- 1.0.0 - Initial KM",
+            "createdAt": "2020-01-10T08:28:55.651Z",
+            "metamodelVersion": 5,
+            "kmId": "move-parent-km",
+            "forkOfPackageId": null,
+            "name": "Move Parent",
+            "events": [
+                {
+                    "uuid": "c0561ae4-bfa0-421f-937e-0b6a65f919a3",
+                    "entityUuid": "9da53dd6-5bbe-4ebc-9793-29bb1acaf073",
+                    "parentUuid": "57bcdbb2-69ce-40aa-8203-05c1f69babf0",
+                    "targetUuid": "9ae39a2e-fe0d-40bc-94b2-14b38983232e",
+                    "eventType": "MoveReferenceEvent"
+                }
+            ],
+            "version": "1.1.0",
+            "id": "dsw:move-parent-km:1.1.0",
+            "mergeCheckpointPackageId": null,
+            "license": "CC-BY-4.0",
+            "organizationId": "dsw",
+            "previousPackageId": "dsw:move-parent-km:1.0.0",
+            "description": "Parent KM for Move Tests"
+        },
+        {
+            "readme": "# Move Parent\n\n- 1.2.0 - Move Expert: C1.Q1. -> C1.Q2\n- 1.1.0 - Move Reference: C1.Q1 -> C1.Q2\n- 1.0.0 - Initial KM",
+            "createdAt": "2020-01-10T08:29:33.573Z",
+            "metamodelVersion": 5,
+            "kmId": "move-parent-km",
+            "forkOfPackageId": null,
+            "name": "Move Parent",
+            "events": [
+                {
+                    "uuid": "1604a30b-e2fe-49c5-88cc-b9e9dc3857c5",
+                    "entityUuid": "6a106a5b-a51a-4434-8314-ddabbc87b543",
+                    "parentUuid": "57bcdbb2-69ce-40aa-8203-05c1f69babf0",
+                    "targetUuid": "9ae39a2e-fe0d-40bc-94b2-14b38983232e",
+                    "eventType": "MoveExpertEvent"
+                }
+            ],
+            "version": "1.2.0",
+            "id": "dsw:move-parent-km:1.2.0",
+            "mergeCheckpointPackageId": null,
+            "license": "CC-BY-4.0",
+            "organizationId": "dsw",
+            "previousPackageId": "dsw:move-parent-km:1.1.0",
+            "description": "Parent KM for Move Tests"
+        },
+        {
+            "readme": "# Move Parent\n\n- 1.3.0 - Move Answer: C1.Q1 -> C1.Q2\n- 1.2.0 - Move Expert: C1.Q1. -> C1.Q2\n- 1.1.0 - Move Reference: C1.Q1 -> C1.Q2\n- 1.0.0 - Initial KM",
+            "createdAt": "2020-01-10T08:30:12.365Z",
+            "metamodelVersion": 5,
+            "kmId": "move-parent-km",
+            "forkOfPackageId": null,
+            "name": "Move Parent",
+            "events": [
+                {
+                    "uuid": "33578d69-2e82-4229-8969-39b246b698a4",
+                    "entityUuid": "886cd093-3952-4eb1-93fb-03cb1fb1caef",
+                    "parentUuid": "57bcdbb2-69ce-40aa-8203-05c1f69babf0",
+                    "targetUuid": "9ae39a2e-fe0d-40bc-94b2-14b38983232e",
+                    "eventType": "MoveAnswerEvent"
+                }
+            ],
+            "version": "1.3.0",
+            "id": "dsw:move-parent-km:1.3.0",
+            "mergeCheckpointPackageId": null,
+            "license": "CC-BY-4.0",
+            "organizationId": "dsw",
+            "previousPackageId": "dsw:move-parent-km:1.2.0",
+            "description": "Parent KM for Move Tests"
+        },
+        {
+            "readme": "# Move Parent\n\n- 1.4.0 - Move Question: C1 -> C1.Q3\n- 1.3.0 - Move Answer: C1.Q1 -> C1.Q2\n- 1.2.0 - Move Expert: C1.Q1. -> C1.Q2\n- 1.1.0 - Move Reference: C1.Q1 -> C1.Q2\n- 1.0.0 - Initial KM",
+            "createdAt": "2020-01-10T08:31:16.501Z",
+            "metamodelVersion": 5,
+            "kmId": "move-parent-km",
+            "forkOfPackageId": null,
+            "name": "Move Parent",
+            "events": [
+                {
+                    "uuid": "8add1939-a2e9-4131-a285-d209a061a0a6",
+                    "entityUuid": "57bcdbb2-69ce-40aa-8203-05c1f69babf0",
+                    "parentUuid": "c2089a84-d337-4fd1-bcc3-ea242ee1fb9a",
+                    "targetUuid": "14c9bc82-a49f-48ab-9c38-8f039a28057d",
+                    "eventType": "MoveQuestionEvent"
+                }
+            ],
+            "version": "1.4.0",
+            "id": "dsw:move-parent-km:1.4.0",
+            "mergeCheckpointPackageId": null,
+            "license": "CC-BY-4.0",
+            "organizationId": "dsw",
+            "previousPackageId": "dsw:move-parent-km:1.3.0",
+            "description": "Parent KM for Move Tests"
+        }
+    ],
+    "name": "Move Parent",
+    "version": "1.4.0",
+    "id": "dsw:move-parent-km:1.4.0",
+    "organizationId": "dsw"
+}

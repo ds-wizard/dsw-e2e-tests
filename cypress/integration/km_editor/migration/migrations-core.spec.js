@@ -1,14 +1,16 @@
-import * as migration from '../../support/km-migrations-helpers'
+import * as migration from '../../../support/migration-helpers'
 
 describe('KM Editor Migrations', () => {
+    const config = new migration.Config(
+        'child-km',
+        'parent-km',
+        'Child KM'
+    )
+
     before(() => {
         cy.task('mongo:delete', {
             collection: 'packages',
-            args: { kmId: migration.parentKmId }
-        })
-        cy.task('mongo:delete', {
-            collection: 'branches',
-            args: { kmId: migration.parentKmId }
+            args: { kmId: config.parentKmId }
         })
         cy.task('mongo:updateOne', {
             collection: 'organizations',
@@ -22,19 +24,17 @@ describe('KM Editor Migrations', () => {
         })
 
         // import parent-km with latest (inc. all lower version)
-        cy.fixture(migration.getParentKM('1.11.0')).then((km) => {
-            cy.importKM(km)
-        })
+        cy.fixture(config.getParentKM('1.11.0')).then(cy.importKM)
     })
 
     beforeEach(() => {
         cy.task('mongo:delete', {
             collection: 'packages',
-            args: { kmId: migration.childKmId }
+            args: { kmId: config.childKmId }
         })
         cy.task('mongo:delete', {
             collection: 'branches',
-            args: { kmId: migration.childKmId }
+            args: {}
         })
 
         cy.loginAs('datasteward')
@@ -42,32 +42,34 @@ describe('KM Editor Migrations', () => {
 
     // BASIC
     it('contains upgrade option', () => {
-        migration.prepareChildKmEditor('1.0.0')
+        migration.prepareChildKmEditor(config, '1.0.0')
 
-        cy.getListingItem(migration.childKmId).should('contain', migration.editorName).and('contain', migration.getParentPackageId('1.0.0'))
-        cy.clickListingItemAction(migration.editorName, 'Upgrade')
+        cy.getListingItem(config.childKmId)
+            .should('contain', config.editorName)
+            .and('contain', config.getParentPackageId('1.0.0'))
+        cy.clickListingItemAction(config.editorName, 'Upgrade')
         cy.clickBtn('Cancel')
     })
 
     it('can pause, resume, and cancel migration', () => {
-        migration.createMigration('1.0.0', '1.10.0')
+        migration.createMigration(config, '1.0.0', '1.10.0')
 
         cy.contains('Add chapter')
         cy.clickBtn('Apply')
 
         cy.visitApp('/km-editor')
-        cy.clickListingItemAction(migration.editorName, 'Continue Migration')
+        cy.clickListingItemAction(config.editorName, 'Continue Migration')
         cy.contains('Add question')
         cy.clickBtn('Reject')
 
         cy.visitApp('/km-editor')
-        cy.clickListingItemAction(migration.editorName, 'Cancel Migration')
-        cy.getListingItem(migration.childKmId).should('contain', migration.editorName).and('contain', 'Upgrade')
+        cy.clickListingItemAction(config.editorName, 'Cancel Migration')
+        cy.getListingItem(config.childKmId).should('contain', config.editorName).and('contain', 'Upgrade')
     })
 
     // CHAPTER
     it('can migrate with applying "add chapter"', () => {
-        migration.createMigration('1.0.0', '1.1.0')
+        migration.createMigration(config, '1.0.0', '1.1.0')
 
         cy.contains('Add chapter')
         migration.checkMigrationForm([
@@ -91,11 +93,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply') // some question (no assertions now)
 
         migration.finishMigrationAndPublish(1, 1, 0)
-        migration.verifyChildPackageForMigration('1.1.0', '1.0.0')
+        migration.verifyChildPackageForMigration(config, '1.1.0', '1.0.0')
     })
 
     it('can migrate with applying "edit chapter"', () => {
-        migration.createMigration('1.1.0', '1.1.1')
+        migration.createMigration(config, '1.1.0', '1.1.1')
 
         cy.contains('Edit chapter')
         migration.checkMigrationForm([
@@ -148,11 +150,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 1, 1)
-        migration.verifyChildPackageForMigration('1.1.1', '1.1.0')
+        migration.verifyChildPackageForMigration(config, '1.1.1', '1.1.0')
     })
 
     it('can migrate with applying "delete chapter"', () => {
-        migration.createMigration('1.1.1', '1.1.2')
+        migration.createMigration(config, '1.1.1', '1.1.2')
 
         cy.contains('Delete chapter')
         migration.checkMigrationForm([
@@ -178,12 +180,12 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 1, 2)
-        migration.verifyChildPackageForMigration('1.1.2', '1.1.1')
+        migration.verifyChildPackageForMigration(config, '1.1.2', '1.1.1')
     })
 
     // EXPERT
     it('can migrate with applying "add expert"', () => {
-        migration.createMigration('1.1.2', '1.2.0')
+        migration.createMigration(config, '1.1.2', '1.2.0')
 
         cy.contains('Add expert')
         migration.checkMigrationForm([
@@ -202,11 +204,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 2, 0)
-        migration.verifyChildPackageForMigration('1.2.0', '1.1.2')
+        migration.verifyChildPackageForMigration(config, '1.2.0', '1.1.2')
     })
 
     it('can migrate with applying "edit expert"', () => {
-        migration.createMigration('1.2.0', '1.2.1')
+        migration.createMigration(config, '1.2.0', '1.2.1')
 
         cy.contains('Edit expert')
         migration.checkMigrationForm([
@@ -227,11 +229,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 2, 1)
-        migration.verifyChildPackageForMigration('1.2.1', '1.2.0')
+        migration.verifyChildPackageForMigration(config, '1.2.1', '1.2.0')
     })
 
     it('can migrate with applying "delete expert"', () => {
-        migration.createMigration('1.2.1', '1.2.2')
+        migration.createMigration(config, '1.2.1', '1.2.2')
 
         cy.contains('Delete expert')
         migration.checkMigrationForm([
@@ -250,12 +252,12 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 2, 2)
-        migration.verifyChildPackageForMigration('1.2.2', '1.2.1')
+        migration.verifyChildPackageForMigration(config, '1.2.2', '1.2.1')
     })
 
     // REFERENCE
     it('can migrate with applying "add reference"', () => {
-        migration.createMigration('1.2.2', '1.3.0')
+        migration.createMigration(config, '1.2.2', '1.3.0')
 
         cy.contains('atq') // Add reference (book)
         migration.checkMigrationForm([
@@ -316,11 +318,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 3, 0)
-        migration.verifyChildPackageForMigration('1.3.0', '1.2.2')
+        migration.verifyChildPackageForMigration(config, '1.3.0', '1.2.2')
     })
 
     it('can migrate with applying "edit reference"', () => {
-        migration.createMigration('1.3.0', '1.3.1')
+        migration.createMigration(config, '1.3.0', '1.3.1')
 
         cy.contains('atq') // Edit reference (book)
         migration.checkMigrationForm([
@@ -417,11 +419,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 3, 1)
-        migration.verifyChildPackageForMigration('1.3.1', '1.3.0')
+        migration.verifyChildPackageForMigration(config, '1.3.1', '1.3.0')
     })
 
     it('can migrate with applying "delete reference"', () => {
-        migration.createMigration('1.3.1', '1.3.2')
+        migration.createMigration(config, '1.3.1', '1.3.2')
 
         cy.contains('http://google.com') // Delete reference (URL)
         migration.checkMigrationForm([
@@ -482,12 +484,12 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 3, 2)
-        migration.verifyChildPackageForMigration('1.3.2', '1.3.1')
+        migration.verifyChildPackageForMigration(config, '1.3.2', '1.3.1')
     })
 
     // TAG
     it('can migrate with applying "add tag"', () => {
-        migration.createMigration('1.3.2', '1.4.0')
+        migration.createMigration(config, '1.3.2', '1.4.0')
 
         cy.contains('Tag 1')
         migration.checkMigrationForm([
@@ -532,11 +534,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 4, 0)
-        migration.verifyChildPackageForMigration('1.4.0', '1.3.2')
+        migration.verifyChildPackageForMigration(config, '1.4.0', '1.3.2')
     })
 
     it('can migrate with applying "edit tag"', () => {
-        migration.createMigration('1.4.0', '1.4.1')
+        migration.createMigration(config, '1.4.0', '1.4.1')
 
         cy.contains('Tag 2')
         migration.checkMigrationForm([
@@ -619,11 +621,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 4, 1)
-        migration.verifyChildPackageForMigration('1.4.1', '1.4.0')
+        migration.verifyChildPackageForMigration(config, '1.4.1', '1.4.0')
     })
 
     it('can migrate with applying "delete tag"', () => {
-        migration.createMigration('1.4.1', '1.4.2')
+        migration.createMigration(config, '1.4.1', '1.4.2')
 
         cy.contains('Tag 01')
         migration.checkMigrationForm([
@@ -668,12 +670,12 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 4, 2)
-        migration.verifyChildPackageForMigration('1.4.2', '1.4.1')
+        migration.verifyChildPackageForMigration(config, '1.4.2', '1.4.1')
     })
 
     // INTEGRATION
     it('can migrate with applying "add integration"', () => {
-        migration.createMigration('1.4.2', '1.5.0')
+        migration.createMigration(config, '1.4.2', '1.5.0')
 
         cy.contains('Add integration')
         migration.checkMigrationForm([
@@ -737,11 +739,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 5, 0)
-        migration.verifyChildPackageForMigration('1.5.0', '1.4.2')
+        migration.verifyChildPackageForMigration(config, '1.5.0', '1.4.2')
     })
 
     it('can migrate with applying "edit integration"', () => {
-        migration.createMigration('1.5.0', '1.5.1')
+        migration.createMigration(config, '1.5.0', '1.5.1')
 
         cy.contains('Edit integration')
         migration.checkMigrationForm([
@@ -816,11 +818,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 5, 1)
-        migration.verifyChildPackageForMigration('1.5.1', '1.5.0')
+        migration.verifyChildPackageForMigration(config, '1.5.1', '1.5.0')
     })
 
     it('can migrate with applying "delete integration"', () => {
-        migration.createMigration('1.5.1', '1.5.2')
+        migration.createMigration(config, '1.5.1', '1.5.2')
 
         cy.contains('Delete integration')
         migration.checkMigrationForm([
@@ -884,12 +886,12 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 5, 2)
-        migration.verifyChildPackageForMigration('1.5.2', '1.5.1')
+        migration.verifyChildPackageForMigration(config, '1.5.2', '1.5.1')
     })
 
     // QUESTION
     it('can migrate with applying "add question"', () => {
-        migration.createMigration('1.5.2', '1.6.0')
+        migration.createMigration(config, '1.5.2', '1.6.0')
 
         cy.contains('Add question')
         migration.checkMigrationForm([
@@ -904,7 +906,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Text', 'validate': (x) => {}
+                'label': 'Text', 'validate': (x) => { }
             },
             {
                 'label': 'Tags', 'validate': (x) => {
@@ -954,7 +956,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Text', 'validate': (x) => {}
+                'label': 'Text', 'validate': (x) => { }
             },
             {
                 'label': 'Value Type', 'validate': (x) => {
@@ -986,7 +988,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Text', 'validate': (x) => {}
+                'label': 'Text', 'validate': (x) => { }
             },
             {
                 'label': 'Integration', 'validate': (x) => {
@@ -1008,11 +1010,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 6, 0)
-        migration.verifyChildPackageForMigration('1.6.0', '1.5.2')
+        migration.verifyChildPackageForMigration(config, '1.6.0', '1.5.2')
     })
 
     it('can migrate with applying "edit question"', () => {
-        migration.createMigration('1.6.0', '1.6.1')
+        migration.createMigration(config, '1.6.0', '1.6.1')
 
         cy.contains('Edit question')
         migration.checkMigrationForm([
@@ -1161,10 +1163,10 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Integration', 'validate': (x) => {}
+                'label': 'Integration', 'validate': (x) => { }
             },
             {
-                'label': 'Props', 'validate': (x) => {}
+                'label': 'Props', 'validate': (x) => { }
             },
             {
                 'label': 'Tags', 'validate': (x) => {
@@ -1206,10 +1208,10 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Integration', 'validate': (x) => {}
+                'label': 'Integration', 'validate': (x) => { }
             },
             {
-                'label': 'Props', 'validate': (x) => {}
+                'label': 'Props', 'validate': (x) => { }
             },
             {
                 'label': 'Tags', 'validate': (x) => {
@@ -1231,11 +1233,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 6, 1)
-        migration.verifyChildPackageForMigration('1.6.1', '1.6.0')
+        migration.verifyChildPackageForMigration(config, '1.6.1', '1.6.0')
     })
 
     it('can migrate with applying "edit question"', () => {
-        migration.createMigration('1.6.1', '1.6.2')
+        migration.createMigration(config, '1.6.1', '1.6.2')
 
         cy.contains('Delete integration')
         cy.clickBtn('Apply')
@@ -1472,7 +1474,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Integration', 'validate': (x) => {}
+                'label': 'Integration', 'validate': (x) => { }
             },
             {
                 'label': 'Props', 'validate': (x) => {
@@ -1499,11 +1501,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 6, 2)
-        migration.verifyChildPackageForMigration('1.6.2', '1.6.1')
+        migration.verifyChildPackageForMigration(config, '1.6.2', '1.6.1')
     })
 
     it('can migrate with applying "delete question"', () => {
-        migration.createMigration('1.6.2', '1.6.3')
+        migration.createMigration(config, '1.6.2', '1.6.3')
 
         cy.contains('Delete integration')
         cy.clickBtn('Apply')
@@ -1673,12 +1675,12 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 6, 3)
-        migration.verifyChildPackageForMigration('1.6.3', '1.6.2')
+        migration.verifyChildPackageForMigration(config, '1.6.3', '1.6.2')
     })
 
     // ANSWER
     it('can migrate with applying "add answer"', () => {
-        migration.createMigration('1.6.3', '1.7.0')
+        migration.createMigration(config, '1.6.3', '1.7.0')
 
         cy.contains('Add answer')
         migration.checkMigrationForm([
@@ -1688,7 +1690,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Advice', 'validate': (x) => {}
+                'label': 'Advice', 'validate': (x) => { }
             },
             {
                 'label': 'Metrics', 'validate': (x) => {
@@ -1721,11 +1723,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 7, 0)
-        migration.verifyChildPackageForMigration('1.7.0', '1.6.3')
+        migration.verifyChildPackageForMigration(config, '1.7.0', '1.6.3')
     })
 
     it('can migrate with applying "edit answer"', () => {
-        migration.createMigration('1.7.0', '1.7.1')
+        migration.createMigration(config, '1.7.0', '1.7.1')
 
         cy.contains('Edit question') // reorder
         migration.checkMigrationForm([
@@ -1740,7 +1742,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Text', 'validate': (x) => {}
+                'label': 'Text', 'validate': (x) => { }
             },
             {
                 'label': 'Tags', 'validate': (x) => {
@@ -1835,12 +1837,12 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 7, 1)
-        migration.verifyChildPackageForMigration('1.7.1', '1.7.0')
+        migration.verifyChildPackageForMigration(config, '1.7.1', '1.7.0')
     })
 
 
     it('can migrate with applying "delete answer"', () => {
-        migration.createMigration('1.7.1', '1.7.2')
+        migration.createMigration(config, '1.7.1', '1.7.2')
 
         cy.contains('Delete answer')
         migration.checkMigrationForm([
@@ -1899,12 +1901,12 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 7, 2)
-        migration.verifyChildPackageForMigration('1.7.2', '1.7.1')
+        migration.verifyChildPackageForMigration(config, '1.7.2', '1.7.1')
     })
 
     // FOLLOW-UP QUESTION
     it('can migrate with applying "add follow-up question"', () => {
-        migration.createMigration('1.7.2', '1.8.0')
+        migration.createMigration(config, '1.7.2', '1.8.0')
 
         cy.contains('Add question')
         migration.checkMigrationForm([
@@ -1919,7 +1921,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Text', 'validate': (x) => {}
+                'label': 'Text', 'validate': (x) => { }
             },
             {
                 'label': 'Tags', 'validate': (x) => {
@@ -1943,7 +1945,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Text', 'validate': (x) => {}
+                'label': 'Text', 'validate': (x) => { }
             },
             {
                 'label': 'Value Type', 'validate': (x) => {
@@ -1972,7 +1974,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Text', 'validate': (x) => {}
+                'label': 'Text', 'validate': (x) => { }
             },
             {
                 'label': 'Tags', 'validate': (x) => {
@@ -1984,11 +1986,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 8, 0)
-        migration.verifyChildPackageForMigration('1.8.0', '1.7.2')
+        migration.verifyChildPackageForMigration(config, '1.8.0', '1.7.2')
     })
 
     it('can migrate with applying "edit follow-up question"', () => {
-        migration.createMigration('1.8.0', '1.8.1')
+        migration.createMigration(config, '1.8.0', '1.8.1')
 
         cy.contains('Edit answer')  // reorder followups
         migration.checkMigrationForm([
@@ -1998,7 +2000,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Advice', 'validate': (x) => {}
+                'label': 'Advice', 'validate': (x) => { }
             },
             {
                 'label': 'Questions', 'validate': (x) => {
@@ -2037,7 +2039,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Text', 'validate': (x) => {}
+                'label': 'Text', 'validate': (x) => { }
             },
             {
                 'label': 'Tags', 'validate': (x) => {
@@ -2125,7 +2127,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Text', 'validate': (x) => {}
+                'label': 'Text', 'validate': (x) => { }
             },
             {
                 'label': 'Value Type', 'validate': (x) => {
@@ -2164,7 +2166,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Advice', 'validate': (x) => {}
+                'label': 'Advice', 'validate': (x) => { }
             },
             {
                 'label': 'Questions', 'validate': (x) => {
@@ -2192,11 +2194,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 8, 1)
-        migration.verifyChildPackageForMigration('1.8.1', '1.8.0')
+        migration.verifyChildPackageForMigration(config, '1.8.1', '1.8.0')
     })
 
     it('can migrate with applying "delete follow-up question"', () => {
-        migration.createMigration('1.8.1', '1.8.2')
+        migration.createMigration(config, '1.8.1', '1.8.2')
 
         cy.contains('Delete question')
         migration.checkDiffTreeDeleted(['Followup options 1.1a.1'])
@@ -2215,12 +2217,12 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 8, 2)
-        migration.verifyChildPackageForMigration('1.8.2', '1.8.1')
+        migration.verifyChildPackageForMigration(config, '1.8.2', '1.8.1')
     })
 
     // ITEM TEMPLATE QUESTION
     it('can migrate with applying "add item template question"', () => {
-        migration.createMigration('1.8.2', '1.9.0')
+        migration.createMigration(config, '1.8.2', '1.9.0')
 
         cy.contains('Add question')
         cy.clickBtn('Apply')
@@ -2244,11 +2246,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 9, 0)
-        migration.verifyChildPackageForMigration('1.9.0', '1.8.2')
+        migration.verifyChildPackageForMigration(config, '1.9.0', '1.8.2')
     })
 
     it('can migrate with applying "edit item template question"', () => {
-        migration.createMigration('1.9.0', '1.9.1')
+        migration.createMigration(config, '1.9.0', '1.9.1')
 
         cy.contains('Add question')
         migration.checkDiffTreeAdded(['Some follow-up'])
@@ -2323,11 +2325,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 9, 1)
-        migration.verifyChildPackageForMigration('1.9.1', '1.9.0')
+        migration.verifyChildPackageForMigration(config, '1.9.1', '1.9.0')
     })
 
     it('can migrate with applying "edit item template question"', () => {
-        migration.createMigration('1.9.1', '1.9.2')
+        migration.createMigration(config, '1.9.1', '1.9.2')
 
         migration.checkDiffTreeDeleted(['Some follow-up'])
         cy.clickBtn('Apply')
@@ -2336,11 +2338,11 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 9, 2)
-        migration.verifyChildPackageForMigration('1.9.2', '1.9.1')
+        migration.verifyChildPackageForMigration(config, '1.9.2', '1.9.1')
     })
 
     it('can migrate with applying "edit item template question"', () => {
-        migration.createMigration('1.9.2', '1.9.3')
+        migration.createMigration(config, '1.9.2', '1.9.3')
 
         migration.checkDiffTreeDeleted(['Items list'])
         cy.clickBtn('Apply')
@@ -2355,12 +2357,12 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 9, 3)
-        migration.verifyChildPackageForMigration('1.9.3', '1.9.2')
+        migration.verifyChildPackageForMigration(config, '1.9.3', '1.9.2')
     })
 
     // KNOWLEDGE MODEL
     it('can migrate with applying "edit knowledge model"', () => {
-        migration.createMigration('1.9.3', '1.10.0')
+        migration.createMigration(config, '1.9.3', '1.10.0')
 
         cy.contains('Edit knowledge model')
         migration.checkMigrationForm([
@@ -2460,12 +2462,12 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 10, 0)
-        migration.verifyChildPackageForMigration('1.10.0', '1.9.3')
+        migration.verifyChildPackageForMigration(config, '1.10.0', '1.9.3')
     })
 
     // COMPLEX
     it('can migrate with apply and reject', () => {
-        migration.createMigration('2.0.0', '1.11.0')
+        migration.createMigration(config, '2.0.0', '1.11.0')
 
         cy.contains('Edit knowledge model')
         migration.checkMigrationForm([
@@ -2513,7 +2515,7 @@ describe('KM Editor Migrations', () => {
                 },
             },
             {
-                'label': 'Text', 'validate': (x) => {},
+                'label': 'Text', 'validate': (x) => { },
             },
             {
                 'label': 'Tags', 'validate': (x) => {
@@ -2656,7 +2658,7 @@ describe('KM Editor Migrations', () => {
                 },
             },
             {
-                'label': 'Text', 'validate': (x) => {},
+                'label': 'Text', 'validate': (x) => { },
             },
             {
                 'label': 'Tags', 'validate': (x) => {
@@ -2704,6 +2706,6 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Reject')
 
         migration.finishMigrationAndPublish(2, 1, 0)
-        migration.verifyChildPackageForMigration('2.1.0', '1.11.0')
+        migration.verifyChildPackageForMigration(config, '2.1.0', '1.11.0')
     })
 })

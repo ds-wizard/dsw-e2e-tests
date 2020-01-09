@@ -21,7 +21,7 @@ describe('Questionnaires CRUD', () => {
     beforeEach(() => {
         cy.task('mongo:delete', {
             collection: 'questionnaires',
-            args: { name: { $in: [questionnaireName, otherQuestionnaireName] } }
+            args: {}
         })
 
         cy.loginAs('researcher')
@@ -78,7 +78,7 @@ describe('Questionnaires CRUD', () => {
         cy.get('.modal-title').should('be.visible').and('contain', 'Delete questionnaire')
         cy.clickBtn('Delete')
 
-        cy.expectListingItemNotExist(questionnaire.name)
+        cy.expectEmptyListing(questionnaire.name)
         cy.expectAlert('success', 'Questionnaire was successfully deleted.')
     })
 })
