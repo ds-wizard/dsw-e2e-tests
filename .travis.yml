@@ -1,0 +1,22 @@
+language: node_js
+
+node_js:
+  - 8.16
+
+# if using Ubuntu 16 need this library
+# https://github.com/cypress-io/cypress-documentation/pull/1647
+addons:
+  apt:
+    packages:
+      - libgconf-2-4
+
+cache:
+  directories:
+    - ~/.npm
+    - ~/.cache
+
+before_script:
+  - docker login -u "$PRIVATE_DOCKER_USER" -p "$PRIVATE_DOCKER_PASSWORD" docker.ds-wizard.org
+
+script:
+  - make ci

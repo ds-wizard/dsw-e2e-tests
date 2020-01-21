@@ -1,8 +1,14 @@
-CYPRESS=npx cypress
+CYPRESS=./node_modules/.bin/cypress
+
 
 .PHONY: install
 install:
 	@npm install
+
+
+.PHONY: init
+init:
+	@scripts/init.sh
 
 
 .PHONY: start
@@ -14,15 +20,23 @@ start:
 stop:
 	@cd dsw && docker-compose down
 
+
 .PHONY: run
 run:
-	@CYPRESS_RETRIES=5 $(CYPRESS) run
+	@CYPRESS_RETRIES=5 $(CYPRESS) run --record --key $(CYPRESS_RECORD_KEY)
 
 
 .PHONY: all
 all:
-	@make clean && make start && ($(CYPRESS) run || true) && make stop
+	@make clean && make init && make start && ($(CYPRESS) run || true) && make stop
 
+.PHONY: wait
+wait:
+	@while ! curl http://localhost:3000/ 2>/dev/null; \
+	do \
+		echo "Retrying ..."; \
+		sleep 2; \
+	done
 
 .PHONY: open
 open:
@@ -30,4 +44,13 @@ open:
 
 .PHONY: clean
 clean:
-	@rm -rf output
+	@rm -rf output && rm -f dsw/docker-compose.yml
+
+.PHONY: ci
+ci:
+	make clean
+	make init
+	make start
+	make wait
+	make run
+	make stop
