@@ -20,9 +20,22 @@ services:
     environment:
       - API_URL=http://localhost:3000
 
+  docworker:
+    image: {DOCWORKER_IMAGE}
+    restart: always
+    volumes:
+      - ./docworker/config.cfg:/app/config.cfg:ro
+    
   mongo:
     image: mongo:3.0.15
     restart: always
     ports:
       - 27017:27017
     command: mongod
+
+  rabbitmq:
+    image: rabbitmq:3.8.2-management
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: password

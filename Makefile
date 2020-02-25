@@ -13,7 +13,7 @@ init:
 
 .PHONY: start
 start:
-	@cd dsw && docker-compose pull && docker-compose up -d
+	@scripts/start.sh
 
 
 .PHONY: stop

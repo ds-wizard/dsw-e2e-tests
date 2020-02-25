@@ -77,3 +77,6 @@ output
 
 # Cypress env
 cypress.env.json
+
+# Generated files
+dsw/docker-compose.yml

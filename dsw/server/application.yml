@@ -28,11 +28,10 @@ database:
   password:
 
 messaging:
-  enabled: false
-  host:
-  port:
-  username:
-  password:
+  enabled: true
+  username: wizard
+  password: password
+  vhost: /dsw-test
 
 jwt:
   secret: abcd
