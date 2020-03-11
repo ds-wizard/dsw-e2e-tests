@@ -12,6 +12,11 @@ jobs:
       CLIENT_IMAGE: datastewardshipwizard/wizard-client:latest
       DOCWORKER_IMAGE: datastewardshipwizard/document-worker:latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1, 2, 3, 4]
+
     steps:
     - uses: actions/checkout@v2
 
@@ -36,6 +41,8 @@ jobs:
         browser: chrome
         headless: true
         record: true
+        parallel: true
+        group: 'DSW E2E Test @ GitHub Actions'
       env:
         CYPRESS_RETRIES: 3
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
