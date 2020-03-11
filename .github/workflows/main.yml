@@ -1,16 +1,13 @@
 name: DSW E2E Tests
 
-on: [push]
+on:
+  push:
+  repository_dispatch:
 
 jobs:
   dsw-e2e:
     name: Run DSW E2E Tests
     runs-on: ubuntu-16.04
-
-    env:
-      SERVER_IMAGE: datastewardshipwizard/wizard-server:latest
-      CLIENT_IMAGE: datastewardshipwizard/wizard-client:latest
-      DOCWORKER_IMAGE: datastewardshipwizard/document-worker:latest
 
     strategy:
       fail-fast: false
@@ -19,6 +16,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
+    - name: Set variables from dispatch
+      if: github.event_name == 'repository_dispatch'
+      uses: allenevans/set-env@v1.0.0
+      with:
+        SERVER_IMAGE: ${{ github.event.client_payload.server_image }}
+        CLIENT_IMAGE: ${{ github.event.client_payload.client_image }}
+        DOCWORKER_IMAGE: ${{ github.event.client_payload.docworker_image }}
 
     - name: Prepare
       run: |
