@@ -29,9 +29,8 @@ database:
 
 messaging:
   enabled: true
-  username: wizard
+  username: admin
   password: password
-  vhost: /dsw-test
 
 jwt:
   secret: abcd

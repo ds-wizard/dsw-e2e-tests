@@ -1,12 +1,12 @@
 {
   "name": "dsw-e2e-tests",
   "version": "0.1.0",
-  "description": "E2E test suite for testing the functionality of DSW Client and DSW Server",
-  "repository": "https://github.com/DataStewardshipWizard/dsw-e2e-tests",
+  "description": "E2E test suite for testing the functionality of DS Wizard",
+  "repository": "https://github.com/ds-wizard/dsw-e2e-tests",
   "license": "Apache-2.0",
   "dependencies": {
-    "cypress": "^3.4.0",
-    "cypress-plugin-retries": "^1.2.0",
-    "mongodb": "^3.1.13"
+    "cypress": "^4.1.0",
+    "cypress-plugin-retries": "^1.5.2",
+    "mongodb": "^3.5.4"
   }
 }
