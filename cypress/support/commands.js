@@ -34,7 +34,7 @@ Cypress.Commands.add('loginAs', (role) => {
 
 Cypress.Commands.add('logout', () => {
     window.localStorage.removeItem('session')
-    cy.visitApp('/login')
+    cy.visitApp('/')
 })
 
 

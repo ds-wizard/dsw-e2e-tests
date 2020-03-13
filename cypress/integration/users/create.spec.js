@@ -1,8 +1,8 @@
 describe('Users Create', () => {
     const user = {
         email: 'jayden.mills@example.com',
-        name: 'Jayden',
-        surname: 'Mills',
+        firstName: 'Jayden',
+        lastName: 'Mills',
         s_role: 'RESEARCHER',
         password: 'passw0rd'
     }
@@ -23,8 +23,8 @@ describe('Users Create', () => {
 
         cy.url().should('match', /\/users$/)
         cy.getListingItem(user.email)
-            .should('contain', user.name)
-            .and('contain', user.surname)
+            .should('contain', user.firstName)
+            .and('contain', user.lastName)
             .and('contain', user.s_role)
     })
 })
