@@ -1,8 +1,8 @@
 describe('Users Index', () => {
     const user = {
         email: 'abigail.owen@example.com',
-        name: 'Abigail',
-        surname: 'Owen',
+        firstName: 'Abigail',
+        lastName: 'Owen',
         role: 'DATASTEWARD',
         password: 'passw0rd'
     }

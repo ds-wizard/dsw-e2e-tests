@@ -14,8 +14,8 @@ describe('Sign up', () => {
         // fill in the form
         cy.fillFields({
             email: testEmail,
-            name: 'Careen',
-            surname: 'Herberts',
+            firstName: 'Careen',
+            lastName: 'Herberts',
             password: testPassword,
             passwordConfirmation: testPassword
         })

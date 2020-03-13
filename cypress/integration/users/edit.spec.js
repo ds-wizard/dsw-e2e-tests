@@ -2,8 +2,8 @@ describe('Users Edit', () => {
 
     const user = {
         email: 'danny.morgan@example.com',
-        name: 'Danny',
-        surname: 'Morgan',
+        firstName: 'Danny',
+        lastName: 'Morgan',
         role: 'ADMIN',
         password: 'passw0rd'
     }
@@ -25,8 +25,8 @@ describe('Users Edit', () => {
     it('can edit profile', () => {
         const newUser = {
             email: newEmail,
-            name: 'Danny Silver',
-            surname: 'McMorgan',
+            firstName: 'Danny Silver',
+            lastName: 'McMorgan',
             s_role: 'DATASTEWARD',
         }
 
@@ -40,8 +40,8 @@ describe('Users Edit', () => {
         // check it is correct in index table
         cy.visitApp('/users')
         cy.getListingItem(newUser.email)
-            .should('contain', newUser.name)
-            .and('contain', newUser.surname)
+            .should('contain', newUser.firstName)
+            .and('contain', newUser.lastName)
             .and('contain', newUser.s_role)
 
         // check it is correct when reopened
