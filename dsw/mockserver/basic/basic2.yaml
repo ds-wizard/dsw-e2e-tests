@@ -1,0 +1,16 @@
+---
+  request:
+    method: GET
+    path: /basic2
+  response:
+    statusCode: 200
+    headers:
+      Content-Type:
+      - application/json
+    body: >
+      [
+        { "key": "standard01", "title": "Adverse Drug Reaction Markup Language" },
+        { "key": "standard02", "title": "Analytical Information Markup Language" },
+        { "key": "standard03", "title": "Gramene Taxonomy Ontology" },
+        { "key": "standard04", "title": "Minimal Information About a Cellular Assay" }
+      ]

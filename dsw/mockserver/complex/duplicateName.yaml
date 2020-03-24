@@ -1,0 +1,16 @@
+---
+  request:
+    method: GET
+    path: /duplicateName
+  response:
+    statusCode: 200
+    headers:
+      Content-Type:
+      - application/json
+    body: >
+      [
+        { "id": "standard01", "name": "Adverse Drug Reaction Markup Language" },
+        { "id": "standard02", "name": "Gramene Taxonomy Ontology" },
+        { "id": "standard03", "name": "Gramene Taxonomy Ontology" },
+        { "id": "standard04", "name": "Minimal Information About a Cellular Assay" }
+      ]

@@ -3,7 +3,6 @@ general:
   serverPort: 3000
   clientUrl: http://localhost:8080
   serviceToken: abcd
-  integrationConfig: integration.yml
   registrationEnabled: true
   publicQuestionnaireEnabled: true
   levelsEnabled: true
