@@ -1,0 +1,16 @@
+---
+  request:
+    method: GET
+    path: /inconsistentIds
+  response:
+    statusCode: 200
+    headers:
+      Content-Type:
+      - application/json
+    body: >
+      [
+        { "id": 1, "name": "Adverse Drug Reaction Markup Language" },
+        { "id": 2.3, "name": "Analytical Information Markup Language" },
+        { "id": false, "name": "Gramene Taxonomy Ontology" },
+        { "id": "standard4", "name": "Minimal Information About a Cellular Assay" }
+      ]

@@ -21,6 +21,41 @@ export function expectQuestions(questions, visible) {
 }
 
 
+export function expectTypehints(label, typehints, query = '') {
+    if (query === "") {
+        cy.get('label').contains(label).closest('.form-group').find('input').focus()
+    } else {
+        typeAnswer(label, query)
+    }
+    if (typehints.length === 0) {
+        cy.get('label').contains(label).closest('.form-group').find('.typehints > ul > li').should('not.exist')
+    } else {
+        cy.get('label').contains(label).closest('.form-group').find('.typehints > ul > li').should('have.length', typehints.length)
+        cy.get('label').contains(label).closest('.form-group').find('.typehints > ul > li').each(($item, index) => {
+            expect($item).to.have.text(typehints[index].name)
+        })
+    }
+}
+
+
+export function expectTypehintsError(label, message) {
+    cy.get('label').contains(label).closest('.form-group').find('input').focus()
+    cy.get('label').contains(label).closest('.form-group').find('.typehints > .error').contains(message)
+}
+
+
+export function useNthTypehint(label, n, typehint) {
+    cy.get('label').contains(label).closest('.form-group').find('input').focus()
+    cy.get('label').contains(label).closest('.form-group').find('.typehints > ul > li').eq(n).should('have.text', typehint.name).click()
+}
+
+
+export function checkTypehintExtra(label, link, logo = false) {
+    cy.get('label').contains(label).closest('.form-group').find('.integration-extra > img').should(logo ? 'exist' : 'not.exist')
+    cy.get('label').contains(label).closest('.form-group').find('.integration-extra > a').should('have.text', link)
+}
+
+
 export function selectAnswer(answer) {
     cy.get('label').contains(answer).click()
 }

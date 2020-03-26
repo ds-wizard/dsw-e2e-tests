@@ -1,0 +1,16 @@
+---
+  request:
+    method: GET
+    path: /inconsistentNames
+  response:
+    statusCode: 200
+    headers:
+      Content-Type:
+      - application/json
+    body: >
+      [
+        { "id": "standard01", "name": "Adverse Drug Reaction Markup Language" },
+        { "id": "standard02", "name": null },
+        { "id": "standard03", "name": 7 },
+        { "id": "standard04", "name": true }
+      ]
