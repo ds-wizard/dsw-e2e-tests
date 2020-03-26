@@ -95,6 +95,17 @@ Cypress.Commands.add('createQuestionnaire', ({ accessibility, name, packageId })
     })
 })
 
+Cypress.Commands.add('updateQuestionnaire', (questionnaireUuid, data) => {
+    getTokenFor('researcher').then((resp) => {
+        cy.request({
+            method: 'PUT',
+            url: apiUrl(`/questionnaires/${questionnaireUuid}`),
+            headers: createHeaders(resp.body.token),
+            body: data
+        })
+    })
+})
+
 
 // KM Editor commands
 

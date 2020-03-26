@@ -7,8 +7,9 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./server/application.yml:/application/engine-wizard/config/application.yml
-      - ./server/integration.yml:/application/engine-wizard/config/integration.yml
+      - ./server/application.yml:/application/engine-wizard/config/application.yml:ro
+      - ./server/integration.yml:/application/engine-wizard/config/integration.yml:ro
+      - ./templates/dmp:/application/engine-wizard/templates/dmp:ro
     links:
       - mongo
 
@@ -25,6 +26,7 @@ services:
     restart: always
     volumes:
       - ./docworker/config.cfg:/app/config.cfg:ro
+      - ./templates/dmp:/app/templates:ro
     
   mongo:
     image: mongo:4.2.3
