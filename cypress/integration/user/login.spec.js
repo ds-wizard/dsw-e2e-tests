@@ -14,4 +14,14 @@ describe('Login', () => {
             cy.url().should('include', '/dashboard')
         })
     })
+
+    it.only('redirect to original URL after login', () => {
+        cy.visitApp('/questionnaires')
+        cy.fillFields({
+            email: Cypress.env('datasteward_username'),
+            password: Cypress.env('datasteward_password')
+        })
+        cy.clickBtn('Log in')
+        cy.url().should('include', '/questionnaires')
+    })
 })
