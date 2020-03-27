@@ -26,7 +26,8 @@ Cypress.Commands.add('loginAs', (role) => {
             window.localStorage.setItem('session', JSON.stringify({
                 sidebarCollapsed: false,
                 token,
-                user: resp.body
+                user: resp.body,
+                v1: true
             }))
         })
     })
@@ -49,8 +50,16 @@ Cypress.Commands.add('clickLink', (label) => {
     cy.get('a').contains(label).click()
 })
 
-Cypress.Commands.add('clickBtn', (label) => {
-    cy.get('.btn').filter(':visible').contains(label).click()
+Cypress.Commands.add('clickBtn', (label, force = false) => {
+    const button = force ? cy.get('.btn') : cy.get('.btn').filter(':visible')
+    button.contains(label).click()
+})
+
+
+// Selection commands
+
+Cypress.Commands.add('getCy', (key) => {
+    return cy.get(`[data-cy=${key}]`)
 })
 
 
@@ -115,7 +124,7 @@ Cypress.Commands.add('createKMEditor', ({ kmId, name, previousPackageId }) => {
             method: 'POST',
             url: apiUrl('/branches'),
             headers: createHeaders(resp.body.token),
-            body: { kmId, name, previousPackageId, organizationId: null }
+            body: { kmId, name, previousPackageId }
         })
     })
 })
@@ -165,6 +174,33 @@ Cypress.Commands.add('checkFields', (fields) => {
     Object.entries(fields).forEach(([key, value]) => {
         key = key.replace(/^s_/, '')
         cy.get(`#${key}`).should('have.value', value.replace('{{}', '{'))
+    })
+})
+
+
+Cypress.Commands.add('checkToggle', (field) => {
+    cy.wait(100)
+    cy.get(`#${field}`).check({ force: true })
+})
+
+Cypress.Commands.add('uncheckToggle', (field) => {
+    cy.wait(100)
+    cy.get(`#${field}`).uncheck({ force: true })
+})
+
+
+// Settings commands
+
+Cypress.Commands.add('putDefaultAppConfig', () => {
+    getTokenFor('admin').then((resp) => {
+        cy.fixture('default-app-config').then((config) => {
+            cy.request({
+                method: 'PUT',
+                url: apiUrl('/configs/app'),
+                headers: createHeaders(resp.body.token),
+                body: config
+            })
+        })
     })
 })
 

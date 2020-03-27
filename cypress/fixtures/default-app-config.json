@@ -1,0 +1,66 @@
+{
+    "organization": {
+        "name": "DS Wizard Test",
+        "organizationId": "dsw",
+        "affiliations": []
+    },
+    "authentication": {
+        "defaultRole": "dataSteward",
+        "external": {
+            "services": []
+        },
+        "internal": {
+            "registration": {
+                "enabled": true
+            }
+        }
+    },
+    "privacyAndSupport": {
+        "privacyUrl": "https://ds-wizard.org/privacy.html",
+        "supportEmail": null,
+        "supportRepositoryName": null,
+        "supportRepositoryUrl": null
+    },
+    "dashboard": {
+        "widgets": {
+            "admin": [
+                "Welcome"
+            ],
+            "dataSteward": [
+                "Welcome"
+            ],
+            "researcher": [
+                "Welcome"
+            ]
+        },
+        "welcomeInfo": null,
+        "welcomeWarning": null
+    },
+    "lookAndFeel": {
+        "appTitle": null,
+        "appTitleShort": null,
+        "customMenuLinks": [],
+        "loginInfo": null
+    },
+    "knowledgeModelRegistry": {
+        "enabled": false,
+        "token": ""
+    },
+    "questionnaire": {
+        "questionnaireAccessibility": {
+            "enabled": true
+        },
+        "levels": {
+            "enabled": true
+        },
+        "feedback": {
+            "enabled": false,
+            "token": "",
+            "owner": "",
+            "repo": ""
+        },
+        "publicQuestionnaire": {
+            "enabled": false
+        }
+    }
+}

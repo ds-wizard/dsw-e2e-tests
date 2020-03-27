@@ -13,16 +13,7 @@ describe('KM Editor Migrations Move', () => {
             collection: 'packages',
             args: { kmId: config.parentKmId }
         })
-        cy.task('mongo:updateOne', {
-            collection: 'organizations',
-            query: {},
-            update: {
-                $set: {
-                    name: 'DSW Global',
-                    organizationId: 'dsw'
-                }
-            }
-        })
+        cy.putDefaultAppConfig()
 
         cy.fixture(config.getParentKM('1.4.0')).then(cy.importKM)
     })
