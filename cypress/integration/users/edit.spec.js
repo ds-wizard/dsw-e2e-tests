@@ -4,7 +4,7 @@ describe('Users Edit', () => {
         email: 'danny.morgan@example.com',
         firstName: 'Danny',
         lastName: 'Morgan',
-        role: 'ADMIN',
+        role: 'admin',
         password: 'passw0rd'
     }
     const newEmail = 'danny.silver.mcmorgan@example.com'
@@ -27,7 +27,7 @@ describe('Users Edit', () => {
             email: newEmail,
             firstName: 'Danny Silver',
             lastName: 'McMorgan',
-            s_role: 'DATASTEWARD',
+            s_role: 'dataSteward',
         }
 
         // edit user profile
@@ -42,7 +42,7 @@ describe('Users Edit', () => {
         cy.getListingItem(newUser.email)
             .should('contain', newUser.firstName)
             .and('contain', newUser.lastName)
-            .and('contain', newUser.s_role)
+            .and('contain', 'Data Steward')
 
         // check it is correct when reopened
         cy.clickListingItemAction(newUser.email, 'Edit')

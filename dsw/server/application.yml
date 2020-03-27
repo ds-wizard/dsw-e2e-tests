@@ -3,20 +3,7 @@ general:
   serverPort: 3000
   clientUrl: http://localhost:8080
   serviceToken: abcd
-  registrationEnabled: true
-  publicQuestionnaireEnabled: true
-  levelsEnabled: true
-  itemTitleEnabled: true
-
-client:
-  appTitle:
-  appTitleShort:
-  welcomeWarning:
-  welcomeInfo:
-  dashboard:
-    admin: [Welcome]
-    dataSteward: [Welcome]
-    researcher: [Welcome]
+  secret: ab012345678901234567890123456789
 
 database:
   host: mongo
@@ -31,17 +18,6 @@ messaging:
   username: admin
   password: password
 
-jwt:
-  secret: abcd
-  version: 1
-  expiration: 14
-
-roles:
-  defaultRole: DATASTEWARD
-  admin: [UM_PERM, ORG_PERM, KM_PERM, KM_UPGRADE_PERM, KM_PUBLISH_PERM, PM_READ_PERM, PM_WRITE_PERM, QTN_PERM, DMP_PERM]
-  dataSteward: [KM_PERM, KM_UPGRADE_PERM, KM_PUBLISH_PERM, PM_READ_PERM, PM_WRITE_PERM, QTN_PERM, DMP_PERM]
-  researcher: [PM_READ_PERM, QTN_PERM, DMP_PERM]
-
 mail:
   enabled: false
   name:
@@ -51,20 +27,3 @@ mail:
   ssl:
   username:
   password:
-
-analytics:
-  enabled: false
-  email:
-
-feedback:
-  enabled: false
-  token:
-  owner:
-  repo:
-  issueurl:
-
-registry:
-  enabled: false
-  url:
-  token:
-  pkgUrl:

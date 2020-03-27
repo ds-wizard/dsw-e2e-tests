@@ -3,7 +3,7 @@ describe('Users Create', () => {
         email: 'jayden.mills@example.com',
         firstName: 'Jayden',
         lastName: 'Mills',
-        s_role: 'RESEARCHER',
+        s_role: 'researcher',
         password: 'passw0rd'
     }
 
@@ -25,6 +25,6 @@ describe('Users Create', () => {
         cy.getListingItem(user.email)
             .should('contain', user.firstName)
             .and('contain', user.lastName)
-            .and('contain', user.s_role)
+            .and('contain', 'Researcher')
     })
 })

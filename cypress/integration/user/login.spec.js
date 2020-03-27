@@ -15,7 +15,7 @@ describe('Login', () => {
         })
     })
 
-    it.only('redirect to original URL after login', () => {
+    it('redirect to original URL after login', () => {
         cy.visitApp('/questionnaires')
         cy.fillFields({
             email: Cypress.env('datasteward_username'),
