@@ -5,6 +5,7 @@ general:
   serviceToken: abcd
   secret: ab012345678901234567890123456789
 
+
 database:
   host: mongo
   databaseName: dsw-server-test
