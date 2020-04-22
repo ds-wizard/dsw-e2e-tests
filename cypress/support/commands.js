@@ -27,7 +27,7 @@ Cypress.Commands.add('loginAs', (role) => {
                 sidebarCollapsed: false,
                 token,
                 user: resp.body,
-                v2: true
+                v3: true
             }))
         })
     })
