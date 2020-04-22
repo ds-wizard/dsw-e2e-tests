@@ -55,7 +55,7 @@ describe('Users Edit', () => {
         // open password edit form and save
         cy.clickListingItemAction(user.email, 'Edit')
         cy.url().should('contain', '/users/edit/')
-        cy.get('.nav-tabs').should('exist') // make sure to not click Password link before it's there
+        cy.get('.nav-pills').should('exist') // make sure to not click Password link before it's there
         cy.clickLink('Password')
         cy.fillFields({ password, passwordConfirmation: password })
         cy.clickBtn('Save')
