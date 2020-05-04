@@ -1,6 +1,7 @@
 {
     "organization": {
         "name": "DS Wizard Test",
+        "description": "This is a test DSW",
         "organizationId": "dsw",
         "affiliations": []
     },
@@ -58,9 +59,6 @@
             "token": "",
             "owner": "",
             "repo": ""
-        },
-        "publicQuestionnaire": {
-            "enabled": false
         }
     },
     "submission": {
