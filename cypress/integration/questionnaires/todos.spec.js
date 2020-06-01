@@ -24,7 +24,7 @@ describe('Questionnaire TODOs', () => {
             args: {}
         })
         cy.createQuestionnaire({
-            accessibility: questionnaire.PublicReadOnly,
+            visibility: questionnaire.PublicReadOnly,
             name: questionnaireName,
             packageId
         })

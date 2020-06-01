@@ -23,7 +23,7 @@ describe('Basic Questionnaire Tests', () => {
             args: {}
         })
         cy.createQuestionnaire({
-            accessibility: questionnaire.PublicReadOnly,
+            visibility: questionnaire.PublicReadOnly,
             name: questionnaireName,
             packageId
         })

@@ -8,7 +8,7 @@ describe('Questionnaire Migrations', () => {
 
     const createQuestionnaire = (km, minor) => {
         cy.createQuestionnaire({
-            accessibility: questionnaire.PublicReadOnly,
+            visibility: questionnaire.PublicReadOnly,
             name: questionnaireName,
             packageId: getPackageId(km, minor)
         })

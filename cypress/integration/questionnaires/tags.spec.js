@@ -3,7 +3,7 @@ import * as tagSelect from '../../support/tag-select-helpers'
 
 
 describe('Questionnaire Tags', () => {
-    const questionnaireName = 'My Accessibility Questionnaire'
+    const questionnaireName = 'My Tagged Questionnaire'
     const kmId = 'km-with-tags'
     const packageId = 'mto:km-with-tags:1.0.0'
 

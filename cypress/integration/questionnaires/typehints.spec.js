@@ -33,7 +33,7 @@ describe('Questionnaires Typehints', () => {
         cy.loginAs('researcher')
         
         const questionnaire = {
-            accessibility: q.Private,
+            visibility: q.Private,
             name: questionnaireName,
             packageId
         }
