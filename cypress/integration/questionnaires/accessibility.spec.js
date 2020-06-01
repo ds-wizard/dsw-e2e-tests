@@ -1,8 +1,8 @@
 import * as questionnaire from '../../support/questionnaire-helpers'
 
 
-describe('Questionnaires Accessibility', () => {
-    const questionnaireName = 'My Accessibility Questionnaire'
+describe('Questionnaires Visibility', () => {
+    const questionnaireName = 'My Visibility Questionnaire'
     const kmId = 'test-km-1'
     const packageId = 'dsw:test-km-1:1.0.0'
 

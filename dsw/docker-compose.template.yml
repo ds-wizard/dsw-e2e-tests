@@ -25,7 +25,7 @@ services:
     image: {DOCWORKER_IMAGE}
     restart: always
     volumes:
-      - ./docworker/config.cfg:/app/config.cfg:ro
+      - ./docworker/config.yml:/app/config.yml:ro
       - ./templates/dmp:/app/templates:ro
     
   mongo:

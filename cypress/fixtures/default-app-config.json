@@ -48,7 +48,7 @@
         "token": ""
     },
     "questionnaire": {
-        "questionnaireAccessibility": {
+        "questionnaireVisibility": {
             "enabled": true
         },
         "levels": {
@@ -60,6 +60,9 @@
             "owner": "",
             "repo": ""
         }
+    },
+    "template": {
+        "recommendedTemplateUuid": null
     },
     "submission": {
         "enabled": false,

@@ -48,7 +48,7 @@ describe('Questionnaires CRUD', () => {
 
     it('update questionnaire', () => {
         const questionnaire = {
-            accessibility: q.PublicReadOnly,
+            visibility: q.PublicReadOnly,
             name: otherQuestionnaireName,
             packageId
         }
@@ -67,7 +67,7 @@ describe('Questionnaires CRUD', () => {
 
     it('delete questionnaire', () => {
         const questionnaire = {
-            accessibility: q.PublicReadOnly,
+            visibility: q.PublicReadOnly,
             name: questionnaireName,
             packageId
         }

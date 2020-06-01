@@ -1,6 +1,6 @@
 {
   "name": "Documents test",
-  "accessibility": "PrivateQuestionnaire",
+  "visibility": "PrivateQuestionnaire",
   "replies": [
     {
       "path": "ed84c005-ad55-40cb-93a6-40ef3c526dfa.429b0359-46a1-4a9e-bcb0-314562d02dce",

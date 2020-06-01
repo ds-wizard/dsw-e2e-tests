@@ -1,0 +1,15 @@
+mongo:
+    host: mongo
+    database: dsw-server-test
+    collection: documents
+    fs_collection: documentFs
+
+mq:
+    host: rabbitmq
+    queue: document.generation
+    auth:
+        username: admin
+        password: password
+
+logging:
+    level: INFO

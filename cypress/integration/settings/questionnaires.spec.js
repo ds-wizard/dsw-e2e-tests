@@ -29,18 +29,18 @@ describe('Settings / Questionnaires', () => {
         cy.putDefaultAppConfig()
     })
 
-    it('questionnaire accessibility enabled', () => {
-        cy.checkToggle('questionnaireAccessibilityEnabled')
+    it('questionnaire visibility enabled', () => {
+        cy.checkToggle('questionnaireVisibilityEnabled')
         cy.clickBtn('Save', true)
         cy.visitApp('/questionnaires/create')
-        cy.get('label').contains('Accessibility').should('exist')
+        cy.get('label').contains('Visibility').should('exist')
     })
 
-    it('questionnaire accessibility not enabled', () => {
-        cy.uncheckToggle('questionnaireAccessibilityEnabled')
+    it('questionnaire visibility not enabled', () => {
+        cy.uncheckToggle('questionnaireVisibilityEnabled')
         cy.clickBtn('Save', true)
         cy.visitApp('/questionnaires/create')
-        cy.get('label').contains('Accessibility').should('not.exist')
+        cy.get('label').contains('Visibility').should('not.exist')
     })
 
     it('phases enabled', () => {

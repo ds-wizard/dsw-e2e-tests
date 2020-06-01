@@ -93,13 +93,13 @@ Cypress.Commands.add('importKM', (km) => {
 
 // Questionnaires commands
 
-Cypress.Commands.add('createQuestionnaire', ({ accessibility, name, packageId }) => {
+Cypress.Commands.add('createQuestionnaire', ({ visibility, name, packageId }) => {
     getTokenFor('researcher').then((resp) => {
         cy.request({
             method: 'POST',
             url: apiUrl('/questionnaires'),
             headers: createHeaders(resp.body.token),
-            body: { accessibility, name, packageId, tagUuids: [] }
+            body: { visibility, name, packageId, tagUuids: [] }
         })
     })
 })

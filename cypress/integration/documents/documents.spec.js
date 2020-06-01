@@ -45,7 +45,7 @@ describe('Documents', () => {
         cy.loginAs('researcher')
         
         const questionnaire = {
-            accessibility: q.Private,
+            visibility: q.Private,
             name: questionnaireName,
             packageId
         }

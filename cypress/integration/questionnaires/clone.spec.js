@@ -29,7 +29,7 @@ describe('Clone Questionnaire', () => {
     it('can clone questinnaire', () => {
         // create a new questionnaire
         cy.createQuestionnaire({
-            accessibility: questionnaire.PublicReadOnly,
+            visibility: questionnaire.PublicReadOnly,
             name: questionnaireName,
             packageId
         })
