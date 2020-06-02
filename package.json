@@ -5,8 +5,8 @@
   "repository": "https://github.com/ds-wizard/dsw-e2e-tests",
   "license": "Apache-2.0",
   "dependencies": {
-    "cypress": "^4.2.0",
+    "cypress": "^4.7.0",
     "cypress-plugin-retries": "^1.5.2",
-    "mongodb": "^3.5.5"
+    "mongodb": "^3.5.8"
   }
 }
