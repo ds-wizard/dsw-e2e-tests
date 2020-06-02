@@ -22,7 +22,7 @@ describe('Questionnaire Phases', () => {
         })
         cy.loginAs('researcher')
         cy.createQuestionnaire({
-            accessibility: questionnaire.PublicReadOnly,
+            visibility: questionnaire.PublicReadOnly,
             name: questionnaireName,
             packageId: phases.packageId
         })
