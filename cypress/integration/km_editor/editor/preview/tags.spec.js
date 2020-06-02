@@ -1,9 +1,9 @@
-import * as editor from '../../../support/editor-helpers'
-import * as questionnaire from '../../../support/questionnaire-helpers'
-import * as tagSelect from '../../../support/tag-select-helpers'
+import * as editor from '../../../../support/editor-helpers'
+import * as questionnaire from '../../../../support/questionnaire-helpers'
+import * as tagSelect from '../../../../support/tag-select-helpers'
 
 
-describe('KM Editor Preview', () => {
+describe('KM Editor Preview - Tags', () => {
     const kmName = 'Test Knowledge Model'
     const kmId = 'km-with-tags'
     const previousPackageId = 'mto:km-with-tags:1.0.0'

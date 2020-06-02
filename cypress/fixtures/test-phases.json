@@ -1,0 +1,193 @@
+{
+  "metamodelVersion": 5,
+  "kmId": "test-phases",
+  "packages": [
+    {
+      "readme": "# KM for testing phases",
+      "createdAt": "2020-05-10T17:32:36.226Z",
+      "metamodelVersion": 5,
+      "kmId": "test-phases",
+      "forkOfPackageId": null,
+      "name": "KM for testing phases",
+      "events": [
+        {
+          "uuid": "182e9e24-9e34-4d5f-9f0b-9244794be928",
+          "entityUuid": "3b838f19-487d-4781-b2ed-12ccd02722c9",
+          "parentUuid": "00000000-0000-0000-0000-000000000000",
+          "eventType": "AddKnowledgeModelEvent",
+          "name": "New knowledge model"
+        },
+        {
+          "tagUuids": {
+            "changed": false
+          },
+          "uuid": "eaf86047-c788-437e-ac92-e6a5630e09fb",
+          "entityUuid": "3b838f19-487d-4781-b2ed-12ccd02722c9",
+          "parentUuid": "00000000-0000-0000-0000-000000000000",
+          "eventType": "EditKnowledgeModelEvent",
+          "name": {
+            "changed": true,
+            "value": "KM for testing phases"
+          },
+          "chapterUuids": {
+            "changed": false
+          },
+          "integrationUuids": {
+            "changed": false
+          }
+        },
+        {
+          "text": null,
+          "uuid": "136a7e15-7966-4ef2-a30c-05c241e9dd43",
+          "entityUuid": "03b68ead-cc7a-43de-be6d-d66d986e0123",
+          "parentUuid": "3b838f19-487d-4781-b2ed-12ccd02722c9",
+          "eventType": "AddChapterEvent",
+          "title": "Chapter 1"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "653b128e-8d25-469e-8f38-dbae646c859c",
+          "entityUuid": "bcfb9bcc-365c-487d-a697-4474b7960c47",
+          "questionType": "ValueQuestion",
+          "parentUuid": "03b68ead-cc7a-43de-be6d-d66d986e0123",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": 1,
+          "title": "Question 1 (before submitting the proposal)",
+          "valueType": "StringQuestionValueType"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "1eb537c2-d1ec-4559-9081-a39211c99491",
+          "entityUuid": "5177eee1-ea25-41bb-b5ca-398c72a37664",
+          "questionType": "OptionsQuestion",
+          "parentUuid": "03b68ead-cc7a-43de-be6d-d66d986e0123",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": 2,
+          "title": "Question 2 (before submitting the DMP)"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "35274a3d-f7f1-4cba-8e20-c4195883f8d0",
+          "entityUuid": "d0fec286-f862-49e0-b8db-44bd890fe93c",
+          "questionType": "OptionsQuestion",
+          "parentUuid": "03b68ead-cc7a-43de-be6d-d66d986e0123",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": 3,
+          "title": "Question 3 (before finishing the project)"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "3465488d-237f-4c19-8361-9b4b26dc9cb6",
+          "entityUuid": "35173624-293a-4899-982a-1808fd2bd0cf",
+          "questionType": "OptionsQuestion",
+          "parentUuid": "03b68ead-cc7a-43de-be6d-d66d986e0123",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Question 4 (never)"
+        },
+        {
+          "tagUuids": {
+            "changed": false
+          },
+          "text": {
+            "changed": false
+          },
+          "uuid": "490f755c-efc4-4f3d-99e2-b445b40483dd",
+          "expertUuids": {
+            "changed": false
+          },
+          "entityUuid": "5177eee1-ea25-41bb-b5ca-398c72a37664",
+          "questionType": "ValueQuestion",
+          "parentUuid": "03b68ead-cc7a-43de-be6d-d66d986e0123",
+          "eventType": "EditQuestionEvent",
+          "requiredLevel": {
+            "changed": false
+          },
+          "referenceUuids": {
+            "changed": false
+          },
+          "title": {
+            "changed": false
+          },
+          "valueType": {
+            "changed": true,
+            "value": "StringQuestionValueType"
+          }
+        },
+        {
+          "tagUuids": {
+            "changed": false
+          },
+          "text": {
+            "changed": false
+          },
+          "uuid": "4ec19758-e7a0-4287-b325-f173f3131a88",
+          "expertUuids": {
+            "changed": false
+          },
+          "entityUuid": "d0fec286-f862-49e0-b8db-44bd890fe93c",
+          "questionType": "ValueQuestion",
+          "parentUuid": "03b68ead-cc7a-43de-be6d-d66d986e0123",
+          "eventType": "EditQuestionEvent",
+          "requiredLevel": {
+            "changed": false
+          },
+          "referenceUuids": {
+            "changed": false
+          },
+          "title": {
+            "changed": false
+          },
+          "valueType": {
+            "changed": true,
+            "value": "StringQuestionValueType"
+          }
+        },
+        {
+          "tagUuids": {
+            "changed": false
+          },
+          "text": {
+            "changed": false
+          },
+          "uuid": "481b76f8-c881-4fb9-b8db-65e0eee80cf1",
+          "expertUuids": {
+            "changed": false
+          },
+          "entityUuid": "35173624-293a-4899-982a-1808fd2bd0cf",
+          "questionType": "ValueQuestion",
+          "parentUuid": "03b68ead-cc7a-43de-be6d-d66d986e0123",
+          "eventType": "EditQuestionEvent",
+          "requiredLevel": {
+            "changed": false
+          },
+          "referenceUuids": {
+            "changed": false
+          },
+          "title": {
+            "changed": false
+          },
+          "valueType": {
+            "changed": true,
+            "value": "StringQuestionValueType"
+          }
+        }
+      ],
+      "version": "1.0.0",
+      "id": "dsw:test-phases:1.0.0",
+      "mergeCheckpointPackageId": null,
+      "license": "nolicense",
+      "organizationId": "dsw",
+      "previousPackageId": null,
+      "description": "KM for testing phases"
+    }
+  ],
+  "name": "KM for testing phases",
+  "version": "1.0.0",
+  "id": "dsw:test-phases:1.0.0",
+  "organizationId": "dsw"
+}
