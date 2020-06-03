@@ -66,6 +66,11 @@ export function openChapter(chapter) {
 }
 
 
+export function openSummaryReport() {
+    cy.get('.chapter-list .nav-link').contains('Summary Report').click()
+}
+
+
 export function checkAnswerChecked(answer) {
     cy.get('label').contains(answer).find('input').should('be.checked')
 }
@@ -130,6 +135,72 @@ export function expectTodoCount(count) {
 export function expectNoTodo() {
     cy.get('.Questionnaire .nav-link').contains('TODOs').should('not.exist')
     cy.get('.action-todo').should('not.exist')
+}
+
+
+export function expectSummaryReportAnswered(indication, chapter) {
+    openSummaryReport()
+
+    const checkCells = ($cells, text) => {
+        cy.wrap($cells).should('have.length', 2)
+        cy.wrap($cells[0]).should('contain.text', text)
+    }
+
+    const checkRows = ($rows) => {
+        cy.wrap($rows).should('have.length', 2)
+        cy.wrap($rows[0]).find('td').then(($cells) => { 
+            checkCells($cells, `Answered (current phase): ${indication.current.answered}/${indication.current.all}`)
+        })
+        cy.wrap($rows[1]).find('td').then(($cells) => {
+            checkCells($cells, `Answered: ${indication.all.answered}/${indication.all.all}`)
+        })
+    }
+
+    if (chapter === undefined) {
+        cy.get('.summary-report > table.indication-table').find('tr.indication').then(($rows) => {
+            checkRows($rows)
+        })
+    } else {
+        cy.get('.summary-report').contains('h3', chapter).parent().find('table.indication-table tr.indication').then(($rows) => {
+            checkRows($rows)
+        })
+    }
+}
+
+export function expectSummaryReportMetrics(metrics, chapter) {
+    openSummaryReport()
+
+    const checkCells = ($cells, metric) => {
+        cy.wrap($cells).should('have.length', 3)
+        cy.wrap($cells[0]).should('contain.text', metric.name)
+        cy.wrap($cells[1]).should('contain.text', metric.value)
+    }
+
+    if (chapter === undefined) {
+        if (metrics.length === 0) {
+            cy.get('.summary-report > div.row').find('.table-metrics-report').should('not.exist')
+        } else {
+            cy.get('.summary-report > div.row').find('.table-metrics-report').should('exist')
+            cy.get('.summary-report > div.row').find('.table-metrics-report tbody tr').should('have.length', metrics.length)
+            metrics.forEach((metric, index) => {
+                cy.get('.summary-report > div.row').find('.table-metrics-report tbody tr').eq(index).find('td').then(($cells) => {
+                    checkCells($cells, metric)
+                })
+            })
+        }
+    } else {
+        if (metrics.length === 0) {
+            cy.get('.summary-report').contains('h3', chapter).parent().find('.table-metrics-report').should('not.exist')
+        } else {
+            cy.get('.summary-report').contains('h3', chapter).parent().find('.table-metrics-report').should('exist')
+            cy.get('.summary-report').contains('h3', chapter).parent().find('.table-metrics-report tbody tr').should('have.length', metrics.length)
+            metrics.forEach((metric, index) => {
+                cy.get('.summary-report').contains('h3', chapter).parent().find('.table-metrics-report tbody tr').eq(index).find('td').then(($cells) => {
+                    checkCells($cells, metric)
+                })
+            })
+        }
+    }
 }
 
 
