@@ -2,8 +2,8 @@
 
 # Init docker-compose file
 SERVER_IMAGE="${SERVER_IMAGE:-datastewardshipwizard/wizard-server:develop}"
-CLIENT_IMAGE="${CLIENT_IMAGE:-datastewardshipwizard/wizard-client:2.4.0-rc.1}"
-DOCWORKER_IMAGE="${DOCWORKER_IMAGE:-datastewardshipwizard/document-worker:2.4.0-rc.1}"
+CLIENT_IMAGE="${CLIENT_IMAGE:-datastewardshipwizard/wizard-client:develop}"
+DOCWORKER_IMAGE="${DOCWORKER_IMAGE:-datastewardshipwizard/document-worker:develop}"
 
 DOCKER_COMPOSE_FILE=dsw/docker-compose.yml
 

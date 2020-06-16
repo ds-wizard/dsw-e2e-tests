@@ -206,7 +206,7 @@ export function expectSummaryReportMetrics(metrics, chapter) {
 
 export function saveAndClose() {
     cy.clickBtn('Save')
-    cy.clickBtn('Close')
+    cy.get('.top-header-actions a').contains('Close').click()
 }
 
 

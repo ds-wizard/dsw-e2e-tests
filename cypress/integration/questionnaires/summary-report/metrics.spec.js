@@ -262,7 +262,7 @@ describe('Questionnaire Summary Report - Metrics', () => {
     })
 
 
-    it.only('With list questions', () => {
+    it('With list questions', () => {
         q.openChapter('Chapter 2')
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').contains('button', 'Add').click().click().click()
         cy.get('[data-path="294757cc-a5e2-425a-be7e-6fd496b0cd23.0.5c4a61f9-d678-46eb-81ff-8436a8832482"]').contains('label', 'Template option 2').click()
@@ -351,7 +351,7 @@ describe('Questionnaire Summary Report - Metrics', () => {
             { name: 'Findability', value: 0.60 }, // only 1.2
             { name: 'Accessibility', value: 0.00 }, // only 1.2
             { name: 'Interoperability', value: 0.99 }, // = (0.15×0.95 + 0.6×1) / (0.15 + 0.6),
-            { name: 'Reusability', value: 0.90 }, // only 1.2
+            { name: 'Reusability', value: 0.00 }, // weight 0
             { name: 'Good DMP Practice', value: 1.00 },
             { name: 'Openness', value: 0.30 } // only 1.2
         ])
@@ -363,7 +363,7 @@ describe('Questionnaire Summary Report - Metrics', () => {
             { name: 'Findability', value: 0.60 },
             { name: 'Accessibility', value: 0.00 },
             { name: 'Interoperability', value: 1.00 },
-            { name: 'Reusability', value: 0.90 },
+            { name: 'Reusability', value: 0.00 },
             { name: 'Good DMP Practice', value: 0.00 },
             { name: 'Openness', value: 0.30 }
         ], 'Chapter 2')

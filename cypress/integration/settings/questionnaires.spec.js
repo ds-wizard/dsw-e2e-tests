@@ -45,7 +45,7 @@ describe('Settings / Questionnaires', () => {
 
     it('phases enabled', () => {
         // Enable phases
-        cy.checkToggle('levelsEnabled')
+        cy.checkToggle('levels')
         cy.clickBtn('Save', true)
 
         // Create a questionnaire
@@ -64,7 +64,7 @@ describe('Settings / Questionnaires', () => {
 
     it('phases not enabled', () => {
         // Disable phases
-        cy.uncheckToggle('levelsEnabled')
+        cy.uncheckToggle('levels')
         cy.clickBtn('Save', true)
 
         // Create a questionnaire
