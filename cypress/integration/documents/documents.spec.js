@@ -78,6 +78,15 @@ describe('Documents', () => {
         })
     })
 
+    it(`Create (from Questionnaire, prefill name)`, () => {
+        cy.visitApp('/questionnaires')
+
+        cy.get('.list-group-item .dropdown-toggle').click()
+        cy.get('.list-group-item .dropdown-item').contains('Create Document').click()
+
+        cy.get('#name').should('have.value', questionnaireName)
+    })
+
     it(`Create, View, Delete`, () => {
         const documentName = `${questionnaireName} (${formats[0]})`
         cy.visitApp('/documents')
