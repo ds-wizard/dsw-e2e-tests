@@ -37,8 +37,15 @@ describe('Questionnaire detail actions', () => {
     })
 
     it('create document', () => {
+        questionnaire.selectAnswer('Answer 1.1')
+        questionnaire.typeAnswer('Value Question String', 'Some string')
+        cy.clickBtn('Save')
+
         cy.get('.top-header-actions .link-with-icon').contains('Create Document').click()
         cy.url().should('contain', '/documents/create?selected=')
+
+        cy.get('.indication-table .indication').contains('Answered (current phase): 0/0')
+        cy.get('.indication-table .indication').contains('Answered: 2/7')
     })
 
     it('edit', () => {
