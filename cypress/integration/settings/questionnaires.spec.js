@@ -47,7 +47,7 @@ describe('Settings / Questionnaires', () => {
 
     const visibilities = [q.Private, q.PublicReadOnly, q.Public]
     visibilities.forEach((visibility) => {
-        it.only(`default questionnaire visibility - ${visibility}`, () => {
+        it(`default questionnaire visibility - ${visibility}`, () => {
             cy.fillFields({ s_questionnaireVisibilityDefaultValue: visibility })
             cy.clickBtn('Save', true)
             cy.visitApp('/questionnaires/create')
@@ -91,6 +91,44 @@ describe('Settings / Questionnaires', () => {
 
         // Check that phases are not there
         cy.get('.chapter-list .level-selection').should('not.exist')
+    })
+
+    it('summary report enabled', () => {
+        // Enable summary report
+        cy.checkToggle('summaryReport')
+        cy.clickBtn('Save', true)
+
+        // Create a questionnaire
+        const questionnaire = {
+            name: questionnaireName,
+            s_packageId: packageId
+        }
+        cy.visitApp('/questionnaires/create')
+        cy.fillFields(questionnaire)
+        cy.clickBtn('Save')
+        cy.url().should('contain', '/questionnaires/detail/')
+
+        // Check that summary report is there
+        cy.get('.nav-link').contains('Summary Report').should('exist')
+    })
+
+    it('summary report not enabled', () => {
+        // Enable summary report
+        cy.uncheckToggle('summaryReport')
+        cy.clickBtn('Save', true)
+
+        // Create a questionnaire
+        const questionnaire = {
+            name: questionnaireName,
+            s_packageId: packageId
+        }
+        cy.visitApp('/questionnaires/create')
+        cy.fillFields(questionnaire)
+        cy.clickBtn('Save')
+        cy.url().should('contain', '/questionnaires/detail/')
+
+        // Check that summary report is not there
+        cy.get('.nav-link').contains('Summary Report').should('not.exist')
     })
 
     it('feedback enabled', () => {
