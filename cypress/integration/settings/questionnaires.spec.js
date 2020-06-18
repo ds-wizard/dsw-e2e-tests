@@ -1,3 +1,5 @@
+import * as q from '../../support/questionnaire-helpers'
+
 describe('Settings / Questionnaires', () => {
     const questionnaireName = 'Test Questionnaire'
     const kmId = 'test-km-1'
@@ -41,6 +43,16 @@ describe('Settings / Questionnaires', () => {
         cy.clickBtn('Save', true)
         cy.visitApp('/questionnaires/create')
         cy.get('label').contains('Visibility').should('not.exist')
+    })
+
+    const visibilities = [q.Private, q.PublicReadOnly, q.Public]
+    visibilities.forEach((visibility) => {
+        it.only(`default questionnaire visibility - ${visibility}`, () => {
+            cy.fillFields({ s_questionnaireVisibilityDefaultValue: visibility })
+            cy.clickBtn('Save', true)
+            cy.visitApp('/questionnaires/create')
+            cy.get(`#${visibility}`).should('be.checked')
+        })
     })
 
     it('phases enabled', () => {
