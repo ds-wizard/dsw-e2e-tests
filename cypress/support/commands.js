@@ -104,6 +104,19 @@ Cypress.Commands.add('createQuestionnaire', ({ visibility, name, packageId }) =>
     })
 })
 
+Cypress.Commands.add('createQuestionnaires', (questionnaires) => {
+    getTokenFor('researcher').then((resp) => {
+        questionnaires.forEach(({ visibility, packageId, name }) => {
+            cy.request({
+                method: 'POST',
+                url: apiUrl('/questionnaires'),
+                headers: createHeaders(resp.body.token),
+                body: { visibility, name, packageId, tagUuids: [] }
+            })
+        })
+    })
+})
+
 Cypress.Commands.add('updateQuestionnaire', (questionnaireUuid, data) => {
     getTokenFor('researcher').then((resp) => {
         cy.request({
@@ -125,6 +138,21 @@ Cypress.Commands.add('createKMEditor', ({ kmId, name, previousPackageId }) => {
             url: apiUrl('/branches'),
             headers: createHeaders(resp.body.token),
             body: { kmId, name, previousPackageId }
+        })
+    })
+})
+
+// Documents command
+
+Cypress.Commands.add('createDocuments', (documents) => {
+    getTokenFor('researcher').then((resp) => {
+        documents.forEach((body) => {
+            cy.request({
+                method: 'POST',
+                url: apiUrl('/documents'),
+                headers: createHeaders(resp.body.token),
+                body
+            })
         })
     })
 })
