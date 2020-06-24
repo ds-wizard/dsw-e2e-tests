@@ -25,9 +25,9 @@ Cypress.Commands.add('loginAs', (role) => {
         }).then((resp) => {
             window.localStorage.setItem('session', JSON.stringify({
                 sidebarCollapsed: false,
-                token,
+                token: { token },
                 user: resp.body,
-                v3: true
+                v4: true
             }))
         })
     })
