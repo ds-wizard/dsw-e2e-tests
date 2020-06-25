@@ -29,6 +29,20 @@ describe('Documents', () => {
         cy.fixture(kmId).then((km) => {
             cy.importKM(km)
         })
+        cy.task('mongo:delete', {
+            collection: 'templates',
+            args: { templateId: "broken" }
+        })
+        cy.task('mongo:delete', {
+            collection: 'templates',
+            args: { templateId: "not-allowed" }
+        })
+        cy.fixture('templates/broken.json').then((template) => {
+            cy.importTemplate(template)
+        })
+        cy.fixture('templates/not-allowed.json').then((template) => {
+            cy.importTemplate(template)
+        })
     })
 
     beforeEach(() => {
@@ -125,8 +139,8 @@ describe('Documents', () => {
         cy.get('a').contains('Create').click()
 
         cy.get('#questionnaireUuid').select(questionnaireName)
-        cy.get('#templateUuid option').contains(templateName).should('exist')
-        cy.get('#templateUuid option').contains(brokenTemplateName).should('exist')
-        cy.get('#templateUuid option').contains(notAllowedTemplateName).should('not.exist')
+        cy.get('#templateId option').contains(templateName).should('exist')
+        cy.get('#templateId option').contains(brokenTemplateName).should('exist')
+        cy.get('#templateId option').contains(notAllowedTemplateName).should('not.exist')
     })
 })

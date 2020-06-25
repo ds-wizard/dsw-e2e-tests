@@ -1,7 +1,14 @@
 {
-  "uuid": "43a3fdd1-8535-42e0-81a7-5edbff296e66",
+  "id": "dsw:broken:0.1.0",
+  "templateId": "broken",
+  "organizationId": "dsw",
+  "version": "0.1.0",
   "name": "Broken Template",
   "description": "This is a broken template",
+  "readme": "# Broken Template",
+  "metamodelVersion": 1,
+  "license": "nolicense",
+  "recommendedPackageId": null,
   "allowedPackages": [
     {
       "orgId": "dsw",
@@ -128,5 +135,7 @@
         }
       ]
     }
-  ]
+  ],
+  "files": [],
+  "assets": []
 }
