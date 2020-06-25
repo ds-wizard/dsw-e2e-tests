@@ -90,6 +90,19 @@ Cypress.Commands.add('importKM', (km) => {
     })
 })
 
+// Templates commands
+
+Cypress.Commands.add('importTemplate', (template) => {
+    getTokenFor('admin').then((resp) => {
+        cy.request({
+            method: 'POST',
+            url: apiUrl('/templates'),
+            headers: createHeaders(resp.body.token),
+            body: template
+        })
+    })
+})
+
 
 // Questionnaires commands
 

@@ -4,7 +4,7 @@ export function submitDocumentForm(document, questionnaire, template, format) {
     if (questionnaire !== null) {
         cy.get('#questionnaireUuid').select(questionnaire)
     }
-    cy.get('#templateUuid').select(template)
+    cy.get('#templateId').select(template)
     cy.contains(format).click()
     cy.get('.form-actions button').contains('Create').click()
 }

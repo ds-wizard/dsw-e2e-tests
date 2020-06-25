@@ -5,7 +5,7 @@ describe('Document List', () => {
     const questionnaireName = 'Documents test'
     const kmId = 'test-km-1'
     const packageId = 'dsw:test-km-1:1.0.0'
-    const templateUuid = '43a3fdd1-8535-42e0-81a7-5edbff296e65'
+    const templateId = 'dsw:default-template:1.0.0'
     const formatUuid = 'd3e98eb6-344d-481f-8e37-6a67b6cd1ad2'
 
     before(() => {
@@ -35,7 +35,7 @@ describe('Document List', () => {
                 documents.push({
                     name: `Document ${('0' + i).slice(-2)}`,
                     formatUuid,
-                    templateUuid,
+                    templateId,
                     questionnaireUuid
                 })
             }

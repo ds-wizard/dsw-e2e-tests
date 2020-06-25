@@ -1,29 +1,35 @@
 {
-  "uuid": "43a3fdd1-8535-42e0-81a7-5edbff296e65",
-  "name": "Default Template",
-  "description": "This is a default template",
+  "id": "dsw:not-allowed:0.1.0",
+  "templateId": "not-allowed",
+  "organizationId": "dsw",
+  "version": "0.1.0",
+  "name": "Not-Allowed Template",
+  "description": "This template is not allowed",
+  "readme": "# Not-Allowed Template",
+  "metamodelVersion": 1,
+  "license": "nolicense",
+  "recommendedPackageId": null,
   "allowedPackages": [
     {
-      "orgId": null,
-      "kmId": null,
-      "minVersion": null,
+      "orgId": "dsw",
+      "kmId": "root",
+      "minVersion": "1.5.0",
+      "maxVersion": null
+    },
+    {
+      "orgId": "dsw",
+      "kmId": "test-documents",
+      "minVersion": "0.1.0",
+      "maxVersion": "0.9.99"
+    },
+    {
+      "orgId": "dsw",
+      "kmId": "test-documents",
+      "minVersion": "1.1.0",
       "maxVersion": null
     }
   ],
   "formats": [
-    {
-      "uuid": "d3e98eb6-344d-481f-8e37-6a67b6cd1ad2",
-      "name": "JSON Data",
-      "shortName": "json",
-      "icon": "far fa-file",
-      "color": "#f15a24",
-      "steps": [
-        {
-          "name": "json",
-          "options": {}
-        }
-      ]
-    },
     {
       "uuid": "a9293d08-59a4-4e6b-ae62-7a6a570b031c",
       "name": "HTML Document",
@@ -158,5 +164,7 @@
         }
       ]
     }
-  ]
+  ],
+  "files": [],
+  "assets": []
 }
