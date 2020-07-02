@@ -5,7 +5,7 @@ describe('Document List', () => {
     const questionnaireName = 'Documents test'
     const kmId = 'test-km-1'
     const packageId = 'dsw:test-km-1:1.0.0'
-    const templateId = 'dsw:default-template:1.0.0'
+    const templateId = 'dsw:default:1.0.0'
     const formatUuid = 'd3e98eb6-344d-481f-8e37-6a67b6cd1ad2'
 
     before(() => {
