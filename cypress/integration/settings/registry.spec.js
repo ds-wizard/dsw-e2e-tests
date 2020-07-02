@@ -2,7 +2,7 @@ describe('Settings / Knowledge Model Registry', () => {
     beforeEach(() => {
         cy.putDefaultAppConfig()
         cy.loginAs('admin')
-        cy.visitApp('/settings/knowledge-model-registry')
+        cy.visitApp('/settings/registry')
     })
 
     after(() => {
@@ -15,7 +15,11 @@ describe('Settings / Knowledge Model Registry', () => {
         cy.clickBtn('Save')
 
         cy.visitApp('/knowledge-models/import')
-        cy.get('.nav-link').contains('From Registry').should('exist')
+        cy.get('.nav-link').contains('From DSW Registry').should('exist')
+        cy.get('.KnowledgeModels__Import__RegistryImport').should('exist')
+
+        cy.visitApp('/templates/import')
+        cy.get('.nav-link').contains('From DSW Registry').should('exist')
         cy.get('.KnowledgeModels__Import__RegistryImport').should('exist')
     })
 
@@ -24,6 +28,10 @@ describe('Settings / Knowledge Model Registry', () => {
         cy.clickBtn('Save')
 
         cy.visitApp('/knowledge-models/import')
+        cy.get('.nav-link').should('not.exist')
+        cy.get('.KnowledgeModels__Import__RegistryImport').should('not.exist')
+
+        cy.visitApp('/templates/import')
         cy.get('.nav-link').should('not.exist')
         cy.get('.KnowledgeModels__Import__RegistryImport').should('not.exist')
 
