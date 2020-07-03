@@ -6,7 +6,7 @@ describe('Documents', () => {
     const kmId = 'test-documents'
     const packageId = 'dsw:test-documents:1.0.0'
 
-    const templateName = 'Default Template'
+    const templateName = 'Questionnaire Report'
     const brokenTemplateName = 'Broken Template'
     const notAllowedTemplateName = 'Not Allowed Template'
     const formats = [
