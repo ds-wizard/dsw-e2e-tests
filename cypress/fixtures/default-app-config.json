@@ -18,6 +18,7 @@
     },
     "privacyAndSupport": {
         "privacyUrl": "https://ds-wizard.org/privacy.html",
+        "termsOfServiceUrl": "https://ds-wizard.org/terms.html",
         "supportEmail": null,
         "supportRepositoryName": null,
         "supportRepositoryUrl": null
