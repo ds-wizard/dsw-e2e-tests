@@ -1,19 +1,14 @@
 
-export function submitDocumentForm(document, questionnaire, template, format) {
+export function submitDocumentForm(document, template, format) {
     cy.get('#name').type(document)
-    if (questionnaire !== null) {
-        cy.get('#questionnaireUuid').select(questionnaire)
-    }
     cy.get('#templateId').select(template)
     cy.contains(format).click()
     cy.get('.form-actions button').contains('Create').click()
 }
 
-export function createDocument(document, questionnaire, template, format) {
-    cy.visitApp('/documents')
-
-    cy.get('.header .actions a').contains('Create').click()
-    submitDocumentForm(document, questionnaire, template, format)
+export function createDocument(document, questionnaireUuid, template, format) {
+    cy.visitApp(`/documents/create/${questionnaireUuid}`)
+    submitDocumentForm(document, template, format)
 }
 
 export function checkDocument(document, wait = false) {

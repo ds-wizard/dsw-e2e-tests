@@ -3,6 +3,7 @@ import * as q from '../../support/questionnaire-helpers'
 
 describe('Documents', () => {
     const questionnaireName = 'Documents test'
+    let questionnaireUuid = ''
     const kmId = 'test-documents'
     const packageId = 'dsw:test-documents:1.0.0'
 
@@ -67,15 +68,8 @@ describe('Documents', () => {
         cy.createQuestionnaire(questionnaire).then((resp) => {
             cy.fixture(`${kmId}-questionnaire`).then((req) => {
                 cy.updateQuestionnaire(resp.body.uuid, req)
+                questionnaireUuid = resp.body.uuid
             })
-        })
-    })
-
-    formats.forEach((format) => {
-        it(`Create (from Documents) - ${format}`, () => {
-            const documentName = `${questionnaireName} (${format})`
-            d.createDocument(documentName, questionnaireName, templateName, format)
-            d.checkDocument(documentName, true)
         })
     })
 
@@ -87,7 +81,7 @@ describe('Documents', () => {
             cy.get('.list-group-item .dropdown-toggle').click()
             cy.get('.list-group-item .dropdown-item').contains('Create Document').click()
 
-            d.submitDocumentForm(documentName, null, templateName, format)
+            d.submitDocumentForm(documentName, templateName, format)
             d.checkDocument(documentName, true)
         })
     })
@@ -103,9 +97,7 @@ describe('Documents', () => {
 
     it(`Create, View, Delete`, () => {
         const documentName = `${questionnaireName} (${formats[0]})`
-        cy.visitApp('/documents')
-        
-        d.createDocument(documentName, questionnaireName, templateName, formats[0])
+        d.createDocument(documentName, questionnaireUuid, templateName, formats[0])
 
         cy.visitApp('/questionnaires')
 
@@ -126,7 +118,7 @@ describe('Documents', () => {
             const documentName = `${questionnaireName} (${brokenTemplateName} - ${format})`
             cy.visitApp('/documents')
 
-            d.createDocument(documentName, questionnaireName, brokenTemplateName, format)
+            d.createDocument(documentName, questionnaireUuid, brokenTemplateName, format)
 
             cy.wait(1000) // Wait for document generation
             cy.get('span.badge-danger').contains('Error').should('be.visible')
@@ -134,11 +126,7 @@ describe('Documents', () => {
     })
 
     it(`Not Allowed Template`, () => {
-        cy.visitApp('/documents')
-
-        cy.get('a').contains('Create').click()
-
-        cy.get('#questionnaireUuid').select(questionnaireName)
+        cy.visitApp(`/documents/create/${questionnaireUuid}`)
         cy.get('#templateId option').contains(templateName).should('exist')
         cy.get('#templateId option').contains(brokenTemplateName).should('exist')
         cy.get('#templateId option').contains(notAllowedTemplateName).should('not.exist')

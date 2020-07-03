@@ -42,7 +42,7 @@ describe('Questionnaire detail actions', () => {
         cy.clickBtn('Save')
 
         cy.get('.top-header-actions .link-with-icon').contains('Create Document').click()
-        cy.url().should('contain', '/documents/create?selected=')
+        cy.url().should('contain', '/documents/create/')
 
         cy.get('.indication-table .indication').contains('Answered (current phase): 0/0')
         cy.get('.indication-table .indication').contains('Answered: 2/7')
