@@ -18,6 +18,15 @@ describe('Settings / Privacy & Support', () => {
         cy.get('a').contains('Privacy').should('have.attr', 'href', privacyUrl)
     })
 
+    it('terms of use URL', () => {
+        const termsOfServiceUrl = 'http://example.com'
+        cy.fillFields({ termsOfServiceUrl })
+        cy.clickBtn('Save')
+        cy.logout()
+        cy.clickLink('Sign Up')
+        cy.get('a').contains('Terms of Service').should('have.attr', 'href', termsOfServiceUrl)
+    })
+
     it('support', () => {
         const supportEmail = 'support@ds-wizard.org'
         const supportRepositoryName = 'My Support Repository'
