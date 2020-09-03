@@ -1,6 +1,6 @@
 
 export function submitDocumentForm(document, template, format) {
-    cy.get('#name').type(document)
+    cy.get('#name').clear().type(document)
     cy.get('#templateId').select(template)
     cy.contains(format).click()
     cy.get('.form-actions button').contains('Create').click()

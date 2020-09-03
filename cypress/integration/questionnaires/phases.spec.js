@@ -22,14 +22,13 @@ describe('Questionnaire Phases', () => {
         })
         cy.loginAs('researcher')
         cy.createQuestionnaire({
-            visibility: questionnaire.PublicReadOnly,
+            visibility: questionnaire.VisibleView,
+            sharing: questionnaire.Restricted,
             name: questionnaireName,
             packageId: phases.packageId
         })
         cy.loginAs('researcher')
-        cy.visitApp('/questionnaires')
-        cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
-        cy.get('.top-header').should('exist')
+        questionnaire.open(questionnaireName)
     })
 
     phases.runCommonTests()

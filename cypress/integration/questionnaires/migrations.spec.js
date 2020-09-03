@@ -8,7 +8,8 @@ describe('Questionnaire Migrations', () => {
 
     const createQuestionnaire = (km, minor) => {
         cy.createQuestionnaire({
-            visibility: questionnaire.PublicReadOnly,
+            visibility: questionnaire.VisibleView,
+            sharing: questionnaire.Restricted,
             name: questionnaireName,
             packageId: getPackageId(km, minor)
         })
@@ -59,9 +60,6 @@ describe('Questionnaire Migrations', () => {
         cy.get('#question-3b5f1365-20c2-4493-9768-2e2644597356').should('have.class', 'highlighted').and('be.visible')
         questionnaire.resolveAndFinalizeMigration()
 
-        // check correct version
-        cy.get('.top-header-title').contains('1.1.0')
-
         // check migrated things
         cy.get('.form-group label').contains('How many people will go?').should('not.exist')
         cy.get('.form-group label').contains('How many people will be in your group?').should('exist')
@@ -77,9 +75,6 @@ describe('Questionnaire Migrations', () => {
         cy.get('.changes-view .list-group-item').contains('Question Changed').click()
         cy.get('#question-c0964b2e-b5b2-48ac-94f2-7d11e3626a94').should('have.class', 'highlighted').and('be.visible')
         questionnaire.resolveAndFinalizeMigration()
-        
-        // check correct version
-        cy.get('.top-header-title').contains('1.2.0')
 
         // check migrated things
         questionnaire.openChapter('After you return')
@@ -96,9 +91,6 @@ describe('Questionnaire Migrations', () => {
         cy.get('.changes-view .list-group-item').contains('Question Changed').click()
         cy.get('#question-045ff688-fdfa-4d9b-941f-df9c725e0f81').should('have.class', 'highlighted').and('be.visible')
         questionnaire.resolveAndFinalizeMigration()
-        
-        // check correct version
-        cy.get('.top-header-title').contains('1.3.0')
 
         // check migrated things
         cy.get('.form-group .extra-data').contains('Desirable: Before Submitting the Proposal').should('exist')
@@ -116,9 +108,6 @@ describe('Questionnaire Migrations', () => {
         cy.get('.radio .diff-added').contains(' or motorbike')
         questionnaire.resolveAndFinalizeMigration()
         
-        // check correct version
-        cy.get('.top-header-title').contains('1.4.0')
-
         // check migrated things
         cy.get('.radio').contains('Car or motorbike').should('exist')
     })
@@ -134,9 +123,6 @@ describe('Questionnaire Migrations', () => {
         cy.get('#question-66c327ea-39fe-402a-9a7c-b5ab349ccebe').should('have.class', 'highlighted').and('be.visible')
         cy.get('label .diff-added').contains('Will you organize a presentation about your vacation?')
         questionnaire.resolveAndFinalizeMigration()
-
-        // check correct version
-        cy.get('.top-header-title').contains('1.5.0')
 
         // check migrated things
         questionnaire.openChapter('After you return')
@@ -154,10 +140,8 @@ describe('Questionnaire Migrations', () => {
         questionnaire.finalizeMigration()
 
         // check correct version
-        cy.get('.top-header-title').contains('1.6.0')
         questionnaire.selectAnswer('Yes')
         cy.get('.form-group label').contains('Can you speak their language?').should('exist')
-        cy.clickBtn('Discard')
     })
 
 
@@ -169,7 +153,6 @@ describe('Questionnaire Migrations', () => {
         cy.visitApp('/questionnaires')
         cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
         questionnaire.selectAnswer('Yes')
-        questionnaire.saveAndClose()
 
         // initialize migration
         createMigrationTo('vacation-planning', 6)
@@ -181,7 +164,6 @@ describe('Questionnaire Migrations', () => {
         questionnaire.resolveAndFinalizeMigration()
       
         // check correct version
-        cy.get('.top-header-title').contains('1.6.0')
         cy.get('.form-group label').contains('Can you speak their language?').should('exist')
     })
 
@@ -196,11 +178,9 @@ describe('Questionnaire Migrations', () => {
         questionnaire.finalizeMigration()
 
         // check correct version
-        cy.get('.top-header-title').contains('1.7.0')
         questionnaire.selectAnswer('Yes')
         cy.get('.form-group label').contains('Can you speak any of the languages used in the destination?').should('exist')
         cy.get('.form-group label').contains('Can you speak their language?').should('not.exist')
-        cy.clickBtn('Discard')
     })
 
 
@@ -212,7 +192,6 @@ describe('Questionnaire Migrations', () => {
         cy.visitApp('/questionnaires')
         cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
         questionnaire.selectAnswer('Yes')
-        questionnaire.saveAndClose()
 
         // initialize migration
         createMigrationTo('vacation-planning', 7)
@@ -223,7 +202,6 @@ describe('Questionnaire Migrations', () => {
         questionnaire.resolveAndFinalizeMigration()
 
         // check correct version
-        cy.get('.top-header-title').contains('1.7.0')
         cy.get('.form-group label').contains('Can you speak any of the languages used in the destination?').should('exist')
         cy.get('.form-group label').contains('Can you speak their language?').should('not.exist')
     })
@@ -240,9 +218,6 @@ describe('Questionnaire Migrations', () => {
         // resolve
         questionnaire.resolveAndFinalizeMigration()
 
-        // check correct version
-        cy.get('.top-header-title').contains('1.1.0')
-
         // check todo
         questionnaire.expectTodoCount(1)
         questionnaire.expectTodoFor('How many people will be in your group?')
@@ -257,7 +232,6 @@ describe('Questionnaire Migrations', () => {
         cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
         questionnaire.selectAnswer('Answer 1.1')
         questionnaire.selectAnswer('Answer 3.1')
-        questionnaire.saveAndClose()
 
         // initialize migration
         createMigrationTo('move-test', 1)
@@ -271,7 +245,6 @@ describe('Questionnaire Migrations', () => {
         questionnaire.checkAnswerNotChecked('Answer 1.1')
         questionnaire.selectAnswer('Answer 1.1')
         questionnaire.checkAnswerNotChecked('Answer 3.1')
-        questionnaire.saveAndClose()
     })
 
     it('move question with answers from chapter to chapter', () => {
@@ -283,7 +256,6 @@ describe('Questionnaire Migrations', () => {
         cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
         questionnaire.selectAnswer('Answer 1.1')
         questionnaire.selectAnswer('Answer 3.2')
-        questionnaire.saveAndClose()
 
         // initialize migration
         createMigrationTo('move-test', 2)
@@ -308,10 +280,9 @@ describe('Questionnaire Migrations', () => {
         cy.clickBtn('Add')
         questionnaire.selectAnswer('Answer 5.1')
         questionnaire.selectAnswer('Answer 6.2')
-        cy.get('#question-d2135066-b758-4e4a-bf0d-3f770426b67c > .btn').contains('Add').click()
+        cy.get('#question-d2135066-b758-4e4a-bf0d-3f770426b67c .btn').contains('Add').click()
         questionnaire.selectAnswer('Answer 8.2')
         questionnaire.typeAnswer('Question 9', 'Value')
-        questionnaire.saveAndClose()
 
         // initialize migration
         createMigrationTo('move-test', 3)
@@ -337,10 +308,9 @@ describe('Questionnaire Migrations', () => {
         questionnaire.open(questionnaireName)
         cy.clickBtn('Add')
         questionnaire.selectAnswer('Answer 6.2')
-        cy.get('#question-d2135066-b758-4e4a-bf0d-3f770426b67c > .btn').contains('Add').click()
+        cy.get('#question-d2135066-b758-4e4a-bf0d-3f770426b67c .btn').contains('Add').click()
         questionnaire.selectAnswer('Answer 8.2')
         questionnaire.typeAnswer('Question 9', 'Value')
-        questionnaire.saveAndClose()
 
         // initialize migration
         createMigrationTo('move-test', 4)
@@ -366,7 +336,6 @@ describe('Questionnaire Migrations', () => {
         questionnaire.openChapter('Chapter 2')
         questionnaire.selectAnswer('Answer 1.1')
         questionnaire.selectAnswer('Answer 3.1')
-        questionnaire.saveAndClose()
 
         // initialize migration
         createMigrationTo('move-test', 5)

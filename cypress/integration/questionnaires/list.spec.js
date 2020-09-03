@@ -23,7 +23,8 @@ describe('Questionnaire List', () => {
         const questionnaires = []
         for (let i = 1; i <= 60; i++) {
             questionnaires.push({
-                visibility: questionnaire.Public,
+                visibility: questionnaire.VisibleEdit,
+                sharing: questionnaire.Restricted,
                 name: `Questionnaire ${('0' + i).slice(-2)}`,
                 packageId
             })

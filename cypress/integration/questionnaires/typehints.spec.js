@@ -34,6 +34,7 @@ describe('Questionnaires Typehints', () => {
         
         const questionnaire = {
             visibility: q.Private,
+            sharing: q.Restricted,
             name: questionnaireName,
             packageId
         }

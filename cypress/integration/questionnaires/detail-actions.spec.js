@@ -21,27 +21,21 @@ describe('Questionnaire detail actions', () => {
             args: {}
         })
         cy.createQuestionnaire({
-            visibility: questionnaire.PublicReadOnly,
+            visibility: questionnaire.VisibleView,
+            sharing: questionnaire.Restricted,
             name: questionnaireName,
             packageId
         })
         cy.loginAs('researcher')
-        cy.visitApp('/questionnaires')
-        cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
-        cy.get('.top-header').should('exist')
-    })
-
-    it('close', () => {
-        cy.get('.top-header-actions .link-with-icon').contains('Close').click()
-        cy.url().should('match', /\/questionnaires$/)
+        questionnaire.open(questionnaireName)
     })
 
     it('create document', () => {
         questionnaire.selectAnswer('Answer 1.1')
         questionnaire.typeAnswer('Value Question String', 'Some string')
-        cy.clickBtn('Save')
+        questionnaire.awaitSave()
 
-        cy.get('.top-header-actions .link-with-icon').contains('Create Document').click()
+        cy.get('.questionnaire-header__actions .link-with-icon').contains('Create Document').click()
         cy.url().should('contain', '/documents/create/')
 
         cy.get('.indication-table .indication').contains('Answered (current phase): 0/0')
@@ -49,33 +43,34 @@ describe('Questionnaire detail actions', () => {
     })
 
     it('edit', () => {
-        cy.get('.top-header-actions .dropdown-toggle').contains('More').click()
-        cy.get('.top-header-actions .dropdown-item').contains('Edit').click()
+        cy.get('.questionnaire-header__actions .dropdown-toggle').contains('More').click()
+        cy.get('.questionnaire-header__actions .dropdown-item').contains('Edit').click()
         cy.url().should('contain', '/questionnaires/edit')
     })
 
     it('view documents', () => {
-        cy.get('.top-header-actions .dropdown-toggle').contains('More').click()
-        cy.get('.top-header-actions .dropdown-item').contains('View Documents').click()
+        cy.get('.questionnaire-header__actions .dropdown-toggle').contains('More').click()
+        cy.get('.questionnaire-header__actions .dropdown-item').contains('View Documents').click()
         cy.url().should('contain', '/documents?questionnaireUuid=')
         cy.get('.listing-toolbar .questionnaire-name').should('contain', questionnaireName)
     })
 
     it('clone', () => {
-        cy.get('.top-header-actions .dropdown-toggle').contains('More').click()
-        cy.get('.top-header-actions .dropdown-item').contains('Clone').click()
-        cy.get('.top-header-title').should('contain', `Copy of ${questionnaireName}`)
+        cy.get('.questionnaire-header__actions .dropdown-toggle').contains('More').click()
+        cy.get('.questionnaire-header__actions .dropdown-item').contains('Clone').click()
+        cy.get('.btn-primary').contains('Clone').click()
+        cy.get('.questionnaire-header__title').should('contain', `Copy of ${questionnaireName}`)
     })
 
     it('create migration', () => {
-        cy.get('.top-header-actions .dropdown-toggle').contains('More').click()
-        cy.get('.top-header-actions .dropdown-item').contains('Create Migration').click()
+        cy.get('.questionnaire-header__actions .dropdown-toggle').contains('More').click()
+        cy.get('.questionnaire-header__actions .dropdown-item').contains('Create Migration').click()
         cy.url().should('contain', '/questionnaires/create-migration/')
     })
 
     it('delete', () => {
-        cy.get('.top-header-actions .dropdown-toggle').contains('More').click()
-        cy.get('.top-header-actions .dropdown-item').contains('Delete').click()
+        cy.get('.questionnaire-header__actions .dropdown-toggle').contains('More').click()
+        cy.get('.questionnaire-header__actions .dropdown-item').contains('Delete').click()
         cy.get('.btn-danger').contains('Delete').click()
         cy.url().should('match', /\/questionnaires$/)
         cy.get('.full-page-illustrated-message').should('contain', 'No data')

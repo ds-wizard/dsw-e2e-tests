@@ -5,7 +5,7 @@ describe('Document List', () => {
     const questionnaireName = 'Documents test'
     const kmId = 'test-km-1'
     const packageId = 'dsw:test-km-1:1.0.0'
-    const templateId = 'dsw:questionnaire-report:1.0.0'
+    const templateId = 'dsw:questionnaire-report:1.1.0'
     const formatUuid = 'd3e98eb6-344d-481f-8e37-6a67b6cd1ad2'
 
     before(() => {
@@ -13,9 +13,17 @@ describe('Document List', () => {
             collection: 'packages',
             args: { kmId }
         })
+        cy.task('mongo:delete', {
+            collection: 'templates',
+            args: { kmId }
+        })
 
         cy.fixture('test-km-1').then((km) => {
             cy.importKM(km)
+        })
+        
+        cy.fixture('templates/questionnaire-report.json').then((template) => {
+            cy.importTemplate(template)
         })
 
         cy.task('mongo:delete', { collection: 'documents' })
@@ -25,6 +33,7 @@ describe('Document List', () => {
         const questionnaire = {
             visibility: q.Private,
             name: questionnaireName,
+            sharing: q.Restricted,
             packageId
         }
         

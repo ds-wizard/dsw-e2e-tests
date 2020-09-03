@@ -31,29 +31,85 @@ describe('Settings / Questionnaires', () => {
         cy.putDefaultAppConfig()
     })
 
+    // questionnaire visibility
+
     it('questionnaire visibility enabled', () => {
         cy.checkToggle('questionnaireVisibilityEnabled')
         cy.clickBtn('Save', true)
         cy.visitApp('/questionnaires/create')
-        cy.get('label').contains('Visibility').should('exist')
+        cy.get('label').contains('Visible by other logged users').should('exist')
     })
 
     it('questionnaire visibility not enabled', () => {
         cy.uncheckToggle('questionnaireVisibilityEnabled')
         cy.clickBtn('Save', true)
         cy.visitApp('/questionnaires/create')
-        cy.get('label').contains('Visibility').should('not.exist')
+        cy.get('label').contains('Visible by other logged users').should('not.exist')
     })
 
-    const visibilities = [q.Private, q.PublicReadOnly, q.Public]
-    visibilities.forEach((visibility) => {
-        it(`default questionnaire visibility - ${visibility}`, () => {
-            cy.fillFields({ s_questionnaireVisibilityDefaultValue: visibility })
-            cy.clickBtn('Save', true)
-            cy.visitApp('/questionnaires/create')
-            cy.get(`#${visibility}`).should('be.checked')
-        })
+    it('default questionnaire visibility - Private', () => {
+        cy.get(`#${q.Private}`).check()
+        cy.clickBtn('Save', true)
+        cy.visitApp('/questionnaires/create')
+        cy.get('#visibilityEnabled').should('not.be.checked')
     })
+
+    it('default questionnaire visibility - VisibleView', () => {
+        cy.get(`#${q.VisibleView}`).check()
+        cy.clickBtn('Save', true)
+        cy.visitApp('/questionnaires/create')
+        cy.get('#visibilityEnabled').should('be.checked')
+        cy.checkFields({ s_visibilityPermission: 'view' })
+    })
+
+    it('default questionnaire visibility - VisibleEdit', () => {
+        cy.get(`#${q.VisibleEdit}`).check()
+        cy.clickBtn('Save', true)
+        cy.visitApp('/questionnaires/create')
+        cy.get('#visibilityEnabled').should('be.checked')
+        cy.checkFields({ s_visibilityPermission: 'edit' })
+    })
+
+    // questionnaire sharing
+
+    it('questionnaire sharing enabled', () => {
+        cy.checkToggle('questionnaireSharingEnabled')
+        cy.clickBtn('Save', true)
+        cy.visitApp('/questionnaires/create')
+        cy.get('label').contains('Public link').should('exist')
+    })
+
+    it('questionnaire sharing not enabled', () => {
+        cy.uncheckToggle('questionnaireSharingEnabled')
+        cy.clickBtn('Save', true)
+        cy.visitApp('/questionnaires/create')
+        cy.get('label').contains('Public link').should('not.exist')
+    })
+
+    it('default questionnaire visibility - Restricted', () => {
+        cy.get(`#${q.Restricted}`).check()
+        cy.clickBtn('Save', true)
+        cy.visitApp('/questionnaires/create')
+        cy.get('#sharingEnabled').should('not.be.checked')
+    })
+
+    it('default questionnaire visibility - AnyoneWithLinkView', () => {
+        cy.get(`#${q.AnyoneWithLinkView}`).check()
+        cy.clickBtn('Save', true)
+        cy.visitApp('/questionnaires/create')
+        cy.get('#sharingEnabled').should('be.checked')
+        cy.checkFields({ s_sharingPermission: 'view' })
+    })
+
+    it('default questionnaire visibility - AnyoneWithLinkEdit', () => {
+        cy.get(`#${q.AnyoneWithLinkEdit}`).check()
+        cy.clickBtn('Save', true)
+        cy.visitApp('/questionnaires/create')
+        cy.get('#sharingEnabled').should('be.checked')
+        cy.checkFields({ s_sharingPermission: 'edit' })
+    })
+
+    // questionnaire features
 
     it('phases enabled', () => {
         // Enable phases
@@ -71,7 +127,7 @@ describe('Settings / Questionnaires', () => {
         cy.url().should('contain', '/questionnaires/detail/')
 
         // Check that phases are there
-        cy.get('.chapter-list .level-selection').should('exist')
+        cy.get('.questionnaire__panel__phase').should('exist')
     })
 
     it('phases not enabled', () => {

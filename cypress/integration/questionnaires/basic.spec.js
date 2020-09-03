@@ -23,25 +23,24 @@ describe('Basic Questionnaire Tests', () => {
             args: {}
         })
         cy.createQuestionnaire({
-            visibility: questionnaire.PublicReadOnly,
+            visibility: questionnaire.VisibleView,
+            sharing: questionnaire.Restricted,
             name: questionnaireName,
             packageId
         })
         cy.loginAs('researcher')
-        cy.visitApp('/questionnaires')
-        cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
-        cy.get('.top-header').should('exist')
+        questionnaire.open(questionnaireName)
     })
 
 
     it('answer, advice & clear answer', () => {
-        // select answer and save
+        // select answer
         questionnaire.selectAnswer('Answer 1.1')
         cy.get('.alert-info').contains('This is an advice for answer 1.').should('be.visible')
-        questionnaire.saveAndClose()
+        questionnaire.awaitSave()
 
         // reopen and check the answer
-        cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
+        questionnaire.open(questionnaireName)
         questionnaire.checkAnswerChecked('Answer 1.1')
         cy.get('.alert-info').contains('This is an advice for answer 1.').should('be.visible')
 
@@ -49,10 +48,9 @@ describe('Basic Questionnaire Tests', () => {
         cy.clickLink('Clear answer')
         questionnaire.checkAnswerNotChecked('Answer 1.1')
         cy.get('.alert-info').contains('This is an advice for answer 1.').should('not.be.visible')
-        questionnaire.saveAndClose()
 
         // reopen and check it was cleared
-        cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
+        questionnaire.open(questionnaireName)
         questionnaire.checkAnswerNotChecked('Answer 1.1')
         cy.get('.alert-info').contains('This is an advice for answer 1.').should('not.be.visible')
     })
@@ -61,9 +59,9 @@ describe('Basic Questionnaire Tests', () => {
     it('answer follow-up question', () => {
         questionnaire.selectAnswer('Answer 1.2')
         questionnaire.selectAnswer('Follow-up answer 1.2')
-        questionnaire.saveAndClose()
+        questionnaire.awaitSave()
 
-        cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
+        questionnaire.open(questionnaireName)
         questionnaire.checkAnswerChecked('Answer 1.2')
         questionnaire.checkAnswerChecked('Follow-up answer 1.2')
     })
@@ -79,10 +77,10 @@ describe('Basic Questionnaire Tests', () => {
         // Add another item and save
         cy.clickBtn('Add')
         cy.get('.badge-human-identifier').contains('2.b.1').should('exist')
-        questionnaire.saveAndClose()
+        questionnaire.awaitSave()
 
         // Reopen questionnaire and check answers
-        cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
+        questionnaire.open(questionnaireName)
         cy.get('.badge-human-identifier').contains('2.a.1').should('exist')
         cy.get('.badge-human-identifier').contains('2.b.1').should('exist')
         questionnaire.checkAnswerChecked('Item answer 1.2')
@@ -92,10 +90,10 @@ describe('Basic Questionnaire Tests', () => {
         cy.get('.item:first-child() .btn-item-delete').click()
         cy.get('.badge-human-identifier').contains('2.a.1').should('not.exist')
         cy.get('.badge-human-identifier').contains('2.b.1').should('not.exist')
-        questionnaire.saveAndClose()
+        questionnaire.awaitSave()
 
         // Reopen and check items are not there
-        cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
+        questionnaire.open(questionnaireName)
         cy.get('.badge-human-identifier').contains('2.a.1').should('not.exist')
         cy.get('.badge-human-identifier').contains('2.b.1').should('not.exist')
     })
@@ -115,25 +113,25 @@ describe('Basic Questionnaire Tests', () => {
         it(`answer ${test.label}`, () => {
             // type answer and save
             questionnaire.typeAnswer(test.label, test.value)
-            questionnaire.saveAndClose()
+            questionnaire.awaitSave()
 
             // reopen questionnaire and check that the answer is there
-            cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
+            questionnaire.open(questionnaireName)
             questionnaire.checkAnswer(test.label, test.value)
         })
     }))
 
 
-    it(`answer Value Question Text`, () => {
+    it('answer Value Question Text', () => {
         const label = 'Value Question Text'
         const value = 'My Text Answer'
 
         // type answer and save
         questionnaire.typeAnswerText(label, value)
-        questionnaire.saveAndClose()
+        questionnaire.awaitSave()
 
         // reopen questionnaire and check that the answer is there
-        cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
+        questionnaire.open(questionnaireName)
         questionnaire.checkAnswerText(label, value)
     })
 
@@ -146,11 +144,10 @@ describe('Basic Questionnaire Tests', () => {
         cy.clickBtn('Add')
         questionnaire.selectAnswer('Item answer 1.1')
         questionnaire.typeAnswer(label, value)
-        questionnaire.saveAndClose()
+        questionnaire.awaitSave()
 
         // reopen questionnaire and check answers
-        cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
-        questionnaire.checkAnswerChecked('Item answer 1.1')
+        questionnaire.open(questionnaireName)
         questionnaire.checkAnswer(label, value)
     })
 
@@ -158,9 +155,9 @@ describe('Basic Questionnaire Tests', () => {
     it('answer question in different chapter', () => {
         cy.get('.nav-link').contains('Chapter 2').click()
         questionnaire.selectAnswer('Answer 2.2')
-        questionnaire.saveAndClose()
+        questionnaire.awaitSave()
 
-        cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
+        questionnaire.open(questionnaireName)
         cy.get('.nav-link').contains('Chapter 2').click()
         questionnaire.checkAnswerChecked('Answer 2.2')
     })
