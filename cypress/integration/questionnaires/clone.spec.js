@@ -29,7 +29,8 @@ describe('Clone Questionnaire', () => {
     it('can clone questinnaire', () => {
         // create a new questionnaire
         cy.createQuestionnaire({
-            visibility: questionnaire.PublicReadOnly,
+            visibility: questionnaire.VisibleView,
+            sharing: questionnaire.Restricted,
             name: questionnaireName,
             packageId
         })
@@ -40,16 +41,16 @@ describe('Clone Questionnaire', () => {
         questionnaire.selectAnswer('Answer 1.2')
         questionnaire.selectAnswer('Follow-up answer 1.1')
         questionnaire.typeAnswer('Value Question String', 'Some value')
-        questionnaire.saveAndClose()
+        questionnaire.awaitSave()
+        cy.visitApp('/questionnaires')
 
         // clone questionnaire
         const copyName = `Copy of ${questionnaireName}`
         cy.clickListingItemAction(questionnaireName, 'Clone')
-        cy.expectAlert('success', `Copy of ${questionnaireName} has been created`)
-        cy.getListingItem(copyName).should('exist')
+        cy.get('.btn-primary').contains('Clone').click()
 
         // check filled answers
-        cy.clickListingItemAction(copyName, 'Fill questionnaire')
+        cy.get('.questionnaire-header__title').contains(copyName)
         questionnaire.checkAnswerChecked('Answer 1.2')
         questionnaire.checkAnswerChecked('Follow-up answer 1.1')
         questionnaire.checkAnswer('Value Question String', 'Some value')

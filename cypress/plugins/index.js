@@ -47,6 +47,12 @@ module.exports = (on, config) => {
     }),
     'mongo:updateOne': ({collection, query, update}) => withMongoDB(config, db => {
       return db.collection(collection).updateOne(query, update)
-    })
+    }),
+    'mongo:updateMany': ({collection, query, update}) => withMongoDB(config, db => {
+      return db.collection(collection).updateMany(query, update)
+    }),
+    'mongo:insertOne': ({ collection, obj}) => withMongoDB(config, db => {
+      return db.collection(collection).insertOne(obj)
+    }),
   })
 }

@@ -93,38 +93,39 @@ Cypress.Commands.add('importKM', (km) => {
 // Templates commands
 
 Cypress.Commands.add('importTemplate', (template) => {
-    getTokenFor('admin').then((resp) => {
-        cy.request({
-            method: 'POST',
-            url: apiUrl('/templates'),
-            headers: createHeaders(resp.body.token),
-            body: template
-        })
+    cy.task('mongo:insertOne', {
+        collection: 'templates',
+        obj: template
+    })
+    cy.task('mongo:updateMany', {
+        collection: 'templates',
+        query: {},
+        update: [{ "$set": { "createdAt": { "$toDate": "$createdAt" } } }]
     })
 })
 
 
 // Questionnaires commands
 
-Cypress.Commands.add('createQuestionnaire', ({ visibility, name, packageId }) => {
+Cypress.Commands.add('createQuestionnaire', ({ visibility, sharing, name, packageId }) => {
     getTokenFor('researcher').then((resp) => {
         cy.request({
             method: 'POST',
             url: apiUrl('/questionnaires'),
             headers: createHeaders(resp.body.token),
-            body: { visibility, name, packageId, tagUuids: [] }
+            body: { visibility, sharing, name, packageId, tagUuids: [] }
         })
     })
 })
 
 Cypress.Commands.add('createQuestionnaires', (questionnaires) => {
     getTokenFor('researcher').then((resp) => {
-        questionnaires.forEach(({ visibility, packageId, name }) => {
+        questionnaires.forEach(({ visibility, sharing, packageId, name }) => {
             cy.request({
                 method: 'POST',
                 url: apiUrl('/questionnaires'),
                 headers: createHeaders(resp.body.token),
-                body: { visibility, name, packageId, tagUuids: [] }
+                body: { visibility, sharing, name, packageId, tagUuids: [] }
             })
         })
     })
@@ -193,6 +194,10 @@ Cypress.Commands.add('expectEmptyListing', () => {
 })
 
 
+Cypress.Commands.add('expectError', () => {
+    cy.get('.full-page-illustrated-message').contains('Error')
+})
+
 // Form commands
 
 Cypress.Commands.add('fillFields', (fields) => {
@@ -251,3 +256,14 @@ Cypress.Commands.add('putDefaultAppConfig', () => {
 Cypress.Commands.add('expectAlert', (type, text) => {
     cy.get(`.alert-${type}`).should('contain', text)
 })
+
+
+// WebSockets
+
+Cypress.Commands.add('wsSend', (url, msg) => {
+    const ws = new WebSocket(apiUrl(url).replace('http', 'ws'))
+    ws.addEventListener('open', () => {
+        ws.send(JSON.stringify(msg))
+        ws.close()
+    })
+}) 

@@ -53,6 +53,10 @@
             "enabled": true,
             "defaultValue": "PrivateQuestionnaire"
         },
+        "questionnaireSharing": {
+            "enabled": true,
+            "defaultValue": "RestrictedQuestionnaire"
+        },
         "levels": {
             "enabled": true
         },

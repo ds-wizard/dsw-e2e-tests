@@ -32,11 +32,18 @@ describe('Documents', () => {
         })
         cy.task('mongo:delete', {
             collection: 'templates',
-            args: { templateId: "broken" }
+            args: { templateId: 'questionnaire-report' }
         })
         cy.task('mongo:delete', {
             collection: 'templates',
-            args: { templateId: "not-allowed" }
+            args: { templateId: 'broken' }
+        })
+        cy.task('mongo:delete', {
+            collection: 'templates',
+            args: { templateId: 'not-allowed' }
+        })
+        cy.fixture('templates/questionnaire-report.json').then((template) => {
+            cy.importTemplate(template)
         })
         cy.fixture('templates/broken.json').then((template) => {
             cy.importTemplate(template)
@@ -61,7 +68,9 @@ describe('Documents', () => {
         
         const questionnaire = {
             visibility: q.Private,
+            sharing: q.Restricted,
             name: questionnaireName,
+            sharing: q.Restricted,
             packageId
         }
         

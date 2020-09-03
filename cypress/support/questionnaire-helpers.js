@@ -1,12 +1,17 @@
-export const Public = 'PublicQuestionnaire'
-export const PublicReadOnly = 'PublicReadOnlyQuestionnaire'
+export const VisibleEdit = 'VisibleEditQuestionnaire'
+export const VisibleView = 'VisibleViewQuestionnaire'
 export const Private = 'PrivateQuestionnaire'
 
+export const Restricted = 'RestrictedQuestionnaire'
+export const AnyoneWithLinkView = 'AnyoneWithLinkViewQuestionnaire'
+export const AnyoneWithLinkEdit = 'AnyoneWithLinkEditQuestionnaire'
+
+export const TodoUUID = '615b9028-5e3f-414f-b245-12d2ae2eeb20'
 
 export function open(questionnaireName) {
     cy.visitApp('/questionnaires')
     cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
-    cy.get('.top-header').should('exist')
+    cy.get('.questionnaire-header__title').should('exist')
 }
 
 
@@ -62,12 +67,12 @@ export function selectAnswer(answer) {
 
 
 export function openChapter(chapter) {
-    cy.get('.chapter-list .nav-link').contains(chapter).click()
+    cy.get('.questionnaire__panel__chapters .nav-link').contains(chapter).click()
 }
 
 
 export function openSummaryReport() {
-    cy.get('.chapter-list .nav-link').contains('Summary Report').click()
+    cy.get('.questionnaire__panel .nav-link').contains('Summary Report').click()
 }
 
 
@@ -117,7 +122,7 @@ export function expectTodoFor(question) {
 
 
 export function expectTodo(chapter, question) {
-    cy.get('.Questionnaire .nav-link').contains('TODOs').click()
+    cy.get('.questionnaire .nav-link').contains('TODOs').click()
     cy.get('.list-group-item').contains(question)
         .closest('.list-group-item').find('small').contains(chapter)
         .closest('.list-group-item').click()
@@ -128,12 +133,12 @@ export function expectTodo(chapter, question) {
 
 
 export function expectTodoCount(count) {
-    cy.get('.Questionnaire .nav-link').contains('TODOs').find('.badge').contains(count)
+    cy.get('.questionnaire .nav-link').contains('TODOs').find('.badge').contains(count)
 }
 
 
 export function expectNoTodo() {
-    cy.get('.Questionnaire .nav-link').contains('TODOs').should('not.exist')
+    cy.get('.questionnaire .nav-link').contains('TODOs').find('.badge').should('not.exist')
     cy.get('.action-todo').should('not.exist')
 }
 
@@ -157,11 +162,11 @@ export function expectSummaryReportAnswered(indication, chapter) {
     }
 
     if (chapter === undefined) {
-        cy.get('.summary-report > table.indication-table').find('tr.indication').then(($rows) => {
+        cy.get('.questionnaire__summary-report > table.indication-table').find('tr.indication').then(($rows) => {
             checkRows($rows)
         })
     } else {
-        cy.get('.summary-report').contains('h3', chapter).parent().find('table.indication-table tr.indication').then(($rows) => {
+        cy.get('.questionnaire__summary-report').contains('h3', chapter).parent().find('table.indication-table tr.indication').then(($rows) => {
             checkRows($rows)
         })
     }
@@ -178,24 +183,24 @@ export function expectSummaryReportMetrics(metrics, chapter) {
 
     if (chapter === undefined) {
         if (metrics.length === 0) {
-            cy.get('.summary-report > div.row').find('.table-metrics-report').should('not.exist')
+            cy.get('.questionnaire__summary-report > div.row').find('.table-metrics-report').should('not.exist')
         } else {
-            cy.get('.summary-report > div.row').find('.table-metrics-report').should('exist')
-            cy.get('.summary-report > div.row').find('.table-metrics-report tbody tr').should('have.length', metrics.length)
+            cy.get('.questionnaire__summary-report > div.row').find('.table-metrics-report').should('exist')
+            cy.get('.questionnaire__summary-report > div.row').find('.table-metrics-report tbody tr').should('have.length', metrics.length)
             metrics.forEach((metric, index) => {
-                cy.get('.summary-report > div.row').find('.table-metrics-report tbody tr').eq(index).find('td').then(($cells) => {
+                cy.get('.questionnaire__summary-report > div.row').find('.table-metrics-report tbody tr').eq(index).find('td').then(($cells) => {
                     checkCells($cells, metric)
                 })
             })
         }
     } else {
         if (metrics.length === 0) {
-            cy.get('.summary-report').contains('h3', chapter).parent().find('.table-metrics-report').should('not.exist')
+            cy.get('.questionnaire__summary-report').contains('h3', chapter).parent().find('.table-metrics-report').should('not.exist')
         } else {
-            cy.get('.summary-report').contains('h3', chapter).parent().find('.table-metrics-report').should('exist')
-            cy.get('.summary-report').contains('h3', chapter).parent().find('.table-metrics-report tbody tr').should('have.length', metrics.length)
+            cy.get('.questionnaire__summary-report').contains('h3', chapter).parent().find('.table-metrics-report').should('exist')
+            cy.get('.questionnaire__summary-report').contains('h3', chapter).parent().find('.table-metrics-report tbody tr').should('have.length', metrics.length)
             metrics.forEach((metric, index) => {
-                cy.get('.summary-report').contains('h3', chapter).parent().find('.table-metrics-report tbody tr').eq(index).find('td').then(($cells) => {
+                cy.get('.questionnaire__summary-report').contains('h3', chapter).parent().find('.table-metrics-report tbody tr').eq(index).find('td').then(($cells) => {
                     checkCells($cells, metric)
                 })
             })
@@ -203,12 +208,9 @@ export function expectSummaryReportMetrics(metrics, chapter) {
     }
 }
 
-
-export function saveAndClose() {
-    cy.clickBtn('Save')
-    cy.get('.top-header-actions a').contains('Close').click()
+export function awaitSave() {
+    cy.get('.questionnaire-header__saving').contains('Saved')
 }
-
 
 export function resolveAndFinalizeMigration() {
     cy.clickBtn('Resolve')

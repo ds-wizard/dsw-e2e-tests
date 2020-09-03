@@ -6,7 +6,7 @@
   "name": "Not-Allowed Template",
   "description": "This template is not allowed",
   "readme": "# Not-Allowed Template",
-  "metamodelVersion": 1,
+  "metamodelVersion": 2,
   "license": "nolicense",
   "recommendedPackageId": null,
   "allowedPackages": [
@@ -166,5 +166,6 @@
     }
   ],
   "files": [],
-  "assets": []
+  "assets": [],
+  "createdAt" : "2020-07-03T07:01:44.074Z"
 }

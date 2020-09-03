@@ -6,7 +6,7 @@
   "name": "Broken Template",
   "description": "This is a broken template",
   "readme": "# Broken Template",
-  "metamodelVersion": 1,
+  "metamodelVersion": 2,
   "license": "nolicense",
   "recommendedPackageId": null,
   "allowedPackages": [
@@ -137,5 +137,6 @@
     }
   ],
   "files": [],
-  "assets": []
+  "assets": [],
+  "createdAt" : "2020-07-03T07:01:44.074Z"
 }

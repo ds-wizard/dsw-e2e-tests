@@ -28,6 +28,7 @@ describe('Questionnaire Summary Report - Phases', () => {
         
         const questionnaire = {
             visibility: q.Private,
+            sharing: q.Restricted,
             name: questionnaireName,
             packageId
         }
@@ -219,9 +220,9 @@ describe('Questionnaire Summary Report - Phases', () => {
     it('With list questions', () => {
         q.openChapter('Chapter 2')
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').contains('button', 'Add').click().click().click().click()
-        cy.get('[data-path="294757cc-a5e2-425a-be7e-6fd496b0cd23.0.5c4a61f9-d678-46eb-81ff-8436a8832482"]').contains('label', 'Template option 2').click()
-        cy.get('[data-path="294757cc-a5e2-425a-be7e-6fd496b0cd23.1.5c4a61f9-d678-46eb-81ff-8436a8832482"]').contains('label', 'Template option 1').click()
-        cy.get('[data-path="294757cc-a5e2-425a-be7e-6fd496b0cd23.2.5c4a61f9-d678-46eb-81ff-8436a8832482"]').contains('label', 'Template option 2').click()
+        cy.get('.item:nth-child(1)').contains('label', 'Template option 2').click()
+        cy.get('.item:nth-child(2)').contains('label', 'Template option 1').click()
+        cy.get('.item:nth-child(3)').contains('label', 'Template option 2').click()
         q.expectSummaryReportAnswered({ current: { answered: 1, all: 4 }, all: { answered: 4, all: 13 } })
         q.expectSummaryReportAnswered({ current: { answered: 1, all: 2 }, all: { answered: 4, all: 7 } }, 'Chapter 2')
         
@@ -248,10 +249,10 @@ describe('Questionnaire Summary Report - Phases', () => {
         q.expectSummaryReportAnswered({ current: { answered: 1, all: 2 }, all: { answered: 3, all: 4 } }, 'Chapter 2')
 
         q.openChapter('Chapter 1')
-        cy.get('#question-f4e3444a-6469-4546-9f14-f9304f8d1557 > a.clear-answer').click() // FINDABLE
-        cy.get('#question-0eec0ecc-1da8-4db5-b7a3-da57d884eb52 > a.clear-answer').click() // OPEN
+        cy.get('#question-f4e3444a-6469-4546-9f14-f9304f8d1557 > div > a.clear-answer').click() // FINDABLE
+        cy.get('#question-0eec0ecc-1da8-4db5-b7a3-da57d884eb52 > div > a.clear-answer').click() // OPEN
         q.openChapter('Chapter 2')
-        cy.get('#question-16bd8329-cd7b-4029-84c4-5de0aa166369 > a.clear-answer').click() // Complex question 2 (with followup)
+        cy.get('#question-16bd8329-cd7b-4029-84c4-5de0aa166369 > div > a.clear-answer').click() // Complex question 2 (with followup)
         q.expectSummaryReportAnswered({ current: { answered: 0, all: 4 }, all: { answered: 3, all: 9 } })
         q.expectSummaryReportAnswered({ current: { answered: 0, all: 2 }, all: { answered: 2, all: 6 } }, 'Chapter 1')
         q.expectSummaryReportAnswered({ current: { answered: 0, all: 2 }, all: { answered: 1, all: 3 } }, 'Chapter 2')

@@ -24,14 +24,13 @@ describe('Questionnaire TODOs', () => {
             args: {}
         })
         cy.createQuestionnaire({
-            visibility: questionnaire.PublicReadOnly,
+            visibility: questionnaire.VisibleView,
+            sharing: questionnaire.Restricted,
             name: questionnaireName,
             packageId
         })
         cy.loginAs('researcher')
-        cy.visitApp('/questionnaires')
-        cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
-        cy.get('.top-header').should('exist')
+        questionnaire.open(questionnaireName)
     })
 
 
@@ -65,8 +64,8 @@ describe('Questionnaire TODOs', () => {
             questionnaire.expectTodo(test.chapter, test.question)
 
             // save, reopen and check again
-            questionnaire.saveAndClose()
-            cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
+            questionnaire.awaitSave()
+            questionnaire.open(questionnaireName)
             questionnaire.expectTodo(test.chapter, test.question)
         })
     })
@@ -77,16 +76,16 @@ describe('Questionnaire TODOs', () => {
             // add todo, save and reopen
             test.prepare()
             questionnaire.addTodoFor(test.question)
-            questionnaire.saveAndClose()
-            cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
+            questionnaire.awaitSave()
+            questionnaire.open(questionnaireName)
 
             // remove todo and check there are no todos
             questionnaire.removeTodoFor(test.question)
             questionnaire.expectNoTodo()
 
             // save, reopen and check again
-            questionnaire.saveAndClose()
-            cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
+            questionnaire.awaitSave()
+            questionnaire.open(questionnaireName)
             questionnaire.expectNoTodo()
         })
     })
@@ -100,8 +99,6 @@ describe('Questionnaire TODOs', () => {
 
         questionnaire.addTodoFor('Value Question 1')
         questionnaire.expectTodoCount(2)
-
-        cy.clickBtn('Discard')
     })
 
 
@@ -117,8 +114,6 @@ describe('Questionnaire TODOs', () => {
 
         questionnaire.selectAnswer('Answer 1')
         questionnaire.expectTodoCount(1)
-
-        cy.clickBtn('Discard')
     })
 
 
@@ -131,8 +126,6 @@ describe('Questionnaire TODOs', () => {
 
         cy.get('.btn-item-delete').click()
         questionnaire.expectNoTodo()
-
-        cy.clickBtn('Discard')
     })
 
 
@@ -151,7 +144,5 @@ describe('Questionnaire TODOs', () => {
 
         cy.get('.clear-answer').click()
         questionnaire.expectNoTodo()
-
-        cy.clickBtn('Discard')
     })
 })
