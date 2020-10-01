@@ -1,7 +1,4 @@
 {
-  "name": "Documents test",
-  "visibility": "PrivateQuestionnaire",
-  "sharing": "RestrictedQuestionnaire",
   "replies": {
     "ed84c005-ad55-40cb-93a6-40ef3c526dfa.429b0359-46a1-4a9e-bcb0-314562d02dce": {
       "type": "AnswerReply",
@@ -13,17 +10,17 @@
     },
     "ed84c005-ad55-40cb-93a6-40ef3c526dfa.a656b900-5ba3-4a0f-b446-34e4e684791f": {
         "type": "ItemListReply",
-        "value": 3
+        "value": ["ad89ae3f-b5f9-4c81-a83b-10a27fbb60d2", "ae0b235d-64b8-4702-9c6e-a40941fbec97", "fc30b7d1-a15d-4218-aa03-e0d829aa33ce"]
     },
-    "ed84c005-ad55-40cb-93a6-40ef3c526dfa.a656b900-5ba3-4a0f-b446-34e4e684791f.0.7475042d-8460-4498-a371-15298fa77b16": {
+    "ed84c005-ad55-40cb-93a6-40ef3c526dfa.a656b900-5ba3-4a0f-b446-34e4e684791f.ad89ae3f-b5f9-4c81-a83b-10a27fbb60d2.7475042d-8460-4498-a371-15298fa77b16": {
         "type": "StringReply",
         "value": "Item 1"
     },
-    "ed84c005-ad55-40cb-93a6-40ef3c526dfa.a656b900-5ba3-4a0f-b446-34e4e684791f.1.7475042d-8460-4498-a371-15298fa77b16": {
+    "ed84c005-ad55-40cb-93a6-40ef3c526dfa.a656b900-5ba3-4a0f-b446-34e4e684791f.ae0b235d-64b8-4702-9c6e-a40941fbec97.7475042d-8460-4498-a371-15298fa77b16": {
         "type": "StringReply",
         "value": "Item 2"
     },
-    "ed84c005-ad55-40cb-93a6-40ef3c526dfa.a656b900-5ba3-4a0f-b446-34e4e684791f.2.7475042d-8460-4498-a371-15298fa77b16": {
+    "ed84c005-ad55-40cb-93a6-40ef3c526dfa.a656b900-5ba3-4a0f-b446-34e4e684791f.fc30b7d1-a15d-4218-aa03-e0d829aa33ce.7475042d-8460-4498-a371-15298fa77b16": {
         "type": "StringReply",
         "value": "Item 3"
     },
@@ -57,5 +54,5 @@
     }
   },
   "level": 1,
-  "labels": []
+  "labels": {}
 }

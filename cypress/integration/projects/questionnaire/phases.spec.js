@@ -1,9 +1,9 @@
-import * as questionnaire from '../../support/questionnaire-helpers'
-import * as phases from '../../support/phases-helpers'
+import * as project from '../../../support/project-helpers'
+import * as phases from '../../../support/phases-helpers'
 
 
 describe('Questionnaire Phases', () => {
-    const questionnaireName = 'Test of Phases'
+    const projectName = 'Test of Phases'
 
     before(() => {
         cy.task('mongo:delete', {
@@ -22,13 +22,13 @@ describe('Questionnaire Phases', () => {
         })
         cy.loginAs('researcher')
         cy.createQuestionnaire({
-            visibility: questionnaire.VisibleView,
-            sharing: questionnaire.Restricted,
-            name: questionnaireName,
+            visibility: project.VisibleView,
+            sharing: project.Restricted,
+            name: projectName,
             packageId: phases.packageId
         })
         cy.loginAs('researcher')
-        questionnaire.open(questionnaireName)
+        project.open(projectName)
     })
 
     phases.runCommonTests()

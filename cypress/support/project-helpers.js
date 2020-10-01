@@ -9,9 +9,14 @@ export const AnyoneWithLinkEdit = 'AnyoneWithLinkEditQuestionnaire'
 export const TodoUUID = '615b9028-5e3f-414f-b245-12d2ae2eeb20'
 
 export function open(questionnaireName) {
-    cy.visitApp('/questionnaires')
-    cy.clickListingItemAction(questionnaireName, 'Fill questionnaire')
-    cy.get('.questionnaire-header__title').should('exist')
+    cy.visitApp('/projects')
+    cy.clickListingItemAction(questionnaireName, 'Open project')
+    expectTitle(questionnaireName)
+}
+
+
+export function expectTitle(questionnaireName) {
+    cy.get('.Plans__Detail__Navigation__Row__Section .title').contains(questionnaireName)
 }
 
 
@@ -67,14 +72,29 @@ export function selectAnswer(answer) {
 
 
 export function openChapter(chapter) {
+    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('Questionnaire').click()
     cy.get('.questionnaire__panel__chapters .nav-link').contains(chapter).click()
 }
 
 
 export function openSummaryReport() {
-    cy.get('.questionnaire__panel .nav-link').contains('Summary Report').click()
+    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('Metrics').click()
 }
 
+
+export function openPreview() {
+    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('Preview').click()
+}
+
+
+export function openDocuments() {
+    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('Documents').click()
+}
+
+
+export function openSettings() {
+    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('Settings').click()
+}
 
 export function checkAnswerChecked(answer) {
     cy.get('label').contains(answer).find('input').should('be.checked')
@@ -122,7 +142,7 @@ export function expectTodoFor(question) {
 
 
 export function expectTodo(chapter, question) {
-    cy.get('.questionnaire .nav-link').contains('TODOs').click()
+    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('TODOs').click()
     cy.get('.list-group-item').contains(question)
         .closest('.list-group-item').find('small').contains(chapter)
         .closest('.list-group-item').click()
@@ -133,12 +153,12 @@ export function expectTodo(chapter, question) {
 
 
 export function expectTodoCount(count) {
-    cy.get('.questionnaire .nav-link').contains('TODOs').find('.badge').contains(count)
+    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('TODOs').parent().find('.badge').contains(count)
 }
 
 
 export function expectNoTodo() {
-    cy.get('.questionnaire .nav-link').contains('TODOs').find('.badge').should('not.exist')
+    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('TODOs').parent().find('.badge').should('not.exist')
     cy.get('.action-todo').should('not.exist')
 }
 
@@ -214,12 +234,12 @@ export function awaitSave() {
 
 export function resolveAndFinalizeMigration() {
     cy.clickBtn('Resolve')
-    cy.clickBtn('Finalize Migration')
-    cy.url().should('contain', '/questionnaires/detail/')
+    cy.clickBtn('Finalize migration')
+    cy.url().should('match', /\/projects\/.+/)
 }
 
 
 export function finalizeMigration() {
-    cy.clickBtn('Finalize Migration')
-    cy.url().should('contain', '/questionnaires/detail/')
+    cy.clickBtn('Finalize migration')
+    cy.url().should('match', /\/projects\/.+/)
 }

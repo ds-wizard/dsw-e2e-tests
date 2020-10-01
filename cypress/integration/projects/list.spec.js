@@ -1,7 +1,7 @@
-import * as questionnaire from '../../support/questionnaire-helpers'
+import * as project from '../../support/project-helpers'
 
 
-describe('Questionnaire List', () => {
+describe('Project List', () => {
     const kmId = 'test-km-1'
     const packageId = 'dsw:test-km-1:1.0.0'
 
@@ -20,21 +20,21 @@ describe('Questionnaire List', () => {
             args: {}
         })
 
-        const questionnaires = []
+        const projects = []
         for (let i = 1; i <= 60; i++) {
-            questionnaires.push({
-                visibility: questionnaire.VisibleEdit,
-                sharing: questionnaire.Restricted,
+            projects.push({
+                visibility: project.VisibleEdit,
+                sharing: project.Restricted,
                 name: `Questionnaire ${('0' + i).slice(-2)}`,
                 packageId
             })
         }
-        cy.createQuestionnaires(questionnaires)
+        cy.createQuestionnaires(projects)
     })
 
     beforeEach(() => {
         cy.loginAs('researcher')
-        cy.visitApp('/questionnaires')
+        cy.visitApp('/projects')
     })
 
     it('default sort', () => {

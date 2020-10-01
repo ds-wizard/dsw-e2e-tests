@@ -2,7 +2,7 @@ describe('Menu', () => {
     [{
         role: 'admin',
         menu: {
-            contains: ['Users', 'Knowledge Model Editor', 'Knowledge Models', 'Questionnaire', 'Templates'],
+            contains: ['Users', 'Knowledge Model Editor', 'Knowledge Models', 'Projects', 'Documents', 'Templates'],
             notContais: []
         },
         sidebarLinks: {
@@ -12,8 +12,8 @@ describe('Menu', () => {
     }, {
         role: 'datasteward',
         menu:{
-            contains: ['Knowledge Model Editor', 'Knowledge Models', 'Questionnaire'],
-            notContais: ['Users', 'Templates']
+            contains: ['Knowledge Model Editor', 'Knowledge Models', 'Projects'],
+            notContais: ['Users', 'Documents', 'Templates']
         },
         sidebarLinks: {
             contains: ['Help', 'Nikola Tesla'],
@@ -22,8 +22,8 @@ describe('Menu', () => {
     }, {
         role: 'researcher',
         menu: {
-            contains: ['Knowledge Models', 'Questionnaire'],
-            notContais: ['Users', 'Knowledge Model Editor', 'Templates']
+            contains: ['Knowledge Models', 'Projects'],
+            notContais: ['Users', 'Knowledge Model Editor', 'Documents', 'Templates']
         },
         sidebarLinks: {
             contains: ['Help', 'Nikola Tesla'],

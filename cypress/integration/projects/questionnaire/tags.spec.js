@@ -1,9 +1,9 @@
-import * as q from '../../support/questionnaire-helpers'
-import * as tagSelect from '../../support/tag-select-helpers'
+import * as project from '../../../support/project-helpers'
+import * as tagSelect from '../../../support/tag-select-helpers'
 
 
 describe('Questionnaire Tags', () => {
-    const questionnaireName = 'My Tagged Questionnaire'
+    const projectName = 'My Tagged Questionnaire'
     const kmId = 'km-with-tags'
     const packageId = 'mto:km-with-tags:1.0.0'
 
@@ -62,21 +62,21 @@ describe('Questionnaire Tags', () => {
     }]
     testCases.forEach(({ tags, visible, hidden }) => {
         it('create questionnaire with correct questions', () => {
-            const questionnaire = {
-                name: questionnaireName,
-                s_packageId: packageId
-            }
-            cy.visitApp('/questionnaires')
+            cy.visitApp('/projects')
             cy.clickBtn('Create')
 
-            cy.fillFields(questionnaire)
+            cy.fillFields({
+                name: projectName,
+                s_packageId: packageId
+            })
             tagSelect.selectMultiple(tags)
             cy.clickBtn('Save')
 
-            cy.url().should('contain', '/questionnaires/detail/')
+            cy.url().should('match', /\/projects\/.+/)
+            project.expectTitle(projectName)
 
-            q.expectQuestions(visible, true)
-            q.expectQuestions(hidden, false)
+            project.expectQuestions(visible, true)
+            project.expectQuestions(hidden, false)
         })
     })
 })

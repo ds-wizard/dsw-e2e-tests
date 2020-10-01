@@ -1,10 +1,10 @@
-import * as questionnaire from '../../support/questionnaire-helpers'
+import * as project from '../../support/project-helpers'
 
 describe('Questionnaire WebSocket Tests', () => {
-    const questionnaireName = 'Test Questionnaire'
+    const projectName = 'Test Questionnaire'
     const kmId = 'basic-questionnaire-test-km'
     const packageId = 'dsw:basic-questionnaire-test-km:1.0.0'
-    let questionnaireUuid = ''
+    let projectUuid = ''
 
     before(() => {
         cy.task('mongo:delete', {
@@ -23,15 +23,15 @@ describe('Questionnaire WebSocket Tests', () => {
             args: {}
         })
         cy.createQuestionnaire({
-            visibility: questionnaire.VisibleEdit,
-            sharing: questionnaire.AnyoneWithLinkEdit,
-            name: questionnaireName,
+            visibility: project.VisibleEdit,
+            sharing: project.AnyoneWithLinkEdit,
+            name: projectName,
             packageId
         }).then(result => {
-            questionnaireUuid = result.body.uuid
+            projectUuid = result.body.uuid
         })
         cy.loginAs('researcher')
-        questionnaire.open(questionnaireName)
+        project.open(projectName)
     })
 
 
@@ -49,9 +49,9 @@ describe('Questionnaire WebSocket Tests', () => {
             }
         }
 
-        questionnaire.checkAnswer('Value Question String', '')
-        cy.wsSend(`/questionnaires/${questionnaireUuid}/websocket`, msg)
-        questionnaire.checkAnswer('Value Question String', value)
+        project.checkAnswer('Value Question String', '')
+        cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg)
+        project.checkAnswer('Value Question String', value)
     })
 
 
@@ -69,9 +69,9 @@ describe('Questionnaire WebSocket Tests', () => {
             }
         }
 
-        questionnaire.checkAnswerNotChecked(answer)
-        cy.wsSend(`/questionnaires/${questionnaireUuid}/websocket`, msg)
-        questionnaire.checkAnswerChecked(answer)
+        project.checkAnswerNotChecked(answer)
+        cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg)
+        project.checkAnswerChecked(answer)
     })
 
 
@@ -89,9 +89,9 @@ describe('Questionnaire WebSocket Tests', () => {
         })
 
         cy.get('.item').should('not.exist')
-        cy.wsSend(`/questionnaires/${questionnaireUuid}/websocket`, msg(['ca942bb2-6524-4149-a17e-4cb4d3e38233']))
+        cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg(['ca942bb2-6524-4149-a17e-4cb4d3e38233']))
         cy.get('.item').should('exist')
-        cy.wsSend(`/questionnaires/${questionnaireUuid}/websocket`, msg([]))
+        cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg([]))
         cy.get('.item').should('not.exist')
     })
 
@@ -105,9 +105,9 @@ describe('Questionnaire WebSocket Tests', () => {
             }
         }
 
-        questionnaire.selectAnswer(answer)
-        cy.wsSend(`/questionnaires/${questionnaireUuid}/websocket`, msg)
-        questionnaire.checkAnswerNotChecked(answer)
+        project.selectAnswer(answer)
+        cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg)
+        project.checkAnswerNotChecked(answer)
     })
 
 
@@ -121,7 +121,7 @@ describe('Questionnaire WebSocket Tests', () => {
             }
         }
 
-        cy.wsSend(`/questionnaires/${questionnaireUuid}/websocket`, msg)
+        cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg)
         cy.get('.questionnaire__panel__phase select').should('have.value', level)
     })
 
@@ -137,23 +137,23 @@ describe('Questionnaire WebSocket Tests', () => {
             }
         })
 
-        cy.wsSend(`/questionnaires/${questionnaireUuid}/websocket`, msg([questionnaire.TodoUUID]))
-        questionnaire.expectTodoFor(question)
-        cy.wsSend(`/questionnaires/${questionnaireUuid}/websocket`, msg([]))
-        questionnaire.expectNoTodo(question)
+        cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg([project.TodoUUID]))
+        project.expectTodoFor(question)
+        cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg([]))
+        project.expectNoTodo(question)
     })
 
     
     it('Error when sharing is changed to Restricted', () => {
         // open questionnaire as anonymous user
         cy.logout()
-        cy.visitApp(`/questionnaires/detail/${questionnaireUuid}`)
+        cy.visitApp(`/projects/${projectUuid}`)
 
         // change sharing to restricted
-        cy.updateQuestionnaire(questionnaireUuid, {
-            visibility: questionnaire.VisibleEdit,
-            sharing: questionnaire.Restricted,
-            name: questionnaireName,
+        cy.updateQuestionnaire(projectUuid, {
+            visibility: project.VisibleEdit,
+            sharing: project.Restricted,
+            name: projectName,
         })
 
         // check error appears

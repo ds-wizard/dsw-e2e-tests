@@ -1,4 +1,4 @@
-import * as q from '../../../support/questionnaire-helpers'
+import * as project from '../../../support/project-helpers'
 import * as phases from '../../../support/phases-helpers'
 
 
@@ -26,14 +26,13 @@ describe('Questionnaire Summary Report - Phases', () => {
 
         cy.loginAs('researcher')
         
-        const questionnaire = {
-            visibility: q.Private,
-            sharing: q.Restricted,
+        cy.createQuestionnaire({
+            visibility: project.Private,
+            sharing: project.Restricted,
             name: questionnaireName,
             packageId
-        }
-        cy.createQuestionnaire(questionnaire)
-        q.open(questionnaireName)
+        })
+        project.open(questionnaireName)
     })
 
     const testCases = [{
@@ -206,55 +205,55 @@ describe('Questionnaire Summary Report - Phases', () => {
                 phases.switchPhase(phases.phases[phase])
             }
             selections.forEach((selection) => {
-                q.openChapter(selection.chapter)
+                project.openChapter(selection.chapter)
                 selection.answers.forEach((answer) => {
-                    q.selectAnswer(answer)
+                    project.selectAnswer(answer)
                 })
             })
             indications.forEach(({ chapter, indication }) => {
-                q.expectSummaryReportAnswered(indication, chapter)
+                project.expectSummaryReportAnswered(indication, chapter)
             })
         })
     })
 
     it('With list questions', () => {
-        q.openChapter('Chapter 2')
+        project.openChapter('Chapter 2')
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').contains('button', 'Add').click().click().click().click()
         cy.get('.item:nth-child(1)').contains('label', 'Template option 2').click()
         cy.get('.item:nth-child(2)').contains('label', 'Template option 1').click()
         cy.get('.item:nth-child(3)').contains('label', 'Template option 2').click()
-        q.expectSummaryReportAnswered({ current: { answered: 1, all: 4 }, all: { answered: 4, all: 13 } })
-        q.expectSummaryReportAnswered({ current: { answered: 1, all: 2 }, all: { answered: 4, all: 7 } }, 'Chapter 2')
+        project.expectSummaryReportAnswered({ current: { answered: 1, all: 4 }, all: { answered: 4, all: 13 } })
+        project.expectSummaryReportAnswered({ current: { answered: 1, all: 2 }, all: { answered: 4, all: 7 } }, 'Chapter 2')
         
-        q.openChapter('Chapter 2')
+        project.openChapter('Chapter 2')
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').should('have.length', 4)
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').eq(2).click()
-        q.expectSummaryReportAnswered({ current: { answered: 1, all: 4 }, all: { answered: 3, all: 12 } })
-        q.expectSummaryReportAnswered({ current: { answered: 1, all: 2 }, all: { answered: 3, all: 6 } }, 'Chapter 2')
+        project.expectSummaryReportAnswered({ current: { answered: 1, all: 4 }, all: { answered: 3, all: 12 } })
+        project.expectSummaryReportAnswered({ current: { answered: 1, all: 2 }, all: { answered: 3, all: 6 } }, 'Chapter 2')
     })
 
     it('After clearing answers', () => {
-        q.openChapter('Chapter 1')
-        q.selectAnswer('FINDABLE: W=1, M=1')
-        q.selectAnswer('INTEROPERABLE: W=0.15, M=0.95')
-        q.selectAnswer('OPEN: W=0.5, M=0.2') // current
-        q.selectAnswer('GOOD: W=0.9, M=1')
-        q.selectAnswer('FINDABLE: W=0.3, M=1') // changing the first
-        q.openChapter('Chapter 2')
-        q.selectAnswer('Option 1.2') // Complex question 1
-        q.selectAnswer('Option 2.2') // Complex question 2 (current)
-        q.selectAnswer('Option 2.2.1')
-        q.expectSummaryReportAnswered({ current: { answered: 2, all: 4 }, all: { answered: 7, all: 10 } })
-        q.expectSummaryReportAnswered({ current: { answered: 1, all: 2 }, all: { answered: 4, all: 6 } }, 'Chapter 1')
-        q.expectSummaryReportAnswered({ current: { answered: 1, all: 2 }, all: { answered: 3, all: 4 } }, 'Chapter 2')
+        project.openChapter('Chapter 1')
+        project.selectAnswer('FINDABLE: W=1, M=1')
+        project.selectAnswer('INTEROPERABLE: W=0.15, M=0.95')
+        project.selectAnswer('OPEN: W=0.5, M=0.2') // current
+        project.selectAnswer('GOOD: W=0.9, M=1')
+        project.selectAnswer('FINDABLE: W=0.3, M=1') // changing the first
+        project.openChapter('Chapter 2')
+        project.selectAnswer('Option 1.2') // Complex question 1
+        project.selectAnswer('Option 2.2') // Complex question 2 (current)
+        project.selectAnswer('Option 2.2.1')
+        project.expectSummaryReportAnswered({ current: { answered: 2, all: 4 }, all: { answered: 7, all: 10 } })
+        project.expectSummaryReportAnswered({ current: { answered: 1, all: 2 }, all: { answered: 4, all: 6 } }, 'Chapter 1')
+        project.expectSummaryReportAnswered({ current: { answered: 1, all: 2 }, all: { answered: 3, all: 4 } }, 'Chapter 2')
 
-        q.openChapter('Chapter 1')
+        project.openChapter('Chapter 1')
         cy.get('#question-f4e3444a-6469-4546-9f14-f9304f8d1557 > div > a.clear-answer').click() // FINDABLE
         cy.get('#question-0eec0ecc-1da8-4db5-b7a3-da57d884eb52 > div > a.clear-answer').click() // OPEN
-        q.openChapter('Chapter 2')
+        project.openChapter('Chapter 2')
         cy.get('#question-16bd8329-cd7b-4029-84c4-5de0aa166369 > div > a.clear-answer').click() // Complex question 2 (with followup)
-        q.expectSummaryReportAnswered({ current: { answered: 0, all: 4 }, all: { answered: 3, all: 9 } })
-        q.expectSummaryReportAnswered({ current: { answered: 0, all: 2 }, all: { answered: 2, all: 6 } }, 'Chapter 1')
-        q.expectSummaryReportAnswered({ current: { answered: 0, all: 2 }, all: { answered: 1, all: 3 } }, 'Chapter 2')
+        project.expectSummaryReportAnswered({ current: { answered: 0, all: 4 }, all: { answered: 3, all: 9 } })
+        project.expectSummaryReportAnswered({ current: { answered: 0, all: 2 }, all: { answered: 2, all: 6 } }, 'Chapter 1')
+        project.expectSummaryReportAnswered({ current: { answered: 0, all: 2 }, all: { answered: 1, all: 3 } }, 'Chapter 2')
     })
 })
