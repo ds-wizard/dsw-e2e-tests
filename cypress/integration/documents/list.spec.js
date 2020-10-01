@@ -1,4 +1,4 @@
-import * as q from '../../support/questionnaire-helpers'
+import * as project from '../../support/project-helpers'
 
 
 describe('Document List', () => {
@@ -31,9 +31,9 @@ describe('Document List', () => {
         cy.task('mongo:delete', { collection: 'questionnaires' })
         
         const questionnaire = {
-            visibility: q.Private,
+            visibility: project.Private,
             name: questionnaireName,
-            sharing: q.Restricted,
+            sharing: project.Restricted,
             packageId
         }
         
@@ -53,7 +53,7 @@ describe('Document List', () => {
     })
 
     beforeEach(() => {
-        cy.loginAs('researcher')
+        cy.loginAs('admin')
         cy.visitApp('/documents')
     })
 

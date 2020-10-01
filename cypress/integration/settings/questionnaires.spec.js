@@ -1,9 +1,25 @@
-import * as q from '../../support/questionnaire-helpers'
+import * as project from '../../support/project-helpers'
 
 describe('Settings / Questionnaires', () => {
-    const questionnaireName = 'Test Questionnaire'
+    const projectName = 'Test Questionnaire'
     const kmId = 'test-km-1'
     const packageId = 'dsw:test-km-1:1.0.0'
+
+    const createProject = () => {
+        cy.visitApp('/projects/create')
+        cy.fillFields({
+            name: projectName,
+            s_packageId: packageId
+        })
+        cy.clickBtn('Save')
+
+        project.open(projectName)
+    }
+
+    const createProjectAndOpenShare = () => {
+        createProject()
+        cy.clickBtn('Share')
+    }
 
 
     before(() => {
@@ -22,8 +38,11 @@ describe('Settings / Questionnaires', () => {
             collection: 'questionnaires',
             args: {}
         })
+        
         cy.putDefaultAppConfig()
+
         cy.loginAs('admin')
+
         cy.visitApp('/settings/questionnaires')
     })
 
@@ -36,36 +55,41 @@ describe('Settings / Questionnaires', () => {
     it('questionnaire visibility enabled', () => {
         cy.checkToggle('questionnaireVisibilityEnabled')
         cy.clickBtn('Save', true)
-        cy.visitApp('/questionnaires/create')
+
+        createProjectAndOpenShare()
         cy.get('label').contains('Visible by other logged users').should('exist')
     })
 
     it('questionnaire visibility not enabled', () => {
         cy.uncheckToggle('questionnaireVisibilityEnabled')
         cy.clickBtn('Save', true)
-        cy.visitApp('/questionnaires/create')
+        
+        createProjectAndOpenShare()
         cy.get('label').contains('Visible by other logged users').should('not.exist')
     })
 
     it('default questionnaire visibility - Private', () => {
-        cy.get(`#${q.Private}`).check()
+        cy.get(`#${project.Private}`).check()
         cy.clickBtn('Save', true)
-        cy.visitApp('/questionnaires/create')
+        
+        createProjectAndOpenShare()
         cy.get('#visibilityEnabled').should('not.be.checked')
     })
 
     it('default questionnaire visibility - VisibleView', () => {
-        cy.get(`#${q.VisibleView}`).check()
+        cy.get(`#${project.VisibleView}`).check()
         cy.clickBtn('Save', true)
-        cy.visitApp('/questionnaires/create')
+        
+        createProjectAndOpenShare()
         cy.get('#visibilityEnabled').should('be.checked')
         cy.checkFields({ s_visibilityPermission: 'view' })
     })
 
     it('default questionnaire visibility - VisibleEdit', () => {
-        cy.get(`#${q.VisibleEdit}`).check()
+        cy.get(`#${project.VisibleEdit}`).check()
         cy.clickBtn('Save', true)
-        cy.visitApp('/questionnaires/create')
+        
+        createProjectAndOpenShare()
         cy.get('#visibilityEnabled').should('be.checked')
         cy.checkFields({ s_visibilityPermission: 'edit' })
     })
@@ -75,36 +99,41 @@ describe('Settings / Questionnaires', () => {
     it('questionnaire sharing enabled', () => {
         cy.checkToggle('questionnaireSharingEnabled')
         cy.clickBtn('Save', true)
-        cy.visitApp('/questionnaires/create')
+
+        createProjectAndOpenShare()
         cy.get('label').contains('Public link').should('exist')
     })
 
     it('questionnaire sharing not enabled', () => {
         cy.uncheckToggle('questionnaireSharingEnabled')
         cy.clickBtn('Save', true)
-        cy.visitApp('/questionnaires/create')
+
+        createProjectAndOpenShare()
         cy.get('label').contains('Public link').should('not.exist')
     })
 
     it('default questionnaire visibility - Restricted', () => {
-        cy.get(`#${q.Restricted}`).check()
+        cy.get(`#${project.Restricted}`).check()
         cy.clickBtn('Save', true)
-        cy.visitApp('/questionnaires/create')
+
+        createProjectAndOpenShare()
         cy.get('#sharingEnabled').should('not.be.checked')
     })
 
     it('default questionnaire visibility - AnyoneWithLinkView', () => {
-        cy.get(`#${q.AnyoneWithLinkView}`).check()
+        cy.get(`#${project.AnyoneWithLinkView}`).check()
         cy.clickBtn('Save', true)
-        cy.visitApp('/questionnaires/create')
+
+        createProjectAndOpenShare()
         cy.get('#sharingEnabled').should('be.checked')
         cy.checkFields({ s_sharingPermission: 'view' })
     })
 
     it('default questionnaire visibility - AnyoneWithLinkEdit', () => {
-        cy.get(`#${q.AnyoneWithLinkEdit}`).check()
+        cy.get(`#${project.AnyoneWithLinkEdit}`).check()
         cy.clickBtn('Save', true)
-        cy.visitApp('/questionnaires/create')
+        
+        createProjectAndOpenShare()
         cy.get('#sharingEnabled').should('be.checked')
         cy.checkFields({ s_sharingPermission: 'edit' })
     })
@@ -116,15 +145,8 @@ describe('Settings / Questionnaires', () => {
         cy.checkToggle('levels')
         cy.clickBtn('Save', true)
 
-        // Create a questionnaire
-        const questionnaire = {
-            name: questionnaireName,
-            s_packageId: packageId
-        }
-        cy.visitApp('/questionnaires/create')
-        cy.fillFields(questionnaire)
-        cy.clickBtn('Save')
-        cy.url().should('contain', '/questionnaires/detail/')
+        // Create a project
+        createProject()
 
         // Check that phases are there
         cy.get('.questionnaire__panel__phase').should('exist')
@@ -135,15 +157,8 @@ describe('Settings / Questionnaires', () => {
         cy.uncheckToggle('levels')
         cy.clickBtn('Save', true)
 
-        // Create a questionnaire
-        const questionnaire = {
-            name: questionnaireName,
-            s_packageId: packageId
-        }
-        cy.visitApp('/questionnaires/create')
-        cy.fillFields(questionnaire)
-        cy.clickBtn('Save')
-        cy.url().should('contain', '/questionnaires/detail/')
+        // Create a project
+        createProject()
 
         // Check that phases are not there
         cy.get('.chapter-list .level-selection').should('not.exist')
@@ -154,18 +169,11 @@ describe('Settings / Questionnaires', () => {
         cy.checkToggle('summaryReport')
         cy.clickBtn('Save', true)
 
-        // Create a questionnaire
-        const questionnaire = {
-            name: questionnaireName,
-            s_packageId: packageId
-        }
-        cy.visitApp('/questionnaires/create')
-        cy.fillFields(questionnaire)
-        cy.clickBtn('Save')
-        cy.url().should('contain', '/questionnaires/detail/')
+        // Create a project
+        createProject()
 
         // Check that summary report is there
-        cy.get('.nav-link').contains('Summary Report').should('exist')
+        cy.get('.nav-link').contains('Metrics').should('exist')
     })
 
     it('summary report not enabled', () => {
@@ -173,18 +181,11 @@ describe('Settings / Questionnaires', () => {
         cy.uncheckToggle('summaryReport')
         cy.clickBtn('Save', true)
 
-        // Create a questionnaire
-        const questionnaire = {
-            name: questionnaireName,
-            s_packageId: packageId
-        }
-        cy.visitApp('/questionnaires/create')
-        cy.fillFields(questionnaire)
-        cy.clickBtn('Save')
-        cy.url().should('contain', '/questionnaires/detail/')
+        // Create a project
+        createProject()
 
         // Check that summary report is not there
-        cy.get('.nav-link').contains('Summary Report').should('not.exist')
+        cy.get('.nav-link').contains('Metrics').should('not.exist')
     })
 
     it('feedback enabled', () => {
@@ -197,15 +198,8 @@ describe('Settings / Questionnaires', () => {
         })
         cy.clickBtn('Save', true)
 
-        // Create a questionnaire
-        const questionnaire = {
-            name: questionnaireName,
-            s_packageId: packageId
-        }
-        cy.visitApp('/questionnaires/create')
-        cy.fillFields(questionnaire)
-        cy.clickBtn('Save')
-        cy.url().should('contain', '/questionnaires/detail/')
+        // Create a project
+        createProject()
 
         // Check that feedback modal can be opened
         cy.getCy('feedback').first().click()
@@ -217,15 +211,8 @@ describe('Settings / Questionnaires', () => {
         cy.uncheckToggle('feedbackEnabled')
         cy.clickBtn('Save', true)
 
-        // Create a questionnaire
-        const questionnaire = {
-            name: questionnaireName,
-            s_packageId: packageId
-        }
-        cy.visitApp('/questionnaires/create')
-        cy.fillFields(questionnaire)
-        cy.clickBtn('Save')
-        cy.url().should('contain', '/questionnaires/detail/')
+        // Create a project
+        createProject()
 
         // Check that feedback modal can be opened
         cy.getCy('feedback').should('not.exist')

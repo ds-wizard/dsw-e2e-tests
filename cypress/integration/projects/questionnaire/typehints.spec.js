@@ -1,7 +1,7 @@
-import * as q from '../../support/questionnaire-helpers'
+import * as project from '../../../support/project-helpers'
 
 describe('Questionnaires Typehints', () => {
-    const questionnaireName = 'Typehints Test Questionnaire'
+    const projectName = 'Typehints Test Questionnaire'
     const kmId = 'test-integrations'
     const packageId = 'dsw:test-integrations:1.0.0'
     const errorMessage = 'Unable to get type hints'
@@ -32,14 +32,13 @@ describe('Questionnaires Typehints', () => {
 
         cy.loginAs('researcher')
         
-        const questionnaire = {
-            visibility: q.Private,
-            sharing: q.Restricted,
-            name: questionnaireName,
+        cy.createQuestionnaire({
+            visibility: project.Private,
+            sharing: project.Restricted,
+            name: projectName,
             packageId
-        }
-        cy.createQuestionnaire(questionnaire)
-        q.open(questionnaireName)
+        })
+        project.open(projectName)
     })
 
 
@@ -135,11 +134,11 @@ describe('Questionnaires Typehints', () => {
 
     workingSpecs.forEach((spec) => {
         it(spec.question, () => {
-            q.openChapter(spec.chapter)
+            project.openChapter(spec.chapter)
             spec.typehints.forEach((typehint, index) => {
-                q.useNthTypehint(spec.question, index, typehint)
-                q.checkAnswer(spec.question, typehint.name)
-                q.checkTypehintExtra(spec.question, `${baseURI}/${spec.slug}/${typehint.id}`)
+                project.useNthTypehint(spec.question, index, typehint)
+                project.checkAnswer(spec.question, typehint.name)
+                project.checkTypehintExtra(spec.question, `${baseURI}/${spec.slug}/${typehint.id}`)
             })
         })
     })
@@ -175,8 +174,8 @@ describe('Questionnaires Typehints', () => {
     }]
     errorSpecs.forEach((spec) => {
         it(spec.question, () => {
-            q.openChapter(spec.chapter)
-            q.expectTypehintsError(spec.question, errorMessage)
+            project.openChapter(spec.chapter)
+            project.expectTypehintsError(spec.question, errorMessage)
         })
     })
 
@@ -204,8 +203,8 @@ describe('Questionnaires Typehints', () => {
             const chapter = 'Searchable'
             const question = 'Simulate search'
     
-            q.openChapter(chapter)
-            q.expectTypehints(question, spec.typehints, spec.query)
+            project.openChapter(chapter)
+            project.expectTypehints(question, spec.typehints, spec.query)
         })
     })
 
@@ -229,8 +228,8 @@ describe('Questionnaires Typehints', () => {
     
     httpSpecs.forEach((spec) => {
         it(spec.question, () => {
-            q.openChapter('HTTP')
-            q.expectTypehints(spec.question, commonTypehints, spec.query)
+            project.openChapter('HTTP')
+            project.expectTypehints(spec.question, commonTypehints, spec.query)
         })
     })
 
@@ -241,12 +240,12 @@ describe('Questionnaires Typehints', () => {
         const slug = 'variableUsingProps'
         const indices = [0, 42, 123, 348, 666, 999] // size 1000
 
-        q.openChapter(chapter)
+        project.openChapter(chapter)
         indices.forEach((index) => {
             const typehint = { id: `item-${index}`, name: `Item #${index}` }
-            q.useNthTypehint(question, index, typehint)
-            q.checkAnswer(question, typehint.name)
-            q.checkTypehintExtra(question, `${baseURI}/${slug}/${typehint.id}`)
+            project.useNthTypehint(question, index, typehint)
+            project.checkAnswer(question, typehint.name)
+            project.checkTypehintExtra(question, `${baseURI}/${slug}/${typehint.id}`)
         })
     })
 
@@ -256,10 +255,10 @@ describe('Questionnaires Typehints', () => {
         const question = 'With logo'
         const slug = 'basic1'
     
-        q.openChapter(chapter)
+        project.openChapter(chapter)
         commonTypehints.forEach((typehint, index) => {
-            q.useNthTypehint(question, index, typehint)
-            q.checkTypehintExtra(question, `${baseURI}/${slug}/${typehint.id}`, true)
+            project.useNthTypehint(question, index, typehint)
+            project.checkTypehintExtra(question, `${baseURI}/${slug}/${typehint.id}`, true)
         })
     })
 })

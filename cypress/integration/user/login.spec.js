@@ -16,12 +16,12 @@ describe('Login', () => {
     })
 
     it('redirect to original URL after login', () => {
-        cy.visitApp('/questionnaires')
+        cy.visitApp('/projects')
         cy.fillFields({
             email: Cypress.env('datasteward_username'),
             password: Cypress.env('datasteward_password')
         })
         cy.clickBtn('Log in')
-        cy.url().should('include', '/questionnaires')
+        cy.url().should('include', '/projects')
     })
 })

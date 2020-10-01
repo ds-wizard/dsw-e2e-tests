@@ -107,13 +107,13 @@ Cypress.Commands.add('importTemplate', (template) => {
 
 // Questionnaires commands
 
-Cypress.Commands.add('createQuestionnaire', ({ visibility, sharing, name, packageId }) => {
+Cypress.Commands.add('createQuestionnaire', ({ visibility, sharing, name, packageId, templateId }) => {
     getTokenFor('researcher').then((resp) => {
         cy.request({
             method: 'POST',
             url: apiUrl('/questionnaires'),
             headers: createHeaders(resp.body.token),
-            body: { visibility, sharing, name, packageId, tagUuids: [] }
+            body: { visibility, sharing, name, packageId, templateId, tagUuids: [] }
         })
     })
 })
@@ -136,6 +136,18 @@ Cypress.Commands.add('updateQuestionnaire', (questionnaireUuid, data) => {
         cy.request({
             method: 'PUT',
             url: apiUrl(`/questionnaires/${questionnaireUuid}`),
+            headers: createHeaders(resp.body.token),
+            body: data
+        })
+    })
+})
+
+
+Cypress.Commands.add('updateQuestionnaireContent', (questionnaireUuid, data) => {
+    getTokenFor('researcher').then((resp) => {
+        cy.request({
+            method: 'PUT',
+            url: apiUrl(`/questionnaires/${questionnaireUuid}/content`),
             headers: createHeaders(resp.body.token),
             body: data
         })

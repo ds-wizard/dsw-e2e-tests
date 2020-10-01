@@ -1,5 +1,5 @@
 import * as editor from '../../../../support/editor-helpers'
-import * as questionnaire from '../../../../support/questionnaire-helpers'
+import * as project from '../../../../support/project-helpers'
 import * as tagSelect from '../../../../support/tag-select-helpers'
 
 
@@ -36,7 +36,7 @@ describe('KM Editor Preview - Tags', () => {
         editor.open(kmId)
         editor.openPreview()
 
-        questionnaire.expectQuestions([
+        project.expectQuestions([
             'Question 1',
             'Question 2',
             'Question 3',
@@ -50,17 +50,17 @@ describe('KM Editor Preview - Tags', () => {
         editor.openPreview()
 
         tagSelect.selectAll()
-        questionnaire.expectQuestions([
+        project.expectQuestions([
             'Question 1',
             'Question 2',
             'Question 3'
         ], true)
-        questionnaire.expectQuestions([
+        project.expectQuestions([
             'Question 4'
         ], false)
 
         tagSelect.selectNone()
-        questionnaire.expectQuestions([
+        project.expectQuestions([
             'Question 1',
             'Question 2',
             'Question 3',
@@ -107,8 +107,8 @@ describe('KM Editor Preview - Tags', () => {
             tagSelect.selectNone()
             tagSelect.selectMultiple(tags)
 
-            questionnaire.expectQuestions(visible, true)
-            questionnaire.expectQuestions(hidden, false)
+            project.expectQuestions(visible, true)
+            project.expectQuestions(hidden, false)
         })
     })
 })

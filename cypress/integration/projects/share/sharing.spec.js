@@ -1,8 +1,8 @@
-import * as questionnaire from '../../support/questionnaire-helpers'
+import * as project from '../../../support/project-helpers'
 
 
-describe('Questionnaires Sharing', () => {
-    const questionnaireName = 'My Shared Questionnaire'
+describe('Project Sharing', () => {
+    const projectName = 'My Shared Questionnaire'
     const kmId = 'test-km-1'
     const packageId = 'dsw:test-km-1:1.0.0'
 
@@ -23,7 +23,6 @@ describe('Questionnaires Sharing', () => {
         })
     })
 
-
     const expectUserCannotSee = () => {
         cy.expectError()
     }
@@ -33,55 +32,55 @@ describe('Questionnaires Sharing', () => {
     }
 
     const expectView = () => {
-        cy.url().should('contain', '/questionnaires/detail/')
+        cy.url().should('match', /\/projects\/.+/)
         cy.get('.questionnaire__form .form-group input[type=text]').should('be.disabled')
         cy.get('.questionnaire__panel__phase select').should('be.disabled')
     }
 
     const expectEdit = () => {
-        cy.url().should('contain', '/questionnaires/detail/')
+        cy.url().should('match', /\/projects\/.+/)
         cy.get('.questionnaire__form .form-group input[type=text]').should('not.be.disabled')
         cy.get('.questionnaire__panel__phase select').should('not.be.disabled')
     }
 
     const testCases = [{
-        visibility: questionnaire.Private,
-        sharing: questionnaire.Restricted,
+        visibility: project.Private,
+        sharing: project.Restricted,
         expectUser: expectUserCannotSee,
         expectAnon: expectAnonCannotSee
     }, {
-        visibility: questionnaire.Private,
-        sharing: questionnaire.AnyoneWithLinkView,
+        visibility: project.Private,
+        sharing: project.AnyoneWithLinkView,
         expectUser: expectView,
         expectAnon: expectView
     }, {
-        visibility: questionnaire.Private,
-        sharing: questionnaire.AnyoneWithLinkEdit,
+        visibility: project.Private,
+        sharing: project.AnyoneWithLinkEdit,
         expectUser: expectEdit,
         expectAnon: expectEdit
     }, {
-        visibility: questionnaire.VisibleView,
-        sharing: questionnaire.Restricted,
+        visibility: project.VisibleView,
+        sharing: project.Restricted,
         expectUser: expectView,
         expectAnon: expectAnonCannotSee
     }, {
-        visibility: questionnaire.VisibleView,
-        sharing: questionnaire.AnyoneWithLinkView,
+        visibility: project.VisibleView,
+        sharing: project.AnyoneWithLinkView,
         expectUser: expectView,
         expectAnon: expectView
     }, {
-        visibility: questionnaire.VisibleEdit,
-        sharing: questionnaire.Restricted,
+        visibility: project.VisibleEdit,
+        sharing: project.Restricted,
         expectUser: expectEdit,
         expectAnon: expectAnonCannotSee
     }, {
-        visibility: questionnaire.VisibleEdit,
-        sharing: questionnaire.AnyoneWithLinkView,
+        visibility: project.VisibleEdit,
+        sharing: project.AnyoneWithLinkView,
         expectUser: expectEdit,
         expectAnon: expectView
     }, {
-        visibility: questionnaire.VisibleEdit,
-        sharing: questionnaire.AnyoneWithLinkEdit,
+        visibility: project.VisibleEdit,
+        sharing: project.AnyoneWithLinkEdit,
         expectUser: expectEdit,
         expectAnon: expectEdit
     }]
@@ -89,43 +88,53 @@ describe('Questionnaires Sharing', () => {
     testCases.forEach(({ visibility, sharing, expectUser, expectAnon}) => {
         it(`works for ${visibility} and ${sharing}`, () => {
             cy.loginAs('researcher')
-            cy.visitApp('/questionnaires/create')
 
-            // Create questionnaire -- set visibility
-            console.log(visibility, questionnaire.Private, visibility !== questionnaire.Private)
-            if (visibility !== questionnaire.Private) {
-                cy.checkToggle('visibilityEnabled')
-                cy.fillFields({
-                    s_visibilityPermission: visibility === questionnaire.VisibleView ? 'view' : 'edit'
-                })
-            }
-
-            // Create questionnaire -- set sharing
-            if (sharing !== questionnaire.Restricted) {
-                cy.checkToggle('sharingEnabled')
-                cy.fillFields({
-                    s_sharingPermission: sharing === questionnaire.AnyoneWithLinkView ? 'view' : 'edit'
-                })
-            }
-
-            // Create questionnaire -- fill data and save
+            // Create project
+            cy.visitApp('/projects/create')
             cy.fillFields({
-                name: questionnaireName,
+                name: projectName,
                 s_packageId: packageId
             })
             cy.clickBtn('Save')
-            cy.url().should('include', '/questionnaires/detail')
+            cy.url().should('match', /\/projects\/.+/)
+            project.expectTitle(projectName)
+
+            // Share modal
+            cy.clickBtn('Share')
+
+            // Share modal -- set visibility
+            if (visibility !== project.Private) {
+                cy.checkToggle('visibilityEnabled')
+                cy.fillFields({
+                    s_visibilityPermission: visibility === project.VisibleView ? 'view' : 'edit'
+                })
+            }
+
+            // Share modal -- set sharing
+            if (sharing !== project.Restricted) {
+                cy.checkToggle('sharingEnabled')
+                cy.fillFields({
+                    s_sharingPermission: sharing === project.AnyoneWithLinkView ? 'view' : 'edit'
+                })
+            }
+
+            // Share modal -- save
+            cy.clickBtn('Save')
+
+            // Test as another user
             cy.url().then(url => {
-                const questionnaireId = url.split('/').pop()
+                const projectId = url.split('/').pop()
                 cy.logout()
 
                 // Test user access
                 cy.loginAs('datasteward')
-                cy.visitApp(`/questionnaires/detail/${questionnaireId}`)
+                cy.visitApp(`/projects/${projectId}`)
                 expectUser()
 
+                // Test anonymous access
                 cy.logout()
-                cy.visitApp(`/questionnaires/detail/${questionnaireId}`)
+                cy.visitApp(`/projects/${projectId}`)
+                expectAnon()
             })
 
         })

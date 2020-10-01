@@ -1,8 +1,8 @@
-import * as q from '../../../support/questionnaire-helpers'
+import * as project from '../../../support/project-helpers'
 
 
 describe('Questionnaire Summary Report - Metrics', () => {
-    const questionnaireName = 'Test Summary Report'
+    const projectName = 'Test Summary Report'
     const kmId = 'test-metrics'
     const packageId = 'dsw:test-metrics:1.0.0'
 
@@ -25,14 +25,13 @@ describe('Questionnaire Summary Report - Metrics', () => {
 
         cy.loginAs('researcher')
         
-        const questionnaire = {
-            visibility: q.Private,
-            sharing: q.Restricted,
-            name: questionnaireName,
+        cy.createQuestionnaire({
+            visibility: project.Private,
+            sharing: project.Restricted,
+            name: projectName,
             packageId
-        }
-        cy.createQuestionnaire(questionnaire)
-        q.open(questionnaireName)
+        })
+        project.open(projectName)
     })
 
     const testCases = [{
@@ -251,20 +250,20 @@ describe('Questionnaire Summary Report - Metrics', () => {
     testCases.forEach(({ name, selections, reports }) => {
         it(name, () => {
             selections.forEach((selection) => {
-                q.openChapter(selection.chapter)
+                project.openChapter(selection.chapter)
                 selection.answers.forEach((answer) => {
-                    q.selectAnswer(answer)
+                    project.selectAnswer(answer)
                 })
             })
             reports.forEach(({ chapter, metrics }) => {
-                q.expectSummaryReportMetrics(metrics, chapter)
+                project.expectSummaryReportMetrics(metrics, chapter)
             })
         })
     })
 
 
     it('With list questions', () => {
-        q.openChapter('Chapter 2')
+        project.openChapter('Chapter 2')
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').contains('button', 'Add').click().click().click()
         cy.get('.item:nth-child(1)').contains('label', 'Template option 2').click()
         // F(0.3, 0.7), A(0.6, 0), R(1, 0.3), G(1, 1), O(0, 0)
@@ -280,11 +279,11 @@ describe('Questionnaire Summary Report - Metrics', () => {
             { name: 'Good DMP Practice', value: 1.00 },
             { name: 'Openness', value: 0.20 }
         ]
-        q.expectSummaryReportMetrics(metrics1)
-        q.expectSummaryReportMetrics(metrics1, 'Chapter 2')
+        project.expectSummaryReportMetrics(metrics1)
+        project.expectSummaryReportMetrics(metrics1, 'Chapter 2')
         
         // Delete some item
-        q.openChapter('Chapter 2')
+        project.openChapter('Chapter 2')
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').should('have.length', 3)
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').eq(2).click()
         const metrics2 = [
@@ -295,31 +294,31 @@ describe('Questionnaire Summary Report - Metrics', () => {
             { name: 'Good DMP Practice', value: 1.00 },
             { name: 'Openness', value: 0.20 }
         ]
-        q.expectSummaryReportMetrics(metrics2)
-        q.expectSummaryReportMetrics(metrics2, 'Chapter 2')
+        project.expectSummaryReportMetrics(metrics2)
+        project.expectSummaryReportMetrics(metrics2, 'Chapter 2')
         
         // Delete all items
-        q.openChapter('Chapter 2')
+        project.openChapter('Chapter 2')
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').should('have.length', 2)
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').eq(1).click()
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').eq(0).click()
-        q.expectSummaryReportMetrics([])
-        q.expectSummaryReportMetrics([], 'Chapter 2')
+        project.expectSummaryReportMetrics([])
+        project.expectSummaryReportMetrics([], 'Chapter 2')
     })
 
 
     it('After clearing answers', () => {
-        q.openChapter('Chapter 1')
-        q.selectAnswer('FINDABLE: W=1, M=1')
-        q.selectAnswer('INTEROPERABLE: W=0.15, M=0.95')
-        q.selectAnswer('OPEN: W=0.5, M=0.2')
-        q.selectAnswer('GOOD: W=0.9, M=1')
-        q.selectAnswer('FINDABLE: W=0.3, M=1')
-        q.openChapter('Chapter 2')
-        q.selectAnswer('Option 1.2') // F(0.3, 0.6), A(0.9, 0), I(0.6, 1), R(0, 0.9), G(0, 0), O(0.5, 0.3)
-        q.selectAnswer('Option 2.2') // A(1, 0.4), R(0.4, 1), O(0.3, 0.3)
-        q.selectAnswer('Option 2.2.1') // F(0.3, 1), R(1, 0.4)
-        q.expectSummaryReportMetrics([
+        project.openChapter('Chapter 1')
+        project.selectAnswer('FINDABLE: W=1, M=1')
+        project.selectAnswer('INTEROPERABLE: W=0.15, M=0.95')
+        project.selectAnswer('OPEN: W=0.5, M=0.2')
+        project.selectAnswer('GOOD: W=0.9, M=1')
+        project.selectAnswer('FINDABLE: W=0.3, M=1')
+        project.openChapter('Chapter 2')
+        project.selectAnswer('Option 1.2') // F(0.3, 0.6), A(0.9, 0), I(0.6, 1), R(0, 0.9), G(0, 0), O(0.5, 0.3)
+        project.selectAnswer('Option 2.2') // A(1, 0.4), R(0.4, 1), O(0.3, 0.3)
+        project.selectAnswer('Option 2.2.1') // F(0.3, 1), R(1, 0.4)
+        project.expectSummaryReportMetrics([
             { name: 'Findability', value: 0.87 }, // = (0.3×1 + 0.3×0.6 + 0.3×1) / (0.3 + 0.3 + 0.3)
             { name: 'Accessibility', value: 0.21 }, // = (0.9×0 + 1×0.4) / (0.9 + 1)
             { name: 'Interoperability', value: 0.99 }, // = (0.15×0.95 + 0.6×1) / (0.15 + 0.6),
@@ -327,13 +326,13 @@ describe('Questionnaire Summary Report - Metrics', () => {
             { name: 'Good DMP Practice', value: 1.00 },
             { name: 'Openness', value: 0.26 } // = (0.5×0.2 + 0.5×0.3 + 0.3×0.3) / (0.5 + 0.5 + 0.3)
         ])
-        q.expectSummaryReportMetrics([
+        project.expectSummaryReportMetrics([
             { name: 'Findability', value: 1.00 },
             { name: 'Interoperability', value: 0.95 },
             { name: 'Good DMP Practice', value: 1.00 },
             { name: 'Openness', value: 0.20 }
         ], 'Chapter 1')
-        q.expectSummaryReportMetrics([
+        project.expectSummaryReportMetrics([
             { name: 'Findability', value: 0.80 }, // = (0.3×0.6 + 0.3×1) / (0.3 + 0.3)
             { name: 'Accessibility', value: 0.21 }, // = (0.9×0 + 1×0.4) / (0.9 + 1)
             { name: 'Interoperability', value: 1.00 },
@@ -343,12 +342,12 @@ describe('Questionnaire Summary Report - Metrics', () => {
         ], 'Chapter 2')
 
         // Clear some answer (including the one with followup)
-        q.openChapter('Chapter 1')
+        project.openChapter('Chapter 1')
         cy.get('#question-f4e3444a-6469-4546-9f14-f9304f8d1557 > div > a.clear-answer').click() // FINDABLE
         cy.get('#question-0eec0ecc-1da8-4db5-b7a3-da57d884eb52 > div > a.clear-answer').click() // OPEN
-        q.openChapter('Chapter 2')
+        project.openChapter('Chapter 2')
         cy.get('#question-16bd8329-cd7b-4029-84c4-5de0aa166369 > div > a.clear-answer').click() // Complex question 2 (with followup)
-        q.expectSummaryReportMetrics([
+        project.expectSummaryReportMetrics([
             { name: 'Findability', value: 0.60 }, // only 1.2
             { name: 'Accessibility', value: 0.00 }, // only 1.2
             { name: 'Interoperability', value: 0.99 }, // = (0.15×0.95 + 0.6×1) / (0.15 + 0.6),
@@ -356,11 +355,11 @@ describe('Questionnaire Summary Report - Metrics', () => {
             { name: 'Good DMP Practice', value: 1.00 },
             { name: 'Openness', value: 0.30 } // only 1.2
         ])
-        q.expectSummaryReportMetrics([
+        project.expectSummaryReportMetrics([
             { name: 'Interoperability', value: 0.95 },
             { name: 'Good DMP Practice', value: 1.00 }
         ], 'Chapter 1')
-        q.expectSummaryReportMetrics([
+        project.expectSummaryReportMetrics([
             { name: 'Findability', value: 0.60 },
             { name: 'Accessibility', value: 0.00 },
             { name: 'Interoperability', value: 1.00 },
@@ -370,13 +369,13 @@ describe('Questionnaire Summary Report - Metrics', () => {
         ], 'Chapter 2')
 
         // Clear all
-        q.openChapter('Chapter 1')
+        project.openChapter('Chapter 1')
         cy.get('#question-d8161299-3eb2-4a0d-aca9-1361f5945430 > div > a.clear-answer').click() // INTEROPERABLE
         cy.get('#question-0fc83103-a1b8-4a09-b65e-d2d3db037d4a > div > a.clear-answer').click() // GOOD
-        q.openChapter('Chapter 2')
+        project.openChapter('Chapter 2')
         cy.get('#question-4a1c2501-f4c7-41f1-8c73-67c0f7a6d7d6 > div > a.clear-answer').click() // Complex question 1
-        q.expectSummaryReportMetrics([])
-        q.expectSummaryReportMetrics([], 'Chapter 1')
-        q.expectSummaryReportMetrics([], 'Chapter 2')
+        project.expectSummaryReportMetrics([])
+        project.expectSummaryReportMetrics([], 'Chapter 1')
+        project.expectSummaryReportMetrics([], 'Chapter 2')
     })
 })
