@@ -217,6 +217,11 @@ Cypress.Commands.add('fillFields', (fields) => {
         if (key.startsWith('s_')) {
             key = key.replace(/^s_/, '')
             cy.get(`#${key}`).select(value)
+        } else if (key.startsWith('th_')) {
+            key = key.replace(/^th_/, '')
+            cy.get(`#${key}`).click()
+            cy.get(`#${key} .TypeHintInput__TypeHints__Search`).type(value)
+            cy.get(`#${key} .TypeHintInput__TypeHints ul li a`).contains(value).click()
         } else {
             if (value.length > 0) {
                 cy.get(`#${key}`).clear().type(value)

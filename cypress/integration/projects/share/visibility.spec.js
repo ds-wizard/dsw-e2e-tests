@@ -4,7 +4,7 @@ import * as project from '../../../support/project-helpers'
 describe('Project Visibility', () => {
     const projectName = 'My Visibility Questionnaire'
     const kmId = 'test-km-1'
-    const packageId = 'dsw:test-km-1:1.0.0'
+    const packageName = 'Test Knowledge Model 1'
 
     before(() => {
         cy.task('mongo:delete', {
@@ -92,7 +92,7 @@ describe('Project Visibility', () => {
             cy.visitApp('/projects/create')
             cy.fillFields({
                 name: projectName,
-                s_packageId: packageId
+                th_packageId: packageName
             })
             cy.clickBtn('Save')
             cy.url().should('match', /\/projects\/.+/)

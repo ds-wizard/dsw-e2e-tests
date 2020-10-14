@@ -3,13 +3,13 @@ import * as project from '../../support/project-helpers'
 describe('Settings / Questionnaires', () => {
     const projectName = 'Test Questionnaire'
     const kmId = 'test-km-1'
-    const packageId = 'dsw:test-km-1:1.0.0'
+    const packageName = 'Test Knowledge Model 1'
 
     const createProject = () => {
         cy.visitApp('/projects/create')
         cy.fillFields({
             name: projectName,
-            s_packageId: packageId
+            th_packageId: packageName
         })
         cy.clickBtn('Save')
 

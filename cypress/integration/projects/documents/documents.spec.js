@@ -11,7 +11,6 @@ describe('Documents', () => {
 
     const templateName = 'Questionnaire Report'
     const brokenTemplateName = 'Broken Template'
-    const brokenTemplateId = 'dsw:broken:0.1.0'
     const notAllowedTemplateName = 'Not Allowed Template'
     const formats = [
         'JSON Data',
@@ -122,7 +121,7 @@ describe('Documents', () => {
         it(`Broken Template - ${format}`, () => {
             project.open(projectName)
             project.openSettings()
-            cy.fillFields({ s_templateId: brokenTemplateId })
+            cy.fillFields({ th_templateId: brokenTemplateName })
             cy.clickBtn('Save')
 
             const documentName = `${projectName} (${brokenTemplateName} - ${format})`
@@ -135,8 +134,15 @@ describe('Documents', () => {
 
     it(`Not Allowed Template`, () => {
         cy.visitApp(`/projects/${projectUuid}/settings`)
-        cy.get('#templateId option').contains(templateName).should('exist')
-        cy.get('#templateId option').contains(brokenTemplateName).should('exist')
-        cy.get('#templateId option').contains(notAllowedTemplateName).should('not.exist')
+        cy.get('#templateId').click()
+
+        cy.get('#templateId-search').clear().type(templateName)
+        cy.get('#templateId .TypeHintInput__TypeHints ul li a').contains(templateName).should('exist')
+        
+        cy.get('#templateId-search').clear().type(brokenTemplateName)
+        cy.get('#templateId .TypeHintInput__TypeHints ul li a').contains(brokenTemplateName).should('exist')
+        
+        cy.get('#templateId-search').clear().type(notAllowedTemplateName)
+        cy.get('#templateId .TypeHintInput__TypeHints ul li a').should('not.exist')
     })
 })
