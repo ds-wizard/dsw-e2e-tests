@@ -4,6 +4,7 @@ describe('Project CRUD', () => {
     const projectName = 'Test Project'
     const otherProjectName = 'Original Test Project'
     const kmId = 'test-km-1'
+    const packageName = 'Test Knowledge Model 1'
     const packageId = 'dsw:test-km-1:1.0.0'
 
 
@@ -34,8 +35,9 @@ describe('Project CRUD', () => {
         cy.clickBtn('Create')
         cy.fillFields({
             name: projectName,
-            s_packageId: packageId
+            th_packageId: packageName
         })
+
         cy.clickBtn('Save')
         cy.url().should('contain', '/projects/')
 

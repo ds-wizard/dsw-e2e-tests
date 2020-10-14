@@ -5,7 +5,7 @@ import * as tagSelect from '../../../support/tag-select-helpers'
 describe('Questionnaire Tags', () => {
     const projectName = 'My Tagged Questionnaire'
     const kmId = 'km-with-tags'
-    const packageId = 'mto:km-with-tags:1.0.0'
+    const packageName = 'KM With Tags'
 
     before(() => {
         cy.task('mongo:delete', {
@@ -67,7 +67,7 @@ describe('Questionnaire Tags', () => {
 
             cy.fillFields({
                 name: projectName,
-                s_packageId: packageId
+                th_packageId: packageName
             })
             tagSelect.selectMultiple(tags)
             cy.clickBtn('Save')

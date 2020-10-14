@@ -34,7 +34,7 @@ describe('Project List', () => {
 
     beforeEach(() => {
         cy.loginAs('researcher')
-        cy.visitApp('/projects')
+        cy.visitApp('/projects?page=1&sort=name,asc')
     })
 
     it('default sort', () => {
