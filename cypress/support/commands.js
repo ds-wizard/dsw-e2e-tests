@@ -233,6 +233,10 @@ Cypress.Commands.add('fillFields', (fields) => {
 })
 
 
+Cypress.Commands.add('clearTypeHintInput', (field) => {
+    cy.get(`#${field} .TypeHintInput__Value a`).click()
+})
+
 Cypress.Commands.add('checkFields', (fields) => {
     Object.entries(fields).forEach(([key, value]) => {
         key = key.replace(/^s_/, '')

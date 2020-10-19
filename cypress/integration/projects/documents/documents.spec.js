@@ -132,7 +132,7 @@ describe('Documents', () => {
         })
     })
 
-    it(`Not Allowed Template`, () => {
+    it('Not Allowed Template', () => {
         cy.visitApp(`/projects/${projectUuid}/settings`)
         cy.get('#templateId').click()
 
@@ -144,5 +144,27 @@ describe('Documents', () => {
         
         cy.get('#templateId-search').clear().type(notAllowedTemplateName)
         cy.get('#templateId .TypeHintInput__TypeHints ul li a').should('not.exist')
+    })
+
+    it.only('Default template not set', () => {
+        const documentName = 'Test document'
+        
+        // unset the default template
+        project.open(projectName)
+        project.openSettings()
+        cy.clearTypeHintInput('templateId')
+        cy.clickBtn('Save')
+
+        project.openDocuments()
+        cy.clickBtn('New document')
+
+        // no format id when tempalte is not selected
+        cy.get('#templateId').should('exist')
+        cy.get('#formatId').should('not.exist')
+
+        // select template and submit document
+        cy.fillFields({ th_templateId: templateName })
+        d.submitDocumentForm(documentName, 'PDF Document')
+        d.checkDocument(documentName, true)
     })
 })
