@@ -154,6 +154,7 @@ describe('Questionnaire WebSocket Tests', () => {
             visibility: project.VisibleEdit,
             sharing: project.Restricted,
             name: projectName,
+            permissions: []
         })
 
         // check error appears
