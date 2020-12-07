@@ -17,7 +17,7 @@ describe('Questionnaire Migrations', () => {
 
     const createMigrationTo = (km, minor) => {
         cy.visitApp('/projects')
-        cy.clickListingItemAction(projectName, 'Create Migration')
+        cy.clickListingItemAction(projectName, 'Create migration')
         cy.fillFields({ s_packageId: getPackageId(km, minor) })
         cy.clickBtn('Create')
         cy.get('.Questionnaire__Migration').should('exist')

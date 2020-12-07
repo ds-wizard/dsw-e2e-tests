@@ -49,12 +49,12 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         cy.visitApp('/km-editor')
-        cy.clickListingItemAction(config.editorName, 'Continue Migration')
+        cy.clickListingItemAction(config.editorName, 'Continue migration')
         cy.contains('Add question')
         cy.clickBtn('Reject')
 
         cy.visitApp('/km-editor')
-        cy.clickListingItemAction(config.editorName, 'Cancel Migration')
+        cy.clickListingItemAction(config.editorName, 'Cancel migration')
         cy.getListingItem(config.childKmId).should('contain', config.editorName).and('contain', 'Upgrade')
     })
 
@@ -671,7 +671,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Add integration')
         migration.checkMigrationForm([
             {
-                'label': 'Id', 'validate': (x) => {
+                'label': 'ID', 'validate': (x) => {
                     x.get('ins').contains('idIntegration')
                 }
             },
@@ -716,7 +716,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Response Id Field', 'validate': (x) => {
+                'label': 'Response ID Field', 'validate': (x) => {
                     x.get('ins').contains('id')
                 }
             },
@@ -739,7 +739,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Edit integration')
         migration.checkMigrationForm([
             {
-                'label': 'Id', 'validate': (x) => {
+                'label': 'ID', 'validate': (x) => {
                     x.get('del').contains('idIntegration')
                     x.get('ins').contains('google')
                 }
@@ -793,7 +793,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Response Id Field', 'validate': (x) => {
+                'label': 'Response ID Field', 'validate': (x) => {
                     x.get('del').contains('id')
                     x.get('ins').contains('doi')
                 }
@@ -818,7 +818,7 @@ describe('KM Editor Migrations', () => {
         cy.contains('Delete integration')
         migration.checkMigrationForm([
             {
-                'label': 'Id', 'validate': (x) => {
+                'label': 'ID', 'validate': (x) => {
                     x.get('del').contains('google')
                 }
             },
@@ -863,7 +863,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Response Id Field', 'validate': (x) => {
+                'label': 'Response ID Field', 'validate': (x) => {
                     x.get('del').contains('doi')
                 }
             },
@@ -2355,7 +2355,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "edit knowledge model"', () => {
         migration.createMigration(config, '1.9.3', '1.10.0')
 
-        cy.contains('Edit knowledge model')
+        cy.contains('Edit Knowledge Model')
         migration.checkMigrationForm([
             {
                 'label': 'Name', 'validate': (x) => {
@@ -2460,7 +2460,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with apply and reject', () => {
         migration.createMigration(config, '2.0.0', '1.11.0')
 
-        cy.contains('Edit knowledge model')
+        cy.contains('Edit Knowledge Model')
         migration.checkMigrationForm([
             {
                 'label': 'Name', 'validate': (x) => {

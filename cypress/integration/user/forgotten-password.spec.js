@@ -51,7 +51,7 @@ describe('Forgotten password', () => {
             passwordConfirmation: newPassword,
         })
         cy.clickBtn('Save')
-        cy.get('.lead').should('contain', 'Your password was has been changed. You can now log in.')
+        cy.get('.lead').should('contain', 'Your password has been changed. You can now log in.')
         
         // check that we can login using the new password
         cy.clickLink('log in')
@@ -59,7 +59,7 @@ describe('Forgotten password', () => {
             email: user.email,
             password: newPassword
         })
-        cy.clickBtn('Log in')
+        cy.clickBtn('Log In')
         cy.url().should('include', '/dashboard')
     })
 })

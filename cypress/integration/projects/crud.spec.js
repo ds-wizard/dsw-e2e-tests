@@ -79,8 +79,8 @@ describe('Project CRUD', () => {
         project.open(projectName)
         project.openSettings()
 
-        cy.clickBtn('Delete this project')
-        cy.get('.modal-title').should('be.visible').and('contain', 'Delete project')
+        cy.clickBtn('Delete this Project')
+        cy.get('.modal-title').should('be.visible').and('contain', 'Delete Project')
         cy.get('.btn-danger').contains('Delete').click()
 
         cy.expectEmptyListing(p.name)

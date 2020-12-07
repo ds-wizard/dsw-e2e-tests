@@ -10,7 +10,7 @@ describe('Login', () => {
                 email: Cypress.env(role + '_username'),
                 password: Cypress.env(role + '_password')
             })
-            cy.clickBtn('Log in')
+            cy.clickBtn('Log In')
             cy.url().should('include', '/dashboard')
         })
     })
@@ -21,7 +21,7 @@ describe('Login', () => {
             email: Cypress.env('datasteward_username'),
             password: Cypress.env('datasteward_password')
         })
-        cy.clickBtn('Log in')
+        cy.clickBtn('Log In')
         cy.url().should('include', '/projects')
     })
 })

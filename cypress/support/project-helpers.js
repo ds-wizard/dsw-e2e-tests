@@ -10,7 +10,7 @@ export const TodoUUID = '615b9028-5e3f-414f-b245-12d2ae2eeb20'
 
 export function open(questionnaireName) {
     cy.visitApp('/projects')
-    cy.clickListingItemAction(questionnaireName, 'Open project')
+    cy.clickListingItemAction(questionnaireName, 'Open Project')
     expectTitle(questionnaireName)
 }
 

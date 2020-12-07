@@ -71,7 +71,7 @@ describe('Users Edit', () => {
         // logout and try to login with the new password
         cy.logout()
         cy.fillFields({ email: user.email, password })
-        cy.clickBtn('Log in')
+        cy.clickBtn('Log In')
         cy.url().should('contain', '/dashboard')
     })
 })

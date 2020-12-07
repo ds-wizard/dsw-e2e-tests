@@ -32,7 +32,7 @@ describe('Settings / Authentication', () => {
             passwordConfirmation: testPassword
         })
         cy.get('#accept').check()
-        cy.clickBtn('Sign up')
+        cy.clickBtn('Sign Up')
         cy.get('.lead').should('contain', 'Sign up was successful.')
 
         // Activate the new user account
@@ -52,7 +52,7 @@ describe('Settings / Authentication', () => {
             email: testEmail,
             password: testPassword
         })
-        cy.clickBtn('Log in')
+        cy.clickBtn('Log In')
 
         // Check that admin only items are visible
         cy.get('.menu li').contains('Users')

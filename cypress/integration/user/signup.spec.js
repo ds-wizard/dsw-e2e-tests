@@ -20,7 +20,7 @@ describe('Sign up', () => {
             passwordConfirmation: testPassword
         })
         cy.get('#accept').check()
-        cy.clickBtn('Sign up')
+        cy.clickBtn('Sign Up')
 
         // form submission works
         cy.get('.lead').should('contain', 'Sign up was successful.')
@@ -49,7 +49,7 @@ describe('Sign up', () => {
             email: testEmail,
             password: testPassword
         })
-        cy.clickBtn('Log in')
+        cy.clickBtn('Log In')
         cy.url().should('include', '/dashboard')
     })
 })
