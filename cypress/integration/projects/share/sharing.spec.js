@@ -31,18 +31,6 @@ describe('Project Sharing', () => {
         cy.url().should('contain', '/?originalUrl=')
     }
 
-    const expectView = () => {
-        cy.url().should('match', /\/projects\/.+/)
-        cy.get('.questionnaire__form .form-group input[type=text]').should('be.disabled')
-        cy.get('.questionnaire__panel__phase select').should('be.disabled')
-    }
-
-    const expectEdit = () => {
-        cy.url().should('match', /\/projects\/.+/)
-        cy.get('.questionnaire__form .form-group input[type=text]').should('not.be.disabled')
-        cy.get('.questionnaire__panel__phase select').should('not.be.disabled')
-    }
-
     const testCases = [{
         visibility: project.Private,
         sharing: project.Restricted,
@@ -51,38 +39,38 @@ describe('Project Sharing', () => {
     }, {
         visibility: project.Private,
         sharing: project.AnyoneWithLinkView,
-        expectUser: expectView,
-        expectAnon: expectView
+        expectUser: project.expectViewer,
+        expectAnon: project.expectViewer
     }, {
         visibility: project.Private,
         sharing: project.AnyoneWithLinkEdit,
-        expectUser: expectEdit,
-        expectAnon: expectEdit
+        expectUser: project.expectEditor,
+        expectAnon: project.expectEditor
     }, {
         visibility: project.VisibleView,
         sharing: project.Restricted,
-        expectUser: expectView,
+        expectUser: project.expectViewer,
         expectAnon: expectAnonCannotSee
     }, {
         visibility: project.VisibleView,
         sharing: project.AnyoneWithLinkView,
-        expectUser: expectView,
-        expectAnon: expectView
+        expectUser: project.expectViewer,
+        expectAnon: project.expectViewer
     }, {
         visibility: project.VisibleEdit,
         sharing: project.Restricted,
-        expectUser: expectEdit,
+        expectUser: project.expectEditor,
         expectAnon: expectAnonCannotSee
     }, {
         visibility: project.VisibleEdit,
         sharing: project.AnyoneWithLinkView,
-        expectUser: expectEdit,
-        expectAnon: expectView
+        expectUser: project.expectEditor,
+        expectAnon: project.expectViewer
     }, {
         visibility: project.VisibleEdit,
         sharing: project.AnyoneWithLinkEdit,
-        expectUser: expectEdit,
-        expectAnon: expectEdit
+        expectUser: project.expectEditor,
+        expectAnon: project.expectEditor
     }]
 
     testCases.forEach(({ visibility, sharing, expectUser, expectAnon}) => {
@@ -90,14 +78,7 @@ describe('Project Sharing', () => {
             cy.loginAs('researcher')
 
             // Create project
-            cy.visitApp('/projects/create')
-            cy.fillFields({
-                name: projectName,
-                th_packageId: packageName
-            })
-            cy.clickBtn('Save')
-            cy.url().should('match', /\/projects\/.+/)
-            project.expectTitle(projectName)
+            project.create(projectName, packageName)
 
             // Share modal
             cy.clickBtn('Share')
@@ -136,7 +117,6 @@ describe('Project Sharing', () => {
                 cy.visitApp(`/projects/${projectId}`)
                 expectAnon()
             })
-
         })
     })
 })

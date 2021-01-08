@@ -15,10 +15,52 @@ export function open(questionnaireName) {
 }
 
 
+export function create(projectName, packageName) {
+    cy.visitApp('/projects/create')
+    cy.fillFields({
+        name: projectName,
+        th_packageId: packageName
+    })
+    cy.clickBtn('Save')
+    cy.url().should('match', /\/projects\/.+/)
+    expectTitle(projectName)
+}
+
+
 export function expectTitle(questionnaireName) {
     cy.get('.Plans__Detail__Navigation__Row__Section .title').contains(questionnaireName)
 }
 
+
+export function expectViewer() {
+    cy.url().should('match', /\/projects\/.+/)
+    cy.get('.questionnaire__form .form-group input[type=text]').should('be.disabled')
+    cy.get('.questionnaire__panel__phase select').should('be.disabled')
+    checkDisabledShareAndSettings()
+}
+
+
+export function expectEditor() {
+    cy.url().should('match', /\/projects\/.+/)
+    cy.get('.questionnaire__form .form-group input[type=text]').should('not.be.disabled')
+    cy.get('.questionnaire__panel__phase select').should('not.be.disabled')
+    checkDisabledShareAndSettings()
+}
+
+
+export function expectOwner() {
+    cy.url().should('match', /\/projects\/.+/)
+    cy.get('.questionnaire__form .form-group input[type=text]').should('not.be.disabled')
+    cy.get('.questionnaire__panel__phase select').should('not.be.disabled')
+    cy.getCy('share').should('exist')
+    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('Settings').should('exist')
+}
+
+
+function checkDisabledShareAndSettings() {
+    cy.getCy('share').should('not.exist')
+    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('Settings').should('not.exist')
+}
 
 export function expectQuestion(question, visible) {
     const predicate = visible ? 'exist' : 'not.exist'
@@ -192,6 +234,7 @@ export function expectSummaryReportAnswered(indication, chapter) {
     }
 }
 
+
 export function expectSummaryReportMetrics(metrics, chapter) {
     openSummaryReport()
 
@@ -228,9 +271,11 @@ export function expectSummaryReportMetrics(metrics, chapter) {
     }
 }
 
+
 export function awaitSave() {
     cy.get('.questionnaire-header__saving').contains('Saved')
 }
+
 
 export function resolveAndFinalizeMigration() {
     cy.clickBtn('Resolve')

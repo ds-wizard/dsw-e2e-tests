@@ -23,80 +23,67 @@ describe('Project Visibility', () => {
         })
     })
 
-    const expectSeeAndFill = () => {
-        project.open(projectName)
-        cy.get('.questionnaire__form .form-group input[type=text]').should('not.be', 'disabled')
-    }
-
-    const expectCannotSee = () => {
-        cy.expectEmptyListing()
-    }
-
-    const expectReadOnly = () => {
-        project.open(projectName)
-        cy.get('.questionnaire__form .form-group input[type=text]').should('be', 'disabled')
-    }
-
     const testCases = [{
         creator: 'researcher',
         viewer: 'researcher',
         visibility: project.VisibleEdit,
-        expectResult: expectSeeAndFill
+        open: true,
+        expectResult: project.expectOwner
     }, {
         creator: 'researcher',
         viewer: 'researcher',
         visibility: project.Private,
-        expectResult: expectSeeAndFill
+        open: true,
+        expectResult: project.expectOwner
     }, {
         creator: 'researcher',
         viewer: 'researcher',
         visibility: project.VisibleView,
-        expectResult: expectSeeAndFill
+        open: true,
+        expectResult: project.expectOwner
     }, {
         creator: 'researcher',
         viewer: 'datasteward',
         visibility: project.VisibleEdit,
-        expectResult: expectSeeAndFill
+        open: true,
+        expectResult: project.expectEditor
     }, {
         creator: 'researcher',
         viewer: 'datasteward',
         visibility: project.Private,
-        expectResult: expectCannotSee
+        open: false
     }, {
         creator: 'researcher',
         viewer: 'datasteward',
         visibility: project.VisibleView,
-        expectResult: expectReadOnly
+        open: true,
+        expectResult: project.expectViewer
     }, {
         creator: 'researcher',
         viewer: 'admin',
         visibility: project.VisibleEdit,
-        expectResult: expectSeeAndFill
+        open: true,
+        expectResult: project.expectOwner
     }, {
         creator: 'researcher',
         viewer: 'admin',
         visibility: project.Private,
-        expectResult: expectSeeAndFill
+        open: true,
+        expectResult: project.expectOwner
     }, {
         creator: 'researcher',
         viewer: 'admin',
         visibility: project.VisibleView,
-        expectResult: expectSeeAndFill
+        open: true,
+        expectResult: project.expectOwner
     }]
 
-    testCases.forEach(({ creator, viewer, visibility, expectResult }) => {
+    testCases.forEach(({ creator, viewer, visibility, open, expectResult }) => {
         it(`works for ${visibility} created by ${creator} and viewed by ${viewer}`, () => {
             cy.loginAs(creator)
 
             // Create project
-            cy.visitApp('/projects/create')
-            cy.fillFields({
-                name: projectName,
-                th_packageId: packageName
-            })
-            cy.clickBtn('Save')
-            cy.url().should('match', /\/projects\/.+/)
-            project.expectTitle(projectName)
+            project.create(projectName, packageName)
 
             // Set visibility
             cy.clickBtn('Share')
@@ -112,8 +99,14 @@ describe('Project Visibility', () => {
             // Log out and test as a viewer
             cy.logout()
             cy.loginAs(viewer)
-            cy.visitApp('/projects')
-            expectResult()
+
+            if (open) {
+                project.open(projectName)
+                expectResult()
+            } else {
+                cy.visitApp('/projects')
+                cy.expectEmptyListing()
+            }
         })
     })
 })

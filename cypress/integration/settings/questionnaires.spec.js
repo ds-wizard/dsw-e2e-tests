@@ -57,7 +57,7 @@ describe('Settings / Questionnaires', () => {
         cy.clickBtn('Save', true)
 
         createProjectAndOpenShare()
-        cy.get('label').contains('Visible by other logged-in users').should('exist')
+        cy.get('label').contains('Visible by all other logged-in users').should('exist')
     })
 
     it('questionnaire visibility not enabled', () => {
