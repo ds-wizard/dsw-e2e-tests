@@ -65,6 +65,10 @@ describe('KM Editor Delete Entity', () => {
             path: ['Chapter 1', 'List Question 1'],
             child: 'Answer Item Question 1'
         }, {
+            name: 'delete Choice',
+            path: ['Chapter 1', 'Multi-Choice Question 1'],
+            child: 'Choice 1'
+        }, {
             name: 'delete Reference',
             path: ['Chapter 1', 'Question 1'],
             child: 'Reference 1'
@@ -83,6 +87,10 @@ describe('KM Editor Delete Entity', () => {
             name: 'delete Answer Item Question',
             path: ['Chapter 1', 'Options Question 1', 'Answer 1', 'Follow-up Question 2'],
             child: 'Follow-up Answer Item Question'
+        }, {
+            name: 'delete Choice',
+            path: ['Chapter 1', 'Options Question 1', 'Answer 1', 'Follow-up Question 3'],
+            child: 'Follow-up Choice'
         }, {
             name: 'delete Reference',
             path: ['Chapter 1', 'Options Question 1', 'Answer 1', 'Follow-up Question 1'],
@@ -103,6 +111,10 @@ describe('KM Editor Delete Entity', () => {
             path: ['Chapter 1', 'List Question 1', 'Answer Item Question 2'],
             child: 'Answer Item Question Answer Item Question'
         }, {
+            name: 'delete Choice',
+            path: ['Chapter 1', 'List Question 1', 'Answer Item Question 3'],
+            child: 'Answer Item Question Choice'
+        }, {
             name: 'delete Reference',
             path: ['Chapter 1', 'List Question 1', 'Answer Item Question 1'],
             child: 'Answer Item Question Reference'
@@ -121,6 +133,10 @@ describe('KM Editor Delete Entity', () => {
             name: 'delete Answer Item Question',
             path: ['Chapter 1', 'Question 1', 'Answer 2', 'Question 2', 'Question 3', 'Answer 3', 'Deep Nested Question 2'],
             child: 'Deep Nested Answer Item Question'
+        }, {
+            name: 'delete Choice',
+            path: ['Chapter 1', 'Question 1', 'Answer 2', 'Question 2', 'Question 3', 'Answer 3', 'Deep Nested Question 3'],
+            child: 'Deep Nested Choice 1'
         }, {
             name: 'delete Reference',
             path: ['Chapter 1', 'Question 1', 'Answer 2', 'Question 2', 'Question 3', 'Answer 3', 'Deep Nested Question 1'],

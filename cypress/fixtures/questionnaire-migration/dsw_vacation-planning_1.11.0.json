@@ -520,10 +520,119 @@
             "organizationId": "dsw",
             "previousPackageId": "dsw:vacation-planning:1.6.0",
             "description": "Vacation planning knowledge model"
+        },
+        {
+            "readme": "# Vacation planning knowledge model",
+            "createdAt": "2021-01-21T09:47:56.165Z",
+            "metamodelVersion": 6,
+            "kmId": "vacation-planning",
+            "forkOfPackageId": null,
+            "name": "Vacation Planning ",
+            "events": [
+                {
+                    "tagUuids": [],
+                    "text": null,
+                    "uuid": "ec57b08e-311a-40a5-9cd3-c9e8a1d001bc",
+                    "entityUuid": "4516b7ee-c757-4e86-92d7-8920c5d5a06c",
+                    "questionType": "MultiChoiceQuestion",
+                    "parentUuid": "f43b06de-bb26-4adc-adc1-9fb3a9776251",
+                    "eventType": "AddQuestionEvent",
+                    "requiredLevel": null,
+                    "title": "Where will you eat?"
+                },
+                {
+                    "uuid": "9c1ea2a9-e8a3-4580-a0b4-e87e16386025",
+                    "entityUuid": "10f139ef-1faf-483b-9d91-44d0724954d5",
+                    "parentUuid": "4516b7ee-c757-4e86-92d7-8920c5d5a06c",
+                    "eventType": "AddChoiceEvent",
+                    "label": "Restaurants"
+                }
+            ],
+            "version": "1.8.0",
+            "id": "dsw:vacation-planning:1.8.0",
+            "mergeCheckpointPackageId": null,
+            "license": "MIT",
+            "organizationId": "dsw",
+            "previousPackageId": "dsw:vacation-planning:1.7.0",
+            "description": "Vacation planning knowledge model"
+        },
+        {
+            "readme": "# Vacation planning knowledge model",
+            "createdAt": "2021-01-21T09:48:56.737Z",
+            "metamodelVersion": 6,
+            "kmId": "vacation-planning",
+            "forkOfPackageId": null,
+            "name": "Vacation Planning",
+            "events": [
+                {
+                    "uuid": "247f3c6d-5d49-4647-9c63-cf75a4b8ba69",
+                    "entityUuid": "506f316e-7a2b-42df-b459-f0fd9ff3a15a",
+                    "parentUuid": "4516b7ee-c757-4e86-92d7-8920c5d5a06c",
+                    "eventType": "AddChoiceEvent",
+                    "label": "I will cook myself"
+                }
+            ],
+            "version": "1.9.0",
+            "id": "dsw:vacation-planning:1.9.0",
+            "mergeCheckpointPackageId": null,
+            "license": "MIT",
+            "organizationId": "dsw",
+            "previousPackageId": "dsw:vacation-planning:1.8.0",
+            "description": "Vacation planning knowledge model"
+        },
+        {
+            "readme": "# Vacation planning knowledge model",
+            "createdAt": "2021-01-21T09:49:28.497Z",
+            "metamodelVersion": 6,
+            "kmId": "vacation-planning",
+            "forkOfPackageId": null,
+            "name": "Vacation Planning ",
+            "events": [
+                {
+                    "uuid": "17519408-1a6e-4a2e-8fdd-0b71248a5424",
+                    "entityUuid": "10f139ef-1faf-483b-9d91-44d0724954d5",
+                    "parentUuid": "4516b7ee-c757-4e86-92d7-8920c5d5a06c",
+                    "eventType": "EditChoiceEvent",
+                    "label": {
+                        "changed": true,
+                        "value": "Restaurants or Hotels"
+                    }
+                }
+            ],
+            "version": "1.10.0",
+            "id": "dsw:vacation-planning:1.10.0",
+            "mergeCheckpointPackageId": null,
+            "license": "MIT",
+            "organizationId": "dsw",
+            "previousPackageId": "dsw:vacation-planning:1.9.0",
+            "description": "Vacation planning knowledge model"
+        },
+        {
+            "readme": "# Vacation planning knowledge model",
+            "createdAt": "2021-01-21T09:49:48.437Z",
+            "metamodelVersion": 6,
+            "kmId": "vacation-planning",
+            "forkOfPackageId": null,
+            "name": "Vacation planning knowledge model",
+            "events": [
+                {
+                    "uuid": "e502ad73-a4fc-486f-b509-33c96fda4b7d",
+                    "entityUuid": "506f316e-7a2b-42df-b459-f0fd9ff3a15a",
+                    "parentUuid": "4516b7ee-c757-4e86-92d7-8920c5d5a06c",
+                    "eventType": "DeleteChoiceEvent"
+                }
+            ],
+            "version": "1.11.0",
+            "id": "dsw:vacation-planning:1.11.0",
+            "mergeCheckpointPackageId": null,
+            "license": "MIT",
+            "organizationId": "dsw",
+            "previousPackageId": "dsw:vacation-planning:1.10.0",
+            "description": "Vacation planning knowledge model"
         }
     ],
     "name": "Vacation Planning ",
-    "version": "1.7.0",
-    "id": "dsw:vacation-planning:1.7.0",
+    "version": "1.11.0",
+    "id": "dsw:vacation-planning:1.11.0",
     "organizationId": "dsw"
 }

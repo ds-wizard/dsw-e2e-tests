@@ -66,6 +66,17 @@ describe('KM Editor Move Entity', () => {
             'Question 3'
         ]
     }, {
+        name: 'Choice',
+        entity: 'Choice 2',
+        originalPath: [
+            'Chapter 1',
+            'Question 2'
+        ],
+        newPath: [
+            'Chapter 1',
+            'Multi-Choice Question 1'
+        ]
+    }, {
         name: 'Question from Chapter to Chapter',
         entity: 'Options Question 1',
         originalPath: [

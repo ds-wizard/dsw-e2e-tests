@@ -146,7 +146,7 @@ describe('Documents', () => {
         cy.get('#templateId .TypeHintInput__TypeHints ul li a').should('not.exist')
     })
 
-    it.only('Default template not set', () => {
+    it('Default template not set', () => {
         const documentName = 'Test document'
         
         // unset the default template

@@ -160,6 +160,14 @@ describe('KM Editor Edit Entity', () => {
                 s_integrationUuid: '7f1a591a-d6d6-4ffd-8118-6f052b1d73b8'
             }
         }, {
+            testName: 'edit MultiChoiceQuestion',
+            originalTitle: 'Multi-Choice Question 1',
+            question: {
+                title: 'Another Multi-Choice Question',
+                text: 'Another Multi-Choice question text',
+                s_requiredLevel: '2'
+            }
+        }, {
             testName: 'change to OptionsQuestion',
             originalTitle: 'List Question 1',
             question: {
@@ -189,6 +197,13 @@ describe('KM Editor Edit Entity', () => {
                 s_questionType: 'IntegrationQuestion',
                 s_integrationUuid: '354e8a2a-3c53-4f74-921d-bc42d82bd529'
             }
+        }, {
+            testName: 'change to MultiChoiceQuestion',
+            originalTitle: 'List Question 1',
+            question: {
+                title: 'Multi-Choice Question 2',
+                s_questionType: 'MultiChoiceQuestion'
+            }
         }]
 
         questionTests.forEach(({ testName, originalTitle, question }) => {
@@ -210,32 +225,40 @@ describe('KM Editor Edit Entity', () => {
     const questionFixtures = [{
         title: 'Chapter Question',
         optionsQuestionPath: ['Chapter 1', 'Question 1'],
+        multiChoiceQuestionPath: ['Chapter 1', 'Multi-Choice Question 1'],
         listQuestionPath: ['Chapter 1', 'List Question 1'],
         answerTitle: 'Answer 2',
+        choiceTitle: 'Choice 1',
         followUpTitle: 'Answer Item Question 1',
         referenceTitle: 'Reference 1',
         expertTitle: 'Expert 1'
     }, {
         title: 'Follow-up Question',
         optionsQuestionPath: ['Chapter 1', 'Options Question 1', 'Answer 1', 'Follow-up Question 1'],
+        multiChoiceQuestionPath: ['Chapter 1', 'Options Question 1', 'Answer 1', 'Follow-up Question 3'],
         listQuestionPath: ['Chapter 1', 'Options Question 1', 'Answer 1', 'Follow-up Question 2'],
         answerTitle: 'Follow-up Answer',
+        choiceTitle: 'Follow-up Choice',
         followUpTitle: 'Follow-up Answer Item Question',
         referenceTitle: 'Follow-up Reference',
         expertTitle: 'Follow-up Expert'
     }, {
         title: 'Answer Item Question',
         optionsQuestionPath: ['Chapter 1', 'List Question 1', 'Answer Item Question 1'],
+        multiChoiceQuestionPath: ['Chapter 1', 'List Question 1', 'Answer Item Question 3'],
         listQuestionPath: ['Chapter 1', 'List Question 1', 'Answer Item Question 2'],
         answerTitle: 'Answer Item Question Answer',
+        choiceTitle: 'Answer Item Question Choice',
         followUpTitle: 'Answer Item Question Answer Item Question',
         referenceTitle: 'Answer Item Question Reference',
         expertTitle: 'Answer Item Question Expert'
     }, {
         title: 'Deep Nested Question',
         optionsQuestionPath: ['Chapter 1', 'Question 1', 'Answer 2', 'Question 2', 'Question 3', 'Answer 3', 'Deep Nested Question 1'],
+        multiChoiceQuestionPath: ['Chapter 1', 'Question 1', 'Answer 2', 'Question 2', 'Question 3', 'Answer 3', 'Deep Nested Question 3'],
         listQuestionPath: ['Chapter 1', 'Question 1', 'Answer 2', 'Question 2', 'Question 3', 'Answer 3', 'Deep Nested Question 2'],
         answerTitle: 'Deep Nested Answer 1',
+        choiceTitle: 'Deep Nested Choice 1',
         followUpTitle: 'Deep Nested Answer Item Question',
         referenceTitle: 'Deep Nested Reference 1',
         expertTitle: 'Deep Nested Expert 1'
@@ -244,8 +267,10 @@ describe('KM Editor Edit Entity', () => {
     questionFixtures.forEach(({
         title,
         optionsQuestionPath,
+        multiChoiceQuestionPath,
         listQuestionPath,
         answerTitle,
+        choiceTitle,
         followUpTitle,
         referenceTitle,
         expertTitle
@@ -270,6 +295,23 @@ describe('KM Editor Edit Entity', () => {
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, answer.label])
                 cy.checkFields(answer)
+            })
+
+            it('edit Choice', () => {
+                const choice = {
+                    label: 'Another Choice'
+                }
+
+                // Open editor and edit choice
+                editor.open(kmId)
+                editor.traverseChildren([...multiChoiceQuestionPath, choiceTitle])
+                cy.fillFields(choice)
+                editor.saveAndClose()
+
+                // Open editor again and check that changes were saved
+                editor.open(kmId)
+                editor.traverseChildren([...multiChoiceQuestionPath, choice.label])
+                cy.checkFields(choice)
             })
 
             it('edit Follow-up Question', () => {

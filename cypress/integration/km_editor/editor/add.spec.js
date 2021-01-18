@@ -123,6 +123,11 @@ describe('KM Editor Add Entity', () => {
             text: 'This question is asking about external data sources.',
             s_requiredLevel: '1'
         }, {
+            s_questionType: 'MultiChoiceQuestion',
+            title: 'What do you choose?',
+            text: 'This question can have more than one answer.',
+            s_requiredLevel: '1'
+        } ,{
             s_questionType: 'ListQuestion',
             title: 'What databases will you use?',
             text: '',
@@ -206,6 +211,10 @@ describe('KM Editor Add Entity', () => {
             s_questionType: 'OptionsQuestion',
             title: questionTitle
         }
+        const questionMultiChoice = {
+            s_questionType: 'MultiChoiceQuestion',
+            title: questionTitle
+        }
         const questionList = {
             s_questionType: 'ListQuestion',
             title: questionTitle
@@ -217,6 +226,10 @@ describe('KM Editor Add Entity', () => {
             ...children,
             ['question', questionOptions]
         ]
+        const childrenMultiChoice = [
+            ...children,
+            ['question', questionMultiChoice]
+        ]
         const childrenList = [
             ...children,
             ['question', questionList]
@@ -226,6 +239,7 @@ describe('KM Editor Add Entity', () => {
         return {
             title: 'Chapter Question',
             childrenOptions,
+            childrenMultiChoice,
             childrenList,
             path
         }
@@ -243,6 +257,10 @@ describe('KM Editor Add Entity', () => {
             s_questionType: 'OptionsQuestion',
             title: followUpQuestionTitle,
         }
+        const followUpQuestionMultiChoice = {
+            s_questionType: 'MultiChoiceQuestion',
+            title: followUpQuestionTitle
+        }
         const followUpQuestionList = {
             s_questionType: 'ListQuestion',
             title: followUpQuestionTitle,
@@ -256,6 +274,10 @@ describe('KM Editor Add Entity', () => {
             ...children,
             ['follow-up question', followUpQuestionOptions]
         ]
+        const childrenMultiChoice = [
+            ...children,
+            ['follow-up question', followUpQuestionMultiChoice]
+        ]
         const childrenList = [
             ...children,
             ['follow-up question', followUpQuestionList]
@@ -265,6 +287,7 @@ describe('KM Editor Add Entity', () => {
         return {
             title: 'Follow-up Question',
             childrenOptions,
+            childrenMultiChoice,
             childrenList,
             path
         }
@@ -281,6 +304,10 @@ describe('KM Editor Add Entity', () => {
             s_questionType: 'OptionsQuestion',
             title: answerItemQuestionTitle
         }
+        const answerItemQuestionMultiChoice = {
+            s_questionType: 'MultiChoiceQuestion',
+            title: answerItemQuestionTitle
+        }
         const answerItemQuestionList = {
             s_questionType: 'ListQuestion',
             title: answerItemQuestionTitle
@@ -293,6 +320,10 @@ describe('KM Editor Add Entity', () => {
             ...children,
             ['question', answerItemQuestionOptions]
         ]
+        const childrenMultiChoice = [
+            ...children,
+            ['question', answerItemQuestionMultiChoice]
+        ]
         const childrenList = [
             ...children,
             ['question', answerItemQuestionList]
@@ -302,6 +333,7 @@ describe('KM Editor Add Entity', () => {
         return {
             title: 'Answer Item Question',
             childrenOptions,
+            childrenMultiChoice,
             childrenList,
             path
         }
@@ -333,6 +365,10 @@ describe('KM Editor Add Entity', () => {
             s_questionType: 'OptionsQuestion',
             title: nestedQuestionTitle,
         }
+        const nestedQuestionMultiChoice = {
+            s_questionType: 'MultiChoiceQuestion',
+            title: nestedQuestionTitle
+        }
         const nestedQuestionList = {
             s_questionType: 'ListQuestion',
             title: nestedQuestionTitle
@@ -351,6 +387,10 @@ describe('KM Editor Add Entity', () => {
             ...children,
             ['follow-up question', nestedQuestionOptions]
         ]
+        const childrenMultiChoice = [
+            ...children,
+            ['follow-up question', nestedQuestionMultiChoice]
+        ]
         const childrenList = [
             ...children,
             ['follow-up question', nestedQuestionList]
@@ -360,6 +400,7 @@ describe('KM Editor Add Entity', () => {
         return {
             title: 'Deep Nested Question',
             childrenOptions,
+            childrenMultiChoice,
             childrenList,
             path
         }
@@ -372,7 +413,7 @@ describe('KM Editor Add Entity', () => {
         deepNestedQuestionFixtures()
     ]
 
-    questionFixtures.forEach(({ title, childrenOptions, childrenList, path }) => {
+    questionFixtures.forEach(({ title, childrenOptions, childrenMultiChoice, childrenList, path }) => {
         describe(title, () => {
             it('add Answer', () => {
                 const followUpAnswer = {
@@ -421,6 +462,26 @@ describe('KM Editor Add Entity', () => {
                 editor.open(kmId)
                 editor.traverseChildren([...path, answer.label, followUpQuestion.title])
                 cy.checkFields(followUpQuestion)
+            })
+
+            it('add Choice', () => {
+                const choice = {
+                    label: "Choice 1"
+                }
+
+                // Add choice parents
+                editor.open(kmId)
+                editor.createChildren(childrenMultiChoice)
+
+                // Add choice and save
+                editor.addInputChild('choice')
+                cy.fillFields(choice)
+                editor.saveAndClose()
+
+                // Open editor again and check that the choice is there
+                editor.open(kmId)
+                editor.traverseChildren([...path, choice.label])
+                cy.checkFields(choice)
             })
 
 
