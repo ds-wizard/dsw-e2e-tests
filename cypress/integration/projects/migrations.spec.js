@@ -36,7 +36,7 @@ describe('Questionnaire Migrations', () => {
 
 
     before(() => {
-        importKM('vacation-planning', 7)
+        importKM('vacation-planning', 11)
         importKM('move-test', 5)
     })
 
@@ -202,6 +202,50 @@ describe('Questionnaire Migrations', () => {
         // check correct version
         cy.get('.form-group label').contains('Can you speak any of the languages used in the destination?').should('exist')
         cy.get('.form-group label').contains('Can you speak their language?').should('not.exist')
+    })
+
+
+    it('add choice', () => {
+        // initialize questionnaire & migration
+        createQuestionnaire('vacation-planning', 8)
+        createMigrationTo('vacation-planning', 9)
+        
+        // check changes and finalize
+        cy.get('.changes-view .list-group-item').contains('Question Changed').click()
+        cy.get('#question-4516b7ee-c757-4e86-92d7-8920c5d5a06c').should('have.class', 'highlighted').and('be.visible')
+        project.resolveAndFinalizeMigration()
+
+        // check correct version
+        cy.get('.form-group .radio label').contains('I will cook myself').should('exist')
+    })
+
+
+    it('edit choice', () => {
+        // initialize questionnaire & migration
+        createQuestionnaire('vacation-planning', 9)
+        createMigrationTo('vacation-planning', 10)
+        
+        // check changes and finalize
+        cy.get('.changes-view .list-group-item').contains('Question Changed').click()
+        cy.get('#question-4516b7ee-c757-4e86-92d7-8920c5d5a06c').should('have.class', 'highlighted').and('be.visible')
+        project.resolveAndFinalizeMigration()
+
+        // check correct version
+        cy.get('.form-group .radio label').contains('Restaurants or Hotels').should('exist')
+    })
+
+
+    it('delete choice', () => {
+        // initialize questionnaire & migration
+        createQuestionnaire('vacation-planning', 10)
+        createMigrationTo('vacation-planning', 11)
+        
+        // check changes and finalize
+        cy.get('.full-page-illustrated-message').contains('No changes to review')
+        project.finalizeMigration()
+
+        // check correct version
+        cy.get('.form-group .radio label').contains('I will cook myself').should('not.exist')
     })
 
 

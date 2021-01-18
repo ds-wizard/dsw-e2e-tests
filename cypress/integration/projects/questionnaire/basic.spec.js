@@ -56,6 +56,17 @@ describe('Basic Questionnaire Tests', () => {
     })
 
 
+    it('choice', () => {
+        project.selectAnswer('Choice 1')
+        project.selectAnswer('Choice 3')
+        project.awaitSave()
+
+        project.open(projectName)
+        project.checkAnswerChecked('Choice 1')
+        project.checkAnswerChecked('Choice 3')
+    })
+
+
     it('answer follow-up question', () => {
         project.selectAnswer('Answer 1.2')
         project.selectAnswer('Follow-up answer 1.2')
