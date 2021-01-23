@@ -3,7 +3,21 @@ name: DSW E2E Tests
 on:
   push:
   repository_dispatch:
-
+  workflow_dispatch:
+    inputs:
+      server_image:
+        description: 'Wizard Server image'
+        required: false
+        default: 'datastewardshipwizard/wizard-server:develop'
+      client_image:
+        description: 'Wizard Client image'
+        required: false
+        default: 'datastewardshipwizard/wizard-client:develop'
+      docworker_image:
+        description: 'Document Worker image'
+        required: false
+        default: 'datastewardshipwizard/document-worker:develop'
+        
 jobs:
   dsw-e2e:
     name: Run DSW E2E Tests
@@ -17,13 +31,21 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Set variables from dispatch
+    - name: Set variables from repository dispatch
       if: github.event_name == 'repository_dispatch'
       uses: allenevans/set-env@v2.0.0
       with:
         SERVER_IMAGE: ${{ github.event.client_payload.server_image }}
         CLIENT_IMAGE: ${{ github.event.client_payload.client_image }}
         DOCWORKER_IMAGE: ${{ github.event.client_payload.docworker_image }}
+
+    - name: Set variables from workflow dispatch
+      if: github.event_name == 'workflow_dispatch'
+      uses: allenevans/set-env@v2.0.0
+      with:
+        SERVER_IMAGE: ${{ github.event.inputs.server_image }}
+        CLIENT_IMAGE: ${{ github.event.inputs.client_image }}
+        DOCWORKER_IMAGE: ${{ github.event.inputs.docworker_image }}
 
     - name: Prepare
       run: |
