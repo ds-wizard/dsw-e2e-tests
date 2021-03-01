@@ -4,7 +4,7 @@ describe('Project - Preview', () => {
     const projectName = 'Preview test'
     const kmId = 'test-documents'
     const packageId = 'dsw:test-documents:1.0.0'
-    const templateId = 'dsw:questionnaire-report:1.1.0'
+    const templateId = 'dsw:questionnaire-report:1.3.0'
 
     const browserFormats = [
         'JSON Data',

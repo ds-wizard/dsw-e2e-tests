@@ -1,4 +1,4 @@
-import * as project from '../../../support/project-helpers'
+import * as project from '../../../../support/project-helpers'
 
 
 describe('Questionnaire Summary Report - Metrics', () => {

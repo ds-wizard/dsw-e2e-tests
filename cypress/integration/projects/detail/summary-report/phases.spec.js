@@ -1,5 +1,5 @@
-import * as project from '../../../support/project-helpers'
-import * as phases from '../../../support/phases-helpers'
+import * as project from '../../../../support/project-helpers'
+import * as phases from '../../../../support/phases-helpers'
 
 
 describe('Questionnaire Summary Report - Phases', () => {

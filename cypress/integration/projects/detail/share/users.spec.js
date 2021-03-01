@@ -1,4 +1,4 @@
-import * as project from '../../../support/project-helpers'
+import * as project from '../../../../support/project-helpers'
 
 describe('Share project with other user', () => {
     const projectName = 'My Questionnaire'

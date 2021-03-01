@@ -61,12 +61,12 @@ describe('TODOs', () => {
             // add todo and check it was added
             test.prepare()
             project.addTodoFor(test.question)
-            project.expectTodo(test.chapter, test.question)
+            project.expectTodo(test.question)
 
             // save, reopen and check again
             project.awaitSave()
             project.open(projectName)
-            project.expectTodo(test.chapter, test.question)
+            project.expectTodo(test.question)
         })
     })
 

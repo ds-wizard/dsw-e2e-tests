@@ -1,4 +1,4 @@
-import * as project from '../../../support/project-helpers'
+import * as project from '../../../../support/project-helpers'
 
 describe('Questionnaires Typehints', () => {
     const projectName = 'Typehints Test Questionnaire'

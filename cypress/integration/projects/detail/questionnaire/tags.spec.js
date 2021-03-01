@@ -1,5 +1,5 @@
-import * as project from '../../../support/project-helpers'
-import * as tagSelect from '../../../support/tag-select-helpers'
+import * as project from '../../../../support/project-helpers'
+import * as tagSelect from '../../../../support/tag-select-helpers'
 
 
 describe('Questionnaire Tags', () => {
