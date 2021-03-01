@@ -35,7 +35,7 @@ export function expectTitle(questionnaireName) {
 export function expectViewer() {
     cy.url().should('match', /\/projects\/.+/)
     cy.get('.questionnaire__form .form-group input[type=text]').should('be.disabled')
-    cy.get('.questionnaire__panel__phase select').should('be.disabled')
+    cy.get('.questionnaire__left-panel__phase select').should('be.disabled')
     checkDisabledShareAndSettings()
 }
 
@@ -43,7 +43,7 @@ export function expectViewer() {
 export function expectEditor() {
     cy.url().should('match', /\/projects\/.+/)
     cy.get('.questionnaire__form .form-group input[type=text]').should('not.be.disabled')
-    cy.get('.questionnaire__panel__phase select').should('not.be.disabled')
+    cy.get('.questionnaire__left-panel__phase select').should('not.be.disabled')
     checkDisabledShareAndSettings()
 }
 
@@ -51,7 +51,7 @@ export function expectEditor() {
 export function expectOwner() {
     cy.url().should('match', /\/projects\/.+/)
     cy.get('.questionnaire__form .form-group input[type=text]').should('not.be.disabled')
-    cy.get('.questionnaire__panel__phase select').should('not.be.disabled')
+    cy.get('.questionnaire__left-panel__phase select').should('not.be.disabled')
     cy.getCy('share').should('exist')
     cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('Settings').should('exist')
 }
@@ -115,7 +115,7 @@ export function selectAnswer(answer) {
 
 export function openChapter(chapter) {
     cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('Questionnaire').click()
-    cy.get('.questionnaire__panel__chapters .nav-link').contains(chapter).click()
+    cy.get('.questionnaire__left-panel__chapters .nav-link').contains(chapter).click()
 }
 
 
@@ -183,11 +183,9 @@ export function expectTodoFor(question) {
 }
 
 
-export function expectTodo(chapter, question) {
-    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('TODOs').click()
-    cy.get('.list-group-item').contains(question)
-        .closest('.list-group-item').find('small').contains(chapter)
-        .closest('.list-group-item').click()
+export function expectTodo(question) {
+    cy.get('.questionnaire__toolbar .item').contains('TODOs').click()
+    cy.get('.todos a').contains(question).click()
     cy.get('.form-group').contains(question).should('be.visible')
         .find('.action-todo').contains('TODO')
 
@@ -195,12 +193,12 @@ export function expectTodo(chapter, question) {
 
 
 export function expectTodoCount(count) {
-    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('TODOs').parent().find('.badge').contains(count)
+    cy.get('.questionnaire__toolbar .item').contains('TODOs').parent().find('.badge').contains(count)
 }
 
 
 export function expectNoTodo() {
-    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('TODOs').parent().find('.badge').should('not.exist')
+    cy.get('.questionnaire__toolbar .item').contains('TODOs').parent().find('.badge').should('not.exist')
     cy.get('.action-todo').should('not.exist')
 }
 

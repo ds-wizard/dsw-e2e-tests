@@ -149,7 +149,7 @@ describe('Settings / Questionnaires', () => {
         createProject()
 
         // Check that phases are there
-        cy.get('.questionnaire__panel__phase').should('exist')
+        cy.get('.questionnaire__left-panel__phase').should('exist')
     })
 
     it('phases not enabled', () => {

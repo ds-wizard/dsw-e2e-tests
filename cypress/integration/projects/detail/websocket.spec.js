@@ -1,4 +1,4 @@
-import * as project from '../../support/project-helpers'
+import * as project from '../../../support/project-helpers'
 
 describe('Questionnaire WebSocket Tests', () => {
     const projectName = 'Test Questionnaire'
@@ -38,8 +38,9 @@ describe('Questionnaire WebSocket Tests', () => {
     it('SetReply - Value', () => {
         const value = 'Value'
         const msg = {
-            type: 'SetReply_ClientQuestionnaireAction',
+            type: 'SetContent_ClientQuestionnaireAction',
             data: {
+                type: 'SetReplyEvent',
                 uuid: '62e950ca-0cc5-4a78-9389-31f7494fc88c',
                 path: '16f2c2ec-7b12-4d5e-9477-4453e4cd9689.57aeb801-e56e-4039-bf8c-82acae654e2b',
                 value: {
@@ -58,8 +59,9 @@ describe('Questionnaire WebSocket Tests', () => {
     it('SetReply - Answer', () => {
         const answer = 'Answer 1.1'
         const msg = {
-            type: 'SetReply_ClientQuestionnaireAction',
+            type: 'SetContent_ClientQuestionnaireAction',
             data: {
+                type: 'SetReplyEvent',
                 uuid: '62e950ca-0cc5-4a78-9389-31f7494fc88c',
                 path: '16f2c2ec-7b12-4d5e-9477-4453e4cd9689.4ae3425e-31a3-475d-a201-3f12f0b69574',
                 value: {
@@ -77,8 +79,9 @@ describe('Questionnaire WebSocket Tests', () => {
 
     it('SetReply - Add/Remove Item', () => {
         const msg = (items) => ({
-            type: 'SetReply_ClientQuestionnaireAction',
+            type: 'SetContent_ClientQuestionnaireAction',
             data: {
+                type: 'SetReplyEvent',
                 uuid: '62e950ca-0cc5-4a78-9389-31f7494fc88c',
                 path: '16f2c2ec-7b12-4d5e-9477-4453e4cd9689.5aea9458-6cfb-48db-8ed8-1d4d99b8076d',
                 value: {
@@ -88,18 +91,19 @@ describe('Questionnaire WebSocket Tests', () => {
             }
         })
 
-        cy.get('.item').should('not.exist')
+        cy.get('.questionnaire__content .item').should('not.exist')
         cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg(['ca942bb2-6524-4149-a17e-4cb4d3e38233']))
-        cy.get('.item').should('exist')
+        cy.get('.questionnaire__content .item').should('exist')
         cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg([]))
-        cy.get('.item').should('not.exist')
+        cy.get('.questionnaire__content .item').should('not.exist')
     })
 
     it('ClearReply', () => {
         const answer = 'Answer 1.1'
         const msg = {
-            type: 'ClearReply_ClientQuestionnaireAction',
+            type: 'SetContent_ClientQuestionnaireAction',
             data: {
+                type: 'ClearReplyEvent',
                 uuid: '62e950ca-0cc5-4a78-9389-31f7494fc88c',
                 path: '16f2c2ec-7b12-4d5e-9477-4453e4cd9689.4ae3425e-31a3-475d-a201-3f12f0b69574',
             }
@@ -114,23 +118,25 @@ describe('Questionnaire WebSocket Tests', () => {
     it('SetLevel', () => {
         const level = 2
         const msg = {
-            type: 'SetLevel_ClientQuestionnaireAction',
+            type: 'SetContent_ClientQuestionnaireAction',
             data: {
+                type: 'SetLevelEvent',
                 uuid: '62e950ca-0cc5-4a78-9389-31f7494fc88c',
                 level: 2,
             }
         }
 
         cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg)
-        cy.get('.questionnaire__panel__phase select').should('have.value', level)
+        cy.get('.questionnaire__left-panel__phase select').should('have.value', level)
     })
 
 
     it('SetLabels', () => {
         const question = 'Options Question 1'
         const msg = (value) => ({
-            type: 'SetLabels_ClientQuestionnaireAction',
+            type: 'SetContent_ClientQuestionnaireAction',
             data: {
+                type: 'SetLabelsEvent',
                 uuid: '62e950ca-0cc5-4a78-9389-31f7494fc88c',
                 path: '16f2c2ec-7b12-4d5e-9477-4453e4cd9689.4ae3425e-31a3-475d-a201-3f12f0b69574',
                 value

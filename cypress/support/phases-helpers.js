@@ -31,7 +31,7 @@ export const questions = [{
 }]
 
 export function switchPhase(phase) {
-    cy.get('.questionnaire__panel__phase select').select(phase)
+    cy.get('.questionnaire__left-panel__phase select').select(phase)
 }
 
 export function checkDesirability(question, desirable) {
