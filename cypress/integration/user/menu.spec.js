@@ -12,8 +12,8 @@ describe('Menu', () => {
     }, {
         role: 'datasteward',
         menu:{
-            contains: ['Knowledge Model Editor', 'Knowledge Models', 'Projects'],
-            notContais: ['Users', 'Documents', 'Templates']
+            contains: ['Knowledge Model Editor', 'Knowledge Models', 'Projects', 'Templates'],
+            notContais: ['Users', 'Documents']
         },
         sidebarLinks: {
             contains: ['Help', 'Nikola Tesla'],

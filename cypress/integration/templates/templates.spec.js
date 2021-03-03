@@ -1,6 +1,6 @@
 describe('Templates', () => {
     it('Default template', () => {
-        cy.loginAs('admin')
+        cy.loginAs('datasteward')
         cy.visitApp('/templates')
         cy.clickListingItemAction('Questionnaire Report', 'View detail')
         cy.url().should('contain', '/templates/')
