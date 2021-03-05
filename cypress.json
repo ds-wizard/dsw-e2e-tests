@@ -9,7 +9,8 @@
     "researcher_username": "isaac.newton@example.com",
     "researcher_password": "password",
     "mongoUrl": "mongodb://localhost:27017",
-    "mongoDBName": "dsw-server-test"
+    "mongoDBName": "dsw-server-test",
+    "serviceToken": "abcd"
   },
   "screenshotsFolder": "output/screenshots",
   "videosFolder": "output/videos",
@@ -17,5 +18,9 @@
   "numTestsKeptInMemory": 1,
   "viewportWidth": 1280,
   "viewportHeight": 800,
-  "projectId": "dx9eqg"
+  "projectId": "dx9eqg",
+  "retries": {
+    "openMode": 0,
+    "runMode": 3
+  }
 }

@@ -23,7 +23,7 @@ stop:
 
 .PHONY: run
 run:
-	@CYPRESS_RETRIES=5 $(CYPRESS) run --record --key $(CYPRESS_RECORD_KEY)
+	$(CYPRESS) run --record --key $(CYPRESS_RECORD_KEY)
 
 
 .PHONY: all
@@ -40,7 +40,7 @@ wait:
 
 .PHONY: open
 open:
-	CYPRESS_RETRIES=3 $(CYPRESS) open
+	$(CYPRESS) open
 
 .PHONY: clean
 clean:

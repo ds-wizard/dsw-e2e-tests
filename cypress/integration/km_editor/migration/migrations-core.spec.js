@@ -2185,7 +2185,7 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 8, 1)
-        migration.verifyChildPackageForMigration(config, '1.8.1', '1.8.0')
+        migration.verifyChildPackageForMigration(config, '1.8.1', '1.8.0', false)
     })
 
     it('can migrate with applying "delete follow-up question"', () => {
@@ -2453,7 +2453,7 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 10, 0)
-        migration.verifyChildPackageForMigration(config, '1.10.0', '1.9.3')
+        migration.verifyChildPackageForMigration(config, '1.10.0', '1.9.3', false)
     })
 
     // COMPLEX
@@ -2697,6 +2697,14 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Reject')
 
         migration.finishMigrationAndPublish(2, 1, 0)
-        migration.verifyChildPackageForMigration(config, '2.1.0', '1.11.0')
+        migration.verifyPackageWithBundle(
+            config.getChildPackageId('2.1.0'),
+            config.getChildKM('2.1.0'),
+            {
+                'previousPackageId': config.getChildPackageId('2.0.0'),
+                'forkOfPackageId': config.getParentPackageId('1.11.0')
+            },
+            false
+        )
     })
 })

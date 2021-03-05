@@ -63,6 +63,8 @@ describe('Project - Preview', () => {
             collection: 'questionnaires',
             args: {}
         })
+        cy.clearServerCache()
+
         cy.loginAs('researcher')
         
         cy.createQuestionnaire({
