@@ -169,6 +169,6 @@ describe('Questionnaire WebSocket Tests', () => {
 
         // check redirect to login after refresh
         cy.clickBtn('Refresh')
-        cy.url().should('be', '/')
+        cy.url().should('match', /\/\?originalUrl=/)
     })
 })

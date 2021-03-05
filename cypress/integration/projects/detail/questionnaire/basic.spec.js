@@ -47,12 +47,12 @@ describe('Basic Questionnaire Tests', () => {
         // clear answer and save
         cy.clickLink('Clear answer')
         project.checkAnswerNotChecked('Answer 1.1')
-        cy.get('.alert-info').contains('This is an advice for answer 1.').should('not.be.visible')
+        cy.get('.alert-info').should('not.be.visible')
 
         // reopen and check it was cleared
         project.open(projectName)
         project.checkAnswerNotChecked('Answer 1.1')
-        cy.get('.alert-info').contains('This is an advice for answer 1.').should('not.be.visible')
+        cy.get('.alert-info').should('not.be.visible')
     })
 
 

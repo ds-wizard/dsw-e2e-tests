@@ -39,7 +39,7 @@ describe('Settings / Look & Feel', () => {
         // Check that the new link works
         cy.get('.menu a i.fa-magic').should('exist')
         cy.get('.menu a').contains(title).click()
-        cy.url().should('be', url)
+        cy.url().should('eq', url)
 
         // Remove the link
         cy.visitApp('/settings/look-and-feel')

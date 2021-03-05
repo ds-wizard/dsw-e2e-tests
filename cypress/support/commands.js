@@ -289,3 +289,13 @@ Cypress.Commands.add('wsSend', (url, msg) => {
         ws.close()
     })
 }) 
+
+
+// Cache
+Cypress.Commands.add('clearServerCache', () => {
+    cy.request({
+        method: 'DELETE',
+        url: apiUrl('/caches'),
+        headers: createHeaders(Cypress.env('serviceToken'))
+    })
+})
