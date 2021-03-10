@@ -10,6 +10,8 @@ describe('Share project with other user', () => {
             collection: 'packages',
             args: { kmId }
         })
+        cy.clearServerCache()
+
         cy.fixture('test-km-1').then((km) => {
             cy.importKM(km)
         })
@@ -20,6 +22,7 @@ describe('Share project with other user', () => {
             collection: 'questionnaires',
             args: {}
         })
+        cy.clearServerCache()
     })
 
     const testCases = [{

@@ -15,6 +15,8 @@ describe('KM Editor Preview - Tags', () => {
             collection: 'packages',
             args: { kmId }
         })
+        cy.clearServerCache()
+
         cy.fixture('km-with-tags').then((km) => {
             cy.importKM(km)
         })
@@ -26,6 +28,8 @@ describe('KM Editor Preview - Tags', () => {
             collection: 'branches',
             args: { kmId }
         })
+        cy.clearServerCache()
+        
         cy.createKMEditor({ kmId, name: kmName, previousPackageId })
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')

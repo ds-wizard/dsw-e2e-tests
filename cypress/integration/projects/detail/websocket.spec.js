@@ -11,6 +11,8 @@ describe('Questionnaire WebSocket Tests', () => {
             collection: 'packages',
             args: { kmId }
         })
+        cy.clearServerCache()
+
         cy.fixture(kmId).then((km) => {
             cy.importKM(km)
         })
@@ -22,6 +24,8 @@ describe('Questionnaire WebSocket Tests', () => {
             collection: 'questionnaires',
             args: {}
         })
+        cy.clearServerCache()
+        
         cy.createQuestionnaire({
             visibility: project.VisibleEdit,
             sharing: project.AnyoneWithLinkEdit,

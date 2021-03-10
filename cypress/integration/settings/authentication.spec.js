@@ -8,6 +8,8 @@ describe('Settings / Authentication', () => {
             args: { email: testEmail }
         })
         cy.putDefaultAppConfig()
+        cy.clearServerCache()
+
         cy.loginAs('admin')
         cy.visitApp('/settings/authentication')
     })

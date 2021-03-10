@@ -13,6 +13,7 @@ describe('KM Editor Migrations Multi-Choice', () => {
             args: { kmId: config.parentKmId }
         })
         cy.putDefaultAppConfig()
+        cy.clearServerCache()
 
         cy.fixture(config.getParentKM('1.8.0')).then(cy.importKM)
     })
@@ -26,6 +27,7 @@ describe('KM Editor Migrations Multi-Choice', () => {
             collection: 'branches',
             args: {}
         })
+        cy.clearServerCache()
 
         cy.loginAs('datasteward')
     })

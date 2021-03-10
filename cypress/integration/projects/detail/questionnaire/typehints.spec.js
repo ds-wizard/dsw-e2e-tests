@@ -18,6 +18,8 @@ describe('Questionnaires Typehints', () => {
             collection: 'packages',
             args: { kmId }
         })
+        cy.clearServerCache()
+
         cy.fixture(kmId).then((km) => {
             cy.importKM(km)
         })
@@ -29,6 +31,7 @@ describe('Questionnaires Typehints', () => {
             collection: 'questionnaires',
             args: {}
         })
+        cy.clearServerCache()
 
         cy.loginAs('researcher')
         

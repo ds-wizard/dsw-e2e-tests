@@ -10,14 +10,14 @@ describe('Project List', () => {
             collection: 'packages',
             args: { kmId }
         })
-
-        cy.fixture('test-km-1').then((km) => {
-            cy.importKM(km)
-        })
-
         cy.task('mongo:delete', {
             collection: 'questionnaires',
             args: {}
+        })
+        cy.clearServerCache()
+
+        cy.fixture('test-km-1').then((km) => {
+            cy.importKM(km)
         })
 
         const projects = []

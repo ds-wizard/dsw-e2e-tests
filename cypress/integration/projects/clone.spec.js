@@ -11,6 +11,8 @@ describe('Project Clone', () => {
             collection: 'packages',
             args: { kmId }
         })
+        cy.clearServerCache()
+
         cy.fixture(kmId).then((km) => {
             cy.importKM(km)
         })
@@ -22,6 +24,8 @@ describe('Project Clone', () => {
             collection: 'questionnaires',
             args: {}
         })
+        cy.clearServerCache()
+        
         cy.loginAs('researcher')
     })
 

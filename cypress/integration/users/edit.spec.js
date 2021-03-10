@@ -16,6 +16,8 @@ describe('Users Edit', () => {
             collection: 'users',
             args: { email: { $in: [user.email, newEmail] } }
         })
+        cy.clearServerCache()
+        
         cy.createUser(user)
         cy.loginAs('admin')
         cy.visitApp('/users')

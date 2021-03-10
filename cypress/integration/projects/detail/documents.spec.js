@@ -43,6 +43,8 @@ describe('Documents', () => {
             collection: 'templates',
             args: { templateId: 'not-allowed' }
         })
+        cy.clearServerCache()
+
         cy.fixture('templates/questionnaire-report.json').then((template) => {
             cy.importTemplate(template)
         })
@@ -65,6 +67,8 @@ describe('Documents', () => {
             collection: 'questionnaires',
             args: {}
         })
+        cy.clearServerCache()
+        
         cy.loginAs('researcher')
         
         cy.createQuestionnaire({

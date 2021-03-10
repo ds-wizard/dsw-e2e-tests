@@ -11,6 +11,8 @@ describe('KM Editor Preview - Phases', () => {
             collection: 'packages',
             args: { kmId: phases.kmId }
         })
+        cy.clearServerCache()
+        
         cy.fixture(phases.kmId).then((km) => {
             cy.importKM(km)
         })

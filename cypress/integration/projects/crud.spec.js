@@ -13,6 +13,8 @@ describe('Project CRUD', () => {
             collection: 'packages',
             args: { kmId }
         })
+        cy.clearServerCache()
+
         cy.fixture('test-km-1').then((km) => {
             cy.importKM(km)
         })
@@ -24,6 +26,7 @@ describe('Project CRUD', () => {
             collection: 'questionnaires',
             args: {}
         })
+        cy.clearServerCache()
 
         cy.loginAs('researcher')
     })

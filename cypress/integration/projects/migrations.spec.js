@@ -46,6 +46,8 @@ describe('Questionnaire Migrations', () => {
             collection: 'questionnaires',
             args: {}
         })
+        cy.clearServerCache()
+        
         cy.loginAs('researcher')
     })
 

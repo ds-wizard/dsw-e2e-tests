@@ -27,6 +27,7 @@ describe('Settings / Questionnaires', () => {
             collection: 'packages',
             args: { kmId }
         })
+        cy.clearServerCache()
         
         cy.fixture('test-km-1').then((km) => {
             cy.importKM(km)
