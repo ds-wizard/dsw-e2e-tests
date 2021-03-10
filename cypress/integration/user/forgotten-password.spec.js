@@ -13,6 +13,8 @@ describe('Forgotten password', () => {
             collection: 'users',
             args: { email: user.email }
         })
+        cy.clearServerCache()
+        
         cy.createUser(user)
         cy.task('mongo:updateOne', {
             collection: 'users',

@@ -12,6 +12,8 @@ describe('TODOs', () => {
             collection: 'packages',
             args: { kmId: kmId }
         })
+        cy.clearServerCache()
+
         cy.fixture('test-km-1').then((km) => {
             cy.importKM(km)
         })
@@ -23,6 +25,8 @@ describe('TODOs', () => {
             collection: 'questionnaires',
             args: {}
         })
+        cy.clearServerCache()
+        
         cy.createQuestionnaire({
             visibility: project.VisibleView,
             sharing: project.Restricted,

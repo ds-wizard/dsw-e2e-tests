@@ -11,6 +11,8 @@ describe('Questionnaire Summary Report - Metrics', () => {
             collection: 'packages',
             args: { kmId }
         })
+        cy.clearServerCache()
+
         cy.fixture(kmId).then((km) => {
             cy.importKM(km)
         })
@@ -22,6 +24,7 @@ describe('Questionnaire Summary Report - Metrics', () => {
             collection: 'questionnaires',
             args: {}
         })
+        cy.clearServerCache()
 
         cy.loginAs('researcher')
         

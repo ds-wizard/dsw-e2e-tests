@@ -12,6 +12,8 @@ describe('KM Editor Edit Entity', () => {
             collection: 'packages',
             args: { kmId: previousKmId }
         })
+        cy.clearServerCache()
+
         cy.fixture('test-km-1').then((km) => {
             cy.importKM(km)
         })
@@ -22,6 +24,8 @@ describe('KM Editor Edit Entity', () => {
             collection: 'branches',
             args: { kmId }
         })
+        cy.clearServerCache()
+        
         cy.createKMEditor({ kmId, name: kmName, previousPackageId })
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')

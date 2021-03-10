@@ -12,6 +12,8 @@ describe('Questionnaire Tags', () => {
             collection: 'packages',
             args: { kmId }
         })
+        cy.clearServerCache()
+
         cy.fixture('km-with-tags').then((km) => {
             cy.importKM(km)
         })
@@ -23,6 +25,8 @@ describe('Questionnaire Tags', () => {
             collection: 'questionnaires',
             args: {}
         })
+        cy.clearServerCache()
+        
         cy.loginAs('researcher')
     })
 

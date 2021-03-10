@@ -10,6 +10,8 @@ describe('Questionnaire Phases', () => {
             collection: 'packages',
             args: { kmId: phases.kmId }
         })
+        cy.clearServerCache()
+
         cy.fixture(phases.kmId).then((km) => {
             cy.importKM(km)
         })
@@ -20,6 +22,8 @@ describe('Questionnaire Phases', () => {
             collection: 'questionnaires',
             args: {}
         })
+        cy.clearServerCache()
+        
         cy.loginAs('researcher')
         cy.createQuestionnaire({
             visibility: project.VisibleView,

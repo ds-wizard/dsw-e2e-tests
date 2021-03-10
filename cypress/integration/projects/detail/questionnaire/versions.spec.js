@@ -34,6 +34,8 @@ describe('Questionnaire Versions', () => {
             collection: 'templates',
             args: { templateId: 'questionnaire-report' }
         })
+        cy.clearServerCache()
+
         cy.fixture('templates/questionnaire-report.json').then(cy.importTemplate)
         cy.fixture(kmId).then(cy.importKM)
     })
@@ -48,6 +50,8 @@ describe('Questionnaire Versions', () => {
         cy.task('mongo:delete', {
             collection: 'documentFs'
         })
+        cy.clearServerCache()
+        
         cy.createQuestionnaire({
             visibility: project.VisibleView,
             sharing: project.Restricted,
@@ -146,9 +150,9 @@ describe('Questionnaire Versions', () => {
         clickEventAction('View questionnaire')
 
         // check it has opened correctly
-        cy.get('.modal-header .badge-secondary').contains('1.0.0').should('exist')
-        cy.get('.modal-content label').contains('Answer 1.1').find('input').should('not.be.checked')
-        cy.get('.modal-content label').contains('Value Question String').closest('.form-group').find('input').should('have.value', 'Answer')
+        cy.get('.QuestionnaireVersionViewModal .modal-header .badge-secondary').contains('1.0.0').should('exist')
+        cy.get('.QuestionnaireVersionViewModal .modal-content label').contains('Answer 1.1').find('input').should('not.be.checked')
+        cy.get('.QuestionnaireVersionViewModal .modal-content label').contains('Value Question String').closest('.form-group').find('input').should('have.value', 'Answer')
 
     })
 

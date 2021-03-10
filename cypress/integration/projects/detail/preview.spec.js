@@ -40,12 +40,14 @@ describe('Project - Preview', () => {
             collection: 'packages',
             args: { kmId }
         })
-        cy.fixture(kmId).then((km) => {
-            cy.importKM(km)
-        })
         cy.task('mongo:delete', {
             collection: 'templates',
             args: { templateId: 'questionnaire-report' }
+        })
+        cy.clearServerCache()
+        
+        cy.fixture(kmId).then((km) => {
+            cy.importKM(km)
         })
         cy.fixture('templates/questionnaire-report.json').then((template) => {
             cy.importTemplate(template)

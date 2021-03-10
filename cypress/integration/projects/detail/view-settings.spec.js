@@ -31,6 +31,8 @@ describe('Questionnaire - View Settings', () => {
             collection: 'packages',
             args: {}
         })
+        cy.clearServerCache()
+
         cy.fixture(kmIdTags).then(cy.importKM)
         cy.fixture(kmIdPhases).then(cy.importKM)
     })
@@ -40,6 +42,7 @@ describe('Questionnaire - View Settings', () => {
             collection: 'questionnaires',
             args: {}
         })
+        cy.clearServerCache()
     })
 
     it('Answered by', () => {

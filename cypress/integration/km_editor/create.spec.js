@@ -11,6 +11,8 @@ describe('KM Editor Create', () => {
             collection: 'branches',
             args: { kmId }
         })
+        cy.clearServerCache()
+        
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')
     })

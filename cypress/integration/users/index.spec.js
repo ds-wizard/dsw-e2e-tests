@@ -12,6 +12,8 @@ describe('Users Index', () => {
             collection: 'users',
             args: { email: user.email }
         })
+        cy.clearServerCache()
+        
         cy.createUser(user)
         cy.loginAs('admin')
         cy.visitApp('/users')

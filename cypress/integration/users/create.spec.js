@@ -12,6 +12,8 @@ describe('Users Create', () => {
             collection: 'users',
             args: { email: user.email }
         })
+        cy.clearServerCache()
+        
         cy.loginAs('admin')
         cy.visitApp('/users')
     })
