@@ -2360,12 +2360,6 @@ describe('KM Editor Migrations', () => {
         cy.contains('Edit Knowledge Model')
         migration.checkMigrationForm([
             {
-                'label': 'Name', 'validate': (x) => {
-                    x.get('del').contains('Parent KM')
-                    x.get('ins').contains('Parenting KM')
-                },
-            },
-            {
                 'label': 'Chapters', 'validate': (x) => {
                     x.contains('li', 'Custom chapter')
                 },
@@ -2376,12 +2370,12 @@ describe('KM Editor Migrations', () => {
                 },
             },
             {
-                'label': 'Name', 'validate': (x) => {
+                'label': 'Integrations', 'validate': (x) => {
                     x.contains('Dummy integration')
                 },
             }
         ])
-        migration.checkDiffTreeEdited(['Parenting KM'])
+        migration.checkDiffTreeEdited(['Child KM'])
         cy.clickBtn('Apply')
 
         cy.contains('Add chapter')
@@ -2389,11 +2383,6 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.checkMigrationForm([
-            {
-                'label': 'Name', 'validate': (x) => {
-                    x.contains('Parenting KM')
-                },
-            },
             {
                 'label': 'Chapters', 'validate': (x) => {
                     x.get('ul.del > li').should('have.length', 3)
@@ -2412,12 +2401,12 @@ describe('KM Editor Migrations', () => {
                 },
             },
             {
-                'label': 'Name', 'validate': (x) => {
+                'label': 'Integrations', 'validate': (x) => {
                     x.contains('Dummy integration')
                 },
             }
         ])
-        migration.checkDiffTreeEdited(['Parenting KM'])
+        migration.checkDiffTreeEdited(['Child KM'])
         cy.clickBtn('Apply')
 
         cy.contains('Add integration')
@@ -2425,11 +2414,6 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Apply')
 
         migration.checkMigrationForm([
-            {
-                'label': 'Name', 'validate': (x) => {
-                    x.contains('Parenting KM')
-                },
-            },
             {
                 'label': 'Chapters', 'validate': (x) => {
                     x.contains('li', 'Custom chapter')
@@ -2441,7 +2425,7 @@ describe('KM Editor Migrations', () => {
                 },
             },
             {
-                'label': 'Name', 'validate': (x) => {
+                'label': 'Integrations', 'validate': (x) => {
                     x.get('ul.del > li').should('have.length', 2)
                     x.get('ul.del > li').eq(0).contains('Dummy integration')
                     x.get('ul.del > li').eq(1).contains('New Integration')
@@ -2451,7 +2435,7 @@ describe('KM Editor Migrations', () => {
                 },
             }
         ])
-        migration.checkDiffTreeEdited(['Parenting KM'])
+        migration.checkDiffTreeEdited(['Child KM'])
         cy.clickBtn('Apply')
 
         migration.finishMigrationAndPublish(1, 10, 0)
@@ -2464,11 +2448,6 @@ describe('KM Editor Migrations', () => {
 
         cy.contains('Edit Knowledge Model')
         migration.checkMigrationForm([
-            {
-                'label': 'Name', 'validate': (x) => {
-                    x.contains('Parenting KM')
-                },
-            },
             {
                 'label': 'Chapters', 'validate': (x) => {
                     x.contains('li', 'Custom chapter')
@@ -2492,7 +2471,7 @@ describe('KM Editor Migrations', () => {
                 },
             }
         ])
-        migration.checkDiffTreeEdited(['Parenting KM'])
+        migration.checkDiffTreeEdited(['Child KM'])
         cy.clickBtn('Apply')
 
         cy.contains('Edit question')
@@ -2695,7 +2674,7 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Reject')
 
         // reorder with rejected integration (no reorder in the end)
-        migration.checkDiffTreeEdited(['Parenting KM'])
+        migration.checkDiffTreeEdited(['Child KM'])
         cy.clickBtn('Reject')
 
         migration.finishMigrationAndPublish(2, 1, 0)
