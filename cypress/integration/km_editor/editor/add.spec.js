@@ -515,10 +515,6 @@ describe('KM Editor Add Entity', () => {
                 s_referenceType: 'URLReference',
                 url: 'https://ds-wizard.org',
                 label: 'Data Stewardship Wizard'
-            }], ['85bc2c94-9fb9-4e24-87db-6254ea138405', {
-                s_referenceType: 'CrossReference',
-                targetUuid: '85bc2c94-9fb9-4e24-87db-6254ea138405',
-                description: 'See also'
             }]]
 
             references.forEach(([referenceLabel, reference]) => {
