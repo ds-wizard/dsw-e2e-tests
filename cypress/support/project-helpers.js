@@ -28,7 +28,7 @@ export function create(projectName, packageName) {
 
 
 export function expectTitle(questionnaireName) {
-    cy.get('.Plans__Detail__Navigation__Row__Section .title').contains(questionnaireName)
+    cy.get('.DetailNavigation__Row__Section .title').contains(questionnaireName)
 }
 
 
@@ -53,13 +53,13 @@ export function expectOwner() {
     cy.get('.questionnaire__form .form-group input[type=text]').should('not.be.disabled')
     cy.get('.questionnaire__left-panel__phase select').should('not.be.disabled')
     cy.getCy('share').should('exist')
-    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('Settings').should('exist')
+    cy.get('.DetailNavigation__Row .nav-link').contains('Settings').should('exist')
 }
 
 
 function checkDisabledShareAndSettings() {
     cy.getCy('share').should('not.exist')
-    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('Settings').should('not.exist')
+    cy.get('.DetailNavigation__Row .nav-link').contains('Settings').should('not.exist')
 }
 
 export function expectQuestion(question, visible) {
@@ -114,28 +114,28 @@ export function selectAnswer(answer) {
 
 
 export function openChapter(chapter) {
-    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('Questionnaire').click()
+    cy.get('.DetailNavigation__Row .nav-link').contains('Questionnaire').click()
     cy.get('.questionnaire__left-panel__chapters .nav-link').contains(chapter).click()
 }
 
 
 export function openSummaryReport() {
-    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('Metrics').click()
+    cy.get('.DetailNavigation__Row .nav-link').contains('Metrics').click()
 }
 
 
 export function openPreview() {
-    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('Preview').click()
+    cy.get('.DetailNavigation__Row .nav-link').contains('Preview').click()
 }
 
 
 export function openDocuments() {
-    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('Documents').click()
+    cy.get('.DetailNavigation__Row .nav-link').contains('Documents').click()
 }
 
 
 export function openSettings() {
-    cy.get('.Plans__Detail__Navigation__Row .nav-link').contains('Settings').click()
+    cy.get('.DetailNavigation__Row .nav-link').contains('Settings').click()
 }
 
 export function checkAnswerChecked(answer) {

@@ -183,7 +183,7 @@ describe('KM Editor Add Entity', () => {
             // Create question and its parent
             editor.open(kmId)
             editor.createChildren([['integration', integration]])
-            cy.get('a').contains('New knowledge model').click()
+            cy.get('a').contains('Test Knowledge Model').click()
             editor.createChildren([
                 ['chapter', chapter],
                 ['question', question]

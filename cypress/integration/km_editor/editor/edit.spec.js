@@ -32,19 +32,6 @@ describe('KM Editor Edit Entity', () => {
     })
 
     describe('Knowledge Model', () => {
-        it('edit Knowledge Model', () => {
-            const km = { name: 'Another Knowledge Model' }
-
-            // Edit KM
-            editor.open(kmId)
-            cy.fillFields(km)
-            editor.saveAndClose()
-
-            // Open editor again and check that changes were saved
-            editor.open(kmId)
-            cy.checkFields(km)
-        })
-
         it('edit Chapter', () => {
             const chapter = {
                 title: 'Another Chapter',
