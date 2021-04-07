@@ -5,11 +5,9 @@ describe('KM Editor Create', () => {
     beforeEach(() => {
         cy.task('mongo:delete', {
             collection: 'packages',
-            args: { kmId }
         })
         cy.task('mongo:delete', {
             collection: 'branches',
-            args: { kmId }
         })
         cy.clearServerCache()
         
