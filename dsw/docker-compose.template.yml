@@ -44,8 +44,5 @@ services:
 
   mockserver:
     image: jordimartin/mmock
-    ports:
-      - 8082:8082
-      - 8083:8083
     volumes:
       - ./mockserver:/config
