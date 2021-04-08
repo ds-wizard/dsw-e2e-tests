@@ -97,7 +97,7 @@ describe('Project Visibility', () => {
                     s_visibilityPermission: visibility === project.VisibleView ? 'view' : 'edit'
                 })
             }
-            cy.clickBtn('Save')
+            cy.clickModalBtn('Save')
             
             // Log out and test as a viewer
             cy.logout()

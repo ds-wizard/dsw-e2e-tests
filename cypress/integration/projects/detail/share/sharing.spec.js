@@ -103,7 +103,7 @@ describe('Project Sharing', () => {
             }
 
             // Share modal -- save
-            cy.clickBtn('Save')
+            cy.clickModalBtn('Save')
 
             // Test as another user
             cy.url().then(url => {

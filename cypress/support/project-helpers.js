@@ -149,7 +149,7 @@ export function checkAnswerNotChecked(answer) {
 
 
 export function typeAnswer(label, answer) {
-    cy.get('label').contains(label).closest('.form-group').find('input').clear().type(answer)
+    cy.get('label').contains(label).closest('.form-group').find('input').clear().type(answer, { delay: 200 })
 }
 
 

@@ -56,6 +56,11 @@ Cypress.Commands.add('clickBtn', (label, force = false) => {
     button.contains(label).click()
 })
 
+Cypress.Commands.add('clickModalBtn', (label) => {
+    const button = cy.get('.modal-dialog .btn')
+    button.contains(label).click({ force: true })
+})
+
 
 // Selection commands
 

@@ -7,6 +7,7 @@ describe('Sign up', () => {
             collection: 'users',
             args: { email: testEmail }
         })
+        cy.putDefaultAppConfig()
         cy.clearServerCache()
         
         cy.visitApp('/signup')

@@ -41,7 +41,7 @@ describe('KM Editor Migrations', () => {
             .should('contain', config.editorName)
             .and('contain', config.getParentPackageId('1.0.0'))
         cy.clickListingItemAction(config.editorName, 'Upgrade')
-        cy.clickBtn('Cancel')
+        cy.clickModalBtn('Cancel')
     })
 
     it('can pause, resume, and cancel migration', () => {
@@ -1800,7 +1800,7 @@ describe('KM Editor Migrations', () => {
         migration.checkDiffTreeEdited(['Answer 1.1 one'])
         cy.clickBtn('Apply')
 
-        cy.contains('Edit answer')
+        cy.contains('Answer 1.1c')
         migration.checkMigrationForm([
             {
                 'label': 'Label', 'validate': (x) => {
@@ -2242,7 +2242,7 @@ describe('KM Editor Migrations', () => {
         migration.verifyChildPackageForMigration(config, '1.9.0', '1.8.2')
     })
 
-    it('can migrate with applying "edit item template question"', () => {
+    it('can migrate with applying "edit item template question" 1', () => {
         migration.createMigration(config, '1.9.0', '1.9.1')
 
         cy.contains('Add question')
@@ -2252,22 +2252,27 @@ describe('KM Editor Migrations', () => {
         cy.contains('Add answer')
         migration.checkDiffTreeAdded(['Yes'])
         cy.clickBtn('Apply')
+        cy.contains('No')
         migration.checkDiffTreeAdded(['No'])
         cy.clickBtn('Apply')
-
+        
+        cy.contains('Another item template question')
         migration.checkDiffTreeAdded(['Another item template question'])
         cy.clickBtn('Apply')
 
+        cy.contains('Items value')
         migration.checkDiffTreeEdited(['Items value'])
         cy.clickBtn('Apply')
 
+        cy.contains('Items integration')
         migration.checkDiffTreeEdited(['Items integration'])
         cy.clickBtn('Apply')
 
+        cy.contains('Items list')
         migration.checkDiffTreeEdited(['Items list'])
         cy.clickBtn('Apply')
 
-        cy.contains('Question 1.2') // reorder
+        cy.contains('Question with items') // reorder
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -2321,12 +2326,13 @@ describe('KM Editor Migrations', () => {
         migration.verifyChildPackageForMigration(config, '1.9.1', '1.9.0')
     })
 
-    it('can migrate with applying "edit item template question"', () => {
+    it('can migrate with applying "edit item template question" 2', () => {
         migration.createMigration(config, '1.9.1', '1.9.2')
 
         migration.checkDiffTreeDeleted(['Some follow-up'])
         cy.clickBtn('Apply')
 
+        cy.contains('Another item template question')
         migration.checkDiffTreeDeleted(['Another item template question'])
         cy.clickBtn('Apply')
 
@@ -2334,18 +2340,21 @@ describe('KM Editor Migrations', () => {
         migration.verifyChildPackageForMigration(config, '1.9.2', '1.9.1')
     })
 
-    it('can migrate with applying "edit item template question"', () => {
+    it('can migrate with applying "edit item template question" 3', () => {
         migration.createMigration(config, '1.9.2', '1.9.3')
 
         migration.checkDiffTreeDeleted(['Items list'])
         cy.clickBtn('Apply')
 
+        cy.contains('Items value')
         migration.checkDiffTreeDeleted(['Items value'])
         cy.clickBtn('Apply')
 
+        cy.contains('Items options')
         migration.checkDiffTreeDeleted(['Items options'])
         cy.clickBtn('Apply')
 
+        cy.contains('Items list')
         migration.checkDiffTreeDeleted(['Items list'])
         cy.clickBtn('Apply')
 
@@ -2523,6 +2532,8 @@ describe('KM Editor Migrations', () => {
         cy.contains('Add expert')
         migration.checkDiffTreeAdded(['Our Specialist 1'])
         cy.clickBtn('Apply')
+
+        cy.contains('Our Specialist 0')
         migration.checkDiffTreeAdded(['Our Specialist 0'])
         cy.clickBtn('Reject')
 
@@ -2674,6 +2685,7 @@ describe('KM Editor Migrations', () => {
         cy.clickBtn('Reject')
 
         // reorder with rejected integration (no reorder in the end)
+        cy.contains('Child KM')
         migration.checkDiffTreeEdited(['Child KM'])
         cy.clickBtn('Reject')
 
