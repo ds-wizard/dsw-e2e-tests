@@ -69,4 +69,15 @@ describe('KM Editor Create', () => {
         cy.visitApp('/km-editor')
         cy.getListingItem(kmId).should('contain', kmName)
     })
+
+    it('prefill KM ID', () => {
+        const kmName = 'Test Knowledge Model'
+        const kmId = 'test-knowledge-model'
+
+        cy.visitApp('/km-editor')
+        cy.clickBtn('Create')
+
+        cy.get('#name').type(kmName).blur()
+        cy.checkFields({ kmId })
+    })
 })
