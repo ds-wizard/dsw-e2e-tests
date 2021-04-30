@@ -1,6 +1,4 @@
 describe('KM Editor Create', () => {
-    const kmName = 'Test Knowledge Model'
-    const kmId = 'test-km'
 
     beforeEach(() => {
         cy.task('mongo:delete', {
@@ -10,17 +8,62 @@ describe('KM Editor Create', () => {
             collection: 'branches',
         })
         cy.clearServerCache()
+
+        cy.fixture('test-km-1').then((km) => {
+            cy.importKM(km)
+        })
         
         cy.loginAs('datasteward')
-        cy.visitApp('/km-editor')
     })
 
-    it('can be created', () => {
+    it('can create empty', () => {
+        const kmName = 'Test Knowledge Model'
+        const kmId = 'test-km'
+
+        cy.visitApp('/km-editor')
+
         cy.clickBtn('Create')
         cy.url().should('contain', '/km-editor/create')
 
         cy.fillFields({ name: kmName, kmId })
-        cy.clickBtn('Save')
+        cy.clickBtn('Create')
+        cy.url().should('contain', '/km-editor/edit/')
+
+        cy.visitApp('/km-editor')
+        cy.getListingItem(kmId).should('contain', kmName)
+    })
+
+    it('can create based on existing', () => {
+        const kmName = 'Test Knowledge Model 1'
+        const kmId = 'test-km-1'
+
+        cy.visitApp('/knowledge-models/dsw:test-km-1:1.0.0')
+
+        cy.clickLink('Create KM editor')
+        cy.url().should('contain', '/km-editor/create')
+
+        cy.checkFields({ name: kmName, kmId })
+
+        cy.clickBtn('Create')
+        cy.url().should('contain', '/km-editor/edit/')
+
+        cy.visitApp('/km-editor')
+        cy.getListingItem(kmId).should('contain', kmName)
+    })
+
+    it('can create fork', () => {
+        const kmName = 'Fork Knowledge Model 1'
+        const kmId = 'fork-km-1'
+
+        cy.visitApp('/knowledge-models/dsw:test-km-1:1.0.0')
+
+        cy.clickLink('Fork KM')
+        cy.url().should('contain', '/km-editor/create')
+
+        cy.checkFields({ name: '', kmId: '' })
+        cy.fillFields({ name: kmName, kmId })
+
+        cy.clickBtn('Create')
         cy.url().should('contain', '/km-editor/edit/')
 
         cy.visitApp('/km-editor')
