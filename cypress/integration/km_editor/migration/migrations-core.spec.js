@@ -44,6 +44,12 @@ describe('KM Editor Migrations', () => {
         cy.clickModalBtn('Cancel')
     })
 
+    it('can click outdated badge', () => {
+        migration.prepareChildKmEditor(config, '1.0.0')
+        cy.get('.badge').contains('outdated').click()
+        cy.get('.modal-content').contains('Create migration').should('exist')
+    })
+
     it('can pause, resume, and cancel migration', () => {
         migration.createMigration(config, '1.0.0', '1.10.0')
 
