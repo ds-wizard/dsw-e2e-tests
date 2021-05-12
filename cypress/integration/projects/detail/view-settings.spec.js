@@ -27,21 +27,15 @@ describe('Questionnaire - View Settings', () => {
     }
 
     before(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-            args: {}
-        })
+        cy.task('package:delete')
         cy.clearServerCache()
 
-        cy.fixture(kmIdTags).then(cy.importKM)
-        cy.fixture(kmIdPhases).then(cy.importKM)
+        cy.importKM(kmIdTags)
+        cy.importKM(kmIdPhases)
     })
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'questionnaires',
-            args: {}
-        })
+        cy.task('questionnaire:delete')
         cy.clearServerCache()
     })
 

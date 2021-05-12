@@ -10,6 +10,11 @@
     "researcher_password": "password",
     "mongoUrl": "mongodb://localhost:27017",
     "mongoDBName": "dsw-server-test",
+    "pgUser": "postgres",
+    "pgHost": "localhost",
+    "pgDatabase": "dsw",
+    "pgPassword": "postgres",
+    "pgPort": 5432,
     "serviceToken": "abcd"
   },
   "screenshotsFolder": "output/screenshots",

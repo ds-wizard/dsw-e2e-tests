@@ -1,18 +1,11 @@
 describe('KM Editor Create', () => {
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-        })
-        cy.task('mongo:delete', {
-            collection: 'branches',
-        })
+        cy.task('package:delete')
+        cy.task('branch:delete')
         cy.clearServerCache()
 
-        cy.fixture('test-km-1').then((km) => {
-            cy.importKM(km)
-        })
-        
+        cy.importKM('test-km-1')
         cy.loginAs('datasteward')
     })
 

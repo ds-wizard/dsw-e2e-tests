@@ -8,22 +8,14 @@ describe('KM Editor Delete Entity', () => {
     const previousPackageId = 'dsw:test-km-1:1.0.0'
 
     before(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-            args: { kmId: previousKmId }
-        })
+        cy.task('package:delete', { km_id: previousKmId })
         cy.clearServerCache()
 
-        cy.fixture('test-km-1').then((km) => {
-            cy.importKM(km)
-        })
+        cy.importKM('test-km-1')
     })
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'branches',
-            args: { kmId }
-        })
+        cy.task('branch:delete', { km_id: kmId })
         cy.clearServerCache()
         
         cy.createKMEditor({ kmId, name: kmName, previousPackageId })

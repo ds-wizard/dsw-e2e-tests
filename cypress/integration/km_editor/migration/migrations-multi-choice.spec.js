@@ -8,25 +8,16 @@ describe('KM Editor Migrations Multi-Choice', () => {
     )
 
     before(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-            args: { kmId: config.parentKmId }
-        })
+        cy.task('package:delete', { km_id: config.parentKmId })
         cy.putDefaultAppConfig()
         cy.clearServerCache()
 
-        cy.fixture(config.getParentKM('1.8.0')).then(cy.importKM)
+        cy.importKM(config.getParentKM('1.8.0'))
     })
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-            args: { kmId: config.childKmId }
-        })
-        cy.task('mongo:delete', {
-            collection: 'branches',
-            args: {}
-        })
+        cy.task('package:delete', { km_id: config.childKmId })
+        cy.task('branch:delete')
         cy.clearServerCache()
 
         cy.loginAs('datasteward')

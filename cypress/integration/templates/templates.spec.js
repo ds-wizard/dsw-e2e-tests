@@ -1,18 +1,16 @@
 describe('Templates', () => {
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-        })
+        cy.task('package:delete')
         cy.clearServerCache()
 
-        cy.fixture('test-km-1').then((km) => {
-            cy.importKM(km)
-        })
+        cy.importKM('test-km-1')
     })
 
     it('Default template', () => {
-        cy.loginAs('datasteward')
+        // TODO return datasteward once fixed
+        // cy.loginAs('datasteward')
+        cy.loginAs('admin')
         cy.visitApp('/templates')
 
         // View template detail

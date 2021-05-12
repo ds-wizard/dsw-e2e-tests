@@ -24,14 +24,8 @@ describe('Questionnaire Migrations', () => {
     }
 
     const importKM = (kmId, minorVersions) => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-            args: { kmId }
-        })
-
-        cy.fixture(getKM(kmId, minorVersions)).then((km) => {
-            cy.importKM(km)
-        })
+        cy.task('package:delete', { km_id: kmId })
+        cy.importKM(getKM(kmId, minorVersions))
     }
 
 
@@ -42,10 +36,7 @@ describe('Questionnaire Migrations', () => {
 
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'questionnaires',
-            args: {}
-        })
+        cy.task('questionnaire:delete')
         cy.clearServerCache()
         
         cy.loginAs('researcher')

@@ -7,23 +7,15 @@ describe('Basic Questionnaire Tests', () => {
 
 
     before(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-            args: { kmId }
-        })
+        cy.task('package:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.fixture(kmId).then((km) => {
-            cy.importKM(km)
-        })
+        cy.importKM(kmId)
     })
 
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'questionnaires',
-            args: {}
-        })
+        cy.task('questionnaire:delete')
         cy.clearServerCache()
         
         cy.createQuestionnaire({

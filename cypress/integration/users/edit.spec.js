@@ -12,10 +12,8 @@ describe('Users Edit', () => {
 
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'users',
-            args: { email: { $in: [user.email, newEmail] } }
-        })
+        cy.task('user:delete', { email: user.email })
+        cy.task('user:delete', { email: newEmail })
         cy.clearServerCache()
         
         cy.createUser(user)
@@ -64,11 +62,7 @@ describe('Users Edit', () => {
         cy.expectAlert('success', 'Password was successfully changed')
 
         // make sure user is active
-        cy.task('mongo:updateOne', {
-            collection: 'users',
-            query: { email: user.email },
-            update: { $set: { active: true } }
-        })
+        cy.task('user:activate', { email: user.email })
 
         // logout and try to login with the new password
         cy.logout()

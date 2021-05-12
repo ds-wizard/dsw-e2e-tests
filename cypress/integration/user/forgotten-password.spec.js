@@ -9,22 +9,11 @@ describe('Forgotten password', () => {
     const newPassword = 'passw1rd'
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'users',
-            args: { email: user.email }
-        })
+        cy.task('user:delete', { email: user.email })
         cy.clearServerCache()
-        
+
         cy.createUser(user)
-        cy.task('mongo:updateOne', {
-            collection: 'users',
-            query: { email: user.email },
-            update: {
-                $set: {
-                    active: true
-                }
-            }
-        })
+        cy.task('user:activate', { email: user.email })
     })
 
     it('can recover password', () => {
@@ -35,16 +24,8 @@ describe('Forgotten password', () => {
         cy.get('.lead').should('contain', 'We\'ve sent you a recover link.')
 
         // navigate to correct password recovery page
-        cy.task('mongo:findOne', {
-            collection: 'users',
-            args: { email: user.email }
-        }).then(user => {
-            cy.task('mongo:findOne', {
-                collection: 'actionKeys',
-                args: { userId: user.uuid }
-            }).then(actionKey => {
-                cy.visitApp(`/forgotten-password/${user.uuid}/${actionKey.hash}`)
-            })
+        cy.task('user:getActionParams', { email: user.email, type: 'ForgottenPasswordActionKey' }).then(([uuid, hash]) => {
+            cy.visitApp(`/forgotten-password/${uuid}/${hash}`)
         })
 
         // fill in the new password
@@ -54,7 +35,7 @@ describe('Forgotten password', () => {
         })
         cy.clickBtn('Save')
         cy.get('.lead').should('contain', 'Your password has been changed. You can now log in.')
-        
+
         // check that we can login using the new password
         cy.clickLink('log in')
         cy.fillFields({

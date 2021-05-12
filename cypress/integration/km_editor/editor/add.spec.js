@@ -8,10 +8,7 @@ describe('KM Editor Add Entity', () => {
     // Initializations -----------------------------------------------------------------------------
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'branches',
-            args: { kmId }
-        })
+        cy.task('branch:delete', { km_id: kmId })
         cy.clearServerCache()
         
         cy.createKMEditor({ kmId, name: kmName, previousPackageId: null })

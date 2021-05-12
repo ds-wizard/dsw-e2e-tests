@@ -23,10 +23,10 @@ export class Config {
 }
 
 export function verifyPackageWithBundle(packageId, fixtureName, pkgParams, checkEventUuid = true) {
-    cy.task('mongo:findOne', {
-        collection: 'packages',
-        args: { id: packageId }
+    cy.task('package:get', { 
+        id: packageId
     }).then(pkg => {
+        console.log(pkg)
         cy.fixture(fixtureName).then(parentPkgBundle => {
             const parentPkg = parentPkgBundle.packages.filter(innerPkg => {
                 return innerPkg.id == packageId
@@ -53,8 +53,8 @@ export function verifyChildPackageForMigration(config, newVersion, oldVersion, c
         config.getChildPackageId(newVersion),
         config.getChildKM(newVersion),
         {
-            'previousPackageId': config.getChildPackageId(oldVersion),
-            'forkOfPackageId': config.getParentPackageId(newVersion)
+            'previous_package_id': config.getChildPackageId(oldVersion),
+            'fork_of_package_id': config.getParentPackageId(newVersion)
         },
         checkEventUuid
     )
@@ -86,7 +86,7 @@ export function createMigration(config, version, parentVersion) {
 }
 
 export function prepareChildKmEditor(config, version) {
-    cy.fixture(config.getChildKM(version)).then(cy.importKM)
+    cy.importKM(config.getChildKM(version))
     cy.createKMEditor({
         kmId: config.childKmId,
         name: config.editorName,

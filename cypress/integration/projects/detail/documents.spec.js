@@ -24,49 +24,20 @@ describe('Documents', () => {
     const brokenFormats = formats.slice(2, formats.length)
 
     before(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-            args: { kmId }
-        })
-        cy.fixture(kmId).then((km) => {
-            cy.importKM(km)
-        })
-        cy.task('mongo:delete', {
-            collection: 'templates',
-            args: { templateId: 'questionnaire-report' }
-        })
-        cy.task('mongo:delete', {
-            collection: 'templates',
-            args: { templateId: 'broken' }
-        })
-        cy.task('mongo:delete', {
-            collection: 'templates',
-            args: { templateId: 'not-allowed' }
-        })
+        cy.task('package:delete', { km_id: kmId })
+        cy.removeTemplate('dsw:questionnaire-report:1.3.0')
+        cy.removeTemplate('dsw:broken:0.1.0')
+        cy.removeTemplate('dsw:not-allowed:0.1.0')
         cy.clearServerCache()
 
-        cy.fixture('templates/questionnaire-report.json').then((template) => {
-            cy.importTemplate(template)
-        })
-        cy.fixture('templates/broken.json').then((template) => {
-            cy.importTemplate(template)
-        })
-        cy.fixture('templates/not-allowed.json').then((template) => {
-            cy.importTemplate(template)
-        })
+        cy.importKM(kmId)
+        cy.importTemplate('templates/questionnaire-report.zip')
+        cy.importTemplate('templates/broken.zip')
+        cy.importTemplate('templates/not-allowed.zip')
     })
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'documents'
-        })
-        cy.task('mongo:delete', {
-            collection: 'documentFs'
-        })
-        cy.task('mongo:delete', {
-            collection: 'questionnaires',
-            args: {}
-        })
+        cy.task('questionnaire:delete')
         cy.clearServerCache()
         
         cy.loginAs('researcher')

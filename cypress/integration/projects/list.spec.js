@@ -6,19 +6,11 @@ describe('Project List', () => {
     const packageId = 'dsw:test-km-1:1.0.0'
 
     before(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-            args: { kmId }
-        })
-        cy.task('mongo:delete', {
-            collection: 'questionnaires',
-            args: {}
-        })
+        cy.task('package:delete', { km_id: kmId })
+        cy.task('questionnaire:delete')
         cy.clearServerCache()
 
-        cy.fixture('test-km-1').then((km) => {
-            cy.importKM(km)
-        })
+        cy.importKM('test-km-1')
 
         const projects = []
         for (let i = 1; i <= 60; i++) {

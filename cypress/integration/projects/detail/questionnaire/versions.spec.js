@@ -26,30 +26,16 @@ describe('Questionnaire Versions', () => {
     }
 
     before(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-            args: { kmId }
-        })
-        cy.task('mongo:delete', {
-            collection: 'templates',
-            args: { templateId: 'questionnaire-report' }
-        })
+        cy.task('package:delete', { km_id: kmId })
+        cy.removeTemplate('dsw:questionnaire-report:1.3.0')
         cy.clearServerCache()
 
-        cy.fixture('templates/questionnaire-report.json').then(cy.importTemplate)
-        cy.fixture(kmId).then(cy.importKM)
+        cy.importKM(kmId)
+        cy.importTemplate('templates/questionnaire-report.zip')
     })
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'questionnaires'
-        })
-        cy.task('mongo:delete', {
-            collection: 'documents'
-        })
-        cy.task('mongo:delete', {
-            collection: 'documentFs'
-        })
+        cy.task('questionnaire:delete')
         cy.clearServerCache()
         
         cy.createQuestionnaire({

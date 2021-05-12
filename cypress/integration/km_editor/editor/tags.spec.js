@@ -7,23 +7,15 @@ describe('KM Editor Tags', () => {
     const previousPackageId = 'mto:km-with-tags:1.0.0'
 
     before(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-            args: { kmId }
-        })
+        cy.task('package:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.fixture('km-with-tags').then((km) => {
-            cy.importKM(km)
-        })
+        cy.importKM('km-with-tags')
     })
 
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'branches',
-            args: { kmId }
-        })
+        cy.task('branch:delete', { km_id: kmId })
         cy.clearServerCache()
         
         cy.createKMEditor({ kmId, name: kmName, previousPackageId })
