@@ -3,10 +3,7 @@ describe('Settings / Authentication', () => {
     const testPassword = 'passw0rd'
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'users',
-            args: { email: testEmail }
-        })
+        cy.task('user:delete', { email: testEmail })
         cy.putDefaultAppConfig()
         cy.clearServerCache()
 
@@ -38,15 +35,7 @@ describe('Settings / Authentication', () => {
         cy.get('.lead').should('contain', 'Sign up was successful.')
 
         // Activate the new user account
-        cy.task('mongo:updateOne', {
-            collection: 'users',
-            query: { email: testEmail },
-            update: {
-                $set: {
-                    active: true
-                }
-            }
-        })
+        cy.task('user:activate', { email: testEmail })
 
         // Log in as the new user
         cy.visitApp('/')

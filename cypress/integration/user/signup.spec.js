@@ -3,10 +3,7 @@ describe('Sign up', () => {
     const testPassword = 'passw0rd'
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'users',
-            args: { email: testEmail }
-        })
+        cy.task('user:delete', { email: testEmail })
         cy.putDefaultAppConfig()
         cy.clearServerCache()
         
@@ -29,16 +26,8 @@ describe('Sign up', () => {
         cy.get('.lead').should('contain', 'Sign up was successful.')
 
         // navigate to correct signup confirmation
-        cy.task('mongo:findOne', {
-            collection: 'users',
-            args: { email: testEmail }
-        }).then(user => {
-            cy.task('mongo:findOne', {
-                collection: 'actionKeys',
-                args: { userId: user.uuid }
-            }).then(actionKey => {
-                cy.visitApp('/signup/' + user.uuid + '/' + actionKey.hash)
-            })
+        cy.task('user:getActionParams', { email: testEmail, type: 'RegistrationActionKey' }).then(([uuid, hash]) => {
+            cy.visitApp(`/signup/${uuid}/${hash}`)
         })
 
         // signup confirmation works

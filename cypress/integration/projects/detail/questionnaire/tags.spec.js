@@ -8,23 +8,15 @@ describe('Questionnaire Tags', () => {
     const packageName = 'KM With Tags'
 
     before(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-            args: { kmId }
-        })
+        cy.task('package:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.fixture('km-with-tags').then((km) => {
-            cy.importKM(km)
-        })
+        cy.importKM('km-with-tags')
     })
 
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'questionnaires',
-            args: {}
-        })
+        cy.task('questionnaire:delete')
         cy.clearServerCache()
         
         cy.loginAs('researcher')

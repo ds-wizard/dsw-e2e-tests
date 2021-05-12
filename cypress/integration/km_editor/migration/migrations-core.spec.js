@@ -8,26 +8,17 @@ describe('KM Editor Migrations', () => {
     )
 
     before(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-            args: { kmId: config.parentKmId }
-        })
+        cy.task('package:delete', { km_id: config.parentKmId })
         cy.putDefaultAppConfig()
         cy.clearServerCache()
 
         // import parent-km with latest (inc. all lower version)
-        cy.fixture(config.getParentKM('1.11.0')).then(cy.importKM)
+        cy.importKM(config.getParentKM('1.11.0'))
     })
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-            args: { kmId: config.childKmId }
-        })
-        cy.task('mongo:delete', {
-            collection: 'branches',
-            args: {}
-        })
+        cy.task('package:delete', { km_id: config.childKmId })
+        cy.task('branch:delete')
         cy.clearServerCache()
 
         cy.loginAs('datasteward')
@@ -2700,8 +2691,8 @@ describe('KM Editor Migrations', () => {
             config.getChildPackageId('2.1.0'),
             config.getChildKM('2.1.0'),
             {
-                'previousPackageId': config.getChildPackageId('2.0.0'),
-                'forkOfPackageId': config.getParentPackageId('1.11.0')
+                'previous_package_id': config.getChildPackageId('2.0.0'),
+                'fork_of_package_id': config.getParentPackageId('1.11.0')
             },
             false
         )

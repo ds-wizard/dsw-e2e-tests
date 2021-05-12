@@ -7,23 +7,15 @@ describe('KM Editor Preview - Phases', () => {
 
 
     before(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-            args: { kmId: phases.kmId }
-        })
+        cy.task('package:delete', { km_id: phases.kmId })
         cy.clearServerCache()
         
-        cy.fixture(phases.kmId).then((km) => {
-            cy.importKM(km)
-        })
+        cy.importKM(phases.kmId)
     })
 
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'branches',
-            args: { kmId: phases.kmId }
-        })
+        cy.task('branch:delete', { km_id: phases.kmId })
         cy.createKMEditor({ kmId: phases.kmId, name: kmName, previousPackageId: phases.packageId })
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')

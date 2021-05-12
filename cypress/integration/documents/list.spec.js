@@ -9,27 +9,13 @@ describe('Document List', () => {
     const formatUuid = 'd3e98eb6-344d-481f-8e37-6a67b6cd1ad2'
 
     before(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-            args: { kmId }
-        })
-        cy.task('mongo:delete', {
-            collection: 'templates',
-            args: { kmId }
-        })
+        cy.task('questionnaire:delete')
+        cy.task('package:delete', { km_id: kmId })
+        cy.removeTemplate('dsw:questionnaire-report:1.3.0')
         cy.clearServerCache()
 
-        cy.fixture('test-km-1').then((km) => {
-            cy.importKM(km)
-        })
-        
-        cy.fixture('templates/questionnaire-report.json').then((template) => {
-            cy.importTemplate(template)
-        })
-
-        cy.task('mongo:delete', { collection: 'documents' })
-        cy.task('mongo:delete', { collection: 'documentFs' })
-        cy.task('mongo:delete', { collection: 'questionnaires' })
+        cy.importKM('test-km-1')
+        cy.importTemplate('templates/questionnaire-report.zip')
         
         const questionnaire = {
             visibility: project.Private,

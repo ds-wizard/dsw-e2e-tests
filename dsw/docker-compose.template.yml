@@ -9,9 +9,9 @@ services:
     volumes:
       - ./server/application.yml:/application/engine-wizard/config/application.yml:ro
       - ./server/integration.yml:/application/engine-wizard/config/integration.yml:ro
-      - ./templates/dmp:/application/engine-wizard/templates/dmp:ro
-    links:
-      - mongo
+    depends_on: 
+      - minio
+      - postgres
 
   dsw_client:
     image: {CLIENT_IMAGE}
@@ -19,28 +19,35 @@ services:
     ports:
       - 8080:80
     environment:
-      - API_URL=http://localhost:3000
+      API_URL: http://localhost:3000
 
   docworker:
     image: {DOCWORKER_IMAGE}
     restart: always
     volumes:
       - ./docworker/config.yml:/app/config.yml:ro
-      - ./templates/dmp:/app/templates:ro
+    depends_on: 
+      - minio
+      - postgres
     
-  mongo:
-    image: mongo:4.2.3
+  postgres:
+    image: postgres:13.2
     restart: always
     ports:
-      - 27017:27017
-    command: mongod
-
-  rabbitmq:
-    image: rabbitmq:3.8.2-management
-    restart: always
+      - 5432:5432
     environment:
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: password
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dsw
+
+  minio:
+    image: minio/minio:RELEASE.2021-03-17T02-33-02Z
+    command: server /data
+    ports:
+      - 9000:9000
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minioPassword
 
   mockserver:
     image: jordimartin/mmock

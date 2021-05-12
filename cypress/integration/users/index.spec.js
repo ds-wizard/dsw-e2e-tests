@@ -8,10 +8,7 @@ describe('Users Index', () => {
     }
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'users',
-            args: { email: user.email }
-        })
+        cy.task('user:delete', { email: user.email })
         cy.clearServerCache()
         
         cy.createUser(user)

@@ -7,22 +7,14 @@ describe('Project Visibility', () => {
     const packageName = 'Test Knowledge Model 1'
 
     before(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-            args: { kmId }
-        })
+        cy.task('package:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.fixture('test-km-1').then((km) => {
-            cy.importKM(km)
-        })
+        cy.importKM('test-km-1')
     })
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'questionnaires',
-            args: {}
-        })
+        cy.task('questionnaire:delete')
         cy.clearServerCache()
     })
 

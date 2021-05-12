@@ -23,27 +23,17 @@ describe('Settings / Questionnaires', () => {
 
 
     before(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-            args: { kmId }
-        })
+        cy.task('package:delete', { km_id: kmId })
         cy.clearServerCache()
-        
-        cy.fixture('test-km-1').then((km) => {
-            cy.importKM(km)
-        })
+
+        cy.importKM('test-km-1')
     })
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'questionnaires',
-            args: {}
-        })
-        
+        cy.task('questionnaire:delete')
         cy.putDefaultAppConfig()
-
+        
         cy.loginAs('admin')
-
         cy.visitApp('/settings/questionnaires')
     })
 
@@ -64,7 +54,7 @@ describe('Settings / Questionnaires', () => {
     it('questionnaire visibility not enabled', () => {
         cy.uncheckToggle('questionnaireVisibilityEnabled')
         cy.clickBtn('Save', true)
-        
+
         createProjectAndOpenShare()
         cy.get('label').contains('Visible by other logged-in users').should('not.exist')
     })
@@ -72,7 +62,7 @@ describe('Settings / Questionnaires', () => {
     it('default questionnaire visibility - Private', () => {
         cy.get(`#${project.Private}`).check()
         cy.clickBtn('Save', true)
-        
+
         createProjectAndOpenShare()
         cy.get('#visibilityEnabled').should('not.be.checked')
     })
@@ -80,7 +70,7 @@ describe('Settings / Questionnaires', () => {
     it('default questionnaire visibility - VisibleView', () => {
         cy.get(`#${project.VisibleView}`).check()
         cy.clickBtn('Save', true)
-        
+
         createProjectAndOpenShare()
         cy.get('#visibilityEnabled').should('be.checked')
         cy.checkFields({ s_visibilityPermission: 'view' })
@@ -89,7 +79,7 @@ describe('Settings / Questionnaires', () => {
     it('default questionnaire visibility - VisibleEdit', () => {
         cy.get(`#${project.VisibleEdit}`).check()
         cy.clickBtn('Save', true)
-        
+
         createProjectAndOpenShare()
         cy.get('#visibilityEnabled').should('be.checked')
         cy.checkFields({ s_visibilityPermission: 'edit' })
@@ -133,7 +123,7 @@ describe('Settings / Questionnaires', () => {
     it('default questionnaire visibility - AnyoneWithLinkEdit', () => {
         cy.get(`#${project.AnyoneWithLinkEdit}`).check()
         cy.clickBtn('Save', true)
-        
+
         createProjectAndOpenShare()
         cy.get('#sharingEnabled').should('be.checked')
         cy.checkFields({ s_sharingPermission: 'edit' })

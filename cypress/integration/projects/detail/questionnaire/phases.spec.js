@@ -6,22 +6,14 @@ describe('Questionnaire Phases', () => {
     const projectName = 'Test of Phases'
 
     before(() => {
-        cy.task('mongo:delete', {
-            collection: 'packages',
-            args: { kmId: phases.kmId }
-        })
+        cy.task('package:delete', { km_id: phases.kmId })
         cy.clearServerCache()
 
-        cy.fixture(phases.kmId).then((km) => {
-            cy.importKM(km)
-        })
+        cy.importKM(phases.kmId)
     })
 
     beforeEach(() => {
-        cy.task('mongo:delete', {
-            collection: 'questionnaires',
-            args: {}
-        })
+        cy.task('questionnaire:delete')
         cy.clearServerCache()
         
         cy.loginAs('researcher')

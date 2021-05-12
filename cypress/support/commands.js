@@ -86,27 +86,64 @@ Cypress.Commands.add('createUser', (user) => {
 // Knowledge Models commands
 
 Cypress.Commands.add('importKM', (km) => {
-    getTokenFor('datasteward').then((resp) => {
-        cy.request({
-            method: 'POST',
-            url: apiUrl('/packages'),
-            headers: createHeaders(resp.body.token),
-            body: km
+    getTokenFor('admin').then((resp) => {
+        cy.fixture(km).then(body => {
+            cy.request({
+                method: 'POST',
+                url: apiUrl('/packages'),
+                headers: createHeaders(resp.body.token),
+                body
+            })
         })
     })
 })
 
+
 // Templates commands
 
-Cypress.Commands.add('importTemplate', (template) => {
-    cy.task('mongo:insertOne', {
-        collection: 'templates',
-        obj: template
+Cypress.Commands.add('removeTemplate', (templateId) => {
+    getTokenFor('admin').then((resp) => {
+        cy.task('document:delete', { template_id: templateId })
+        cy.task('questionnaire:delete', { template_id: templateId })
+
+        cy.request({
+            method: 'DELETE',
+            url: apiUrl(`/templates/${templateId}`),
+            headers: createHeaders(resp.body.token),
+            failOnStatusCode: false
+        })
     })
-    cy.task('mongo:updateMany', {
-        collection: 'templates',
-        query: {},
-        update: [{ "$set": { "createdAt": { "$toDate": "$createdAt" } } }]
+})
+
+
+Cypress.Commands.add('importTemplate', (templatePath) => {
+    getTokenFor('admin').then((resp) => {
+        cy.fixture(templatePath, 'binary')
+            .then((binary) => Cypress.Blob.binaryStringToBlob(binary))
+            .then((template) => {
+                return new Promise((resolve, reject) => {
+                    const data = new FormData()
+                    data.set('file', template)
+
+                    const xhr = new XMLHttpRequest()
+
+                    xhr.onload = () => {
+                        if (xhr.status >= 300) {
+                            reject({ request: xhr })
+                        } else {
+                            resolve(xhr)
+                        }
+                    }
+
+                    xhr.onerror = () => {
+                        reject({ request: xhr })
+                    }
+
+                    xhr.open('POST', apiUrl('/templates/bundle'))
+                    xhr.setRequestHeader('Authorization', `Bearer ${resp.body.token}`)
+                    xhr.send(data)
+                })
+            })
     })
 })
 
@@ -293,7 +330,7 @@ Cypress.Commands.add('wsSend', (url, msg) => {
         ws.send(JSON.stringify(msg))
         ws.close()
     })
-}) 
+})
 
 
 // Cache

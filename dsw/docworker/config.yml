@@ -1,15 +1,11 @@
-mongo:
-    host: mongo
-    database: dsw-server-test
-    collection: documents
-    fs_collection: documentFs
+database:
+  connectionString: postgresql://postgres:postgres@postgres:5432/dsw
 
-mq:
-    host: rabbitmq
-    queue: document.generation
-    auth:
-        username: admin
-        password: password
+s3:
+  url: http://minio:9000
+  username: minio
+  password: minioPassword
+  bucket: dsw
 
 logging:
-    level: INFO
+  level: INFO

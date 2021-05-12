@@ -10,10 +10,7 @@ describe('Settings / Dashboard', () => {
     })
 
     it('dashboard style DMP', () => {
-        cy.task('mongo:delete', {
-            collection: 'questionnaires',
-            args: {}
-        })
+        cy.task('questionnaire:delete')
         cy.get('label').contains('DMP Workflow').click()
         cy.clickBtn('Save', true)
         cy.visitApp('/dashboard')
