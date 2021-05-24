@@ -44,6 +44,12 @@
         "customMenuLinks": [],
         "loginInfo": null
     },
+    "knowledgeModel": {
+        "public": {
+            "enabled": false,
+            "packages": []
+        }
+    },
     "registry": {
         "enabled": false,
         "token": ""
@@ -54,6 +60,7 @@
             "defaultValue": "PrivateQuestionnaire"
         },
         "questionnaireSharing": {
+            "anonymousEnabled": false,
             "enabled": true,
             "defaultValue": "RestrictedQuestionnaire"
         },
