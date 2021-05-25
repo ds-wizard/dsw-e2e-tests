@@ -30,6 +30,10 @@ describe('Settings / Knowledge Model', () => {
         cy.putDefaultAppConfig()
     })
 
+    after(() => {
+        cy.putDefaultAppConfig()
+    })
+
     it('public KM - specific version', () => {
         // Should not be available without login
         expectVersionForbidden('1.10.0')
