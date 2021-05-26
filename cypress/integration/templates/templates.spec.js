@@ -2,15 +2,15 @@ describe('Templates', () => {
 
     beforeEach(() => {
         cy.task('package:delete')
+        cy.removeTemplate('dsw:questionnaire-report:1.3.0')
         cy.clearServerCache()
 
         cy.importKM('test-km-1')
+        cy.importTemplate('templates/questionnaire-report.zip')
     })
 
     it('Default template', () => {
-        // TODO return datasteward once fixed
-        // cy.loginAs('datasteward')
-        cy.loginAs('admin')
+        cy.loginAs('datasteward')
         cy.visitApp('/templates')
 
         // View template detail
