@@ -112,6 +112,8 @@ module.exports = (on, config) => {
       await documentDelete({ questionnaire_uuid: uuid })
       await pg.delete({ table: 'questionnaire_acl_user', where: { questionnaire_uuid: uuid } })
       await pg.delete({ table: 'questionnaire_acl_group', where: { questionnaire_uuid: uuid } })
+      await pg.delete({ table: 'qtn_migration', where: { old_questionnaire_uuid: uuid } })
+      await pg.delete({ table: 'qtn_migration', where: { new_questionnaire_uuid: uuid } })
       await pg.delete({ table: 'questionnaire', where: { uuid } })
     }
     return true
