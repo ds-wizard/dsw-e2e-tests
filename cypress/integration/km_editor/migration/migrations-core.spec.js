@@ -1982,7 +1982,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "edit follow-up question"', () => {
         migration.createMigration(config, '1.8.0', '1.8.1')
 
-        cy.contains('Edit answer')  // reorder followups
+        cy.contains('Answer 1.1a')  // reorder followups
         migration.checkMigrationForm([
             {
                 'label': 'Label', 'validate': (x) => {
@@ -2148,6 +2148,7 @@ describe('KM Editor Migrations', () => {
         migration.checkDiffTreeAdded(['Followup options 1.1a.1'])
         cy.clickBtn('Apply')
 
+        cy.contains('Questions')
         cy.contains('Answer 1.1a')  // reorder followups
         migration.checkMigrationForm([
             {
