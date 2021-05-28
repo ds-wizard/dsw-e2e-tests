@@ -60,7 +60,7 @@ module.exports = (on, config) => {
     const result = await pg.get({ table: 'branch', where })
     for (let i = 0; i < result.rows.length; i++) {
       const { uuid } = result.rows[i]
-      await pg.delete({ table: 'km_migration', where: { branch_uuid: uuid } })
+      await pg.delete({ table: 'knowledge_model_migration', where: { branch_uuid: uuid } })
       await pg.delete({ table: 'branch', where: { uuid } })
     }
     return true
@@ -90,8 +90,8 @@ module.exports = (on, config) => {
       await packageDelete({ fork_of_package_id: id })
       await branchDelete({ previous_package_id: id })
       await questionnaireDelete({ package_id: id })
-      await pg.delete({ table: 'km_migration', where: { branch_previous_package_id: id }})
-      await pg.delete({ table: 'km_migration', where: { target_package_id: id }})
+      await pg.delete({ table: 'knowledge_model_migration', where: { branch_previous_package_id: id }})
+      await pg.delete({ table: 'knowledge_model_migration', where: { target_package_id: id }})
       await pg.delete({ table: 'package', where: { id } })
     }
     return true
@@ -112,8 +112,8 @@ module.exports = (on, config) => {
       await documentDelete({ questionnaire_uuid: uuid })
       await pg.delete({ table: 'questionnaire_acl_user', where: { questionnaire_uuid: uuid } })
       await pg.delete({ table: 'questionnaire_acl_group', where: { questionnaire_uuid: uuid } })
-      await pg.delete({ table: 'qtn_migration', where: { old_questionnaire_uuid: uuid } })
-      await pg.delete({ table: 'qtn_migration', where: { new_questionnaire_uuid: uuid } })
+      await pg.delete({ table: 'questionnaire_migration', where: { old_questionnaire_uuid: uuid } })
+      await pg.delete({ table: 'questionnaire_migration', where: { new_questionnaire_uuid: uuid } })
       await pg.delete({ table: 'questionnaire', where: { uuid } })
     }
     return true
