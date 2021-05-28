@@ -49,6 +49,7 @@ describe('Anonymous projects', () => {
         // create project
         cy.visitApp(`/knowledge-models/${packageId}/preview`)
         cy.clickBtn('Create project')
+        cy.url().should('contain', '/projects/')
 
         // edit something
         project.selectAnswer('Answer 1')

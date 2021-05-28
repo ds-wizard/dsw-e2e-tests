@@ -115,7 +115,7 @@ describe('Settings / Knowledge Model', () => {
         expectVersionAvailable('1.11.0')
     })
 
-    it.only('public KM - Organization ID', () => {
+    it('public KM - Organization ID', () => {
         // Should not be available without login
         expectVersionForbidden('1.7.0')
         expectVersionForbidden('1.9.0')
