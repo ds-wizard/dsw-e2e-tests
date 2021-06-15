@@ -6,6 +6,10 @@ export const Restricted = 'RestrictedQuestionnaire'
 export const AnyoneWithLinkView = 'AnyoneWithLinkViewQuestionnaire'
 export const AnyoneWithLinkEdit = 'AnyoneWithLinkEditQuestionnaire'
 
+export const TemplateAndCustomQuestionnaireCreation = 'TemplateAndCustomQuestionnaireCreation'
+export const TemplateQuestionnaireCreation = 'TemplateQuestionnaireCreation'
+export const CustomQuestionnaireCreation = 'CustomQuestionnaireCreation'
+
 export const TodoUUID = '615b9028-5e3f-414f-b245-12d2ae2eeb20'
 
 export function open(questionnaireName) {
@@ -16,7 +20,7 @@ export function open(questionnaireName) {
 
 
 export function create(projectName, packageName) {
-    cy.visitApp('/projects/create')
+    cy.visitApp('/projects/create/custom')
     cy.fillFields({
         name: projectName,
         th_packageId: packageName
@@ -285,4 +289,9 @@ export function resolveAndFinalizeMigration() {
 export function finalizeMigration() {
     cy.clickBtn('Finalize migration')
     cy.url().should('match', /\/projects\/.+/)
+}
+
+
+export function awaitOpen() {
+    cy.get('.DetailNavigation__Row__Section').should('exist')
 }

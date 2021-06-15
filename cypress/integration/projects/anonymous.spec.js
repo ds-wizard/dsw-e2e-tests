@@ -8,7 +8,7 @@ describe('Anonymous projects', () => {
     const kmName = 'Test Knowledge Model 1'
 
     const enableAnonymousProjects = () => {
-        cy.visitApp('/settings/questionnaires')
+        cy.visitApp('/settings/projects')
         cy.checkToggle('questionnaireSharingAnonymousEnabled')
         cy.clickBtn('Save', true)
         cy.logout()

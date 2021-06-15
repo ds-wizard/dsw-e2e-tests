@@ -1,19 +1,13 @@
 import * as project from '../../support/project-helpers'
 
-describe('Settings / Questionnaires', () => {
-    const projectName = 'Test Questionnaire'
+describe('Settings / Projects', () => {
+    const projectName = 'Test Project'
     const kmId = 'test-km-1'
+    const packageId = 'dsw:test-km-1:1.0.0'
     const packageName = 'Test Knowledge Model 1'
 
     const createProject = () => {
-        cy.visitApp('/projects/create')
-        cy.fillFields({
-            name: projectName,
-            th_packageId: packageName
-        })
-        cy.clickBtn('Save')
-
-        project.open(projectName)
+        project.create(projectName, packageName)
     }
 
     const createProjectAndOpenShare = () => {
@@ -34,7 +28,7 @@ describe('Settings / Questionnaires', () => {
         cy.putDefaultAppConfig()
         
         cy.loginAs('admin')
-        cy.visitApp('/settings/questionnaires')
+        cy.visitApp('/settings/projects')
     })
 
     after(() => {
@@ -128,6 +122,67 @@ describe('Settings / Questionnaires', () => {
         cy.get('#sharingEnabled').should('be.checked')
         cy.checkFields({ s_sharingPermission: 'edit' })
     })
+
+    // project creation
+
+    const expectBothEnabled =() => {
+        cy.get('.nav-link').contains('Custom').should('exist')
+        cy.get('.nav-link').contains('From Template').should('exist')
+
+        expectCreateProjectButton(true)
+    }
+
+    const expectCustomOnlyEnabled = () => {
+        cy.get('#packageId').should('exist')
+
+        expectCreateProjectButton(true)
+    }
+
+    const expectTemplateOnlyEnabled = () => {
+        cy.get('.nav-link').should('not.exist')
+        cy.get('#uuid').should('exist')
+        
+        expectCreateProjectButton(false)
+    }
+
+    const expectCreateProjectButton = (visible) => {
+        cy.visitApp(`/knowledge-models/${packageId}`)
+        cy.get('.top-header-actions .link-with-icon').contains('Create project').should(visible ? 'exist' : 'not.exist')
+    }
+
+    const creationTest = (projectCreation, role, expect) => {
+        it.only(`project creation ${projectCreation} for ${role}`, () => {
+            cy.get(`#${projectCreation}`).check({ force: true })
+            cy.clickBtn('Save', true)
+            cy.logout()
+
+            cy.loginAs(role)
+            cy.visitApp('/projects')
+            cy.clickBtn('Create')
+
+            expect()
+        })
+    }
+
+    const tests = [{
+        projectCreation: project.TemplateAndCustomQuestionnaireCreation,
+        researcher: expectBothEnabled,
+        datasteward: expectBothEnabled
+    }, {
+        projectCreation: project.TemplateQuestionnaireCreation,
+        researcher: expectTemplateOnlyEnabled,
+        datasteward: expectBothEnabled
+    }, {
+        projectCreation: project.CustomQuestionnaireCreation,
+        researcher: expectCustomOnlyEnabled,
+        datasteward: expectBothEnabled
+    }]
+
+    tests.forEach(({projectCreation, researcher, datasteward}) => {
+        creationTest(projectCreation, 'researcher', researcher)
+        creationTest(projectCreation, 'datasteward', datasteward)
+    })
+
 
     // questionnaire features
 
