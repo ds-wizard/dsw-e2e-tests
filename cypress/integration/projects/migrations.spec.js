@@ -42,10 +42,10 @@ describe('Questionnaire Migrations', () => {
         cy.loginAs('researcher')
     })
 
-    it('can click outdated badge', () => {
+    it('can click "update available" badge', () => {
         createQuestionnaire('vacation-planning', 0)
         cy.visitApp('/projects')
-        cy.get('.badge').contains('outdated').click()
+        cy.get('.badge').contains('update available').click()
         cy.get('h2').contains('Create migration').should('exist')
     })
 
