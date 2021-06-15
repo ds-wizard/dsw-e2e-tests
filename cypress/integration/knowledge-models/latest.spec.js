@@ -27,7 +27,7 @@ describe('Latest version', () => {
 
     it('project create', () => {
         cy.loginAs('researcher')
-        cy.visitApp(`/projects/create?selected=${orgId}:${kmId}:latest`)
+        cy.visitApp(`/projects/create/custom?selected=${orgId}:${kmId}:latest`)
         
         cy.fillFields({ name: 'My Project'})
         cy.clickBtn('Save')

@@ -64,6 +64,7 @@
             "enabled": true,
             "defaultValue": "RestrictedQuestionnaire"
         },
+        "questionnaireCreation": "TemplateAndCustomQuestionnaireCreation",
         "levels": {
             "enabled": true
         },

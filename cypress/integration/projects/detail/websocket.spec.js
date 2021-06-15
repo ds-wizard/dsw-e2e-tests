@@ -155,8 +155,10 @@ describe('Questionnaire WebSocket Tests', () => {
         cy.updateQuestionnaire(projectUuid, {
             visibility: project.VisibleEdit,
             sharing: project.Restricted,
+            description: null,
             name: projectName,
-            permissions: []
+            permissions: [],
+            isTemplate: false
         })
 
         // check error appears
