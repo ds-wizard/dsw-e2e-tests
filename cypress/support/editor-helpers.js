@@ -1,13 +1,16 @@
+import { dataCy } from './utils'
+
+
 export function open(kmId) {
-    cy.clickListingItemAction(kmId, 'Open Editor')
+    cy.clickListingItemAction(kmId, 'open-editor')
     cy.url().should('contain', '/km-editor/edit')
-    cy.get('.DetailNavigation').should('exist')
+    cy.getCy('km-editor').should('exist')
 }
 
 
 export function saveAndClose() {
-    cy.get('.btn').contains('Save').click()
-    cy.get('.btn-outline-primary').contains('Close').click()
+    cy.getCy('km-editor_save-button').click()
+    cy.getCy('km-editor_close-button').click()
 }
 
 
@@ -17,15 +20,15 @@ export function discardChanges() {
 
 
 export function addInputChild(child) {
-    cy.get('.link-add-child').contains(`Add ${child}`).click()
+    cy.getCy(`km-editor_input-children_${child}_add-button`).click()
 }
 
 
 export function openChild(child) {
     const childName = escapeRegExp(child)
     const re = new RegExp(`^${childName}$`)
-    cy.get('.input-child a').contains(re).click()
-    cy.get('.breadcrumb-item').contains(child).should('exist')
+    cy.getCy('reorderable_item').contains(re).click()
+    cy.contains(child).should('exist')
 }
 
 
@@ -43,51 +46,55 @@ export function traverseChildren(path) {
 
 
 export function deleteCurrent() {
-    cy.get('.btn').contains('Delete').click()
+    cy.getCy('km-editor_delete-button').click()
 }
 
 
 export function confirmDelete() {
-    cy.get('.modal-content .btn').contains('Delete').click()
+    cy.clickModalAction()
 }
 
 
 export function shouldNotHaveChild(child) {
     const childName = escapeRegExp(child)
     const re = new RegExp(`^${childName}$`)
-    cy.contains('.input-child a', re).should('not.exist')
+    cy.contains(dataCy('reorderable_item'), re).should('not.exist')
 }
 
 export function openKM() {
-    cy.get('.nav-link').contains('Knowledge Model').click()
-    cy.get('.KMEditor__Editor__KMEditor').should('exist')
+    cy.getCy('km-editor_nav_km').click()
+    cy.getCy('km-editor_km').should('exist')
 }
 
 
 export function openTags() {
-    cy.get('.nav-link').contains('Tags').click()
-    cy.get('.KMEditor__Editor__TagEditor').should('exist')
+    cy.getCy('km-editor_nav_tags').click()
+    cy.getCy('km-editor_tags').should('exist')
 }
 
 
 export function openPreview() {
-    cy.get('.nav-link').contains('Preview').click()
-    cy.get('.KMEditor__Editor__Preview').should('exist')
+    cy.getCy('km-editor_nav_preview').click()
+    cy.getCy('km-editor_preview').should('exist')
 }
 
 
 export function moveModalOpenItem(child) {
     const childName = escapeRegExp(child)
     const re = new RegExp(`^${childName}$`)
-    cy.get('.diff-tree-input').contains(re).closest('li').find('.caret').click()
+    cy.getCy('km-editor_move-modal_item')
+        .contains(re)
+        .closest(dataCy('km-editor_move-modal_item'))
+        .find(dataCy('km-editor_move-modal_item_caret'))
+        .click()
 }
 
 
 export function moveModalSelect(child) {
     const childName = escapeRegExp(child)
     const re = new RegExp(`^${childName}$`)
-    cy.get('.diff-tree-input').contains(re).click()
-    cy.get('.btn-primary').contains('Move').click()
+    cy.getCy('km-editor_move-modal_item').contains(re).click()
+    cy.clickModalAction()
 }
 
 

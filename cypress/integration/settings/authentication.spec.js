@@ -1,3 +1,5 @@
+import { dataCy } from '../../support/utils'
+
 describe('Settings / Authentication', () => {
     const testEmail = 'careen.herberts@example.com'
     const testPassword = 'passw0rd'
@@ -18,7 +20,7 @@ describe('Settings / Authentication', () => {
     it('default role', () => {
         // Update default role to admin
         cy.fillFields({ s_defaultRole: 'admin' })
-        cy.clickBtn('Save')
+        cy.submitForm()
         cy.logout()
 
         // Sign up as a new user
@@ -28,11 +30,11 @@ describe('Settings / Authentication', () => {
             firstName: 'Careen',
             lastName: 'Herberts',
             password: testPassword,
-            passwordConfirmation: testPassword
+            passwordConfirmation: testPassword,
+            c_accept: true
         })
-        cy.get('#accept').check()
-        cy.clickBtn('Sign Up')
-        cy.get('.lead').should('contain', 'Sign up was successful.')
+        cy.submitForm()
+        cy.expectSuccessPageMessage()
 
         // Activate the new user account
         cy.task('user:activate', { email: testEmail })
@@ -43,25 +45,25 @@ describe('Settings / Authentication', () => {
             email: testEmail,
             password: testPassword
         })
-        cy.clickBtn('Log In')
+        cy.submitForm()
 
         // Check that admin only items are visible
-        cy.get('.menu li').contains('Users')
-        cy.get('.sidebar-link').contains('Settings')
+        cy.getCy('menu_users-link').should('exist')
+        cy.getCy('menu_settings-link').should('exist')
     })
 
     it('registration enabled', () => {
         cy.checkToggle('registrationEnabled')
-        cy.clickBtn('Save', true)
+        cy.submitForm()
         cy.logout()
-        cy.get('.nav-link').contains('Sign Up').should('exist')
+        cy.getCy('public_nav_sign-up').should('exist')
     })
 
     it('registration not enabled', () => {
         cy.uncheckToggle('registrationEnabled')
-        cy.clickBtn('Save', true)
+        cy.submitForm()
         cy.logout()
-        cy.get('.nav-link').contains('Sign Up').should('not.exist')
+        cy.getCy('public_nav_sign-up').should('not.exist')
     })
 
     it('OpenID service', () => {
@@ -77,20 +79,23 @@ describe('Settings / Authentication', () => {
             'services\\.0\\.styleBackground': '#900',
             'services\\.0\\.styleColor': '#FFF',
         })
-        cy.get('.input-table .btn').contains('Add').click()
-        cy.getCy('input-name').type('hd')
-        cy.getCy('input-value').type('fit.cvut.cz')
+        
+        cy.getCy('settings_authentication_service_parameters')
+            .find(dataCy('form-group_list_add-button'))
+            .click()
+        cy.getCy('settings_authentication_service_parameter-name').type('hd')
+        cy.getCy('settings_authentication_service_parameter-value').type('fit.cvut.cz')
 
         // check callback url
-        cy.get('.form-value').contains('http://localhost:8080/auth/google/callback')
+        cy.getCy('form-group_text_callback-url').contains('http://localhost:8080/auth/google/callback')
 
         // Save and log out
-        cy.clickBtn('Save')
+        cy.submitForm()
         cy.logout()
 
         // Check the button is there
-        cy.get('.external-login-separator').should('exist')
-        cy.get('.btn-external-login')
+        cy.getCy('login_external_separator').should('exist')
+        cy.getCy('login_external_google')
             .should('contain', 'Google')
             .should('have.css', 'color', 'rgb(255, 255, 255)')
             .should('have.css', 'backgroundColor', 'rgb(153, 0, 0)')
@@ -99,12 +104,12 @@ describe('Settings / Authentication', () => {
         // Log in again and remove the OpenID service
         cy.loginAs('admin')
         cy.visitApp('/settings/authentication')
-        cy.clickBtn('Remove')
-        cy.clickBtn('Save')
+        cy.getCy('settings_authentication_service_remove-button').click()
+        cy.submitForm()
         cy.logout()
 
         // Check that the button is gone
-        cy.get('.external-login-separator').should('not.exist')
-        cy.get('.btn-external-login').should('not.exist')
+        cy.getCy('login_external_separator').should('not.exist')
+        cy.getCy('login_external_google').should('not.exist')
     })
 })

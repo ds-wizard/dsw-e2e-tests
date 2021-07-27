@@ -31,11 +31,11 @@ describe('Users Edit', () => {
         }
 
         // edit user profile
-        cy.clickListingItemAction(user.email, 'Edit')
+        cy.clickListingItemAction(user.email, 'edit')
         cy.url().should('contain', '/users/edit/')
         cy.fillFields(newUser)
-        cy.clickBtn('Save')
-        cy.expectAlert('success', 'Profile was successfully updated')
+        cy.submitForm()
+        cy.expectSuccessFlashMessage()
 
         // check it is correct in index table
         cy.visitApp('/users')
@@ -45,7 +45,7 @@ describe('Users Edit', () => {
             .and('contain', 'Data Steward')
 
         // check it is correct when reopened
-        cy.clickListingItemAction(newUser.email, 'Edit')
+        cy.clickListingItemAction(newUser.email, 'edit')
         cy.checkFields(newUser)
     })
 
@@ -53,21 +53,20 @@ describe('Users Edit', () => {
         const password = 'new/passw0rd'
 
         // open password edit form and save
-        cy.clickListingItemAction(user.email, 'Edit')
+        cy.clickListingItemAction(user.email, 'edit')
         cy.url().should('contain', '/users/edit/')
-        cy.get('.nav-pills').should('exist') // make sure to not click Password link before it's there
-        cy.clickLink('Password')
+        cy.getCy('user_nav_password').click()
         cy.fillFields({ password, passwordConfirmation: password })
-        cy.clickBtn('Save')
-        cy.expectAlert('success', 'Password was successfully changed')
-
+        cy.submitForm()
+        cy.expectSuccessFlashMessage()
+        
         // make sure user is active
         cy.task('user:activate', { email: user.email })
 
         // logout and try to login with the new password
         cy.logout()
         cy.fillFields({ email: user.email, password })
-        cy.clickBtn('Log In')
+        cy.submitForm()
         cy.url().should('contain', '/dashboard')
     })
 })

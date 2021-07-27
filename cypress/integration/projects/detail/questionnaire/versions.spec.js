@@ -48,7 +48,7 @@ describe('Questionnaire Versions', () => {
         project.open(projectName)
     })
 
-    it('view questionnaire changes', () => {
+    it.only('view questionnaire changes', () => {
         openVersionHistory()
 
         // answer
@@ -97,13 +97,13 @@ describe('Questionnaire Versions', () => {
         // rename
         clickEventAction('Rename this version')
         cy.fillFields({ name: '2.0.0' })
-        cy.clickModalBtn('Save')
+        cy.clickModalAction()
         cy.get('.history-event .badge-secondary').contains('1.0.0').should('not.exist')
         cy.get('.history-event .badge-secondary').contains('2.0.0').should('exist')
 
         // delete
         clickEventAction('Delete this version')
-        cy.clickModalBtn('Delete')
+        cy.clickModalAction()
         cy.get('.history-event .badge-secondary').should('not.exist')
     })
 
@@ -114,7 +114,7 @@ describe('Questionnaire Versions', () => {
         expectEventCount(2)
 
         clickEventAction('Revert to this version')
-        cy.clickModalBtn('Revert')
+        cy.clickModalAction()
 
         project.checkAnswerNotChecked('Answer 1.1')
         openVersionHistory()

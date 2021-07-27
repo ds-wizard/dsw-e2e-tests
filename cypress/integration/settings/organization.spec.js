@@ -21,7 +21,7 @@ describe('Settings / Organization', () => {
 
         // fill and save
         cy.fillFields(organization)
-        cy.clickBtn('Save')
+        cy.submitForm()
 
         // reload page and check values
         cy.visitApp('/settings/organization')
@@ -37,7 +37,7 @@ describe('Settings / Organization', () => {
 
         // Save affiliations
         cy.fillFields({ affiliations: affiliations.join('\n') })
-        cy.clickBtn('Save', true)
+        cy.submitForm()
 
         // Go to sign up and focus affiliation field
         cy.logout()
@@ -46,7 +46,7 @@ describe('Settings / Organization', () => {
 
         // Check that the affiliation options are available
         affiliations.forEach(affiliation => {
-            cy.get('.typehints li').contains(affiliation).should('exist')
+            cy.getCy('form-group_typehints_item').contains(affiliation).should('exist')
         })
     })
 })

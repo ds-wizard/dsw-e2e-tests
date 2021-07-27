@@ -50,6 +50,7 @@ describe('Anonymous projects', () => {
         cy.visitApp(`/knowledge-models/${packageId}/preview`)
         cy.clickBtn('Create project')
         cy.url().should('contain', '/projects/')
+        cy.get('.DetailNavigation__Row').should('exist')
 
         // edit something
         project.selectAnswer('Answer 1')
@@ -95,7 +96,7 @@ describe('Anonymous projects', () => {
             cy.get('.DetailNavigation')
             cy.clickBtn('Share')
             cy.uncheckToggle('sharingEnabled')
-            cy.clickModalBtn('Save')
+            cy.clickModalAction()
 
             // logout
             cy.logout()

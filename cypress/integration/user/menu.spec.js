@@ -1,53 +1,59 @@
 describe('Menu', () => {
     [{
         role: 'admin',
-        menu: {
-            contains: ['Users', 'Knowledge Model Editor', 'Knowledge Models', 'Projects', 'Documents', 'Templates'],
-            notContais: []
-        },
-        sidebarLinks: {
-            contains: ['Help', 'Settings', 'Albert Einstein'],
-            notContains: []
-        }
+        contains: [
+            'users-link', 
+            'km-editor-link', 
+            'km-link',
+            'projects-link', 
+            'documents-link', 
+            'templates-link', 
+            'settings-link', 
+            'help', 
+            'profile'
+        ],
+        notContains: []
     }, {
         role: 'datasteward',
-        menu:{
-            contains: ['Knowledge Model Editor', 'Knowledge Models', 'Projects', 'Templates'],
-            notContais: ['Users', 'Documents']
-        },
-        sidebarLinks: {
-            contains: ['Help', 'Nikola Tesla'],
-            notContains: ['Settings']
-        }
+        contains: [
+            'km-editor-link', 
+            'km-link',
+            'projects-link', 
+            'templates-link', 
+            'help', 
+            'profile'
+        ],
+        notContains: [
+            'users-link',
+            'documents-link', 
+            'settings-link', 
+        ]
     }, {
         role: 'researcher',
-        menu: {
-            contains: ['Knowledge Models', 'Projects'],
-            notContais: ['Users', 'Knowledge Model Editor', 'Documents', 'Templates']
-        },
-        sidebarLinks: {
-            contains: ['Help', 'Nikola Tesla'],
-            notContains: ['Settings']
-        }
+        contains: [ 
+            'projects-link', 
+            'km-link',
+            'help', 
+            'profile'
+        ],
+        notContains: [
+            'users-link',
+            'km-editor-link',
+            'documents-link', 
+            'templates-link', 
+            'settings-link', 
+        ]
     }].forEach((roleItems) => {
         it('should contain correct items for ' + roleItems.role, () => {
             cy.loginAs(roleItems.role)
             cy.visitApp('/dashboard')
 
-            roleItems.menu.contains.forEach((item) => {
-                cy.get('.menu li').contains(item)
+            roleItems.contains.forEach((item) => {
+                cy.getCy(`menu_${item}`).should('exist')
             })
 
-            roleItems.menu.notContais.forEach((item) => {
-                cy.get('.menu li').contains(item).should('not.exist')
-            })
-
-            roleItems.menu.contains.forEach((item) => {
-                cy.get('.sidebar-link').contains(item)
-            })
-
-            roleItems.menu.notContais.forEach((item) => {
-                cy.get('.sidebar-link').contains(item).should('not.exist')
+            roleItems.notContains.forEach((item) => {
+                cy.getCy(`menu_${item}`).should('not.exist')
             })
         })
     })

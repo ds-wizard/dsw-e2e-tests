@@ -1,4 +1,5 @@
 import * as editor from '../../../support/editor-helpers'
+import { dataCy } from '../../../support/utils'
 
 
 describe('KM Editor Edit Entity', () => {
@@ -52,14 +53,14 @@ describe('KM Editor Edit Entity', () => {
             editor.open(kmId)
             editor.traverseChildren(['Tag 1'])
             cy.fillFields(tag)
-            cy.get('.form-group-color-picker a:nth-child(7)').click()
+            cy.getCy('form-group_color_color-button', ':nth-child(7)').click()
             editor.saveAndClose()
 
             // Open editor again and check that changes were saved
             editor.open(kmId)
             editor.traverseChildren([tag.name])
             cy.checkFields(tag)
-            cy.get('.form-group-color-picker a:nth-child(7)').should('have.class', 'selected')
+            cy.getCy('form-group_color_color-button', ':nth-child(7)').should('have.class', 'selected')
         })
 
         it('edit Integration', () => {
@@ -76,36 +77,40 @@ describe('KM Editor Edit Entity', () => {
                 responseNameField: 'objectString'
             }
 
-            const getPropsFormGroup = () => cy.get('.form-group').contains('Props').parent('div')
-            const getHeadersFormGroup = () => cy.get('.form-group').contains('Request Headers').parent('div')
-
             // Edit integration
             editor.open(kmId)
             editor.traverseChildren(['Integration 1'])
+            
             // edit form fields
             cy.fillFields(integration)
+            
             // edit props
-            getPropsFormGroup().find('.form-control').type('new-prop')
-            getPropsFormGroup().find('.input-group .btn').contains('Add').click()
-            cy.get('.list-group.list-group-hover li').contains('database').find('a').contains('Remove').click()
+            cy.getCy('value-list_input').type('new-prop')
+            cy.getCy('value-list_add-button').click()
+            cy.getCy('value-list_add-button').click()
+            cy.getCy('value-list_item').contains('database').find(dataCy('value-list_remove-button')).click()
+            
             // edit headers
-            getHeadersFormGroup().find('.input-group:last-child .btn').click()
-            getHeadersFormGroup().find('.input-group:last-child input:first-child').clear().type('X-Auth')
-            getHeadersFormGroup().find('.input-group:last-child input:nth-child(2)').clear().type('abcd')
+            cy.getCy('integration_headers_item', ':last-child').find(dataCy('integration_headers_remove-button')).click()
+            cy.getCy('integration_headers_name').clear().type('X-Auth')
+            cy.getCy('integration_headers_value').clear().type('abcd')
             editor.saveAndClose()
 
             // Open editor again and check that changes were saved
             editor.open(kmId)
             editor.traverseChildren([integration.name])
+            
             //  check form fields
             cy.checkFields(integration)
+            
             // check props
-            cy.get('.list-group.list-group-hover li').contains('new-prop').should('exist')
-            cy.get('.list-group.list-group-hover li').contains('category').should('exist')
-            cy.get('.list-group.list-group-hover li').contains('database').should('not.exist')
+            cy.getCy('value-list_item').contains('new-prop').should('exist')
+            cy.getCy('value-list_item').contains('category').should('exist')
+            cy.getCy('value-list_item').contains('database').should('not.exist')
+            
             // check headers
-            getHeadersFormGroup().find('.input-group:last-child input:first-child').should('have.value', 'X-Auth')
-            getHeadersFormGroup().find('.input-group:last-child input:nth-child(2)').should('have.value', 'abcd')
+            cy.getCy('integration_headers_name').should('have.value', 'X-Auth')
+            cy.getCy('integration_headers_value').should('have.value', 'abcd')
         })
     })
 
@@ -116,7 +121,6 @@ describe('KM Editor Edit Entity', () => {
             question: {
                 title: 'Another Options Question',
                 text: 'Another options question text',
-                s_requiredLevel: '1'
             }
         }, {
             testName: 'edit ListQuestion',
@@ -124,7 +128,6 @@ describe('KM Editor Edit Entity', () => {
             question: {
                 title: 'Another List Question',
                 text: 'Another list question text',
-                s_requiredLevel: '2'
             }
         }, {
             testName: 'edit ValueQuestion',
@@ -148,7 +151,6 @@ describe('KM Editor Edit Entity', () => {
             question: {
                 title: 'Another Multi-Choice Question',
                 text: 'Another Multi-Choice question text',
-                s_requiredLevel: '2'
             }
         }, {
             testName: 'change to OptionsQuestion',
@@ -263,14 +265,14 @@ describe('KM Editor Edit Entity', () => {
                 const answer = {
                     label: 'No',
                     advice: 'This is not the best option.',
-                    'metricMeasures\\.3\\.weight': '1',
-                    'metricMeasures\\.3\\.measure': '0'
+                    'metricMeasure-8db30660-d4e5-4c0a-bf3e-553f3f0f997a-weight': '1',
+                    'metricMeasure-8db30660-d4e5-4c0a-bf3e-553f3f0f997a-measure': '0'
                 }
 
                 // Open editor and edit answer
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, answerTitle])
-                cy.get('.metric-view:nth-child(4) .form-check-toggle').click()
+                cy.checkToggle('metricMeasure-8db30660-d4e5-4c0a-bf3e-553f3f0f997a-enabled')
                 cy.fillFields(answer)
                 editor.saveAndClose()
 

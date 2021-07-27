@@ -1,4 +1,6 @@
 import * as migration from '../../../support/migration-helpers'
+import { dataCy } from '../../../support/utils'
+
 
 describe('KM Editor Migrations', () => {
     const config = new migration.Config(
@@ -31,30 +33,32 @@ describe('KM Editor Migrations', () => {
         cy.getListingItem(config.childKmId)
             .should('contain', config.editorName)
             .and('contain', config.getParentPackageId('1.0.0'))
-        cy.clickListingItemAction(config.editorName, 'Upgrade')
-        cy.clickModalBtn('Cancel')
+        cy.clickListingItemAction(config.editorName, 'upgrade')
+        cy.clickModalCancel()
     })
 
     it('can click "update available" badge', () => {
         migration.prepareChildKmEditor(config, '1.0.0')
-        cy.get('.badge').contains('update available').click()
-        cy.get('.modal-content').contains('Create migration').should('exist')
+        cy.getCy('km-editor_list_outdated-badge').click()
+        cy.expectModalOpen('km-editor-upgrade')
     })
 
     it('can pause, resume, and cancel migration', () => {
         migration.createMigration(config, '1.0.0', '1.10.0')
 
-        cy.contains('Add chapter')
-        cy.clickBtn('Apply')
+        migration.expectEvent('1a6a2d81-96b0-48ef-8c15-6668be5133e0')
+        migration.apply()
 
         cy.visitApp('/km-editor')
-        cy.clickListingItemAction(config.editorName, 'Continue migration')
-        cy.contains('Add question')
-        cy.clickBtn('Reject')
+        cy.clickListingItemAction(config.editorName, 'continue-migration')
+
+        migration.expectEvent('fb9fe60e-ebec-4c73-a157-189c125e4197')
+        migration.reject()
 
         cy.visitApp('/km-editor')
-        cy.clickListingItemAction(config.editorName, 'Cancel migration')
-        cy.getListingItem(config.childKmId).should('contain', config.editorName).and('contain', 'Upgrade')
+        cy.clickListingItemAction(config.editorName, 'cancel-migration')
+        cy.getListingItem(config.childKmId).should('contain', config.editorName)
+        cy.getListingItem(config.childKmId).find(dataCy('km-editor_list_outdated-badge')).should('exist')
     })
 
     // CHAPTER
@@ -62,6 +66,7 @@ describe('KM Editor Migrations', () => {
         migration.createMigration(config, '1.0.0', '1.1.0')
 
         cy.contains('Add chapter')
+        migration.expectEvent('1a6a2d81-96b0-48ef-8c15-6668be5133e0')
         migration.checkMigrationForm([
             {
                 'label': 'Title', 'validate': (x) => {
@@ -75,12 +80,13 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeAdded(['Chapter 2'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Question 2.1')
-        cy.clickBtn('Apply') // some question (no assertions now)
-        cy.contains('Question 2.2')
-        cy.clickBtn('Apply') // some question (no assertions now)
+        migration.expectEvent('fb9fe60e-ebec-4c73-a157-189c125e4197')
+        migration.apply() // some question (no assertions now)
+
+        migration.expectEvent('db1be474-da77-4ce9-80df-8ebc9d108d3d')
+        migration.apply() // some question (no assertions now)
 
         migration.finishMigrationAndPublish(1, 1, 0)
         migration.verifyChildPackageForMigration(config, '1.1.0', '1.0.0')
@@ -89,7 +95,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "edit chapter"', () => {
         migration.createMigration(config, '1.1.0', '1.1.1')
 
-        cy.contains('Edit chapter')
+        migration.expectEvent('e75f8d8c-76ef-4ce7-a7b6-86d45052170f')
         migration.checkMigrationForm([
             {
                 'label': 'Title', 'validate': (x) => {
@@ -113,9 +119,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Chapter 2'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('**New** chapter text')
+        migration.expectEvent('9135e30e-3c72-426d-a3b0-8e7551576adc')
         migration.checkMigrationForm([
             {
                 'label': 'Title', 'validate': (x) => {
@@ -137,7 +143,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Chapter 2'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 1, 1)
         migration.verifyChildPackageForMigration(config, '1.1.1', '1.1.0')
@@ -146,7 +152,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "delete chapter"', () => {
         migration.createMigration(config, '1.1.1', '1.1.2')
 
-        cy.contains('Delete chapter')
+        migration.expectEvent('60575da5-6e8f-43e4-9829-ca535618f060')
         migration.checkMigrationForm([
             {
                 'label': 'Title', 'validate': (x) => {
@@ -167,7 +173,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeDeleted(['Chapter 2'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 1, 2)
         migration.verifyChildPackageForMigration(config, '1.1.2', '1.1.1')
@@ -177,7 +183,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "add expert"', () => {
         migration.createMigration(config, '1.1.2', '1.2.0')
 
-        cy.contains('Add expert')
+        migration.expectEvent('0e7c20a4-4181-49c9-8a7b-1014d6500f60')
         migration.checkMigrationForm([
             {
                 'label': 'Name', 'validate': (x) => {
@@ -191,7 +197,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeAdded(['Leonardo da Vinci'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 2, 0)
         migration.verifyChildPackageForMigration(config, '1.2.0', '1.1.2')
@@ -200,7 +206,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "edit expert"', () => {
         migration.createMigration(config, '1.2.0', '1.2.1')
 
-        cy.contains('Edit expert')
+        migration.expectEvent('d0986c0b-42d9-4311-a1b2-b66004fc6ca3')
         migration.checkMigrationForm([
             {
                 'label': 'Name', 'validate': (x) => {
@@ -216,7 +222,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Leonardo da Vinci'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 2, 1)
         migration.verifyChildPackageForMigration(config, '1.2.1', '1.2.0')
@@ -225,7 +231,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "delete expert"', () => {
         migration.createMigration(config, '1.2.1', '1.2.2')
 
-        cy.contains('Delete expert')
+        migration.expectEvent('fddcc925-ac70-4caa-a6ba-01ae6d9ca946')
         migration.checkMigrationForm([
             {
                 'label': 'Name', 'validate': (x) => {
@@ -239,7 +245,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeDeleted(['Leonardo da Vinci (di ser Piero)'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 2, 2)
         migration.verifyChildPackageForMigration(config, '1.2.2', '1.2.1')
@@ -249,7 +255,8 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "add reference"', () => {
         migration.createMigration(config, '1.2.2', '1.3.0')
 
-        cy.contains('atq') // Add reference (book)
+        // Add reference (book)
+        migration.expectEvent('c9e7f61c-4037-4d83-93fe-9ab4be9cb04b')
         migration.checkMigrationForm([
             {
                 'label': 'Reference Type', 'validate': (x) => {
@@ -263,9 +270,10 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeAdded(['atq'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('http://example.com') // Add reference (URL)
+        // Add reference (URL)
+        migration.expectEvent('227d70b9-6ace-4bc7-8051-3c334bd9c865')
         migration.checkMigrationForm([
             {
                 'label': 'Reference Type', 'validate': (x) => {
@@ -284,9 +292,10 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeAdded(['See also'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('4ae6a08a-c94e-4a0f-8391-24765ad8fdb4') // Add reference (cross reference)
+        // Add reference (cross reference)
+        migration.expectEvent('bba8dfa4-93f9-445e-b35d-cc00e07fb700')
         migration.checkMigrationForm([
             {
                 'label': 'Reference Type', 'validate': (x) => {
@@ -305,7 +314,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeAdded(['4ae6a08a-c94e-4a0f-8391-24765ad8fdb4'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 3, 0)
         migration.verifyChildPackageForMigration(config, '1.3.0', '1.2.2')
@@ -314,7 +323,8 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "edit reference"', () => {
         migration.createMigration(config, '1.3.0', '1.3.1')
 
-        cy.contains('atq') // Edit reference (book)
+        // Edit reference (book)
+        migration.expectEvent('65d2540b-e268-42bc-9d6b-d2375b9f96ea')
         migration.checkMigrationForm([
             {
                 'label': 'Reference Type', 'validate': (x) => {
@@ -329,9 +339,10 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['xyz'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('http://example.com') // Edit reference (URL)
+        // Edit reference (URL)
+        migration.expectEvent('f1dcd85e-62f5-4c37-9fcf-8b8ef10d5d4b')
         migration.checkMigrationForm([
             {
                 'label': 'Reference Type', 'validate': (x) => {
@@ -352,9 +363,10 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Better Google it'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('4ae6a08a-c94e-4a0f-8391-24765ad8fdb4') // Edit reference (cross reference)
+        // Edit reference (cross reference)
+        migration.expectEvent('0f8be8eb-e9f9-494c-a251-0a0ba33aaa86')
         migration.checkMigrationForm([
             {
                 'label': 'Reference Type', 'validate': (x) => {
@@ -374,9 +386,10 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['4ae6a08a-c94e-4a0f-8391-24765ad8fdb4'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Type') // Change order of references
+        // Change order of references
+        migration.expectEvent('96f716e1-3ac0-4576-ad0c-28ff241c5354')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -406,7 +419,7 @@ describe('KM Editor Migrations', () => {
             { 'label': 'Experts', 'validate': (x) => { } },
         ])
         migration.checkDiffTreeEdited(['Question 1.1'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 3, 1)
         migration.verifyChildPackageForMigration(config, '1.3.1', '1.3.0')
@@ -415,7 +428,8 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "delete reference"', () => {
         migration.createMigration(config, '1.3.1', '1.3.2')
 
-        cy.contains('http://google.com') // Delete reference (URL)
+        // Delete reference (URL)
+        migration.expectEvent('aaf9ef18-7bb4-4c03-a891-fd45fce523e6')
         migration.checkMigrationForm([
             {
                 'label': 'Reference Type', 'validate': (x) => {
@@ -434,9 +448,10 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeDeleted(['Better Google it'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('4ae6a08a-c94e-4a0f-8391-24765ad8fdb4') // Delete reference (cross reference)
+        // Delete reference (cross reference)
+        migration.expectEvent('990aac24-7409-4af8-9180-b3bf1090c904')
         migration.checkMigrationForm([
             {
                 'label': 'Reference Type', 'validate': (x) => {
@@ -455,9 +470,10 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeDeleted(['4ae6a08a-c94e-4a0f-8391-24765ad8fdb4'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('xyz') // Delete reference (book)
+        // Delete reference (book)
+        migration.expectEvent('fd97fa49-4338-4568-8d57-d06abb1cbb43')
         migration.checkMigrationForm([
             {
                 'label': 'Reference Type', 'validate': (x) => {
@@ -471,7 +487,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeDeleted(['xyz'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 3, 2)
         migration.verifyChildPackageForMigration(config, '1.3.2', '1.3.1')
@@ -482,6 +498,7 @@ describe('KM Editor Migrations', () => {
         migration.createMigration(config, '1.3.2', '1.4.0')
 
         cy.contains('Tag 1')
+        migration.expectEvent('9fa64b40-1e8a-4b11-b9ce-4dda6758caad')
         migration.checkMigrationForm([
             {
                 'label': 'Name', 'validate': (x) => {
@@ -500,9 +517,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeAdded(['Tag 1'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Tag 2')
+        migration.expectEvent('f9057be2-57f2-4089-8534-7dcd419d795a')
         migration.checkMigrationForm([
             {
                 'label': 'Name', 'validate': (x) => {
@@ -521,7 +538,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeAdded(['Tag 2'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 4, 0)
         migration.verifyChildPackageForMigration(config, '1.4.0', '1.3.2')
@@ -530,7 +547,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "edit tag"', () => {
         migration.createMigration(config, '1.4.0', '1.4.1')
 
-        cy.contains('Tag 2')
+        migration.expectEvent('0b66a862-6f24-425f-ab21-8d8c463e947b')
         migration.checkMigrationForm([
             {
                 'label': 'Name', 'validate': (x) => {
@@ -550,9 +567,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Tag 2'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Tag 01')
+        migration.expectEvent('196c429f-9004-44f6-a415-28bbacf23a58')
         migration.checkMigrationForm([
             {
                 'label': 'Name', 'validate': (x) => {
@@ -574,9 +591,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Tag 01'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Edit question')
+        migration.expectEvent('0408f280-97ce-46ea-bf9e-7e58720940ac')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -608,7 +625,7 @@ describe('KM Editor Migrations', () => {
             },
         ])
         migration.checkDiffTreeEdited(['Question 1.1'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 4, 1)
         migration.verifyChildPackageForMigration(config, '1.4.1', '1.4.0')
@@ -617,7 +634,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "delete tag"', () => {
         migration.createMigration(config, '1.4.1', '1.4.2')
 
-        cy.contains('Tag 01')
+        migration.expectEvent('6560f955-5d81-4bc4-9117-068bdee4db0a')
         migration.checkMigrationForm([
             {
                 'label': 'Name', 'validate': (x) => {
@@ -636,9 +653,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeDeleted(['Tag 01'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Tag 2')
+        migration.expectEvent('7efc1b58-d74b-4d35-b7ab-1418808b83ad')
         migration.checkMigrationForm([
             {
                 'label': 'Name', 'validate': (x) => {
@@ -657,7 +674,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeDeleted(['Tag 2'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 4, 2)
         migration.verifyChildPackageForMigration(config, '1.4.2', '1.4.1')
@@ -667,7 +684,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "add integration"', () => {
         migration.createMigration(config, '1.4.2', '1.5.0')
 
-        cy.contains('Add integration')
+        migration.expectEvent('5fed062d-41c9-48bd-b0f1-72441aefd981')
         migration.checkMigrationForm([
             {
                 'label': 'ID', 'validate': (x) => {
@@ -726,7 +743,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeAdded(['My Test Integration'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 5, 0)
         migration.verifyChildPackageForMigration(config, '1.5.0', '1.4.2')
@@ -735,7 +752,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "edit integration"', () => {
         migration.createMigration(config, '1.5.0', '1.5.1')
 
-        cy.contains('Edit integration')
+        migration.expectEvent('061f5fd2-fdcd-4882-befe-8a740c542878')
         migration.checkMigrationForm([
             {
                 'label': 'ID', 'validate': (x) => {
@@ -805,7 +822,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Test Integration'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 5, 1)
         migration.verifyChildPackageForMigration(config, '1.5.1', '1.5.0')
@@ -814,7 +831,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "delete integration"', () => {
         migration.createMigration(config, '1.5.1', '1.5.2')
 
-        cy.contains('Delete integration')
+        migration.expectEvent('974f0ecf-208f-4316-80ba-7ea1e2585da1')
         migration.checkMigrationForm([
             {
                 'label': 'ID', 'validate': (x) => {
@@ -873,7 +890,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeDeleted(['Test Integration'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 5, 2)
         migration.verifyChildPackageForMigration(config, '1.5.2', '1.5.1')
@@ -883,7 +900,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "add question"', () => {
         migration.createMigration(config, '1.5.2', '1.6.0')
 
-        cy.contains('Add question')
+        migration.expectEvent('4eea8d70-646f-4640-b6bd-205a8f57e806')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -905,9 +922,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeAdded(['Question 1.2'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Question 1.3')
+        migration.expectEvent('d45f1014-9c89-4678-baa8-db9850d4b5c9')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -931,9 +948,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeAdded(['Question 1.3'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Question 1.4')
+        migration.expectEvent('65ec27bb-2579-4d4c-b641-7de47392363c')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -960,12 +977,12 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeAdded(['Question 1.4'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Add integration')
-        cy.clickBtn('Apply')
+        migration.expectEvent('be7b2164-f50f-4486-81e5-26c1858944bd')
+        migration.apply()
 
-        cy.contains('Question 1.5')
+        migration.expectEvent('2e7584bf-c129-49cb-82d0-04da97124cee')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -997,7 +1014,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeAdded(['Question 1.5'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 6, 0)
         migration.verifyChildPackageForMigration(config, '1.6.0', '1.5.2')
@@ -1006,7 +1023,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "edit question"', () => {
         migration.createMigration(config, '1.6.0', '1.6.1')
 
-        cy.contains('Edit question')
+        migration.expectEvent('91d7260e-6835-4b19-a601-a8c0c17f5d31')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1046,9 +1063,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Question 1.2 (options)'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Question 1.3')
+        migration.expectEvent('c3540ce9-e4b4-4594-b078-009d500434ff')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1089,9 +1106,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Question 1.3 (list)'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Question 1.4')
+        migration.expectEvent('f5ad501c-ac6d-4357-8e6d-2711e056c148')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1132,9 +1149,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Question 1.4 (value)'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Question 1.5')
+        migration.expectEvent('fad4a198-5f53-40eb-a09e-837ba29b063b')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1175,12 +1192,12 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Question 1.5 (integration)'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Add integration')
-        cy.clickBtn('Apply')
+        migration.expectEvent('1cce11e4-bb09-4169-9de6-fb6b3a355141')
+        migration.apply()
 
-        cy.contains('Question 1.5')
+        migration.expectEvent('c43ea178-9a65-435c-b551-759a531a5cc5')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1220,7 +1237,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Question 1.5 (integration)'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 6, 1)
         migration.verifyChildPackageForMigration(config, '1.6.1', '1.6.0')
@@ -1229,10 +1246,10 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "edit question"', () => {
         migration.createMigration(config, '1.6.1', '1.6.2')
 
-        cy.contains('Delete integration')
-        cy.clickBtn('Apply')
+        migration.expectEvent('ebdc4add-a99a-4b80-afad-660f19106b9d')
+        migration.apply()
 
-        cy.contains('Edit question')
+        migration.expectEvent('f72de8ff-7230-4f3e-98c8-0ac423d79498')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1273,9 +1290,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Question 1.4 (items)'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Question 1.5 (value)')
+        migration.expectEvent('64ff7d51-a5ab-49a6-a85b-91dcb8f30897')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1315,9 +1332,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Question 1.5 (value)'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Question 1.3 (list)')
+        migration.expectEvent('728e5090-0270-414d-aed9-158d0e2a1ef1')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1357,9 +1374,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Question 1.3 (list)'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Question 1.3 (options)')
+        migration.expectEvent('0b737043-4544-488b-82ba-371ef559cbc7')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1399,9 +1416,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Question 1.3 (options)'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Question 1.2 (value)')
+        migration.expectEvent('8a9f599e-ad41-43ee-bb42-c42fa767adf6')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1442,9 +1459,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Question 1.2 (value)'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Question 1.2 (integration)')
+        migration.expectEvent('67e859e4-0c3f-41de-8976-153647b58f58')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1488,7 +1505,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Question 1.2 (integration)'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 6, 2)
         migration.verifyChildPackageForMigration(config, '1.6.2', '1.6.1')
@@ -1497,10 +1514,10 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "delete question"', () => {
         migration.createMigration(config, '1.6.2', '1.6.3')
 
-        cy.contains('Delete integration')
-        cy.clickBtn('Apply')
+        migration.expectEvent('dce24a0f-9bc6-4a3f-ac86-468a41603383')
+        migration.apply()
 
-        cy.contains('Delete question')
+        migration.expectEvent('5bd4a2be-a576-4ece-bbf2-37ff4cff4549')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1539,9 +1556,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeDeleted(['Question 1.2 (integration)'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Question 1.3 (options)')
+        migration.expectEvent('2d4f3878-cbb5-494d-b8cb-0b0d4e60a68c')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1580,9 +1597,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeDeleted(['Question 1.3 (options)'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Question 1.4 (items)')
+        migration.expectEvent('489d747f-7795-4eac-bab7-9191d0db414f')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1621,9 +1638,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeDeleted(['Question 1.4 (items)'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Question 1.5 (value)')
+        migration.expectEvent('54302389-bfe1-45ce-9527-df5afb45ba36')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1662,7 +1679,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeDeleted(['Question 1.5 (value)'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 6, 3)
         migration.verifyChildPackageForMigration(config, '1.6.3', '1.6.2')
@@ -1672,7 +1689,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "add answer"', () => {
         migration.createMigration(config, '1.6.3', '1.7.0')
 
-        cy.contains('Add answer')
+        migration.expectEvent('9fff84eb-bc94-4577-b03d-1dedfebc4c9a')
         migration.checkMigrationForm([
             {
                 'label': 'Label', 'validate': (x) => {
@@ -1689,9 +1706,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeAdded(['Answer 1.1c'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Answer 1.1d')
+        migration.expectEvent('6ad4c1a1-d869-4b31-a0f9-ce99d15059fd')
         migration.checkMigrationForm([
             {
                 'label': 'Label', 'validate': (x) => {
@@ -1710,7 +1727,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeAdded(['Answer 1.1d'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 7, 0)
         migration.verifyChildPackageForMigration(config, '1.7.0', '1.6.3')
@@ -1719,7 +1736,8 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "edit answer"', () => {
         migration.createMigration(config, '1.7.0', '1.7.1')
 
-        cy.contains('Edit question') // reorder
+        // reorder
+        migration.expectEvent('2d1eeb71-c890-4954-afd1-46ffbd20712b')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1765,9 +1783,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Question 1.1'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Edit answer')
+        migration.expectEvent('72fc7f05-644c-4bd2-b77b-190952934138')
         migration.checkMigrationForm([
             {
                 'label': 'Label', 'validate': (x) => {
@@ -1795,9 +1813,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Answer 1.1 one'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Answer 1.1c')
+        migration.expectEvent('eb77d742-42f9-4216-b53a-e8512a84898c')
         migration.checkMigrationForm([
             {
                 'label': 'Label', 'validate': (x) => {
@@ -1824,7 +1842,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Answer 1.1 two'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 7, 1)
         migration.verifyChildPackageForMigration(config, '1.7.1', '1.7.0')
@@ -1834,7 +1852,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "delete answer"', () => {
         migration.createMigration(config, '1.7.1', '1.7.2')
 
-        cy.contains('Delete answer')
+        migration.expectEvent('134b55b7-c5d6-45ce-8879-39256043c9b1')
         migration.checkMigrationForm([
             {
                 'label': 'Label', 'validate': (x) => {
@@ -1860,9 +1878,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeDeleted(['Answer 1.1 one'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Answer 1.1 two')
+        migration.expectEvent('9765b08a-bc7c-41a6-8485-b51164b744d8')
         migration.checkMigrationForm([
             {
                 'label': 'Label', 'validate': (x) => {
@@ -1888,7 +1906,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeDeleted(['Answer 1.1 two'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 7, 2)
         migration.verifyChildPackageForMigration(config, '1.7.2', '1.7.1')
@@ -1898,7 +1916,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "add follow-up question"', () => {
         migration.createMigration(config, '1.7.2', '1.8.0')
 
-        cy.contains('Add question')
+        migration.expectEvent('42d14c51-19e3-444a-b63b-8f63908b87b7')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1920,9 +1938,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeAdded(['Followup options 1.1a.1'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Followup value 1.1a.2')
+        migration.expectEvent('78461d3b-788c-4c59-9346-851e31d87a26')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1949,9 +1967,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeAdded(['Followup value 1.1a.2'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Followup list 1.1a.3')
+        migration.expectEvent('a3a74fae-5926-4f14-a4dd-13907531c331')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -1973,16 +1991,18 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeAdded(['Followup list 1.1a.3'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 8, 0)
         migration.verifyChildPackageForMigration(config, '1.8.0', '1.7.2')
     })
 
+    
     it('can migrate with applying "edit follow-up question"', () => {
         migration.createMigration(config, '1.8.0', '1.8.1')
 
-        cy.contains('Answer 1.1a')  // reorder followups
+        // reorder followups
+        cy.getCy('km-editor_migration').should('exist')
         migration.checkMigrationForm([
             {
                 'label': 'Label', 'validate': (x) => {
@@ -2013,9 +2033,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Answer 1.1a'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Followup options 1.1a.1')
+        migration.expectEvent('03c0e7db-330c-4226-8889-f8c25969a8ad')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -2053,13 +2073,13 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Followup options 1.1a.4'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Add reference')
+        migration.expectEvent('1b45ba27-6dfd-47cf-8bb5-82997be47ee5')
         migration.checkDiffTreeAdded(['See also'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Followup list 1.1a.3')
+        migration.expectEvent('c3358d8b-b43d-4983-ab05-689adb953d67')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -2098,13 +2118,13 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Followup list 1.1a.3'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Add question')
+        migration.expectEvent('874e5f1b-2bce-46c1-9bd7-27c490ae0e02')
         migration.checkDiffTreeAdded(['New question'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Followup value 1.1a.2')
+        migration.expectEvent('7fbd5460-de15-425d-bbf0-2445849d8569')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -2142,14 +2162,15 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Followup value 1.1a.2'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Followup options 1.1a.1')
+        migration.expectEvent('b145070b-833d-4fbd-83ce-00a9b01919f0')
         migration.checkDiffTreeAdded(['Followup options 1.1a.1'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Questions')
-        cy.contains('Answer 1.1a')  // reorder followups
+        // reorder followups
+        // next event uuid changed by DSW
+        cy.getCy('km-migration_event_b145070b-833d-4fbd-83ce-00a9b01919f0').should('not.exist')
         migration.checkMigrationForm([
             {
                 'label': 'Label', 'validate': (x) => {
@@ -2182,7 +2203,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Answer 1.1a'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 8, 1)
         migration.verifyChildPackageForMigration(config, '1.8.1', '1.8.0', false)
@@ -2191,21 +2212,21 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "delete follow-up question"', () => {
         migration.createMigration(config, '1.8.1', '1.8.2')
 
-        cy.contains('Delete question')
+        migration.expectEvent('3e27d197-78d5-4746-90a5-fc5a6dad82b6')
         migration.checkDiffTreeDeleted(['Followup options 1.1a.1'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Followup list 1.1a.3')
+        migration.expectEvent('4a4b6b6e-0e96-4b5d-b622-18efff214d66')
         migration.checkDiffTreeDeleted(['Followup list 1.1a.3'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Followup value 1.1a.2')
+        migration.expectEvent('36141470-c609-4b44-8407-388c88116114')
         migration.checkDiffTreeDeleted(['Followup value 1.1a.2'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Followup options 1.1a.4')
+        migration.expectEvent('ed86bc77-1add-46aa-80f1-f49562d22d44')
         migration.checkDiffTreeDeleted(['Followup options 1.1a.4'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 8, 2)
         migration.verifyChildPackageForMigration(config, '1.8.2', '1.8.1')
@@ -2215,26 +2236,33 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "add item template question"', () => {
         migration.createMigration(config, '1.8.2', '1.9.0')
 
+        migration.expectEvent('6720a49a-3a7c-47b3-ba4d-938052879482')
         cy.contains('Add question')
-        cy.clickBtn('Apply')
+        migration.apply()
 
+        migration.expectEvent('91bc7dfb-a42b-449c-a548-9c229a163b2c')
         cy.contains('Items options')
-        cy.clickBtn('Apply')
+        migration.apply()
 
+        migration.expectEvent('7749b8d9-f4e1-48c5-a938-c16195f3c1aa')
         cy.contains('New answer')
-        cy.clickBtn('Apply')
+        migration.apply()
 
+        migration.expectEvent('cf564267-dbb5-4fb6-b833-c33a4821d7fa')
         cy.contains('Items list')
-        cy.clickBtn('Apply')
+        migration.apply()
 
+        migration.expectEvent('6d29e822-a0ff-4f80-9328-9bb0123658df')
         cy.contains('Items value')
-        cy.clickBtn('Apply')
+        migration.apply()
 
+        migration.expectEvent('bb7eb904-4b35-4289-b25a-a1b19c343205')
         cy.contains('Dummy integration')
-        cy.clickBtn('Apply')
+        migration.apply()
 
+        migration.expectEvent('ce63caf1-e11a-45d6-97a7-68c1991aa53b')
         cy.contains('Items integration')
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 9, 0)
         migration.verifyChildPackageForMigration(config, '1.9.0', '1.8.2')
@@ -2243,34 +2271,36 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "edit item template question" 1', () => {
         migration.createMigration(config, '1.9.0', '1.9.1')
 
-        cy.contains('Add question')
+        migration.expectEvent('7bf90a1c-584e-485e-ba2c-33dbb5d1f289')
         migration.checkDiffTreeAdded(['Some follow-up'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Add answer')
+        migration.expectEvent('5bcbcadb-7c37-417e-b0c1-9d7d656fef97')
         migration.checkDiffTreeAdded(['Yes'])
-        cy.clickBtn('Apply')
-        cy.contains('No')
-        migration.checkDiffTreeAdded(['No'])
-        cy.clickBtn('Apply')
+        migration.apply()
         
-        cy.contains('Another item template question')
+        migration.expectEvent('db6a9849-984d-4992-beba-933a8208d114')
+        migration.checkDiffTreeAdded(['No'])
+        migration.apply()
+        
+        migration.expectEvent('e883e684-7653-4b01-81e8-2c5771d0cd1f')
         migration.checkDiffTreeAdded(['Another item template question'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Items value')
+        migration.expectEvent('9b231994-6746-42b4-90b8-8509ef9e66b5')
         migration.checkDiffTreeEdited(['Items value'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Items integration')
+        migration.expectEvent('0271d4d6-fc17-448f-a16d-08f10b869ae9')
         migration.checkDiffTreeEdited(['Items integration'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Items list')
+        migration.expectEvent('d83a4b49-d621-432c-9780-63c0c930d8c7')
         migration.checkDiffTreeEdited(['Items list'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Question with items') // reorder
+        // reorder
+        migration.expectEvent('b9897b9b-ed3a-4fbc-a8ef-bf7d59b61c62')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -2318,7 +2348,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Question 1.2'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 9, 1)
         migration.verifyChildPackageForMigration(config, '1.9.1', '1.9.0')
@@ -2327,12 +2357,13 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "edit item template question" 2', () => {
         migration.createMigration(config, '1.9.1', '1.9.2')
 
+        migration.expectEvent('fff055e3-7498-4543-b43f-6c8ae85626d0')
         migration.checkDiffTreeDeleted(['Some follow-up'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Another item template question')
+        migration.expectEvent('5883b713-78cb-4c9d-a7ef-ab0de8f62918')
         migration.checkDiffTreeDeleted(['Another item template question'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 9, 2)
         migration.verifyChildPackageForMigration(config, '1.9.2', '1.9.1')
@@ -2341,20 +2372,21 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "edit item template question" 3', () => {
         migration.createMigration(config, '1.9.2', '1.9.3')
 
+        migration.expectEvent('142ece51-d301-49ac-9355-ae36540650e7')
         migration.checkDiffTreeDeleted(['Items list'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Items value')
+        migration.expectEvent('4a81de49-c5d4-47a1-9a63-78420246f26c')
         migration.checkDiffTreeDeleted(['Items value'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Items options')
+        migration.expectEvent('7cb52202-3dae-4758-aecf-b05f3fb3c7b9')
         migration.checkDiffTreeDeleted(['Items options'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Items list')
+        migration.expectEvent('58fa4f6a-44fc-4bf9-8f88-bd5d3a706b31')
         migration.checkDiffTreeDeleted(['Items list'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 9, 3)
         migration.verifyChildPackageForMigration(config, '1.9.3', '1.9.2')
@@ -2364,7 +2396,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with applying "edit knowledge model"', () => {
         migration.createMigration(config, '1.9.3', '1.10.0')
 
-        cy.contains('Edit Knowledge Model')
+        migration.expectEvent('dd4d41ce-9359-47a3-b40f-b631da454ca7')
         migration.checkMigrationForm([
             {
                 'label': 'Chapters', 'validate': (x) => {
@@ -2383,12 +2415,14 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Child KM'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Add chapter')
+        migration.expectEvent('e02f74e0-40b7-428d-bd3e-25d9898f2a46')
         migration.checkDiffTreeAdded(['Intro'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
+        // next event uuid changed by DSW
+        cy.getCy('km-migration_event_e02f74e0-40b7-428d-bd3e-25d9898f2a46').should('not.exist')
         migration.checkMigrationForm([
             {
                 'label': 'Chapters', 'validate': (x) => {
@@ -2414,12 +2448,13 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Child KM'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Add integration')
+        migration.expectEvent('e80babb4-3309-4880-96ce-ce8eb4ab0f43')
         migration.checkDiffTreeAdded(['New Integration'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
+        migration.expectEvent('c065c326-8499-42ff-92ea-33d3c9b48f89')
         migration.checkMigrationForm([
             {
                 'label': 'Chapters', 'validate': (x) => {
@@ -2443,7 +2478,7 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Child KM'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
         migration.finishMigrationAndPublish(1, 10, 0)
         migration.verifyChildPackageForMigration(config, '1.10.0', '1.9.3', false)
@@ -2453,7 +2488,7 @@ describe('KM Editor Migrations', () => {
     it('can migrate with apply and reject', () => {
         migration.createMigration(config, '2.0.0', '1.11.0')
 
-        cy.contains('Edit Knowledge Model')
+        cy.getCy('km-editor_migration').should('exist')
         migration.checkMigrationForm([
             {
                 'label': 'Chapters', 'validate': (x) => {
@@ -2479,8 +2514,9 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Child KM'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
+        // next event uuid changed by DSW
         cy.contains('Edit question')
         migration.checkMigrationForm([
             {
@@ -2525,17 +2561,18 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Question 1.1'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Add expert')
+        migration.expectEvent('35573362-46ef-41b6-a364-e66a0819a9c0')
         migration.checkDiffTreeAdded(['Our Specialist 1'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Our Specialist 0')
+        migration.expectEvent('6d33f09f-6850-49aa-998f-2cd968d3fa15')
         migration.checkDiffTreeAdded(['Our Specialist 0'])
-        cy.clickBtn('Reject')
+        migration.reject()
 
-        cy.contains('Question 1.2')
+        // next event uuid changed by DSW
+        cy.getCy('km-migration_event_6d33f09f-6850-49aa-998f-2cd968d3fa15').should('not.exist')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -2579,17 +2616,18 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Question 1.2'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Extra chapter')
+        migration.expectEvent('dec48838-b562-4c7d-97cf-6d7fcfb9b2de')
         migration.checkDiffTreeAdded(['Extra chapter'])
-        cy.clickBtn('Reject')
+        migration.reject()
 
-        cy.contains('Question 1.0')
+        migration.expectEvent('813a5c88-1c8f-4370-a48e-4886235a7878')
         migration.checkDiffTreeAdded(['Question 1.0'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Edit chapter')
+        // next event uuid changed by DSW
+        cy.getCy('km-migration_event_813a5c88-1c8f-4370-a48e-4886235a7878').should('not.exist')
         migration.checkDiffTreeEdited(['Chapter 1'])
         migration.checkMigrationForm([
             {
@@ -2617,16 +2655,18 @@ describe('KM Editor Migrations', () => {
                 },
             }
         ])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('Extraordinary question')
+        migration.expectEvent('2ade8b0d-f084-4481-98be-d9d2ea4f9b16')
         migration.checkDiffTreeAdded(['Extraordinary question'])
-        cy.clickBtn('Reject')
+        migration.reject()
 
-        cy.contains('Answer 1.1c')
+        migration.expectEvent('7fba5383-5374-49e8-a645-b7fad2ba657f')
         migration.checkDiffTreeAdded(['Answer 1.1c'])
-        cy.clickBtn('Apply')
-
+        migration.apply()
+        
+        // next event uuid changed by DSW
+        cy.getCy('km-migration_event_7fba5383-5374-49e8-a645-b7fad2ba657f').should('not.exist')
         migration.checkMigrationForm([
             {
                 'label': 'Type', 'validate': (x) => {
@@ -2672,20 +2712,21 @@ describe('KM Editor Migrations', () => {
             }
         ])
         migration.checkDiffTreeEdited(['Question 1.1'])
-        cy.clickBtn('Apply')
+        migration.apply()
 
-        cy.contains('nope')
+        migration.expectEvent('9d01e655-29d4-4c9e-a8c5-0de04996ff4e')
         migration.checkDiffTreeAdded(['nope'])
-        cy.clickBtn('Reject')
+        migration.reject()
 
-        cy.contains('Extra integration')
+        migration.expectEvent('be06f0e8-677c-4cc5-9f21-4d906b405407')
         migration.checkDiffTreeAdded(['Extra integration'])
-        cy.clickBtn('Reject')
+        migration.reject()
 
         // reorder with rejected integration (no reorder in the end)
-        cy.contains('Child KM')
+        // next event uuid changed by DSW
+        cy.getCy('km-migration_event_be06f0e8-677c-4cc5-9f21-4d906b405407').should('not.exist')
         migration.checkDiffTreeEdited(['Child KM'])
-        cy.clickBtn('Reject')
+        migration.reject()
 
         migration.finishMigrationAndPublish(2, 1, 0)
         migration.verifyPackageWithBundle(
