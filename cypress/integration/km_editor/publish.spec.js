@@ -16,16 +16,18 @@ describe('KM Editor Publish', () => {
     })
 
     it('can be published', () => {
-        cy.clickListingItemAction(kmId, 'Publish')
+        cy.clickListingItemAction(kmId, 'publish')
         cy.url().should('contain', '/km-editor/publish')
 
-        cy.get('.version-inputs input:nth-child(1)').type('1')
-        cy.get('.version-inputs input:nth-child(2)').type('0')
-        cy.get('.version-inputs input:nth-child(3)').type('0')
-        cy.get('#license').type(license)
-        cy.get('#description').type(description)
-        cy.get('#readme').type(readme)
-        cy.clickBtn('Publish')
+        cy.fillFields({
+            'version-major': '1',
+            'version-minor': '0',
+            'version-patch': '0',
+            'license': license,
+            'description': description,
+            'readme': readme
+        })
+        cy.getCy('km-publish_publish-button').click()
 
         cy.url().should('contain', '/knowledge-models')
 
@@ -33,9 +35,9 @@ describe('KM Editor Publish', () => {
             .should('contain', kmName)
             .and('contain', '1.0.0')
 
-        cy.clickListingItemAction(`:${kmId}:`, 'View detail')
+        cy.clickListingItemAction(`:${kmId}:`, 'view')
         cy.url().should('contain', kmId)
-        cy.get('.top-header-title').should('contain', kmName)
-        cy.get('.readme').should('contain', readme)
+        cy.getCy('km-detail_header-title').should('contain', kmName)
+        cy.getCy('km-detail_readme').should('contain', readme)
     })
 })

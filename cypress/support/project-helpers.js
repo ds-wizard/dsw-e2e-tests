@@ -14,7 +14,7 @@ export const TodoUUID = '615b9028-5e3f-414f-b245-12d2ae2eeb20'
 
 export function open(questionnaireName) {
     cy.visitApp('/projects')
-    cy.clickListingItemAction(questionnaireName, 'Open Project')
+    cy.clickListingItemAction(questionnaireName, 'open')
     expectTitle(questionnaireName)
 }
 
@@ -56,13 +56,13 @@ export function expectOwner() {
     cy.url().should('match', /\/projects\/.+/)
     cy.get('.questionnaire__form .form-group input[type=text]').should('not.be.disabled')
     cy.get('.questionnaire__left-panel__phase select').should('not.be.disabled')
-    cy.getCy('share').should('exist')
+    cy.getCy('project_detail_share-button').should('exist')
     cy.get('.DetailNavigation__Row .nav-link').contains('Settings').should('exist')
 }
 
 
 function checkDisabledShareAndSettings() {
-    cy.getCy('share').should('not.exist')
+    cy.getCy('project_detail_share-button').should('not.exist')
     cy.get('.DetailNavigation__Row .nav-link').contains('Settings').should('not.exist')
 }
 

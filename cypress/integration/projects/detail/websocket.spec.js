@@ -112,18 +112,18 @@ describe('Questionnaire WebSocket Tests', () => {
 
 
     it('SetLevel', () => {
-        const level = 2
+        const phaseUuid = 'adc9133d-afcd-4616-9aea-db5f475898a2'
         const msg = {
             type: 'SetContent_ClientQuestionnaireAction',
             data: {
-                type: 'SetLevelEvent',
+                type: 'SetPhaseEvent',
                 uuid: '62e950ca-0cc5-4a78-9389-31f7494fc88c',
-                level: 2,
+                phaseUuid
             }
         }
 
         cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg)
-        cy.get('.questionnaire__left-panel__phase select').should('have.value', level)
+        cy.get('.questionnaire__left-panel__phase select').should('have.value', phaseUuid)
     })
 
 

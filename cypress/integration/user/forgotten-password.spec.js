@@ -20,8 +20,8 @@ describe('Forgotten password', () => {
         // fill in the forgotten password form
         cy.visitApp('/forgotten-password')
         cy.fillFields({ email: user.email })
-        cy.clickBtn('Recover')
-        cy.get('.lead').should('contain', 'We\'ve sent you a recover link.')
+        cy.submitForm()
+        cy.expectSuccessPageMessage()
 
         // navigate to correct password recovery page
         cy.task('user:getActionParams', { email: user.email, type: 'ForgottenPasswordActionKey' }).then(([uuid, hash]) => {
@@ -33,16 +33,16 @@ describe('Forgotten password', () => {
             password: newPassword,
             passwordConfirmation: newPassword,
         })
-        cy.clickBtn('Save')
-        cy.get('.lead').should('contain', 'Your password has been changed. You can now log in.')
+        cy.submitForm()
+        cy.expectSuccessPageMessage()
 
         // check that we can login using the new password
-        cy.clickLink('log in')
+        cy.getCy('login-link').click()
         cy.fillFields({
             email: user.email,
             password: newPassword
         })
-        cy.clickBtn('Log In')
+        cy.submitForm()
         cy.url().should('include', '/dashboard')
     })
 })

@@ -12,7 +12,7 @@ describe('Settings / Projects', () => {
 
     const createProjectAndOpenShare = () => {
         createProject()
-        cy.clickBtn('Share')
+        cy.getCy('project_detail_share-button').click()
     }
 
 
@@ -39,23 +39,23 @@ describe('Settings / Projects', () => {
 
     it('questionnaire visibility enabled', () => {
         cy.checkToggle('questionnaireVisibilityEnabled')
-        cy.clickBtn('Save', true)
+        cy.submitForm()
 
         createProjectAndOpenShare()
-        cy.get('label').contains('Visible by all other logged-in users').should('exist')
+        cy.get('#visibilityEnabled').should('exist')
     })
 
     it('questionnaire visibility not enabled', () => {
         cy.uncheckToggle('questionnaireVisibilityEnabled')
-        cy.clickBtn('Save', true)
+        cy.submitForm()
 
         createProjectAndOpenShare()
-        cy.get('label').contains('Visible by other logged-in users').should('not.exist')
+        cy.get('#visibilityEnabled').should('not.exist')
     })
 
     it('default questionnaire visibility - Private', () => {
         cy.get(`#${project.Private}`).check()
-        cy.clickBtn('Save', true)
+        cy.submitForm()
 
         createProjectAndOpenShare()
         cy.get('#visibilityEnabled').should('not.be.checked')
@@ -63,7 +63,7 @@ describe('Settings / Projects', () => {
 
     it('default questionnaire visibility - VisibleView', () => {
         cy.get(`#${project.VisibleView}`).check()
-        cy.clickBtn('Save', true)
+        cy.submitForm()
 
         createProjectAndOpenShare()
         cy.get('#visibilityEnabled').should('be.checked')
@@ -72,7 +72,7 @@ describe('Settings / Projects', () => {
 
     it('default questionnaire visibility - VisibleEdit', () => {
         cy.get(`#${project.VisibleEdit}`).check()
-        cy.clickBtn('Save', true)
+        cy.submitForm()
 
         createProjectAndOpenShare()
         cy.get('#visibilityEnabled').should('be.checked')
@@ -83,23 +83,23 @@ describe('Settings / Projects', () => {
 
     it('questionnaire sharing enabled', () => {
         cy.checkToggle('questionnaireSharingEnabled')
-        cy.clickBtn('Save', true)
+        cy.submitForm()
 
         createProjectAndOpenShare()
-        cy.get('label').contains('Public link').should('exist')
+        cy.get('#sharingEnabled').should('exist')
     })
 
     it('questionnaire sharing not enabled', () => {
         cy.uncheckToggle('questionnaireSharingEnabled')
-        cy.clickBtn('Save', true)
+        cy.submitForm()
 
         createProjectAndOpenShare()
-        cy.get('label').contains('Public link').should('not.exist')
+        cy.get('#sharingEnabled').should('not.exist')
     })
 
     it('default questionnaire visibility - Restricted', () => {
         cy.get(`#${project.Restricted}`).check()
-        cy.clickBtn('Save', true)
+        cy.submitForm()
 
         createProjectAndOpenShare()
         cy.get('#sharingEnabled').should('not.be.checked')
@@ -107,7 +107,7 @@ describe('Settings / Projects', () => {
 
     it('default questionnaire visibility - AnyoneWithLinkView', () => {
         cy.get(`#${project.AnyoneWithLinkView}`).check()
-        cy.clickBtn('Save', true)
+        cy.submitForm()
 
         createProjectAndOpenShare()
         cy.get('#sharingEnabled').should('be.checked')
@@ -116,7 +116,7 @@ describe('Settings / Projects', () => {
 
     it('default questionnaire visibility - AnyoneWithLinkEdit', () => {
         cy.get(`#${project.AnyoneWithLinkEdit}`).check()
-        cy.clickBtn('Save', true)
+        cy.submitForm()
 
         createProjectAndOpenShare()
         cy.get('#sharingEnabled').should('be.checked')
@@ -126,20 +126,23 @@ describe('Settings / Projects', () => {
     // project creation
 
     const expectBothEnabled =() => {
-        cy.get('.nav-link').contains('Custom').should('exist')
-        cy.get('.nav-link').contains('From Template').should('exist')
+        cy.getCy('project_create_nav_template').should('exist')
+        cy.getCy('project_create_nav_custom').should('exist')
 
         expectCreateProjectButton(true)
     }
 
     const expectCustomOnlyEnabled = () => {
+        cy.getCy('project_create_nav_template').should('not.exist')
+        cy.getCy('project_create_nav_custom').should('not.exist')
         cy.get('#packageId').should('exist')
 
         expectCreateProjectButton(true)
     }
 
     const expectTemplateOnlyEnabled = () => {
-        cy.get('.nav-link').should('not.exist')
+        cy.getCy('project_create_nav_template').should('not.exist')
+        cy.getCy('project_create_nav_custom').should('not.exist')
         cy.get('#uuid').should('exist')
         
         expectCreateProjectButton(false)
@@ -151,14 +154,14 @@ describe('Settings / Projects', () => {
     }
 
     const creationTest = (projectCreation, role, expect) => {
-        it.only(`project creation ${projectCreation} for ${role}`, () => {
+        it(`project creation ${projectCreation} for ${role}`, () => {
             cy.get(`#${projectCreation}`).check({ force: true })
-            cy.clickBtn('Save', true)
+            cy.submitForm()
             cy.logout()
 
             cy.loginAs(role)
             cy.visitApp('/projects')
-            cy.clickBtn('Create')
+            cy.getCy('projects_create-button').click()
 
             expect()
         })
@@ -186,30 +189,6 @@ describe('Settings / Projects', () => {
 
     // questionnaire features
 
-    it('phases enabled', () => {
-        // Enable phases
-        cy.checkToggle('levels')
-        cy.clickBtn('Save', true)
-
-        // Create a project
-        createProject()
-
-        // Check that phases are there
-        cy.get('.questionnaire__left-panel__phase').should('exist')
-    })
-
-    it('phases not enabled', () => {
-        // Disable phases
-        cy.uncheckToggle('levels')
-        cy.clickBtn('Save', true)
-
-        // Create a project
-        createProject()
-
-        // Check that phases are not there
-        cy.get('.chapter-list .level-selection').should('not.exist')
-    })
-
     it('summary report enabled', () => {
         // Enable summary report
         cy.checkToggle('summaryReport')
@@ -225,7 +204,7 @@ describe('Settings / Projects', () => {
     it('summary report not enabled', () => {
         // Enable summary report
         cy.uncheckToggle('summaryReport')
-        cy.clickBtn('Save', true)
+        cy.submitForm()
 
         // Create a project
         createProject()
@@ -242,7 +221,7 @@ describe('Settings / Projects', () => {
             feedbackRepo: 'exampleRepository',
             feedbackToken: 'zxcvbnm'
         })
-        cy.clickBtn('Save', true)
+        cy.submitForm()
 
         // Create a project
         createProject()
@@ -255,7 +234,7 @@ describe('Settings / Projects', () => {
     it('feedback not enabled', () => {
         // Enable feedback
         cy.uncheckToggle('feedbackEnabled')
-        cy.clickBtn('Save', true)
+        cy.submitForm()
 
         // Create a project
         createProject()

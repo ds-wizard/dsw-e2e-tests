@@ -16,13 +16,13 @@ describe('Latest version', () => {
     it('knowledge model detail', () => {
         cy.loginAs('researcher')
         cy.visitApp(`/knowledge-models/${orgId}:${kmId}:latest`)
-        cy.get('dd').contains(latest).should('exist')
+        cy.getCy('km-detail_metadata_version').contains(latest).should('exist')
     })
 
     it('knowledge model preview', () => {
         cy.loginAs('researcher')
         cy.visitApp(`/knowledge-models/${orgId}:${kmId}:latest/preview`)
-        cy.get('.top-header-title').contains(latest).should('exist')
+        cy.getCy('km-preview_header_title').contains(latest).should('exist')
     })
 
     it('project create', () => {
@@ -30,9 +30,9 @@ describe('Latest version', () => {
         cy.visitApp(`/projects/create/custom?selected=${orgId}:${kmId}:latest`)
         
         cy.fillFields({ name: 'My Project'})
-        cy.clickBtn('Save')
+        cy.getCy('project_save-button').click()
 
         project.openSettings()
-        cy.get('.package-link .badge').contains(latest).should('exist')
+        cy.getCy('typehint-item_package_version').contains(latest).should('exist')
     })
 })

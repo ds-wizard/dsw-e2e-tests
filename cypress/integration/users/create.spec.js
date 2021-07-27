@@ -16,9 +16,9 @@ describe('Users Create', () => {
     })
 
     it('can be created', () => {
-        cy.clickBtn('Create')
+        cy.getCy('users_create-button').click()
         cy.fillFields(user)
-        cy.clickBtn('Save')
+        cy.submitForm()
 
         cy.url().should('match', /\/users$/)
         cy.getListingItem(user.email)

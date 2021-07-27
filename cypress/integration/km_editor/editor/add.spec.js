@@ -47,14 +47,14 @@ describe('KM Editor Add Entity', () => {
             // Add tag and save
             editor.open(kmId)
             editor.createChildren([['tag', tag]])
-            cy.get('.form-group-color-picker a:nth-child(5)').click()
+            cy.getCy('form-group_color_color-button', ':nth-child(5)').click()
             editor.saveAndClose()
 
             // Open editor again and check that the tag is there
             editor.open(kmId)
             editor.openChild(tag.name)
             cy.checkFields(tag)
-            cy.get('.form-group-color-picker a:nth-child(5)').should('have.class', 'selected')
+            cy.getCy('form-group_color_color-button', ':nth-child(5)').should('have.class', 'selected')
         })
 
         it('add Integration', () => {
@@ -72,25 +72,23 @@ describe('KM Editor Add Entity', () => {
             }
 
             const addProp = (name) => {
-                cy.get('.input-group .form-control').type(name)
-                cy.get('.input-group .btn').click()
+                cy.getCy('value-list_input').type(name)
+                cy.getCy('value-list_add-button').click()
             }
 
             const checkProp = (name) => {
-                cy.get('.list-group.list-group-hover li').contains(name).should('exist')
+                cy.getCy('value-list_item').contains(name).should('exist')
             }
 
-            const getHeadersFormGroup = () => cy.get('.form-group').contains('Request Headers').parent('div')
-
             const addHeader = (header, value) => {
-                getHeadersFormGroup().contains('Add').click()
-                getHeadersFormGroup().find('.input-group:last-child input:first-child').type(header)
-                getHeadersFormGroup().find('.input-group:last-child input:nth-child(2)').type(value)
+                cy.getCy('form-group_list_add-button').click()
+                cy.getCy('integration_headers_name').type(header)
+                cy.getCy('integration_headers_value').type(value)
             }
 
             const checkHeader = (header, value) => {
-                getHeadersFormGroup().find('.input-group:last-child input:first-child').should('have.value', header)
-                getHeadersFormGroup().find('.input-group:last-child input:nth-child(2)').should('have.value', value)
+                cy.getCy('integration_headers_name').should('have.value', header)
+                cy.getCy('integration_headers_value').should('have.value', value)
             }
 
             // Add integration and save
@@ -120,22 +118,18 @@ describe('KM Editor Add Entity', () => {
             s_questionType: 'OptionsQuestion',
             title: 'Will you use any external data sources?',
             text: 'This question is asking about external data sources.',
-            s_requiredLevel: '1'
         }, {
             s_questionType: 'MultiChoiceQuestion',
             title: 'What do you choose?',
             text: 'This question can have more than one answer.',
-            s_requiredLevel: '1'
         } ,{
             s_questionType: 'ListQuestion',
             title: 'What databases will you use?',
             text: '',
-            s_requiredLevel: '2'
         }, {
             s_questionType: 'ValueQuestion',
             title: 'How many researchers will work on the project?',
             text: 'Count them all!',
-            s_requiredLevel: '3',
             s_valueType: 'NumberValue'
         }]
 
@@ -163,7 +157,6 @@ describe('KM Editor Add Entity', () => {
             const question = {
                 s_questionType: 'IntegrationQuestion',
                 title: 'What standards will you use?',
-                s_requiredLevel: '1'
             }
 
             const integration = {
@@ -180,7 +173,7 @@ describe('KM Editor Add Entity', () => {
             // Create question and its parent
             editor.open(kmId)
             editor.createChildren([['integration', integration]])
-            cy.get('a').contains('Test Knowledge Model').click()
+            cy.getCy('km-editor_tree_link').contains('Test Knowledge Model').click()
             editor.createChildren([
                 ['chapter', chapter],
                 ['question', question]
@@ -271,15 +264,15 @@ describe('KM Editor Add Entity', () => {
         ]
         const childrenOptions = [
             ...children,
-            ['follow-up question', followUpQuestionOptions]
+            ['question', followUpQuestionOptions]
         ]
         const childrenMultiChoice = [
             ...children,
-            ['follow-up question', followUpQuestionMultiChoice]
+            ['question', followUpQuestionMultiChoice]
         ]
         const childrenList = [
             ...children,
-            ['follow-up question', followUpQuestionList]
+            ['question', followUpQuestionList]
         ]
         const path = [chapter.title, question.title, answer.label, followUpQuestionTitle]
 
@@ -376,23 +369,23 @@ describe('KM Editor Add Entity', () => {
             ['chapter', chapter],
             ['question', question1],
             ['answer', answer1],
-            ['follow-up question', question2],
+            ['question', question2],
             ['answer', answer2],
-            ['follow-up question', question3],
+            ['question', question3],
             ['question', question4],
             ['answer', answer3]
         ]
         const childrenOptions = [
             ...children,
-            ['follow-up question', nestedQuestionOptions]
+            ['question', nestedQuestionOptions]
         ]
         const childrenMultiChoice = [
             ...children,
-            ['follow-up question', nestedQuestionMultiChoice]
+            ['question', nestedQuestionMultiChoice]
         ]
         const childrenList = [
             ...children,
-            ['follow-up question', nestedQuestionList]
+            ['question', nestedQuestionList]
         ]
         const path = [chapter.title, question1.title, answer1.label, question2.title, answer2.label, question3.title, question4.title, answer3.label, nestedQuestionTitle]
 
@@ -417,9 +410,7 @@ describe('KM Editor Add Entity', () => {
             it('add Answer', () => {
                 const followUpAnswer = {
                     label: 'No',
-                    advice: 'You should consider changing this answer.',
-                    'metricMeasures\\.2\\.weight': '1',
-                    'metricMeasures\\.2\\.measure': '0'
+                    advice: 'You should consider changing this answer.'
                 }
 
                 // Add answer parents
@@ -428,7 +419,6 @@ describe('KM Editor Add Entity', () => {
 
                 // Add answer and save
                 editor.addInputChild('answer')
-                cy.get('.metric-view:nth-child(3) .form-check-toggle').click()
                 cy.fillFields(followUpAnswer)
                 editor.saveAndClose()
 
@@ -445,7 +435,6 @@ describe('KM Editor Add Entity', () => {
                     s_questionType: 'ValueQuestion',
                     title: 'What is the name of your institution?',
                     s_valueType: 'StringValue',
-                    s_requiredLevel: '1',
                 }
 
                 // Add follow-up question and its parents
@@ -453,7 +442,7 @@ describe('KM Editor Add Entity', () => {
                 editor.createChildren([
                     ...childrenOptions,
                     ['answer', answer],
-                    ['follow-up question', followUpQuestion]
+                    ['question', followUpQuestion]
                 ])
                 editor.saveAndClose()
 
@@ -489,7 +478,6 @@ describe('KM Editor Add Entity', () => {
                     s_questionType: 'ValueQuestion',
                     title: 'When did the project started?',
                     text: 'Type in the exact date',
-                    s_requiredLevel: '3',
                     s_valueType: 'DateValue'
                 }
 

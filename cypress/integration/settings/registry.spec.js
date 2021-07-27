@@ -12,28 +12,27 @@ describe('Settings / Knowledge Model Registry', () => {
     it('enabled', () => {
         cy.checkToggle('enabled')
         cy.fillFields({ token: 'qwertyuiop' })
-        cy.clickBtn('Save')
+        cy.submitForm()
 
         cy.visitApp('/knowledge-models/import')
-        cy.get('.nav-link').contains('From DSW Registry').should('exist')
-        cy.get('.KnowledgeModels__Import__RegistryImport').should('exist')
+        cy.getCy('km_import_nav_registry').should('exist')
+        cy.getCy('km_import_registry').should('exist')
 
         cy.visitApp('/templates/import')
-        cy.get('.nav-link').contains('From DSW Registry').should('exist')
-        cy.get('.KnowledgeModels__Import__RegistryImport').should('exist')
+        cy.getCy('templates_import_nav_registry').should('not.exist')
+        cy.getCy('templates_import_registry').should('not.exist')
     })
 
     it('disabled', () => {
         cy.uncheckToggle('enabled')
-        cy.clickBtn('Save')
+        cy.submitForm()
 
         cy.visitApp('/knowledge-models/import')
-        cy.get('.nav-link').should('not.exist')
-        cy.get('.KnowledgeModels__Import__RegistryImport').should('not.exist')
+        cy.getCy('km_import_nav_registry').should('not.exist')
+        cy.getCy('km_import_registry').should('not.exist')
 
         cy.visitApp('/templates/import')
-        cy.get('.nav-link').should('not.exist')
-        cy.get('.KnowledgeModels__Import__RegistryImport').should('not.exist')
-
+        cy.getCy('templates_import_nav_registry').should('not.exist')
+        cy.getCy('templates_import_registry').should('not.exist')
     })
 })

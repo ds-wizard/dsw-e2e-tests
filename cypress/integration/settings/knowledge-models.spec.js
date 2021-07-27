@@ -9,13 +9,12 @@ describe('Settings / Knowledge Model', () => {
 
     const expectVersionForbidden = (version) => {
         openKMVersion(version)
-        cy.contains('Error').should('exist')
-        cy.contains('You do not have permission to view this page.').should('exist')
+        cy.expectError()
     }
 
     const expectVersionAvailable = (version) => {
         openKMVersion(version)
-        cy.get('.KnowledgeModels__Detail').should('exist')
+        cy.getCy('km-detail_header-title').should('exist')
     }
 
 
@@ -42,14 +41,14 @@ describe('Settings / Knowledge Model', () => {
         cy.loginAs('admin')
         cy.visitApp('/settings/knowledge-models')
         cy.checkToggle('publicEnabled')
-        cy.get('.btn-secondary').contains('Add').click()
+        cy.getCy('form-group_list_add-button').click()
         cy.fillFields({
             'publicPackages\\.0\\.orgId': orgId,
             'publicPackages\\.0\\.kmId': kmId,
             'publicPackages\\.0\\.minVersion': '1.10.0',
             'publicPackages\\.0\\.maxVersion': '1.10.0',
         })
-        cy.clickBtn('Save')
+        cy.submitForm()
         cy.logout()
 
         // Version should be available
@@ -69,14 +68,14 @@ describe('Settings / Knowledge Model', () => {
         cy.loginAs('admin')
         cy.visitApp('/settings/knowledge-models')
         cy.checkToggle('publicEnabled')
-        cy.get('.btn-secondary').contains('Add').click()
+        cy.getCy('form-group_list_add-button').click()
         cy.fillFields({
             'publicPackages\\.0\\.orgId': orgId,
             'publicPackages\\.0\\.kmId': kmId,
             'publicPackages\\.0\\.minVersion': '1.7.0',
             'publicPackages\\.0\\.maxVersion': '1.9.0',
         })
-        cy.clickBtn('Save')
+        cy.submitForm()
         cy.logout()
 
         // Versions should be available
@@ -100,12 +99,12 @@ describe('Settings / Knowledge Model', () => {
         cy.loginAs('admin')
         cy.visitApp('/settings/knowledge-models')
         cy.checkToggle('publicEnabled')
-        cy.get('.btn-secondary').contains('Add').click()
+        cy.getCy('form-group_list_add-button').click()
         cy.fillFields({
             'publicPackages\\.0\\.orgId': orgId,
             'publicPackages\\.0\\.kmId': kmId
         })
-        cy.clickBtn('Save')
+        cy.submitForm()
         cy.logout()
 
         // Versions should be available
@@ -124,11 +123,11 @@ describe('Settings / Knowledge Model', () => {
         cy.loginAs('admin')
         cy.visitApp('/settings/knowledge-models')
         cy.checkToggle('publicEnabled')
-        cy.get('.btn-secondary').contains('Add').click()
+        cy.getCy('form-group_list_add-button').click()
         cy.fillFields({
             'publicPackages\\.0\\.orgId': orgId,
         })
-        cy.clickBtn('Save')
+        cy.submitForm()
         cy.logout()
 
         // Versions should be available
@@ -147,8 +146,8 @@ describe('Settings / Knowledge Model', () => {
         cy.loginAs('admin')
         cy.visitApp('/settings/knowledge-models')
         cy.checkToggle('publicEnabled')
-        cy.get('.btn-secondary').contains('Add').click()
-        cy.get('.btn-secondary').contains('Add').click()
+        cy.getCy('form-group_list_add-button').click()
+        cy.getCy('form-group_list_add-button').click()
         cy.fillFields({
             'publicPackages\\.0\\.orgId': orgId,
             'publicPackages\\.0\\.kmId': kmId,
@@ -159,7 +158,7 @@ describe('Settings / Knowledge Model', () => {
             'publicPackages\\.1\\.minVersion': '1.2.0',
             'publicPackages\\.1\\.maxVersion': '1.3.0',
         })
-        cy.clickBtn('Save')
+        cy.submitForm()
         cy.logout()
 
         // Versions should be available

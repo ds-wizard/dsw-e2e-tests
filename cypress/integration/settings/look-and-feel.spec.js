@@ -12,16 +12,16 @@ describe('Settings / Look & Feel', () => {
     it('application title', () => {
         const appTitle = 'My Testing Wizard'
         cy.fillFields({ appTitle })
-        cy.clickBtn('Save', true)
+        cy.submitForm()
         cy.logout()
-        cy.get('.navbar-brand').should('contain', appTitle)
+        cy.getCy('nav_app-title').should('contain', appTitle)
     })
 
     it('application title short', () => {
         const appTitleShort = 'MT Wizard'
         cy.fillFields({ appTitleShort })
-        cy.clickBtn('Save', true)
-        cy.get('.logo-full').should('contain', appTitleShort)
+        cy.submitForm()
+        cy.getCy('nav_app-title-short').should('contain', appTitleShort)
     })
 
     it('custom menu links', () => {
@@ -30,31 +30,32 @@ describe('Settings / Look & Feel', () => {
         const url = 'http://localhost:8080/users'
 
         // Add new link to the menu
-        cy.clickBtn('Add', true)
+        cy.getCy('form-group_list_add-button').click()
         cy.getCy('input-icon').type(icon)
         cy.getCy('input-title').type(title)
         cy.getCy('input-url').type(url)
-        cy.clickBtn('Save', true)
+        cy.submitForm()
 
         // Check that the new link works
-        cy.get('.menu a i.fa-magic').should('exist')
-        cy.get('.menu a').contains(title).click()
+        cy.getCy('menu_custom-link').find('.fa-magic').should('exist')
+        cy.getCy('menu_custom-link').contains(title).click()
         cy.url().should('eq', url)
 
         // Remove the link
         cy.visitApp('/settings/look-and-feel')
         cy.getCy('button-remove').click()
-        cy.clickBtn('Save', true)
+        cy.submitForm()
 
         // Check that the link is gone
-        cy.get('.menu a').contains(title).should('not.exist')
+        cy.getCy('menu_custom-link').should('not.exist')
     })
 
     it('login info', () => {
         cy.fillFields({ loginInfo: '# Welcome\n\nThis is a wizard instance for e2e tests'})
-        cy.clickBtn('Save', true)
+        cy.submitForm()
         cy.logout()
-        cy.get('.side-info h1').contains('Welcome')
-        cy.get('.side-info p').contains('This is a wizard instance for e2e tests')
+
+        cy.getCy('login_side-info').find('h1').contains('Welcome')
+        cy.getCy('login_side-info').find('p').contains('This is a wizard instance for e2e tests')
     })
 })

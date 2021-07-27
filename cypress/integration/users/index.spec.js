@@ -17,10 +17,10 @@ describe('Users Index', () => {
     })
 
     it('can delete user', () => {
-        cy.clickListingItemAction(user.email, 'Delete')
-        cy.get('.modal-cover').should('be.visible')
-        cy.clickBtn('Delete')
-        cy.expectAlert('success', 'User was successfully deleted.')
+        cy.clickListingItemAction(user.email, 'delete')
+        cy.expectModalOpen('users-delete')
+        cy.clickModalAction()
+        cy.expectSuccessFlashMessage()
         cy.expectListingItemNotExist(user.email)
     })
 })

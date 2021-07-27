@@ -38,7 +38,7 @@ export function verifyPackageWithBundle(packageId, fixtureName, pkgParams, check
 
             pkg.events.forEach((childEvent, index) => {
                 Object.keys(childEvent).forEach((key) => {
-                    const shouldSkip = !checkEventUuid && key === 'uuid'
+                    const shouldSkip = (!checkEventUuid && key === 'uuid') || key === 'requiredPhaseUuid' || key === 'metricUuids' || key === 'phaseUuids'
                     if (!shouldSkip) {
                         cy.wrap(childEvent).its(key).should('deep.equal', parentPkg.events[index][key])
                     }
@@ -61,12 +61,14 @@ export function verifyChildPackageForMigration(config, newVersion, oldVersion, c
 }
 
 export function finishMigrationAndPublish(major, minor, patch) {
-    cy.contains('Migration successfully completed.')
-    cy.clickBtn('Publish') // no more migrations
-    cy.get('.version-inputs input:nth-child(1)').type(major)
-    cy.get('.version-inputs input:nth-child(2)').type(minor)
-    cy.get('.version-inputs input:nth-child(3)').type(patch)
-    cy.clickBtn('Publish') // finish migration
+    cy.getCy('km-migration_completed')
+    cy.getCy('km-migration_publish-button').click()
+    cy.fillFields({
+        'version-major': `${major}`,
+        'version-minor': `${minor}`,
+        'version-patch': `${patch}`
+    })
+    cy.getCy('km-publish_publish-button').click()
 }
 
 export function checkMigrationForm(data) {
@@ -79,9 +81,13 @@ export function checkMigrationForm(data) {
 
 export function createMigration(config, version, parentVersion) {
     prepareChildKmEditor(config, version)
-    cy.clickListingItemAction(config.editorName, 'Upgrade')
-    cy.get('#targetPackageId').select(config.getParentPackageId(parentVersion))
-    cy.get('.modal-dialog .btn').filter(':visible').contains('Create').click()
+    cy.clickListingItemAction(config.editorName, 'upgrade')
+    
+    cy.expectModalOpen('km-editor-upgrade')
+    cy.fillFields({
+        s_targetPackageId: config.getParentPackageId(parentVersion)
+    })
+    cy.clickModalAction()
     cy.url().should('contain', 'migration')
 }
 
@@ -93,6 +99,18 @@ export function prepareChildKmEditor(config, version) {
         previousPackageId: config.getChildPackageId(version)
     })
     cy.visitApp('/km-editor')
+}
+
+export function apply() {
+    cy.getCy('km-migration_apply-button').click()
+}
+
+export function reject() {
+    cy.getCy('km-migration_reject-button').click()
+}
+
+export function expectEvent(eventUuid) {
+    cy.getCy(`km-migration_event_${eventUuid}`).should('be.visible')
 }
 
 export function checkDiffTreeAdded(data) {
@@ -108,13 +126,12 @@ export function checkDiffTreeDeleted(data) {
 }
 
 export function checkDiffTree(what, data) {
-    const elements = cy.get('.diff-tree').get(`.state-${what}`)
+    const elements = cy.getCy(`km-migration_diff-tree-node_state-${what}`)
     elements.should('have.length', data.length)
     for (let i = 0; i < data.length; i++) {
         elements.eq(i).contains(data[i])
     }
 }
-
 
 export function checkNoChanges() {
     const changes = ['del', '.del', 'ins', '.ins']

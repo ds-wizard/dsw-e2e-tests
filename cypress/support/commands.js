@@ -1,3 +1,6 @@
+import { dataCy } from './utils'
+
+
 const apiUrl = (url) => Cypress.env('api_url') + url
 
 const createHeaders = (token) => ({ Authorization: 'Bearer ' + token })
@@ -56,16 +59,39 @@ Cypress.Commands.add('clickBtn', (label, force = false) => {
     button.contains(label).click()
 })
 
-Cypress.Commands.add('clickModalBtn', (label) => {
-    const button = cy.get('.modal-dialog .btn')
-    button.contains(label).click({ force: true })
+Cypress.Commands.add('submitForm', () => {
+    cy.getCy('form_submit').click()
+})
+
+// Modals
+
+Cypress.Commands.add('clickModalAction', () => {
+    cy.getCy('modal_action-button').filter(':visible').click()
+})
+
+Cypress.Commands.add('clickModalCancel', () => {
+    cy.getCy('modal_cancel-button').filter(':visible').click()
+})
+
+Cypress.Commands.add('expectModalOpen', (modal) => {
+    cy.getCy(`modal_${modal}`).should('be.visible')
 })
 
 
+// Messages
+
+Cypress.Commands.add('expectSuccessFlashMessage', () => {
+    cy.getCy('flash_alert-success').filter(':visible').should('exist')
+})
+
+Cypress.Commands.add('expectSuccessPageMessage', () => {
+    cy.getCy('message_success').filter(':visible').should('exist')
+})
+
 // Selection commands
 
-Cypress.Commands.add('getCy', (key) => {
-    return cy.get(`[data-cy=${key}]`)
+Cypress.Commands.add('getCy', (key, extra = '') => {
+    return cy.get(`${dataCy(key)}${extra}`)
 })
 
 
@@ -230,27 +256,27 @@ Cypress.Commands.add('createDocuments', (documents) => {
 // Listing commands
 
 Cypress.Commands.add('getListingItem', (identifier) => {
-    cy.get('.Listing .list-group-item').contains(identifier).closest('.list-group-item')
+    cy.getCy('listing_item').contains(identifier).closest(dataCy('listing_item'))
 })
 
 
 Cypress.Commands.add('clickListingItemAction', (identifier, action) => {
-    cy.getListingItem(identifier).contains(action).click({ force: true })
+    cy.getListingItem(identifier).find(dataCy(`listing-item_action_${action}`)).click({ force: true })
 })
 
 
 Cypress.Commands.add('expectListingItemNotExist', (identifier) => {
-    cy.get('.Listing .list-group-item').contains(identifier).should('not.exist')
+    cy.getCy('listing_list').contains(identifier).should('not.exist')
 })
 
 
 Cypress.Commands.add('expectEmptyListing', () => {
-    cy.get('.full-page-illustrated-message').contains('No data')
+    cy.getCy('illustrated-message_listing-empty').should('exist')
 })
 
 
 Cypress.Commands.add('expectError', () => {
-    cy.get('.full-page-illustrated-message').contains('Error')
+    cy.getCy('illustrated-message_error').should('exist')
 })
 
 // Form commands
@@ -265,6 +291,13 @@ Cypress.Commands.add('fillFields', (fields) => {
             cy.get(`#${key}`).click()
             cy.get(`#${key} .TypeHintInput__TypeHints__Search`).type(value)
             cy.get(`#${key} .TypeHintInput__TypeHints ul li a`).contains(value).click()
+        } else if (key.startsWith('c_')) {
+            key = key.replace(/^c_/, '')
+            if (value) {
+                cy.get(`#${key}`).check()
+            } else {
+                cy.get(`#${key}`).uncheck()
+            }
         } else {
             if (value.length > 0) {
                 cy.get(`#${key}`).clear().type(value)

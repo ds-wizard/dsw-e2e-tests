@@ -54,7 +54,7 @@ describe('Project List', () => {
     })
 
     it('reverse sort', () => {
-        cy.getCy('sort-direction').click()
+        cy.getCy('listing_toolbar_sort-direction').click()
 
         cy.get('.list-group-item').contains('Questionnaire 60').should('exist')
         cy.get('.list-group-item').contains('Questionnaire 48').should('exist')

@@ -179,7 +179,7 @@ describe('KM Editor Move Entity', () => {
             editor.open(kmId)
             editor.traverseChildren([...originalPath, entity])
 
-            cy.get('.btn-outline-secondary').contains('Move').click()
+            cy.getCy('km-editor_move-button').click()
 
             newPath.slice(0, -1).forEach(editor.moveModalOpenItem)
             editor.moveModalSelect(newPath[newPath.length - 1])

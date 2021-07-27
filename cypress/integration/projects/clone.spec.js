@@ -41,7 +41,7 @@ describe('Project Clone', () => {
 
         // clone questionnaire
         const copyName = `Copy of ${projectName}`
-        cy.clickListingItemAction(projectName, 'Clone')
+        cy.clickListingItemAction(projectName, 'clone')
         cy.get('.btn-primary').contains('Clone').click()
 
         // check filled answers

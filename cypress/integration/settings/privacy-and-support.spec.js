@@ -12,19 +12,19 @@ describe('Settings / Privacy & Support', () => {
     it('privacy URL', () => {
         const privacyUrl = 'http://example.com'
         cy.fillFields({ privacyUrl })
-        cy.clickBtn('Save')
+        cy.submitForm()
         cy.logout()
-        cy.clickLink('Sign Up')
-        cy.get('a').contains('Privacy').should('have.attr', 'href', privacyUrl)
+        cy.getCy('public_nav_sign-up').click()
+        cy.getCy('signup_link_privacy').should('have.attr', 'href', privacyUrl)
     })
 
     it('terms of use URL', () => {
         const termsOfServiceUrl = 'http://example.com'
         cy.fillFields({ termsOfServiceUrl })
-        cy.clickBtn('Save')
+        cy.submitForm()
         cy.logout()
-        cy.clickLink('Sign Up')
-        cy.get('a').contains('Terms of Service').should('have.attr', 'href', termsOfServiceUrl)
+        cy.getCy('public_nav_sign-up').click()
+        cy.getCy('signup_link_tos').should('have.attr', 'href', termsOfServiceUrl)
     })
 
     it('support', () => {
@@ -34,13 +34,13 @@ describe('Settings / Privacy & Support', () => {
 
         // Set support properties
         cy.fillFields({ supportEmail, supportRepositoryName, supportRepositoryUrl })
-        cy.clickBtn('Save')
+        cy.submitForm()
 
         // Open report issue modal
-        cy.get('.sidebar-link').contains('Help').click()
-        cy.get('.dropdown-item').contains('Report issue').click()
+        cy.getCy('menu_help').click()
+        cy.getCy('menu_help_report').click()
 
-        cy.get('.modal-body .link-with-icon').contains(supportRepositoryName).should('have.attr', 'href', supportRepositoryUrl)
-        cy.get('.modal-body a').contains(supportEmail).should('have.attr', 'href', `mailto:${supportEmail}`)
+        cy.getCy('report-modal_link_repository').contains(supportRepositoryName).should('have.attr', 'href', supportRepositoryUrl)
+        cy.getCy('report-modal_link_support-mail').contains(supportEmail).should('have.attr', 'href', `mailto:${supportEmail}`)
     })
 })

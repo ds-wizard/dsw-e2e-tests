@@ -65,7 +65,7 @@
             "defaultValue": "RestrictedQuestionnaire"
         },
         "questionnaireCreation": "TemplateAndCustomQuestionnaireCreation",
-        "levels": {
+        "phases": {
             "enabled": true
         },
         "feedback": {

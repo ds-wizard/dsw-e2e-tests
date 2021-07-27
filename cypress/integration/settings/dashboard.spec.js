@@ -11,30 +11,30 @@ describe('Settings / Dashboard', () => {
 
     it('dashboard style DMP', () => {
         cy.task('questionnaire:delete')
-        cy.get('label').contains('DMP Workflow').click()
-        cy.clickBtn('Save', true)
+        cy.getCy('form-group_html-radio-dmp').click()
+        cy.submitForm()
         cy.visitApp('/dashboard')
-        cy.get('.DMPWorkflowWidget').should('exist')
+        cy.getCy('dashboard_dmp-workflow-widget').should('exist')
     })
 
     it('dashboard style Welcome', () => {
-        cy.get('label').contains('Welcome').click()
-        cy.clickBtn('Save', true)
+        cy.getCy('form-group_html-radio-welcome').click()
+        cy.submitForm()
         cy.visitApp('/dashboard')
-        cy.get('.WelcomeWidget').should('exist')
+        cy.getCy('dashboard_welcome-widget').should('exist')
     })
 
     it('welcome info', () => {
         cy.fillFields({ welcomeInfo: '# Welcome info'})
-        cy.clickBtn('Save', true)
+        cy.submitForm()
         cy.visitApp('/dashboard')
-        cy.get('.Dashboard .alert-info h1').contains('Welcome info')
+        cy.getCy('dashboard_alert-info').contains('Welcome info')
     })
 
     it('welcome warning', () => {
         cy.fillFields({ welcomeWarning: '# Welcome warning'})
-        cy.clickBtn('Save', true)
+        cy.submitForm()
         cy.visitApp('/dashboard')
-        cy.get('.Dashboard .alert-warning h1').contains('Welcome warning')
+        cy.getCy('dashboard_alert-warning').contains('Welcome warning')
     })
 })
