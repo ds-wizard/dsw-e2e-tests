@@ -2,7 +2,7 @@ describe('Templates', () => {
 
     beforeEach(() => {
         cy.task('package:delete')
-        cy.removeTemplate('dsw:questionnaire-report:1.3.0')
+        cy.removeTemplate('dsw:questionnaire-report:1.4.0')
         cy.clearServerCache()
 
         cy.importKM('test-km-1')

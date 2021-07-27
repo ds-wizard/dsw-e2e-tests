@@ -80,3 +80,6 @@ cypress.env.json
 
 # Generated files
 dsw/docker-compose.yml
+
+# Generated template zip files
+cypress/fixtures/templates/*.zip

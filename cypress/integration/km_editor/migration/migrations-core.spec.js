@@ -2404,6 +2404,16 @@ describe('KM Editor Migrations', () => {
                 },
             },
             {
+                'label': 'Metrics', 'validate': (x) => {
+                    x.contains('li', 'Findability')
+                }
+            },
+            {
+                'label': 'Phases', 'validate': (x) => {
+                    x.contains('li', 'Before Submitting the Proposal')
+                }
+            },
+            {
                 'label': 'Tags', 'validate': (x) => {
                     x.contains('-')
                 },
@@ -2437,6 +2447,16 @@ describe('KM Editor Migrations', () => {
                 },
             },
             {
+                'label': 'Metrics', 'validate': (x) => {
+                    x.contains('li', 'Findability')
+                }
+            },
+            {
+                'label': 'Phases', 'validate': (x) => {
+                    x.contains('li', 'Before Submitting the Proposal')
+                }
+            },
+            {
                 'label': 'Tags', 'validate': (x) => {
                     x.contains('-')
                 },
@@ -2460,6 +2480,16 @@ describe('KM Editor Migrations', () => {
                 'label': 'Chapters', 'validate': (x) => {
                     x.contains('li', 'Custom chapter')
                 },
+            },
+            {
+                'label': 'Metrics', 'validate': (x) => {
+                    x.contains('li', 'Findability')
+                }
+            },
+            {
+                'label': 'Phases', 'validate': (x) => {
+                    x.contains('li', 'Before Submitting the Proposal')
+                }
             },
             {
                 'label': 'Tags', 'validate': (x) => {
@@ -2494,6 +2524,16 @@ describe('KM Editor Migrations', () => {
                 'label': 'Chapters', 'validate': (x) => {
                     x.contains('li', 'Custom chapter')
                 },
+            },
+            {
+                'label': 'Metrics', 'validate': (x) => {
+                    x.contains('li', 'Findability')
+                }
+            },
+            {
+                'label': 'Phases', 'validate': (x) => {
+                    x.contains('li', 'Before Submitting the Proposal')
+                }
             },
             {
                 'label': 'Tags', 'validate': (x) => {

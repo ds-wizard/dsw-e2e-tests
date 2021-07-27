@@ -30,6 +30,14 @@ describe('KM Editor Delete Entity', () => {
             path: [],
             child: 'Chapter 1'
         }, {
+            name: 'delete Metric',
+            path: [],
+            child: 'Findability'
+        }, {
+            name: 'delete Phase',
+            path: [],
+            child: 'Before Submitting the Proposal'
+        }, {
             name: 'delete Tag',
             path: [],
             child: 'Tag 1'

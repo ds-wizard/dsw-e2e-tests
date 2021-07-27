@@ -27,7 +27,7 @@ describe('Questionnaire Versions', () => {
 
     before(() => {
         cy.task('package:delete', { km_id: kmId })
-        cy.removeTemplate('dsw:questionnaire-report:1.3.0')
+        cy.removeTemplate('dsw:questionnaire-report:1.4.0')
         cy.clearServerCache()
 
         cy.importKM(kmId)
@@ -48,7 +48,7 @@ describe('Questionnaire Versions', () => {
         project.open(projectName)
     })
 
-    it.only('view questionnaire changes', () => {
+    it('view questionnaire changes', () => {
         openVersionHistory()
 
         // answer
@@ -77,13 +77,13 @@ describe('Questionnaire Versions', () => {
 
     it('view only latest edit event', () => {
         openVersionHistory()
-        expectEventCount(0)
+        expectEventCount(1)
         project.typeAnswer('Value Question String', 'a')
-        expectEventCount(1)
+        expectEventCount(2)
         project.typeAnswer('Value Question String', 'abcde')
-        expectEventCount(1)
+        expectEventCount(2)
         project.typeAnswer('Value Question String', 'abcdefghijkl')
-        expectEventCount(1)
+        expectEventCount(2)
     })
 
     it('name, rename and delete a version', () => {
@@ -111,14 +111,14 @@ describe('Questionnaire Versions', () => {
         project.typeAnswer('Value Question String', 'Answer')
         project.selectAnswer('Answer 1.1')
         openVersionHistory()
-        expectEventCount(2)
+        expectEventCount(3)
 
         clickEventAction('Revert to this version')
         cy.clickModalAction()
 
         project.checkAnswerNotChecked('Answer 1.1')
         openVersionHistory()
-        expectEventCount(1)
+        expectEventCount(2)
     })
 
     it('view questionnaire in a version', () => {
@@ -152,7 +152,7 @@ describe('Questionnaire Versions', () => {
         nameVersion('2.0.0', false)
         project.typeAnswerText('Value Question Text', 'Answer')
 
-        expectEventCount(4)
+        expectEventCount(5)
         cy.contains('Named versions only').click()
         expectEventCount(2)
     })

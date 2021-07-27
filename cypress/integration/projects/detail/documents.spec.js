@@ -7,7 +7,7 @@ describe('Documents', () => {
     let projectUuid = ''
     const kmId = 'test-documents'
     const packageId = 'dsw:test-documents:1.0.0'
-    const templateId = 'dsw:questionnaire-report:1.3.0'
+    const templateId = 'dsw:questionnaire-report:1.4.0'
 
     const templateName = 'Questionnaire Report'
     const brokenTemplateName = 'Broken Template'
@@ -25,7 +25,7 @@ describe('Documents', () => {
 
     before(() => {
         cy.task('package:delete', { km_id: kmId })
-        cy.removeTemplate('dsw:questionnaire-report:1.3.0')
+        cy.removeTemplate(templateId)
         cy.removeTemplate('dsw:broken:0.1.0')
         cy.removeTemplate('dsw:not-allowed:0.1.0')
         cy.clearServerCache()

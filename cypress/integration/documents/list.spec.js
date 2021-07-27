@@ -5,13 +5,13 @@ describe('Document List', () => {
     const questionnaireName = 'Documents test'
     const kmId = 'test-km-1'
     const packageId = 'dsw:test-km-1:1.0.0'
-    const templateId = 'dsw:questionnaire-report:1.3.0'
+    const templateId = 'dsw:questionnaire-report:1.4.0'
     const formatUuid = 'd3e98eb6-344d-481f-8e37-6a67b6cd1ad2'
 
     before(() => {
         cy.task('questionnaire:delete')
         cy.task('package:delete', { km_id: kmId })
-        cy.removeTemplate('dsw:questionnaire-report:1.3.0')
+        cy.removeTemplate(templateId)
         cy.clearServerCache()
 
         cy.importKM('test-km-1')

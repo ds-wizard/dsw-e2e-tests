@@ -4,7 +4,7 @@ describe('Project - Preview', () => {
     const projectName = 'Preview test'
     const kmId = 'test-documents'
     const packageId = 'dsw:test-documents:1.0.0'
-    const templateId = 'dsw:questionnaire-report:1.3.0'
+    const templateId = 'dsw:questionnaire-report:1.4.0'
 
     const browserFormats = [
         'JSON Data',
@@ -37,7 +37,7 @@ describe('Project - Preview', () => {
 
     before(() => {
         cy.task('package:delete', { km_id: kmId })
-        cy.removeTemplate('dsw:questionnaire-report:1.3.0')
+        cy.removeTemplate('dsw:questionnaire-report:1.4.0')
         cy.clearServerCache()
         
         cy.importKM(kmId)

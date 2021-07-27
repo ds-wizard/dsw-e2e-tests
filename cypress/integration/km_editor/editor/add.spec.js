@@ -37,6 +37,40 @@ describe('KM Editor Add Entity', () => {
             cy.checkFields(chapter)
         })
 
+        it('add Metric', () => {
+            const metric = {
+                title: 'Metric 1',
+                abbreviation: 'M1',
+                description: 'This is Metric 1'
+            }
+
+            // Add metric and save
+            editor.open(kmId)
+            editor.createChildren([['metric', metric]])
+            editor.saveAndClose()
+
+            // Open editor and check that the metric is there
+            editor.open(kmId)
+            editor.openChild(metric.title)
+            cy.checkFields(metric)
+        })
+
+        it('add Phase', () => {
+            const phase = {
+                title: 'Phase 1',
+                description: 'This is Phase 1'
+            }
+
+            // Add phase and save
+            editor.open(kmId)
+            editor.createChildren([['phase', phase]])
+            editor.saveAndClose()
+
+            // Open editor and check that the phase is there
+            editor.open(kmId)
+            editor.openChild(phase.title)
+            cy.checkFields(phase)
+        })
 
         it('add Tag', () => {
             const tag = {

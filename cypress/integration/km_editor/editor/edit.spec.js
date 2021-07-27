@@ -43,6 +43,43 @@ describe('KM Editor Edit Entity', () => {
             cy.checkFields(chapter)
         })
 
+        it('edit Metric', () => {
+            const metric = {
+                title: 'Metric 1',
+                abbreviation: 'M1',
+                description: 'This is Metric 1'
+            }
+
+            // Edit Metric
+            editor.open(kmId)
+            editor.traverseChildren(['Findability'])
+            cy.fillFields(metric)
+            editor.saveAndClose()
+
+            // Open editor again and check that changes were saved
+            editor.open(kmId)
+            editor.traverseChildren([metric.title])
+            cy.checkFields(metric)
+        })
+
+        it('edit Phase', () => {
+            const metric = {
+                title: 'Phase 1',
+                description: 'This is Phase 1'
+            }
+
+            // Edit Metric
+            editor.open(kmId)
+            editor.traverseChildren(['Before Submitting the Proposal'])
+            cy.fillFields(metric)
+            editor.saveAndClose()
+
+            // Open editor again and check that changes were saved
+            editor.open(kmId)
+            editor.traverseChildren([metric.title])
+            cy.checkFields(metric)
+        })
+
         it('edit Tag', () => {
             const tag = {
                 name: 'Another tag',
