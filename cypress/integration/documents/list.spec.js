@@ -46,24 +46,6 @@ describe('Document List', () => {
 
     it('default sort', () => {
         cy.getCy('documents_state-badge').should('not.exist')
-
-        cy.getCy('listing_item').contains('Document 01').should('exist')
-        cy.getCy('listing_item').contains('Document 14').should('exist')
-        cy.getCy('listing_item').contains('Document 20').should('exist')
-        cy.getCy('listing_item').contains('Document 21').should('not.exist')
-        cy.getCy('listing_item').contains('Document 32').should('not.exist')
-
-        cy.getCy('listing_page-link_next').click()
-        cy.getCy('listing_item').contains('Document 06').should('not.exist')
-        cy.getCy('listing_item').contains('Document 20').should('not.exist')
-        cy.getCy('listing_item').contains('Document 21').should('exist')
-        cy.getCy('listing_item').contains('Document 32').should('exist')
-        cy.getCy('listing_item').contains('Document 40').should('exist')
-    })
-
-    it('reverse sort', () => {
-        cy.getCy('documents_state-badge').should('not.exist')
-        cy.getCy('listing_toolbar_sort-direction').click()
         
         cy.getCy('listing_item').contains('Document 40').should('exist')
         cy.getCy('listing_item').contains('Document 32').should('exist')
@@ -77,6 +59,24 @@ describe('Document List', () => {
         cy.getCy('listing_item').contains('Document 20').should('exist')
         cy.getCy('listing_item').contains('Document 14').should('exist')
         cy.getCy('listing_item').contains('Document 01').should('exist')
+    })
+
+    it('reverse sort', () => {
+        cy.getCy('documents_state-badge').should('not.exist')
+        cy.getCy('listing_toolbar_sort-direction').click()
+
+        cy.getCy('listing_item').contains('Document 01').should('exist')
+        cy.getCy('listing_item').contains('Document 14').should('exist')
+        cy.getCy('listing_item').contains('Document 20').should('exist')
+        cy.getCy('listing_item').contains('Document 21').should('not.exist')
+        cy.getCy('listing_item').contains('Document 32').should('not.exist')
+
+        cy.getCy('listing_page-link_next').click()
+        cy.getCy('listing_item').contains('Document 06').should('not.exist')
+        cy.getCy('listing_item').contains('Document 20').should('not.exist')
+        cy.getCy('listing_item').contains('Document 21').should('exist')
+        cy.getCy('listing_item').contains('Document 32').should('exist')
+        cy.getCy('listing_item').contains('Document 40').should('exist')
     })
 
     it('filter', () => {
