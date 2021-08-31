@@ -178,7 +178,7 @@ describe('Settings / Projects', () => {
     }, {
         projectCreation: project.CustomQuestionnaireCreation,
         researcher: expectCustomOnlyEnabled,
-        datasteward: expectBothEnabled
+        datasteward: expectCustomOnlyEnabled
     }]
 
     tests.forEach(({projectCreation, researcher, datasteward}) => {
