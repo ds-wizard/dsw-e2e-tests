@@ -5,7 +5,7 @@
   "repository": "https://github.com/ds-wizard/dsw-e2e-tests",
   "license": "Apache-2.0",
   "dependencies": {
-    "mongodb": "^3.5.8",
+    "mongodb": "^4.1.2",
     "pg": "^8.6.0"
   },
   "devDependencies": {
