@@ -38,6 +38,11 @@ describe('Project Sharing', () => {
         expectAnon: project.expectViewer
     }, {
         visibility: project.Private,
+        sharing: project.AnyoneWithLinkComment,
+        expectUser: project.expectCommenter,
+        expectAnon: project.expectCommenter
+    }, {
+        visibility: project.Private,
         sharing: project.AnyoneWithLinkEdit,
         expectUser: project.expectEditor,
         expectAnon: project.expectEditor
@@ -52,6 +57,36 @@ describe('Project Sharing', () => {
         expectUser: project.expectViewer,
         expectAnon: project.expectViewer
     }, {
+        visibility: project.VisibleView,
+        sharing: project.AnyoneWithLinkComment,
+        expectUser: project.expectCommenter,
+        expectAnon: project.expectCommenter
+    }, {
+        visibility: project.VisibleView,
+        sharing: project.AnyoneWithLinkEdit,
+        expectUser: project.expectEditor,
+        expectAnon: project.expectEditor
+    }, {
+        visibility: project.VisibleComment,
+        sharing: project.Restricted,
+        expectUser: project.expectCommenter,
+        expectAnon: expectAnonCannotSee
+    }, {
+        visibility: project.VisibleComment,
+        sharing: project.AnyoneWithLinkView,
+        expectUser: project.expectCommenter,
+        expectAnon: project.expectViewer
+    }, {
+        visibility: project.VisibleComment,
+        sharing: project.AnyoneWithLinkComment,
+        expectUser: project.expectCommenter,
+        expectAnon: project.expectCommenter
+    }, {
+        visibility: project.VisibleComment,
+        sharing: project.AnyoneWithLinkEdit,
+        expectUser: project.expectEditor,
+        expectAnon: project.expectEditor
+    }, {
         visibility: project.VisibleEdit,
         sharing: project.Restricted,
         expectUser: project.expectEditor,
@@ -61,6 +96,11 @@ describe('Project Sharing', () => {
         sharing: project.AnyoneWithLinkView,
         expectUser: project.expectEditor,
         expectAnon: project.expectViewer
+    }, {
+        visibility: project.VisibleEdit,
+        sharing: project.AnyoneWithLinkComment,
+        expectUser: project.expectEditor,
+        expectAnon: project.expectCommenter
     }, {
         visibility: project.VisibleEdit,
         sharing: project.AnyoneWithLinkEdit,
@@ -95,7 +135,7 @@ describe('Project Sharing', () => {
             if (visibility !== project.Private) {
                 cy.checkToggle('visibilityEnabled')
                 cy.fillFields({
-                    s_visibilityPermission: visibility === project.VisibleView ? 'view' : 'edit'
+                    s_visibilityPermission: project.visibilityToPerm(visibility)
                 })
             }
 
@@ -103,7 +143,7 @@ describe('Project Sharing', () => {
             if (sharing !== project.Restricted) {
                 cy.checkToggle('sharingEnabled')
                 cy.fillFields({
-                    s_sharingPermission: sharing === project.AnyoneWithLinkView ? 'view' : 'edit'
+                    s_sharingPermission: project.sharingToPerm(sharing)
                 })
             }
 

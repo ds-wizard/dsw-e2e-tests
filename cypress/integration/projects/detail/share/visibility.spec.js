@@ -21,12 +21,6 @@ describe('Project Visibility', () => {
     const testCases = [{
         creator: 'researcher',
         viewer: 'researcher',
-        visibility: project.VisibleEdit,
-        open: true,
-        expectResult: project.expectOwner
-    }, {
-        creator: 'researcher',
-        viewer: 'researcher',
         visibility: project.Private,
         open: true,
         expectResult: project.expectOwner
@@ -38,10 +32,16 @@ describe('Project Visibility', () => {
         expectResult: project.expectOwner
     }, {
         creator: 'researcher',
-        viewer: 'datasteward',
+        viewer: 'researcher',
+        visibility: project.VisibleComment,
+        open: true,
+        expectResult: project.expectOwner
+    }, {
+        creator: 'researcher',
+        viewer: 'researcher',
         visibility: project.VisibleEdit,
         open: true,
-        expectResult: project.expectEditor
+        expectResult: project.expectOwner
     }, {
         creator: 'researcher',
         viewer: 'datasteward',
@@ -55,10 +55,16 @@ describe('Project Visibility', () => {
         expectResult: project.expectViewer
     }, {
         creator: 'researcher',
-        viewer: 'admin',
+        viewer: 'datasteward',
+        visibility: project.VisibleComment,
+        open: true,
+        expectResult: project.expectCommenter
+    }, {
+        creator: 'researcher',
+        viewer: 'datasteward',
         visibility: project.VisibleEdit,
         open: true,
-        expectResult: project.expectOwner
+        expectResult: project.expectEditor
     }, {
         creator: 'researcher',
         viewer: 'admin',
@@ -71,6 +77,18 @@ describe('Project Visibility', () => {
         visibility: project.VisibleView,
         open: true,
         expectResult: project.expectOwner
+    }, {
+        creator: 'researcher',
+        viewer: 'admin',
+        visibility: project.VisibleComment,
+        open: true,
+        expectResult: project.expectOwner
+    }, {
+        creator: 'researcher',
+        viewer: 'admin',
+        visibility: project.VisibleEdit,
+        open: true,
+        expectResult: project.expectOwner
     }]
 
     testCases.forEach(({ creator, viewer, visibility, open, expectResult }) => {
@@ -81,15 +99,7 @@ describe('Project Visibility', () => {
             project.create(projectName, packageName)
 
             // Set visibility
-            cy.clickBtn('Share')
-
-            if (visibility !== project.Private) {
-                cy.checkToggle('visibilityEnabled')
-                cy.fillFields({
-                    s_visibilityPermission: visibility === project.VisibleView ? 'view' : 'edit'
-                })
-            }
-            cy.clickModalAction()
+            project.setProjectVisibility(visibility)
             
             // Log out and test as a viewer
             cy.logout()

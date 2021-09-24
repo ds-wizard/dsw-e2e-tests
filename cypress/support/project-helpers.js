@@ -1,9 +1,13 @@
+import { dataCy } from './utils'
+
 export const VisibleEdit = 'VisibleEditQuestionnaire'
+export const VisibleComment = 'VisibleCommentQuestionnaire'
 export const VisibleView = 'VisibleViewQuestionnaire'
 export const Private = 'PrivateQuestionnaire'
 
 export const Restricted = 'RestrictedQuestionnaire'
 export const AnyoneWithLinkView = 'AnyoneWithLinkViewQuestionnaire'
+export const AnyoneWithLinkComment = 'AnyoneWithLinkCommentQuestionnaire'
 export const AnyoneWithLinkEdit = 'AnyoneWithLinkEditQuestionnaire'
 
 export const TemplateAndCustomQuestionnaireCreation = 'TemplateAndCustomQuestionnaireCreation'
@@ -12,10 +16,16 @@ export const CustomQuestionnaireCreation = 'CustomQuestionnaireCreation'
 
 export const TodoUUID = '615b9028-5e3f-414f-b245-12d2ae2eeb20'
 
-export function open(questionnaireName) {
+export function open(projectName) {
     cy.visitApp('/projects')
-    cy.clickListingItemAction(questionnaireName, 'open')
-    expectTitle(questionnaireName)
+    cy.clickListingItemAction(projectName, 'open')
+    expectTitle(projectName)
+}
+
+
+export function openAnonymous(projectId, projectName) {
+    cy.visitApp(`/projects/${projectId}`)
+    cy.get('.DetailNavigation__Row__Section .title').contains(projectName)
 }
 
 
@@ -31,6 +41,61 @@ export function create(projectName, packageName) {
 }
 
 
+export function addUser(name, perms) {
+    cy.clickBtn('Share')
+    cy.fillFields({ th_memberId: name })
+    cy.fillFields({ 's_permissions\\.1\\.perms': perms })
+    cy.clickModalAction()
+}
+
+
+export function visibilityToPerm(visibility) {
+    if (visibility == VisibleEdit) {
+        return 'edit'
+    } else if (visibility == VisibleComment) {
+        return 'comment'
+    }
+    return 'view'
+}
+
+
+export function sharingToPerm(sharing) {
+    if (sharing == AnyoneWithLinkEdit) {
+        return 'edit'
+    } else if (sharing == AnyoneWithLinkComment) {
+        return 'comment'
+    }
+    return 'view'
+}
+
+
+export function setProjectVisibility(visibility) {
+    cy.clickBtn('Share')
+
+    if (visibility !== Private) {
+        cy.checkToggle('visibilityEnabled')
+        cy.fillFields({ s_visibilityPermission: visibilityToPerm(visibility) })
+    } else {
+        cy.uncheckToggle('visibilityEnabled')
+    }
+
+    cy.clickModalAction() 
+}
+
+export function setProjectSharing(sharing) {
+    cy.clickBtn('Share')
+
+    if (sharing !== Restricted) {
+        cy.checkToggle('sharingEnabled')
+        cy.fillFields({ s_sharingPermission: sharingToPerm(sharing) })
+    } else {
+        cy.uncheckToggle('sharingEnabled')
+    }
+
+    cy.clickModalAction() 
+}
+
+
 export function expectTitle(questionnaireName) {
     cy.get('.DetailNavigation__Row__Section .title').contains(questionnaireName)
 }
@@ -40,6 +105,15 @@ export function expectViewer() {
     cy.url().should('match', /\/projects\/.+/)
     cy.get('.questionnaire__form .form-group input[type=text]').should('be.disabled')
     cy.get('.questionnaire__left-panel__phase select').should('be.disabled')
+    cy.getCy('questionnaire_question-action_comment').should('not.exist')
+    checkDisabledShareAndSettings()
+}
+
+export function expectCommenter() {
+    cy.url().should('match', /\/projects\/.+/)
+    cy.get('.questionnaire__form .form-group input[type=text]').should('be.disabled')
+    cy.get('.questionnaire__left-panel__phase select').should('be.disabled')
+    cy.getCy('questionnaire_question-action_comment').should('exist')
     checkDisabledShareAndSettings()
 }
 
@@ -204,6 +278,50 @@ export function expectTodoCount(count) {
 export function expectNoTodo() {
     cy.get('.questionnaire__toolbar .item').contains('TODOs').parent().find('.badge').should('not.exist')
     cy.get('.action-todo').should('not.exist')
+}
+
+
+export function openCommentsFor(question) {
+    cy.get('.form-group').contains(question).find(dataCy('questionnaire_question-action_comment')).click()
+}
+
+
+export function openPrivateNotesFor(question) {
+    openCommentsFor(question)
+    cy.getCy('comments_nav_private-notes').click()
+}
+
+
+export function startNewCommentThread(text) {
+    cy.getCy('comments_reply-form_input_new_public').clear().type(text)
+    cy.getCy('comments_reply-form_submit_new_public').click()
+}
+
+
+export function replyCommentThread(text) {
+    cy.getCy('comments_reply-form_input_reply_public').clear().type(text)
+    cy.getCy('comments_reply-form_submit_reply_public').click()
+}
+
+
+export function startNewPrivateNotesThread(text) {
+    cy.getCy('comments_reply-form_input_new_private').clear().type(text)
+    cy.getCy('comments_reply-form_submit_new_private').click()
+}
+
+
+export function replyPrivateNoteThread(text) {
+    cy.getCy('comments_reply-form_input_reply_private').clear().type(text)
+    cy.getCy('comments_reply-form_submit_reply_private').click()
+}
+
+
+export function expectCommentCount(count) {
+    if (count > 0) {
+        cy.getCy('questionnaire_toolbar_comments_count').contains(count)
+    } else {
+        cy.getCy('questionnaire_toolbar_comments_count').should('not.exist')
+    }
 }
 
 
