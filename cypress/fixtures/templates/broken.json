@@ -6,7 +6,7 @@
   "name": "Broken Template",
   "description": "This is a broken template",
   "readme": "# Broken Template",
-  "metamodelVersion": 4,
+  "metamodelVersion": 5,
   "license": "nolicense",
   "recommendedPackageId": null,
   "allowedPackages": [

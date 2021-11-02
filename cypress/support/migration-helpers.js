@@ -38,7 +38,7 @@ export function verifyPackageWithBundle(packageId, fixtureName, pkgParams, check
 
             pkg.events.forEach((childEvent, index) => {
                 Object.keys(childEvent).forEach((key) => {
-                    const shouldSkip = (!checkEventUuid && key === 'uuid') || key === 'requiredPhaseUuid' || key === 'metricUuids' || key === 'phaseUuids'
+                    const shouldSkip = (!checkEventUuid && key === 'uuid') || ['requiredPhaseUuid', 'metricUuids', 'phaseUuids', 'annotations'].includes(key)
                     if (!shouldSkip) {
                         cy.wrap(childEvent).its(key).should('deep.equal', parentPkg.events[index][key])
                     }

@@ -115,7 +115,7 @@ describe('KM Editor Add Entity', () => {
             }
 
             const addHeader = (header, value) => {
-                cy.getCy('form-group_list_add-button').click()
+                cy.get('.card [data-cy="form-group_list_add-button"]').click()
                 cy.getCy('integration_headers_name').type(header)
                 cy.getCy('integration_headers_value').type(value)
             }
