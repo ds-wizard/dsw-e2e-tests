@@ -22,11 +22,33 @@ export class Config {
     }
 }
 
+function updateIntegrationEvent(event) {
+    const fields = [
+        ['responseItemId', 'responseIdField', true],
+        ['responseItemTemplate', 'responseNameField', true],
+        ['responseItemUrl', 'itemUrl', false],
+    ]
+
+    fields.forEach(([fieldName, oldFieldName, wrapTemplateValue]) => {
+        if (event[fieldName] === undefined && event[oldFieldName] !== undefined) {
+            event[fieldName] = event[oldFieldName]
+            if (wrapTemplateValue) {
+                if (event[fieldName].changed && event[fieldName].value) {
+                    event[fieldName].value = `{{item.${event[fieldName].value}}}`
+                } else {
+                    event[fieldName] = `{{item.${event[fieldName]}}}`
+                }
+            }
+        }
+    })
+
+    return event
+}
+
 export function verifyPackageWithBundle(packageId, fixtureName, pkgParams, checkEventUuid = true) {
     cy.task('package:get', { 
         id: packageId
     }).then(pkg => {
-        console.log(pkg)
         cy.fixture(fixtureName).then(parentPkgBundle => {
             const parentPkg = parentPkgBundle.packages.filter(innerPkg => {
                 return innerPkg.id == packageId
@@ -40,7 +62,7 @@ export function verifyPackageWithBundle(packageId, fixtureName, pkgParams, check
                 Object.keys(childEvent).forEach((key) => {
                     const shouldSkip = (!checkEventUuid && key === 'uuid') || ['requiredPhaseUuid', 'metricUuids', 'phaseUuids', 'annotations'].includes(key)
                     if (!shouldSkip) {
-                        cy.wrap(childEvent).its(key).should('deep.equal', parentPkg.events[index][key])
+                        cy.wrap(childEvent).its(key).should('deep.equal', updateIntegrationEvent(parentPkg.events[index])[key])
                     }
                 })
             })

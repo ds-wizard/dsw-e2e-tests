@@ -11,6 +11,7 @@ describe('Settings / Authentication', () => {
 
         cy.loginAs('admin')
         cy.visitApp('/settings/authentication')
+        cy.get('h2')
     })
 
     after(() => {
@@ -66,7 +67,7 @@ describe('Settings / Authentication', () => {
         cy.getCy('public_nav_sign-up').should('not.exist')
     })
 
-    it('OpenID service', () => {
+    it.only('OpenID service', () => {
         // Fill in an OpenID service
         cy.clickBtn('Add', true)
         cy.fillFields({

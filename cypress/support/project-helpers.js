@@ -162,7 +162,7 @@ export function expectTypehints(label, typehints, query = '') {
     } else {
         cy.get('label').contains(label).closest('.form-group').find('.typehints > ul > li').should('have.length', typehints.length)
         cy.get('label').contains(label).closest('.form-group').find('.typehints > ul > li').each(($item, index) => {
-            expect($item).to.have.text(typehints[index].name)
+            cy.wrap($item).contains(typehints[index].name)
         })
     }
 }
@@ -176,13 +176,13 @@ export function expectTypehintsError(label, message) {
 
 export function useNthTypehint(label, n, typehint) {
     cy.get('label').contains(label).closest('.form-group').find('input').focus()
-    cy.get('label').contains(label).closest('.form-group').find('.typehints > ul > li').eq(n).should('have.text', typehint.name).click()
+    cy.get('label').contains(label).closest('.form-group').find('.typehints > ul > li').eq(n).contains(typehint.name).click()
 }
 
 
-export function checkTypehintExtra(label, link, logo = false) {
-    cy.get('label').contains(label).closest('.form-group').find('.integration-extra > img').should(logo ? 'exist' : 'not.exist')
-    cy.get('label').contains(label).closest('.form-group').find('.integration-extra > a').should('have.text', link)
+export function checkIntegrationLink(label, link, logo = false) {
+    cy.get('label').contains(label).closest('.form-group').find('.card-footer > img').should(logo ? 'exist' : 'not.exist')
+    cy.get('label').contains(label).closest('.form-group').find('.card-footer > a').should('have.text', link)
 }
 
 
@@ -226,6 +226,11 @@ export function checkAnswerNotChecked(answer) {
 }
 
 
+export function clearAnswer(answer) {
+    cy.get('label').contains(answer).closest('.form-group').find('a').contains('Clear answer').click()
+}
+
+
 export function typeAnswer(label, answer) {
     cy.get('label').contains(label).closest('.form-group').find('input').clear().type(answer, { delay: 200 })
 }
@@ -233,6 +238,11 @@ export function typeAnswer(label, answer) {
 
 export function checkAnswer(label, answer) {
     cy.get('label').contains(label).closest('.form-group').find('input').should('have.value', answer)
+}
+
+
+export function checkIntegrationAnswer(label, answer) {
+    cy.get('label').contains(label).closest('.form-group').find('.card-body.item-md').contains(answer)
 }
 
 
@@ -401,12 +411,14 @@ export function resolveAndFinalizeMigration() {
     cy.clickBtn('Resolve')
     cy.clickBtn('Finalize migration')
     cy.url().should('match', /\/projects\/.+/)
+    cy.get('.questionnaire__form')
 }
 
 
 export function finalizeMigration() {
     cy.clickBtn('Finalize migration')
     cy.url().should('match', /\/projects\/.+/)
+    cy.get('.questionnaire__form')
 }
 
 

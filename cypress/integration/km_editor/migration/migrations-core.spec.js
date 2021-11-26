@@ -707,7 +707,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Request Method', 'validate': (x) => {
+                'label': 'Request HTTP Method', 'validate': (x) => {
                     x.get('ins').contains('GET')
                 }
             },
@@ -717,12 +717,12 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Request Headers', 'validate': (x) => {
+                'label': 'Request HTTP Headers', 'validate': (x) => {
                     x.get('ins').contains('Accept: application-json')
                 }
             },
             {
-                'label': 'Request Body', 'validate': (x) => {
+                'label': 'Request HTTP Body', 'validate': (x) => {
                     x.get('ins').contains('{ "q": "${q}" }')
                 }
             },
@@ -732,12 +732,12 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Response ID Field', 'validate': (x) => {
+                'label': 'Response Item ID', 'validate': (x) => {
                     x.get('ins').contains('id')
                 }
             },
             {
-                'label': 'Response Name Field', 'validate': (x) => {
+                'label': 'Response Item Template', 'validate': (x) => {
                     x.get('ins').contains('name')
                 }
             }
@@ -779,7 +779,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Request Method', 'validate': (x) => {
+                'label': 'Request HTTP Method', 'validate': (x) => {
                     x.get('del').contains('GET')
                     x.get('ins').contains('DELETE')
                 }
@@ -791,13 +791,13 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Request Headers', 'validate': (x) => {
+                'label': 'Request HTTP Headers', 'validate': (x) => {
                     x.get('del').contains('Accept: application-json')
                     x.get('ins').contains('Accept: application-json, Authorization: token ${token}')
                 }
             },
             {
-                'label': 'Request Body', 'validate': (x) => {
+                'label': 'Request HTTP Body', 'validate': (x) => {
                     x.get('del').contains('{ "q": "${q}" }')
                     x.get('ins').contains('{ "q": "${q}", "yes": true }')
                 }
@@ -809,13 +809,13 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Response ID Field', 'validate': (x) => {
+                'label': 'Response Item ID', 'validate': (x) => {
                     x.get('del').contains('id')
                     x.get('ins').contains('doi')
                 }
             },
             {
-                'label': 'Response Name Field', 'validate': (x) => {
+                'label': 'Response Item Template', 'validate': (x) => {
                     x.get('del').contains('name')
                     x.get('ins').contains('title')
                 }
@@ -854,7 +854,7 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Request Method', 'validate': (x) => {
+                'label': 'Request HTTP Method', 'validate': (x) => {
                     x.get('del').contains('DELETE')
                 }
             },
@@ -864,12 +864,12 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Request Headers', 'validate': (x) => {
+                'label': 'Request HTTP Headers', 'validate': (x) => {
                     x.get('del').contains('Accept: application-json, Authorization: token ${token}')
                 }
             },
             {
-                'label': 'Request Body', 'validate': (x) => {
+                'label': 'Request HTTP Body', 'validate': (x) => {
                     x.get('del').contains('{ "q": "${q}", "yes": true }')
                 }
             },
@@ -879,12 +879,12 @@ describe('KM Editor Migrations', () => {
                 }
             },
             {
-                'label': 'Response ID Field', 'validate': (x) => {
+                'label': 'Response Item ID', 'validate': (x) => {
                     x.get('del').contains('doi')
                 }
             },
             {
-                'label': 'Response Name Field', 'validate': (x) => {
+                'label': 'Response Item Template', 'validate': (x) => {
                     x.get('del').contains('title')
                 }
             }

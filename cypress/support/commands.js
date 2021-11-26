@@ -73,8 +73,8 @@ Cypress.Commands.add('clickModalCancel', () => {
     cy.getCy('modal_cancel-button').filter(':visible').click()
 })
 
-Cypress.Commands.add('expectModalOpen', (modal) => {
-    cy.getCy(`modal_${modal}`).should('be.visible')
+Cypress.Commands.add('expectModalOpen', (modal, open = true) => {
+    cy.getCy(`modal_${modal}`).should(open ? 'be.visible' : 'not.be.visible')
 })
 
 

@@ -116,9 +116,10 @@ describe('Questionnaire Versions', () => {
         clickEventAction('Revert to this version')
         cy.clickModalAction()
 
-        project.checkAnswerNotChecked('Answer 1.1')
+        cy.expectModalOpen('project-version', false)
         openVersionHistory()
         expectEventCount(2)
+        project.checkAnswerNotChecked('Answer 1.1')
     })
 
     it('view questionnaire in a version', () => {

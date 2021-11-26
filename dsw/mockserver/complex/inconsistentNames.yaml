@@ -10,7 +10,8 @@
     body: >
       [
         { "id": "standard01", "name": "Adverse Drug Reaction Markup Language" },
-        { "id": "standard02", "name": null },
+        { "id": "standard02", "name": 12.3 },
         { "id": "standard03", "name": 7 },
-        { "id": "standard04", "name": true }
+        { "id": "standard04", "name": true },
+        { "id": "standard05", "name": 0 }
       ]
