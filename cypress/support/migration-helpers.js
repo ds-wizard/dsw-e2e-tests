@@ -72,10 +72,12 @@ export function finishMigrationAndPublish(major, minor, patch) {
 }
 
 export function checkMigrationForm(data) {
-    cy.get('.card-body .form-group').should('have.length', data.length)
+    cy.get('.card-body .form-group').should('have.length', data.length + 1) // data + annotations
     cy.get('.card-body .form-group').each(($el, index, $list) => {
-        cy.wrap($el).get('.control-label').contains(data[index].label)
-        data[index].validate(cy.wrap($el).get('.form-value'))
+        if (index < data.length - 1) { // we don't check annotations
+            cy.wrap($el).get('.control-label').contains(data[index].label)
+            data[index].validate(cy.wrap($el).get('.form-value'))
+        }
     })
 }
 
