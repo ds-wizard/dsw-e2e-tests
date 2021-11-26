@@ -96,13 +96,13 @@ describe('KM Editor Add Entity', () => {
                 id: 'service1',
                 name: 'Service 1',
                 logo: 'base64image',
-                itemUrl: 'https://example.com/${{}id}',
+                responseItemUrl: 'https://example.com/${{}id}',
                 s_requestMethod: 'POST',
                 requestUrl: 'https://api.example.com/search?q=${{}q}',
                 requestBody: '{{}}',
                 responseListField: 'items',
-                responseIdField: 'itemId',
-                responseNameField: 'itemName'
+                responseItemId: 'itemId',
+                responseItemTemplate: 'itemName'
             }
 
             const addProp = (name) => {

@@ -84,8 +84,10 @@ describe('Questionnaires Typehints', () => {
         typehints: [
             { "id": "1", "name": "Adverse Drug Reaction Markup Language" },
             { "id": "2.3", "name": "Analytical Information Markup Language" },
-            { "id": "False", "name": "Gramene Taxonomy Ontology" },
-            { "id": "standard4", "name": "Minimal Information About a Cellular Assay" }
+            { "id": "3.5", "name": "Gramene Taxonomy Ontology" },
+            { "id": "standard4", "name": "Minimal Information About a Cellular Assay" },
+            { "id": "0", "name": "Different Taxonomy Ontology" }
+
         ]
     }, {
         chapter: 'Complex',
@@ -93,9 +95,10 @@ describe('Questionnaires Typehints', () => {
         slug: 'variableUsingProps',
         typehints: [
             { "id": "standard01", "name": "Adverse Drug Reaction Markup Language" },
-            { "id": "standard02", "name": "null" },
+            { "id": "standard02", "name": "12.3" },
             { "id": "standard03", "name": "7" },
-            { "id": "standard04", "name": "True" }
+            { "id": "standard04", "name": "1" },
+            { "id": "standard05", "name": "0" }
         ]
     }, {
         chapter: 'Complex',
@@ -132,20 +135,48 @@ describe('Questionnaires Typehints', () => {
             project.openChapter(spec.chapter)
             spec.typehints.forEach((typehint, index) => {
                 project.useNthTypehint(spec.question, index, typehint)
-                project.checkAnswer(spec.question, typehint.name)
-                project.checkTypehintExtra(spec.question, `${baseURI}/${spec.slug}/${typehint.id}`)
+                project.checkIntegrationAnswer(spec.question, typehint.name)
+                project.checkIntegrationLink(spec.question, `${baseURI}/${spec.slug}/${typehint.id}`)
+                project.clearAnswer(spec.question)
+            })
+        })
+    })
+
+
+    const recoverableSpecs = [ {
+        chapter: 'Complex',
+        question: 'Missing ID',
+        slug: 'variableUsingProps',
+        typehints: [
+            { "id": "standard01", "name": "Adverse Drug Reaction Markup Language" },
+            { "id": "standard02", "name": "Analytical Information Markup Language" },
+            { "id": "standard04", "name": "Minimal Information About a Cellular Assay" }
+        ]
+    }, {
+        chapter: 'Complex',
+        question: 'Missing name',
+        slug: 'variableUsingProps',
+        typehints: [
+            { "id": "standard01", "name": "Adverse Drug Reaction Markup Language" },
+            { "id": "standard02", "name": "Analytical Information Markup Language" },
+            { "id": "standard04", "name": "Minimal Information About a Cellular Assay" }
+        ]
+    }]
+
+    recoverableSpecs.forEach((spec) => {
+        it(spec.question, () => {
+            project.openChapter(spec.chapter)
+            spec.typehints.forEach((typehint, index) => {
+                project.useNthTypehint(spec.question, index, typehint)
+                project.checkIntegrationAnswer(spec.question, typehint.name)
+                project.checkIntegrationLink(spec.question, `${baseURI}/${spec.slug}/${typehint.id}`)
+                project.clearAnswer(spec.question)
             })
         })
     })
 
 
     const errorSpecs = [{
-        chapter: 'Complex',
-        question: 'Missing ID'
-    }, {
-        chapter: 'Complex',
-        question: 'Missing name'
-    }, {
         chapter: 'Complex',
         question: 'Null item'
     }, {
@@ -239,8 +270,9 @@ describe('Questionnaires Typehints', () => {
         indices.forEach((index) => {
             const typehint = { id: `item-${index}`, name: `Item #${index}` }
             project.useNthTypehint(question, index, typehint)
-            project.checkAnswer(question, typehint.name)
-            project.checkTypehintExtra(question, `${baseURI}/${slug}/${typehint.id}`)
+            project.checkIntegrationAnswer(question, typehint.name)
+            project.checkIntegrationLink(question, `${baseURI}/${slug}/${typehint.id}`)
+            project.clearAnswer(question)
         })
     })
 
@@ -253,7 +285,8 @@ describe('Questionnaires Typehints', () => {
         project.openChapter(chapter)
         commonTypehints.forEach((typehint, index) => {
             project.useNthTypehint(question, index, typehint)
-            project.checkTypehintExtra(question, `${baseURI}/${slug}/${typehint.id}`, true)
+            project.checkIntegrationLink(question, `${baseURI}/${slug}/${typehint.id}`, true)
+            project.clearAnswer(question)
         })
     })
 })
