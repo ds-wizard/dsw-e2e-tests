@@ -67,7 +67,7 @@ describe('Settings / Authentication', () => {
         cy.getCy('public_nav_sign-up').should('not.exist')
     })
 
-    it.only('OpenID service', () => {
+    it('OpenID service', () => {
         // Fill in an OpenID service
         cy.clickBtn('Add', true)
         cy.fillFields({
