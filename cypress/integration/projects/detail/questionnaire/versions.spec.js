@@ -117,6 +117,7 @@ describe('Questionnaire Versions', () => {
         cy.clickModalAction()
 
         cy.expectModalOpen('project-version', false)
+        cy.get('.history').should('not.exist')
         openVersionHistory()
         expectEventCount(2)
         project.checkAnswerNotChecked('Answer 1.1')
