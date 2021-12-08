@@ -61,6 +61,7 @@ Cypress.Commands.add('clickBtn', (label, force = false) => {
 
 Cypress.Commands.add('submitForm', () => {
     cy.getCy('form_submit').click()
+    cy.getCy('form_submit').find('.fa-spinner').should('not.exist')
 })
 
 // Modals

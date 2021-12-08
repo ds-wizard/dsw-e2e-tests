@@ -23,6 +23,8 @@ describe('Project - Preview', () => {
         project.openSettings()
         cy.contains(format).click()
         cy.clickBtn('Save')
+        
+        project.open(projectName)
         project.openPreview()
     }
 
