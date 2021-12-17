@@ -183,7 +183,7 @@ Cypress.Commands.add('createQuestionnaire', ({ visibility, sharing, name, packag
             method: 'POST',
             url: apiUrl('/questionnaires'),
             headers: createHeaders(resp.body.token),
-            body: { visibility, sharing, name, packageId, templateId, tagUuids: [] }
+            body: { visibility, sharing, name, packageId, templateId, questionTagUuids: [] }
         })
     })
 })
@@ -195,7 +195,7 @@ Cypress.Commands.add('createQuestionnaires', (questionnaires) => {
                 method: 'POST',
                 url: apiUrl('/questionnaires'),
                 headers: createHeaders(resp.body.token),
-                body: { visibility, sharing, name, packageId, tagUuids: [] }
+                body: { visibility, sharing, name, packageId, questionTagUuids: [] }
             })
         })
     })

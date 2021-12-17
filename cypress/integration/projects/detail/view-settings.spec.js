@@ -64,9 +64,9 @@ describe('Questionnaire - View Settings', () => {
     it('Tags', () => {
         withQuestionnaire(packageIdTags, () => {
             cy.get('.tag-list').should('exist')
-            clickViewMenu('Tags')
+            clickViewMenu('Question tags')
             cy.get('.tag-list').should('not.exist')
-            clickViewMenu('Tags')
+            clickViewMenu('Question tags')
             cy.get('.tag-list').should('exist')
         })
     })

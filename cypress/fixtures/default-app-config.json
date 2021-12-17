@@ -76,6 +76,10 @@
         },
         "summaryReport": {
             "enabled": true
+        },
+        "projectTagging": {
+            "enabled": true,
+            "tags": []
         }
     },
     "template": {
