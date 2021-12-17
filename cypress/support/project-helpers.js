@@ -216,6 +216,10 @@ export function openSettings() {
     cy.get('.DetailNavigation__Row .nav-link').contains('Settings').click()
 }
 
+export function saveSettings() {
+    cy.clickBtn('Save')
+}
+
 export function checkAnswerChecked(answer) {
     cy.get('label').contains(answer).find('input').should('be.checked')
 }
@@ -423,4 +427,31 @@ export function finalizeMigration() {
 
 export function awaitOpen() {
     cy.get('.DetailNavigation__Row__Section').should('exist')
+}
+
+
+export function addProjectTag(projectTag) {
+    cy.fillFields({ projectTag })
+    cy.getCy('project_settings_add-tag-button').click()
+}
+
+
+export function removeProjectTag(projectTag) {
+    cy.getCy('project_settings_tag').contains(projectTag).find(dataCy('project_settings_tag-remove')).click()
+}
+
+
+export function expectProjectTag(projectTag, exists = true) {
+    cy.getCy('project_settings_tag').contains(projectTag).should(exists ? 'exist' : 'not.exist')
+}
+
+
+export function expectProjectTagSuggestion(projectTag, exists = true) {
+    cy.getCy('project_settings_tag-suggestion').contains(projectTag).should(exists ? 'exist' : 'not.exist')
+}
+
+
+export function pickProjectTagSuggestion(projectTag) {
+    cy.getCy('project_settings_tag-suggestion').contains(projectTag).click()
+    cy.getCy('project_settings_add-tag-button').click()
 }

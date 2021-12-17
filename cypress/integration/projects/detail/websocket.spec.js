@@ -158,7 +158,8 @@ describe('Questionnaire WebSocket Tests', () => {
             description: null,
             name: projectName,
             permissions: [],
-            isTemplate: false
+            isTemplate: false,
+            projectTags: [],
         })
 
         // check error appears

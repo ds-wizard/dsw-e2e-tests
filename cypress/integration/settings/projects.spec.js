@@ -242,4 +242,50 @@ describe('Settings / Projects', () => {
         // Check that feedback modal can be opened
         cy.getCy('feedback').should('not.exist')
     })
+
+    it('project tagging enabled', () => {
+        // Enable project tagging
+        cy.checkToggle('projectTaggingEnabled')
+        cy.submitForm()
+
+        // Create project
+        createProject()
+
+        // Check project tags in settings
+        project.openSettings()
+        cy.get('#projectTag').should('exist')
+        
+        // Go to list view and check the filter is not yet there
+        cy.visitApp('/projects')
+        cy.get('#filter-projectTags').should('not.exist')
+
+        // Back to settings and set some default tags
+        cy.visitApp('/settings/projects')
+        cy.fillFields({
+            projectTaggingTags: 'Tag 1\nTag 2'
+        })
+        cy.submitForm()
+
+
+        // Go to list view and check the filter there
+        cy.visitApp('/projects')
+        cy.get('#filter-projectTags').should('exist')
+    })
+
+    it('project tagging not enabled', () => {
+        // Enable project tagging
+        cy.uncheckToggle('projectTaggingEnabled')
+        cy.submitForm()
+
+        // Create project
+        createProject()
+
+        // check project doesn't have tags
+        project.openSettings()
+        cy.get('#projectTag').should('not.exist')
+        
+        // go to list view and check the filter is not there
+        cy.visitApp('/projects')
+        cy.get('#filter-projectTags').should('not.exist')
+    })
 })
