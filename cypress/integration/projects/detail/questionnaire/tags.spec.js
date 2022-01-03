@@ -59,7 +59,7 @@ describe('Questionnaire Tags', () => {
     testCases.forEach(({ tags, visible, hidden }) => {
         it('create questionnaire with correct questions', () => {
             cy.visitApp('/projects')
-            cy.clickBtn('Create')
+            cy.getCy('projects_create-button').click()
             cy.get('.nav-link').contains('Custom').click()
 
             cy.fillFields({

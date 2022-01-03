@@ -26,7 +26,7 @@ describe('Project Template', () => {
         // Create a new project
         cy.loginAs('datasteward')
         cy.visitApp('/projects')
-        cy.clickBtn('Create')
+        cy.getCy('projects_create-button').click()
         cy.get('.nav-link').contains('Custom').click()
         cy.fillFields({
             name: templateProjectName,
@@ -64,7 +64,7 @@ describe('Project Template', () => {
         // Use the new template project
         cy.loginAs('researcher')
         cy.visitApp('/projects')
-        cy.clickBtn('Create')
+        cy.getCy('projects_create-button').click()
         cy.fillFields({
             name: projectName,
             th_uuid: templateProjectName

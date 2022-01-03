@@ -26,7 +26,7 @@ describe('Project CRUD', () => {
 
     it('create project', () => {
         cy.visitApp('/projects')
-        cy.clickBtn('Create')
+        cy.getCy('projects_create-button').click()
         cy.get('.nav-link').contains('Custom').click()
         cy.fillFields({
             name: projectName,
