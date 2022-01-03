@@ -158,10 +158,10 @@ export function expectTypehints(label, typehints, query = '') {
         typeAnswer(label, query)
     }
     if (typehints.length === 0) {
-        cy.get('label').contains(label).closest('.form-group').find('.typehints > ul > li').should('not.exist')
+        cy.get('label').contains(label).closest('.form-group').find('.integration-typehints > ul > li').should('not.exist')
     } else {
-        cy.get('label').contains(label).closest('.form-group').find('.typehints > ul > li').should('have.length', typehints.length)
-        cy.get('label').contains(label).closest('.form-group').find('.typehints > ul > li').each(($item, index) => {
+        cy.get('label').contains(label).closest('.form-group').find('.integration-typehints > ul > li').should('have.length', typehints.length)
+        cy.get('label').contains(label).closest('.form-group').find('.integration-typehints > ul > li').each(($item, index) => {
             cy.wrap($item).contains(typehints[index].name)
         })
     }
@@ -170,13 +170,13 @@ export function expectTypehints(label, typehints, query = '') {
 
 export function expectTypehintsError(label, message) {
     cy.get('label').contains(label).closest('.form-group').find('input').focus()
-    cy.get('label').contains(label).closest('.form-group').find('.typehints > .error').contains(message)
+    cy.get('label').contains(label).closest('.form-group').find('.integration-typehints > .error').contains(message)
 }
 
 
 export function useNthTypehint(label, n, typehint) {
     cy.get('label').contains(label).closest('.form-group').find('input').focus()
-    cy.get('label').contains(label).closest('.form-group').find('.typehints > ul > li').eq(n).contains(typehint.name).click()
+    cy.get('label').contains(label).closest('.form-group').find('.integration-typehints > ul > li').eq(n).contains(typehint.name).click()
 }
 
 
