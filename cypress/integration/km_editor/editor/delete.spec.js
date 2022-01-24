@@ -17,7 +17,7 @@ describe('KM Editor Delete Entity', () => {
     beforeEach(() => {
         cy.task('branch:delete', { km_id: kmId })
         cy.clearServerCache()
-        
+
         cy.createKMEditor({ kmId, name: kmName, previousPackageId })
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')
@@ -45,7 +45,6 @@ describe('KM Editor Delete Entity', () => {
             name: 'delete Integration',
             path: [],
             child: 'Integration 1',
-            confirm: true
         }]
     }, {
         group: 'Chapter',
@@ -161,12 +160,10 @@ describe('KM Editor Delete Entity', () => {
                     editor.traverseChildren(path)
                     editor.openChild(child)
                     editor.deleteCurrent()
-                    if (confirm) {
-                        editor.confirmDelete()
-                    }
-                    editor.saveAndClose()
+                    cy.clickModalAction()
 
                     // Check that the entity is not there
+                    cy.visitApp('/km-editor')
                     editor.open(kmId)
                     editor.traverseChildren(path)
                     editor.shouldNotHaveChild(child)

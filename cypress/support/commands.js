@@ -61,7 +61,6 @@ Cypress.Commands.add('clickBtn', (label, force = false) => {
 
 Cypress.Commands.add('submitForm', () => {
     cy.getCy('form_submit').click()
-    cy.getCy('form_submit').find('.fa-spinner').should('not.exist')
 })
 
 // Modals
@@ -212,7 +211,6 @@ Cypress.Commands.add('updateQuestionnaire', (questionnaireUuid, data) => {
     })
 })
 
-
 Cypress.Commands.add('updateQuestionnaireContent', (questionnaireUuid, data) => {
     getTokenFor('researcher').then((resp) => {
         cy.request({
@@ -234,6 +232,31 @@ Cypress.Commands.add('createKMEditor', ({ kmId, name, previousPackageId }) => {
             url: apiUrl('/branches'),
             headers: createHeaders(resp.body.token),
             body: { kmId, name, previousPackageId }
+        })
+    })
+})
+
+Cypress.Commands.add('deleteKMEditor', (kmId) => {
+    getTokenFor('datasteward').then((resp) => {
+        cy.request({
+            method: 'DELETE',
+            url: apiUrl(`/branches/${kmId}`),
+            headers: createHeaders(resp.body.token)
+        })
+    })
+})
+
+Cypress.Commands.add('publishKMEditor', ({ kmId, version, description, readme, license }) => {
+    getTokenFor('datasteward').then((resp) => {
+        cy.request({
+            method: 'PUT',
+            url: apiUrl(`/branches/${kmId}/versions/${version}`),
+            headers: createHeaders(resp.body.token),
+            body: {
+                description,
+                readme,
+                license
+            }
         })
     })
 })
@@ -363,6 +386,20 @@ Cypress.Commands.add('wsSend', (url, msg) => {
     ws.addEventListener('open', () => {
         ws.send(JSON.stringify(msg))
         ws.close()
+    })
+})
+
+Cypress.Commands.add('wsSendAs', (role, url, msg) => {
+    getTokenFor(role).then((resp) => {
+        const token = resp.body.token
+        const authParam = `Authorization=Bearer%20${token}`
+        const wsUrl = `${apiUrl(url).replace('http', 'ws')}?${authParam}`
+        const ws = new WebSocket(wsUrl)
+
+        ws.addEventListener('open', () => {
+            ws.send(JSON.stringify(msg))
+            ws.close()
+        })
     })
 })
 

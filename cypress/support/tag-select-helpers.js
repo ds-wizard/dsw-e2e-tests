@@ -1,9 +1,9 @@
 export function selectNone() {
-    cy.get('.tag-selection-header').contains('Select None').click()
+    cy.getCy('km-editor_preview_tags_select-none').click()
 }
 
 export function selectAll() {
-    cy.get('.tag-selection-header').contains('Select All').click()
+    cy.getCy('km-editor_preview_tags_select-all').click()
 }
 
 export function select(tag) {

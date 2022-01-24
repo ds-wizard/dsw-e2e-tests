@@ -61,6 +61,7 @@ module.exports = (on, config) => {
     for (let i = 0; i < result.rows.length; i++) {
       const { uuid } = result.rows[i]
       await pg.delete({ table: 'knowledge_model_migration', where: { branch_uuid: uuid } })
+      await pg.delete({ table: 'branch_data', where: { branch_uuid: uuid } })
       await pg.delete({ table: 'branch', where: { uuid } })
     }
     return true

@@ -20,7 +20,7 @@ describe('KM Editor Create', () => {
 
         cy.fillFields({ name: kmName, kmId })
         cy.submitForm()
-        cy.url().should('contain', '/km-editor/edit/')
+        cy.url().should('contain', '/km-editor/editor/')
 
         cy.visitApp('/km-editor')
         cy.getListingItem(kmId).should('contain', kmName)
@@ -38,7 +38,7 @@ describe('KM Editor Create', () => {
         cy.checkFields({ name: kmName, kmId })
 
         cy.submitForm()
-        cy.url().should('contain', '/km-editor/edit/')
+        cy.url().should('contain', '/km-editor/editor/')
 
         cy.visitApp('/km-editor')
         cy.getListingItem(kmId).should('contain', kmName)
@@ -57,7 +57,7 @@ describe('KM Editor Create', () => {
         cy.fillFields({ name: kmName, kmId })
 
         cy.submitForm()
-        cy.url().should('contain', '/km-editor/edit/')
+        cy.url().should('contain', '/km-editor/editor/')
 
         cy.visitApp('/km-editor')
         cy.getListingItem(kmId).should('contain', kmName)

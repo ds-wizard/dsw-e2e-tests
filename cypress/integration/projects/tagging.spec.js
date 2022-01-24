@@ -233,7 +233,7 @@ describe('Project Tagging', () => {
     }]
 
     filterTests.forEach(({ operator, projects, systemTags, testCases }) => {
-        it.only(`filter by tags using ${operator}`, () => {
+        it(`filter by tags using ${operator}`, () => {
             // create some system tags
             cy.loginAs('admin')
             cy.visitApp('/settings/projects')
@@ -244,17 +244,16 @@ describe('Project Tagging', () => {
             // create a handful of projects with different tags and system tags
             cy.loginAs('researcher')
             projects.forEach((project) => createProjectWithTags(project.name, project.tags))
-
+            
             // try some filtering combinations and check the correct projects are returned
             testCases.forEach((testCase) => {
                 cy.visitApp('/projects')
-
                 cy.get('#filter-projectTags').click()
+
                 cy.getCy(`filter_projectTags_operator_${operator}`).click()
                 cy.url().should('contain', encodeURIComponent(operator))
 
                 testCase.tags.forEach((tag) => {
-                    cy.get('#filter-projectTags').click()
                     cy.get('#filter-projectTags').find(dataCy('project_filter_tags_option')).contains(tag).click()
                     cy.url().should('contain', encodeURIComponent(tag))
                 })
