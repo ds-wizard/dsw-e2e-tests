@@ -22,6 +22,8 @@ export class Config {
     }
 }
 
+
+// 3.6.0 - Integration fields renamed and now using Jinja templating with item property
 function updateIntegrationEvent(event) {
     const fields = [
         ['responseItemId', 'responseIdField', true],
@@ -45,8 +47,31 @@ function updateIntegrationEvent(event) {
     return event
 }
 
+// 3.8.0 - requestHeaders changed from dict to list
+function updateIntegrationRequestHeaders(event) {
+    const updateHeaders = (headers) => {
+        return Object.entries(headers).map(([key, value]) => ({ key, value }))
+    }
+
+    if (event['requestHeaders']) {
+        if (event['requestHeaders'].value && !Array.isArray(event['requestHeaders'].value)) {
+            // edit event
+            event['requestHeaders'].value = updateHeaders(event['requestHeaders'].value)
+        } else if (!Array.isArray(event['requestHeaders'])) {
+            // add event
+            event['requestHeaders'] = updateHeaders(event['requestHeaders'])
+        }
+    }
+
+    return event
+}
+
+function updateEvent(event) {
+    return updateIntegrationRequestHeaders(updateIntegrationEvent(event))
+}
+
 export function verifyPackageWithBundle(packageId, fixtureName, pkgParams, checkEventUuid = true) {
-    cy.task('package:get', { 
+    cy.task('package:get', {
         id: packageId
     }).then(pkg => {
         cy.fixture(fixtureName).then(parentPkgBundle => {
@@ -59,10 +84,13 @@ export function verifyPackageWithBundle(packageId, fixtureName, pkgParams, check
             cy.wrap(pkg).its('events').should('have.length', parentPkg.events.length)
 
             pkg.events.forEach((childEvent, index) => {
+                const parentEvent = updateEvent(parentPkg.events[index])
+
                 Object.keys(childEvent).forEach((key) => {
-                    const shouldSkip = (!checkEventUuid && key === 'uuid') || ['requiredPhaseUuid', 'metricUuids', 'phaseUuids', 'annotations'].includes(key)
+                    const skipKeys = ['requiredPhaseUuid', 'metricUuids', 'phaseUuids', 'annotations', 'createdAt']
+                    const shouldSkip = (!checkEventUuid && key === 'uuid') || skipKeys.includes(key)
                     if (!shouldSkip) {
-                        cy.wrap(childEvent).its(key).should('deep.equal', updateIntegrationEvent(parentPkg.events[index])[key])
+                        cy.wrap(childEvent).its(key).should('deep.equal', parentEvent[key])
                     }
                 })
             })
@@ -106,7 +134,7 @@ export function checkMigrationForm(data) {
 export function createMigration(config, version, parentVersion) {
     prepareChildKmEditor(config, version)
     cy.clickListingItemAction(config.editorName, 'upgrade')
-    
+
     cy.expectModalOpen('km-editor-upgrade')
     cy.fillFields({
         s_targetPackageId: config.getParentPackageId(parentVersion)

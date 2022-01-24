@@ -41,9 +41,6 @@ describe('KM Editor Tags', () => {
         // Open tags editor and check that the new tag is there
         editor.openTags()
         cy.getCy('km-editor_tag-editor_tag').contains(tagName).should('exist')
-
-        // Discard changes so it does not block other tests
-        editor.discardChanges()
     })
 
 
@@ -56,9 +53,9 @@ describe('KM Editor Tags', () => {
         editor.open(kmId)
         editor.traverseChildren(['Chapter 1', 'Question 4'])
         cy.getCy('tag').contains(tagName).click()
-        editor.saveAndClose()
 
         // Open editor again and check that it is selected
+        cy.visitApp('/km-editor')
         editor.open(kmId)
         editor.traverseChildren(['Chapter 1', 'Question 4'])
         cy.getCy('tag').contains(tagName).find('input').should('be.checked')
@@ -83,9 +80,9 @@ describe('KM Editor Tags', () => {
         cy
             .getCy(`km-editor_tag-editor_row_question-${questionUuid}_tag-${tagUuid}`)
             .click()
-        editor.saveAndClose();
 
         // Open editor again and check that it is selected
+        cy.visitApp('/km-editor')
         editor.open(kmId)
         editor.openTags()
         cy

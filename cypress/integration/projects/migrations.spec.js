@@ -56,7 +56,7 @@ describe('Questionnaire Migrations', () => {
 
         // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Question Changed')
-        cy.get('#question-3b5f1365-20c2-4493-9768-2e2644597356').should('have.class', 'highlighted').and('be.visible')
+        cy.get('#question-3b5f1365-20c2-4493-9768-2e2644597356').should('have.class', 'highlighted')
         project.resolveAndFinalizeMigration()
 
         // check migrated things
@@ -72,7 +72,7 @@ describe('Questionnaire Migrations', () => {
 
         // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Question Changed').click()
-        cy.get('#question-c0964b2e-b5b2-48ac-94f2-7d11e3626a94').should('have.class', 'highlighted').and('be.visible')
+        cy.get('#question-c0964b2e-b5b2-48ac-94f2-7d11e3626a94').should('have.class', 'highlighted')
         project.resolveAndFinalizeMigration()
 
         // check migrated things
@@ -88,7 +88,7 @@ describe('Questionnaire Migrations', () => {
 
         // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Question Changed').click()
-        cy.get('#question-045ff688-fdfa-4d9b-941f-df9c725e0f81').should('have.class', 'highlighted').and('be.visible')
+        cy.get('#question-045ff688-fdfa-4d9b-941f-df9c725e0f81').should('have.class', 'highlighted')
         project.resolveAndFinalizeMigration()
 
         // check migrated things
@@ -103,7 +103,7 @@ describe('Questionnaire Migrations', () => {
 
         // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Question Changed').click()
-        cy.get('#question-59b4c6e8-ac0d-40b9-9865-e2c5b86f2dba').should('have.class', 'highlighted').and('be.visible')
+        cy.get('#question-59b4c6e8-ac0d-40b9-9865-e2c5b86f2dba').should('have.class', 'highlighted')
         cy.get('.radio .diff-added').contains(' or motorbike')
         project.resolveAndFinalizeMigration()
         
@@ -119,7 +119,7 @@ describe('Questionnaire Migrations', () => {
 
         // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('New Question').click()
-        cy.get('#question-66c327ea-39fe-402a-9a7c-b5ab349ccebe').should('have.class', 'highlighted').and('be.visible')
+        cy.get('#question-66c327ea-39fe-402a-9a7c-b5ab349ccebe').should('have.class', 'highlighted')
         cy.get('label .diff-added').contains('Will you organize a presentation about your vacation?')
         project.resolveAndFinalizeMigration()
 
@@ -157,7 +157,7 @@ describe('Questionnaire Migrations', () => {
 
         // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('New Question').click()
-        cy.get('#question-bb34bf7c-ca61-4b69-8800-3be9d5f1e50c').should('have.class', 'highlighted').and('be.visible')
+        cy.get('#question-bb34bf7c-ca61-4b69-8800-3be9d5f1e50c').should('have.class', 'highlighted')
         cy.get('label .diff-added').contains('Can you speak their language?')
         project.resolveAndFinalizeMigration()
       
@@ -195,7 +195,7 @@ describe('Questionnaire Migrations', () => {
 
         // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Question Changed').click()
-        cy.get('#question-bb34bf7c-ca61-4b69-8800-3be9d5f1e50c').should('have.class', 'highlighted').and('be.visible')
+        cy.get('#question-bb34bf7c-ca61-4b69-8800-3be9d5f1e50c').should('have.class', 'highlighted')
         project.resolveAndFinalizeMigration()
 
         // check correct version
@@ -211,7 +211,7 @@ describe('Questionnaire Migrations', () => {
         
         // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Question Changed').click()
-        cy.get('#question-4516b7ee-c757-4e86-92d7-8920c5d5a06c').should('have.class', 'highlighted').and('be.visible')
+        cy.get('#question-4516b7ee-c757-4e86-92d7-8920c5d5a06c').should('have.class', 'highlighted')
         project.resolveAndFinalizeMigration()
 
         // check correct version
@@ -226,7 +226,7 @@ describe('Questionnaire Migrations', () => {
         
         // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Question Changed').click()
-        cy.get('#question-4516b7ee-c757-4e86-92d7-8920c5d5a06c').should('have.class', 'highlighted').and('be.visible')
+        cy.get('#question-4516b7ee-c757-4e86-92d7-8920c5d5a06c').should('have.class', 'highlighted')
         project.resolveAndFinalizeMigration()
 
         // check correct version
@@ -303,7 +303,7 @@ describe('Questionnaire Migrations', () => {
 
         // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Moved Question').click()
-        cy.get('#question-f9ad8598-4789-4b8a-8254-39af6a8d7101').should('have.class', 'highlighted').and('be.visible')
+        cy.get('#question-f9ad8598-4789-4b8a-8254-39af6a8d7101').should('have.class', 'highlighted')
         project.resolveAndFinalizeMigration()
 
         // check migrated things
@@ -331,7 +331,7 @@ describe('Questionnaire Migrations', () => {
 
         // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Moved Question').click()
-        cy.get('#question-d2135066-b758-4e4a-bf0d-3f770426b67c').should('have.class', 'highlighted').and('be.visible')
+        cy.get('#question-d2135066-b758-4e4a-bf0d-3f770426b67c').should('have.class', 'highlighted')
         project.resolveAndFinalizeMigration()
 
         // check migrated things
@@ -360,7 +360,7 @@ describe('Questionnaire Migrations', () => {
     
         // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Moved Question').click()
-        cy.get('#question-ff773f6b-b1b8-4d08-bffa-133736f8c850').should('have.class', 'highlighted').and('be.visible')
+        cy.get('#question-ff773f6b-b1b8-4d08-bffa-133736f8c850').should('have.class', 'highlighted')
         project.resolveAndFinalizeMigration()
 
         // check migrated things
@@ -386,7 +386,7 @@ describe('Questionnaire Migrations', () => {
 
         // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Moved Question').click()
-        cy.get('#question-f9ad8598-4789-4b8a-8254-39af6a8d7101').should('have.class', 'highlighted').and('be.visible')
+        cy.get('#question-f9ad8598-4789-4b8a-8254-39af6a8d7101').should('have.class', 'highlighted')
         project.resolveAndFinalizeMigration()
 
         // check migrated things

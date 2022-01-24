@@ -1,5 +1,5 @@
 import * as editor from '../../../support/editor-helpers'
-
+import { dataCy } from '../../../support/utils'
 
 describe('KM Editor Add Entity', () => {
     const kmName = 'Test Knowledge Model'
@@ -10,7 +10,7 @@ describe('KM Editor Add Entity', () => {
     beforeEach(() => {
         cy.task('branch:delete', { km_id: kmId })
         cy.clearServerCache()
-        
+
         cy.createKMEditor({ kmId, name: kmName, previousPackageId: null })
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')
@@ -26,12 +26,12 @@ describe('KM Editor Add Entity', () => {
                 text: 'This chapter is awesome'
             }
 
-            // Add chapter and save
+            // Add chapter
             editor.open(kmId)
             editor.createChildren([['chapter', chapter]])
-            editor.saveAndClose()
 
-            // Open editor again and check that the chapter is there
+            // Reopen editor again and check that the chapter is there
+            cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.openChild(chapter.title)
             cy.checkFields(chapter)
@@ -47,9 +47,9 @@ describe('KM Editor Add Entity', () => {
             // Add metric and save
             editor.open(kmId)
             editor.createChildren([['metric', metric]])
-            editor.saveAndClose()
 
-            // Open editor and check that the metric is there
+            // Reopen editor and check that the metric is there
+            cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.openChild(metric.title)
             cy.checkFields(metric)
@@ -64,9 +64,9 @@ describe('KM Editor Add Entity', () => {
             // Add phase and save
             editor.open(kmId)
             editor.createChildren([['phase', phase]])
-            editor.saveAndClose()
 
-            // Open editor and check that the phase is there
+            // Reopen editor and check that the phase is there
+            cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.openChild(phase.title)
             cy.checkFields(phase)
@@ -82,13 +82,12 @@ describe('KM Editor Add Entity', () => {
             editor.open(kmId)
             editor.createChildren([['tag', tag]])
             cy.getCy('form-group_color_color-button', ':nth-child(5)').click()
-            editor.saveAndClose()
 
-            // Open editor again and check that the tag is there
+            // Reopen editor again and check that the tag is there
+            cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.openChild(tag.name)
-            cy.checkFields(tag)
-            cy.getCy('form-group_color_color-button', ':nth-child(5)').should('have.class', 'selected')
+            cy.checkFields({ ...tag, color: '#34495E' })
         })
 
         it('add Integration', () => {
@@ -106,23 +105,23 @@ describe('KM Editor Add Entity', () => {
             }
 
             const addProp = (name) => {
-                cy.getCy('value-list_input').type(name)
-                cy.getCy('value-list_add-button').click()
+                cy.getCy('props-input_add-button').click()
+                cy.get(`${dataCy('props-input_input-wrapper')}:last-child ${dataCy('props-input_input')}`).type(name)
             }
 
-            const checkProp = (name) => {
-                cy.getCy('value-list_item').contains(name).should('exist')
+            const checkProp = (name, i) => {
+                cy.get(`${dataCy('props-input_input-wrapper')}:nth-child(${i}) ${dataCy('props-input_input')}`).should('have.value', name)
             }
 
             const addHeader = (header, value) => {
-                cy.get('.card [data-cy="form-group_list_add-button"]').click()
-                cy.getCy('integration_headers_name').type(header)
-                cy.getCy('integration_headers_value').type(value)
+                cy.get('.card [data-cy="integration-input_add-button"]').click()
+                cy.getCy('integration-input_name').type(header)
+                cy.getCy('integration-input_value').type(value)
             }
 
             const checkHeader = (header, value) => {
-                cy.getCy('integration_headers_name').should('have.value', header)
-                cy.getCy('integration_headers_value').should('have.value', value)
+                cy.getCy('integration-input_name').should('have.value', header)
+                cy.getCy('integration-input_value').should('have.value', value)
             }
 
             // Add integration and save
@@ -131,13 +130,13 @@ describe('KM Editor Add Entity', () => {
             addProp('name')
             addProp('database')
             addHeader('Authorization', 'Bearer $token')
-            editor.saveAndClose()
 
-            // Open editor again and check that the integration is there
+            // Reopen editor again and check that the integration is there
+            cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.openChild(integration.name)
-            checkProp('name')
-            checkProp('database')
+            checkProp('name', 1)
+            checkProp('database', 2)
             checkHeader('Authorization', 'Bearer $token')
             cy.checkFields(integration)
 
@@ -149,26 +148,26 @@ describe('KM Editor Add Entity', () => {
 
     describe('Chapter', () => {
         const questions = [{
-            s_questionType: 'OptionsQuestion',
+            s_type: 'Options',
             title: 'Will you use any external data sources?',
             text: 'This question is asking about external data sources.',
         }, {
-            s_questionType: 'MultiChoiceQuestion',
+            s_type: 'MultiChoice',
             title: 'What do you choose?',
             text: 'This question can have more than one answer.',
-        } ,{
-            s_questionType: 'ListQuestion',
+        }, {
+            s_type: 'List',
             title: 'What databases will you use?',
             text: '',
         }, {
-            s_questionType: 'ValueQuestion',
+            s_type: 'Value',
             title: 'How many researchers will work on the project?',
             text: 'Count them all!',
-            s_valueType: 'NumberValue'
+            s_valueType: 'NumberQuestionValueType'
         }]
 
         questions.forEach((question) => {
-            it('add ' + question.s_questionType, () => {
+            it('add ' + question.s_type, () => {
                 const chapter = { title: 'My Chapter' }
 
                 // Create question and its parent
@@ -177,9 +176,9 @@ describe('KM Editor Add Entity', () => {
                     ['chapter', chapter],
                     ['question', question]
                 ])
-                editor.saveAndClose()
 
-                // Open editor again and check that the question is there
+                // Reopen editor again and check that the question is there
+                cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren([chapter.title, question.title])
                 cy.checkFields(question)
@@ -189,7 +188,7 @@ describe('KM Editor Add Entity', () => {
         it('add Integration Question', () => {
             const chapter = { title: 'My Chapter' }
             const question = {
-                s_questionType: 'IntegrationQuestion',
+                s_type: 'Integration',
                 title: 'What standards will you use?',
             }
 
@@ -216,9 +215,9 @@ describe('KM Editor Add Entity', () => {
             getIntegrationUuid().then((value) => {
                 cy.get('#integrationUuid').select(value)
             })
-            editor.saveAndClose()
 
             // Open editor again and check that the question is there
+            cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.traverseChildren([chapter.title, question.title])
             cy.checkFields(question)
@@ -235,15 +234,15 @@ describe('KM Editor Add Entity', () => {
         const chapter = { title: 'My Chapter' }
         const questionTitle = 'My Question'
         const questionOptions = {
-            s_questionType: 'OptionsQuestion',
+            s_type: 'Options',
             title: questionTitle
         }
         const questionMultiChoice = {
-            s_questionType: 'MultiChoiceQuestion',
+            s_type: 'MultiChoice',
             title: questionTitle
         }
         const questionList = {
-            s_questionType: 'ListQuestion',
+            s_type: 'List',
             title: questionTitle
         }
         const children = [
@@ -275,21 +274,21 @@ describe('KM Editor Add Entity', () => {
     const followUpQuestionFixtures = () => {
         const chapter = { title: 'My Chapter' }
         const question = {
-            s_questionType: 'OptionsQuestion',
+            s_type: 'Options',
             title: 'My Question'
         }
         const answer = { label: 'My Answer' }
         const followUpQuestionTitle = 'My Follow-up Question'
         const followUpQuestionOptions = {
-            s_questionType: 'OptionsQuestion',
+            s_type: 'Options',
             title: followUpQuestionTitle,
         }
         const followUpQuestionMultiChoice = {
-            s_questionType: 'MultiChoiceQuestion',
+            s_type: 'MultiChoice',
             title: followUpQuestionTitle
         }
         const followUpQuestionList = {
-            s_questionType: 'ListQuestion',
+            s_type: 'List',
             title: followUpQuestionTitle,
         }
         const children = [
@@ -323,20 +322,20 @@ describe('KM Editor Add Entity', () => {
     const answerItemQuestionFixtures = () => {
         const chapter = { title: 'My Chapter' }
         const question = {
-            s_questionType: 'ListQuestion',
+            s_type: 'List',
             title: 'My Question'
         }
         const answerItemQuestionTitle = 'My Follow-up Question'
         const answerItemQuestionOptions = {
-            s_questionType: 'OptionsQuestion',
+            s_type: 'Options',
             title: answerItemQuestionTitle
         }
         const answerItemQuestionMultiChoice = {
-            s_questionType: 'MultiChoiceQuestion',
+            s_type: 'MultiChoice',
             title: answerItemQuestionTitle
         }
         const answerItemQuestionList = {
-            s_questionType: 'ListQuestion',
+            s_type: 'List',
             title: answerItemQuestionTitle
         }
         const children = [
@@ -369,35 +368,35 @@ describe('KM Editor Add Entity', () => {
     const deepNestedQuestionFixtures = () => {
         const chapter = { title: 'My Chapter' }
         const question1 = {
-            s_questionType: 'OptionsQuestion',
+            s_type: 'Options',
             title: 'Question 1'
         }
         const answer1 = { label: 'Answer 1' }
         const question2 = {
-            s_questionType: 'OptionsQuestion',
+            s_type: 'Options',
             title: 'Question 2'
         }
         const answer2 = { label: 'My Answer 1' }
         const question3 = {
-            s_questionType: 'ListQuestion',
+            s_type: 'List',
             title: 'Question 3',
         }
         const question4 = {
-            s_questionType: 'OptionsQuestion',
+            s_type: 'Options',
             title: 'Question 4'
         }
         const answer3 = { label: 'Answer 3' }
         const nestedQuestionTitle = 'Question 5'
         const nestedQuestionOptions = {
-            s_questionType: 'OptionsQuestion',
+            s_type: 'Options',
             title: nestedQuestionTitle,
         }
         const nestedQuestionMultiChoice = {
-            s_questionType: 'MultiChoiceQuestion',
+            s_type: 'MultiChoice',
             title: nestedQuestionTitle
         }
         const nestedQuestionList = {
-            s_questionType: 'ListQuestion',
+            s_type: 'List',
             title: nestedQuestionTitle
         }
         const children = [
@@ -455,9 +454,9 @@ describe('KM Editor Add Entity', () => {
                 // Add answer and save
                 editor.addInputChild('answer')
                 cy.fillFields(followUpAnswer)
-                editor.saveAndClose()
 
-                // Open editor again and check that the answer is there
+                // Reopen editor again and check that the answer is there
+                cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren([...path, followUpAnswer.label])
                 cy.checkFields(followUpAnswer)
@@ -467,9 +466,9 @@ describe('KM Editor Add Entity', () => {
             it('add Follow-up Question', () => {
                 const answer = { label: 'This is my answer' }
                 const followUpQuestion = {
-                    s_questionType: 'ValueQuestion',
+                    s_type: 'Value',
                     title: 'What is the name of your institution?',
-                    s_valueType: 'StringValue',
+                    s_valueType: 'StringQuestionValueType',
                 }
 
                 // Add follow-up question and its parents
@@ -479,9 +478,9 @@ describe('KM Editor Add Entity', () => {
                     ['answer', answer],
                     ['question', followUpQuestion]
                 ])
-                editor.saveAndClose()
 
-                // Open editor again and check that the follow-up question is there
+                // Reopen editor again and check that the follow-up question is there
+                cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren([...path, answer.label, followUpQuestion.title])
                 cy.checkFields(followUpQuestion)
@@ -499,9 +498,9 @@ describe('KM Editor Add Entity', () => {
                 // Add choice and save
                 editor.addInputChild('choice')
                 cy.fillFields(choice)
-                editor.saveAndClose()
 
-                // Open editor again and check that the choice is there
+                // Reopen editor again and check that the choice is there
+                cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren([...path, choice.label])
                 cy.checkFields(choice)
@@ -510,18 +509,18 @@ describe('KM Editor Add Entity', () => {
 
             it('add Answer Item Question', () => {
                 const itemQuestion = {
-                    s_questionType: 'ValueQuestion',
+                    s_type: 'Value',
                     title: 'When did the project started?',
                     text: 'Type in the exact date',
-                    s_valueType: 'DateValue'
+                    s_valueType: 'DateQuestionValueType'
                 }
 
                 // Add answer item question and its parents
                 editor.open(kmId)
                 editor.createChildren([...childrenList, ['question', itemQuestion]])
-                editor.saveAndClose()
 
-                // Open editor again and check that the answer item question is there
+                // Reopen editor again and check that the answer item question is there
+                cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren([...path, itemQuestion.title])
                 cy.checkFields(itemQuestion)
@@ -529,23 +528,23 @@ describe('KM Editor Add Entity', () => {
 
 
             const references = [['atq', {
-                s_referenceType: 'ResourcePageReference',
+                s_type: 'ResourcePage',
                 shortUuid: 'atq'
             }], ['Data Stewardship Wizard', {
-                s_referenceType: 'URLReference',
+                s_type: 'URL',
                 url: 'https://ds-wizard.org',
                 label: 'Data Stewardship Wizard'
             }]]
 
             references.forEach(([referenceLabel, reference]) => {
-                it('add ' + reference.s_referenceType, () => {
+                it('add ' + reference.s_type, () => {
 
                     // Add reference and its parents
                     editor.open(kmId)
                     editor.createChildren([...childrenOptions, ['reference', reference]])
-                    editor.saveAndClose()
 
-                    // Open editor again and check that the reference is there
+                    // Reopen editor again and check that the reference is there
+                    cy.visitApp('/km-editor')
                     editor.open(kmId)
                     editor.traverseChildren([...path, referenceLabel])
                     cy.checkFields(reference)
@@ -562,9 +561,9 @@ describe('KM Editor Add Entity', () => {
                 // Add expert and its parents
                 editor.open(kmId)
                 editor.createChildren([...childrenList, ['expert', expert]])
-                editor.saveAndClose()
 
-                // Open editor again and check that the expert is there
+                // Reopen editor again and check that the expert is there
+                cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren([...path, expert.name])
                 cy.checkFields(expert)

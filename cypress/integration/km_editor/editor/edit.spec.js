@@ -18,7 +18,7 @@ describe('KM Editor Edit Entity', () => {
     beforeEach(() => {
         cy.task('branch:delete', { km_id: kmId })
         cy.clearServerCache()
-        
+
         cy.createKMEditor({ kmId, name: kmName, previousPackageId })
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')
@@ -32,12 +32,13 @@ describe('KM Editor Edit Entity', () => {
             }
 
             // Edit Chapter
+            cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.traverseChildren(['Chapter 1'])
             cy.fillFields(chapter)
-            editor.saveAndClose()
 
             // Open editor again and check that changes were saved
+            cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.traverseChildren([chapter.title])
             cy.checkFields(chapter)
@@ -51,12 +52,13 @@ describe('KM Editor Edit Entity', () => {
             }
 
             // Edit Metric
+            cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.traverseChildren(['Findability'])
             cy.fillFields(metric)
-            editor.saveAndClose()
 
             // Open editor again and check that changes were saved
+            cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.traverseChildren([metric.title])
             cy.checkFields(metric)
@@ -69,12 +71,13 @@ describe('KM Editor Edit Entity', () => {
             }
 
             // Edit Metric
+            cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.traverseChildren(['Before Submitting the Proposal'])
             cy.fillFields(metric)
-            editor.saveAndClose()
 
             // Open editor again and check that changes were saved
+            cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.traverseChildren([metric.title])
             cy.checkFields(metric)
@@ -87,17 +90,17 @@ describe('KM Editor Edit Entity', () => {
             }
 
             // Edit tag
+            cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.traverseChildren(['Tag 1'])
             cy.fillFields(tag)
             cy.getCy('form-group_color_color-button', ':nth-child(7)').click()
-            editor.saveAndClose()
 
             // Open editor again and check that changes were saved
+            cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.traverseChildren([tag.name])
-            cy.checkFields(tag)
-            cy.getCy('form-group_color_color-button', ':nth-child(7)').should('have.class', 'selected')
+            cy.checkFields({ ...tag, color: '#27AE60' })
         })
 
         it('edit Integration', () => {
@@ -114,40 +117,43 @@ describe('KM Editor Edit Entity', () => {
                 responseItemTemplate: 'objectString'
             }
 
+            const checkProp = (name, i) => {
+                cy.get(`${dataCy('props-input_input-wrapper')}:nth-child(${i}) ${dataCy('props-input_input')}`).should('have.value', name)
+            }
+
             // Edit integration
+            cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.traverseChildren(['Integration 1'])
-            
+
             // edit form fields
             cy.fillFields(integration)
-            
+
             // edit props
-            cy.getCy('value-list_input').type('new-prop')
-            cy.getCy('value-list_add-button').click()
-            cy.getCy('value-list_add-button').click()
-            cy.getCy('value-list_item').contains('database').find(dataCy('value-list_remove-button')).click()
-            
+            cy.getCy('props-input_add-button').click()
+            cy.get(`${dataCy('props-input_input-wrapper')}:last-child ${dataCy('props-input_input')}`).type('new-prop')
+            cy.get(`${dataCy('props-input_input-wrapper')}:first-child`).find(dataCy('prop-remove')).click()
+
             // edit headers
-            cy.getCy('integration_headers_item', ':last-child').find(dataCy('integration_headers_remove-button')).click()
-            cy.getCy('integration_headers_name').clear().type('X-Auth')
-            cy.getCy('integration_headers_value').clear().type('abcd')
-            editor.saveAndClose()
+            cy.getCy('integration-input_item', ':last-child').find(dataCy('prop-remove')).click()
+            cy.getCy('integration-input_name').clear().type('X-Auth')
+            cy.getCy('integration-input_value').clear().type('abcd')
 
             // Open editor again and check that changes were saved
+            cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.traverseChildren([integration.name])
-            
+
             //  check form fields
             cy.checkFields(integration)
-            
+
             // check props
-            cy.getCy('value-list_item').contains('new-prop').should('exist')
-            cy.getCy('value-list_item').contains('category').should('exist')
-            cy.getCy('value-list_item').contains('database').should('not.exist')
-            
+            checkProp('category', 1)
+            checkProp('new-prop', 2)
+
             // check headers
-            cy.getCy('integration_headers_name').should('have.value', 'X-Auth')
-            cy.getCy('integration_headers_value').should('have.value', 'abcd')
+            cy.getCy('integration-input_name').should('have.value', 'X-Auth')
+            cy.getCy('integration-input_value').should('have.value', 'abcd')
         })
     })
 
@@ -172,7 +178,7 @@ describe('KM Editor Edit Entity', () => {
             question: {
                 title: 'Another Value Question',
                 text: 'Another value question text',
-                s_valueType: 'NumberValue'
+                s_valueType: 'NumberQuestionValueType'
             }
         }, {
             testName: 'edit IntegrationQuestion',
@@ -194,29 +200,29 @@ describe('KM Editor Edit Entity', () => {
             originalTitle: 'List Question 1',
             question: {
                 title: 'Options Question 2',
-                s_questionType: 'OptionsQuestion'
+                s_type: 'Options'
             }
         }, {
             testName: 'change to ListQuestion',
             originalTitle: 'Options Question 1',
             question: {
                 title: 'List Question 2',
-                s_questionType: 'ListQuestion'
+                s_type: 'List'
             }
         }, {
             testName: 'change to ValueQuestion',
             originalTitle: 'List Question 1',
             question: {
                 title: 'Value Question 2',
-                s_questionType: 'ValueQuestion',
-                s_valueType: 'TextValue'
+                s_type: 'Value',
+                s_valueType: 'TextQuestionValueType'
             }
         }, {
             testName: 'change to IntegrationQuestion',
             originalTitle: 'List Question 1',
             question: {
                 title: 'Integration Question 2',
-                s_questionType: 'IntegrationQuestion',
+                s_type: 'Integration',
                 s_integrationUuid: '354e8a2a-3c53-4f74-921d-bc42d82bd529'
             }
         }, {
@@ -224,19 +230,20 @@ describe('KM Editor Edit Entity', () => {
             originalTitle: 'List Question 1',
             question: {
                 title: 'Multi-Choice Question 2',
-                s_questionType: 'MultiChoiceQuestion'
+                s_type: 'MultiChoice'
             }
         }]
 
         questionTests.forEach(({ testName, originalTitle, question }) => {
             it(testName, () => {
                 // Edit question
+                cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren(['Chapter 1', originalTitle])
                 cy.fillFields(question)
-                editor.saveAndClose()
 
                 // Open editor again and check that changes were saved
+                cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren(['Chapter 1', question.title])
                 cy.checkFields(question)
@@ -286,7 +293,7 @@ describe('KM Editor Edit Entity', () => {
         expertTitle: 'Deep Nested Expert 1'
     }]
 
-    questionFixtures.forEach(({
+    questionFixtures.slice(0, 1).forEach(({
         title,
         optionsQuestionPath,
         multiChoiceQuestionPath,
@@ -307,13 +314,14 @@ describe('KM Editor Edit Entity', () => {
                 }
 
                 // Open editor and edit answer
+                cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, answerTitle])
                 cy.checkToggle('metricMeasure-8db30660-d4e5-4c0a-bf3e-553f3f0f997a-enabled')
                 cy.fillFields(answer)
-                editor.saveAndClose()
 
                 // Open editor again and check that changes were saved
+                cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, answer.label])
                 cy.checkFields(answer)
@@ -325,12 +333,13 @@ describe('KM Editor Edit Entity', () => {
                 }
 
                 // Open editor and edit choice
+                cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren([...multiChoiceQuestionPath, choiceTitle])
                 cy.fillFields(choice)
-                editor.saveAndClose()
 
                 // Open editor again and check that changes were saved
+                cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren([...multiChoiceQuestionPath, choice.label])
                 cy.checkFields(choice)
@@ -343,12 +352,13 @@ describe('KM Editor Edit Entity', () => {
                 }
 
                 // Open editor and edit follow-up question
+                cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren([...listQuestionPath, followUpTitle])
                 cy.fillFields(question)
-                editor.saveAndClose()
 
                 // Open editor again and check that changes were saved
+                cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren([...listQuestionPath, question.title])
                 cy.checkFields(question)
@@ -356,17 +366,18 @@ describe('KM Editor Edit Entity', () => {
 
             it('edit Reference', () => {
                 const reference = {
-                    s_referenceType: 'ResourcePageReference',
+                    s_type: 'ResourcePage',
                     shortUuid: 'bqa'
                 }
 
                 // Open editor and edit reference
+                cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, referenceTitle])
                 cy.fillFields(reference)
-                editor.saveAndClose()
 
                 // Open editor again and check that changes were saved
+                cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, reference.shortUuid])
                 cy.checkFields(reference)
@@ -379,12 +390,13 @@ describe('KM Editor Edit Entity', () => {
                 }
 
                 // Open editor and edit expert
+                cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, expertTitle])
                 cy.fillFields(expert)
-                editor.saveAndClose()
 
                 // Open editor again and check that changes were saved
+                cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, expert.name])
                 cy.checkFields(expert)

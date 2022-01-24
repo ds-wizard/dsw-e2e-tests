@@ -17,7 +17,7 @@ describe('KM Editor Move Entity', () => {
     beforeEach(() => {
         cy.task('branch:delete', { km_id: kmId })
         cy.clearServerCache()
-        
+
         cy.createKMEditor({ kmId, name: kmName, previousPackageId })
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')
@@ -27,11 +27,11 @@ describe('KM Editor Move Entity', () => {
         name: 'Reference',
         entity: 'Reference 1',
         originalPath: [
-            'Chapter 1', 
+            'Chapter 1',
             'Question 1'
         ],
         newPath: [
-            'Chapter 1', 
+            'Chapter 1',
             'Integration Question 1'
         ]
     }, {
@@ -42,9 +42,9 @@ describe('KM Editor Move Entity', () => {
             'Question 1'
         ],
         newPath: [
-            'Chapter 1', 
+            'Chapter 1',
             'Options Question 1',
-            'Answer 1', 
+            'Answer 1',
             'Follow-up Question 1'
         ]
     }, {
@@ -180,11 +180,14 @@ describe('KM Editor Move Entity', () => {
             editor.traverseChildren([...originalPath, entity])
 
             cy.getCy('km-editor_move-button').click()
+            
+            cy.getCy('km-editor_move-modal_collapse-all').click()
+            editor.moveModalOpenItem('Test Knowledge Model')
 
             newPath.slice(0, -1).forEach(editor.moveModalOpenItem)
             editor.moveModalSelect(newPath[newPath.length - 1])
-            editor.saveAndClose()
 
+            cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.traverseChildren([...newPath, entity])
         })

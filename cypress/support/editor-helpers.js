@@ -8,17 +8,6 @@ export function open(kmId) {
 }
 
 
-export function saveAndClose() {
-    cy.getCy('km-editor_save-button').click()
-    cy.getCy('km-editor_close-button').click()
-}
-
-
-export function discardChanges() {
-    cy.get('.btn').contains('Discard').click()
-}
-
-
 export function addInputChild(child) {
     cy.getCy(`km-editor_input-children_${child}_add-button`).click()
 }
@@ -85,7 +74,7 @@ export function moveModalOpenItem(child) {
     cy.getCy('km-editor_move-modal_item')
         .contains(re)
         .closest(dataCy('km-editor_move-modal_item'))
-        .find(dataCy('km-editor_move-modal_item_caret'))
+        .find(`>${dataCy('km-editor_move-modal_item_caret')}`)
         .click()
 }
 
