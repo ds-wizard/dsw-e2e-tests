@@ -5,7 +5,7 @@ describe('Users Edit', () => {
         firstName: 'Danny',
         lastName: 'Morgan',
         role: 'admin',
-        password: 'passw0rd'
+        password: 'StronkPassw0rd'
     }
     const newEmail = 'danny.silver.mcmorgan@example.com'
 
@@ -50,7 +50,7 @@ describe('Users Edit', () => {
     })
 
     it('can edit password', () => {
-        const password = 'new/passw0rd'
+        const password = 'new/StronkPassw0rd'
 
         // open password edit form and save
         cy.clickListingItemAction(user.email, 'edit')

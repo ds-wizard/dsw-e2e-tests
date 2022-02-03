@@ -4,9 +4,9 @@ describe('Forgotten password', () => {
         firstName: 'Katie',
         lastName: 'Hudson',
         role: 'researcher',
-        password: 'passw0rd',
+        password: 'StronkPassw0rd',
     }
-    const newPassword = 'passw1rd'
+    const newPassword = 'StronkPa55word'
 
     beforeEach(() => {
         cy.task('user:delete', { email: user.email })
