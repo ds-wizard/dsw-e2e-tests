@@ -1,6 +1,6 @@
 describe('Sign up', () => {
     const testEmail = 'careen.herberts@example.com'
-    const testPassword = 'passw0rd'
+    const testPassword = 'StronkPassw0rd'
 
     beforeEach(() => {
         cy.task('user:delete', { email: testEmail })

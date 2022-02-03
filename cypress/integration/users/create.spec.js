@@ -4,7 +4,7 @@ describe('Users Create', () => {
         firstName: 'Jayden',
         lastName: 'Mills',
         s_role: 'researcher',
-        password: 'passw0rd'
+        password: 'StronkPassw0rd'
     }
 
     beforeEach(() => {

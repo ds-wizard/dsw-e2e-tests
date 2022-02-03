@@ -4,7 +4,7 @@ describe('Users Index', () => {
         firstName: 'Abigail',
         lastName: 'Owen',
         role: 'DATASTEWARD',
-        password: 'passw0rd'
+        password: 'StronkPassw0rd'
     }
 
     beforeEach(() => {
@@ -20,7 +20,6 @@ describe('Users Index', () => {
         cy.clickListingItemAction(user.email, 'delete')
         cy.expectModalOpen('users-delete')
         cy.clickModalAction()
-        cy.expectSuccessFlashMessage()
         cy.expectListingItemNotExist(user.email)
     })
 })
