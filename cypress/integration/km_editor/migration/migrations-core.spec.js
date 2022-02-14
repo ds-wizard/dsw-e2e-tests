@@ -1020,7 +1020,7 @@ describe('KM Editor Migrations', () => {
         migration.verifyChildPackageForMigration(config, '1.6.0', '1.5.2')
     })
 
-    it('can migrate with applying "edit question"', () => {
+    it('can migrate with applying "edit question" 1', () => {
         migration.createMigration(config, '1.6.0', '1.6.1')
 
         migration.expectEvent('91d7260e-6835-4b19-a601-a8c0c17f5d31')
@@ -1243,7 +1243,7 @@ describe('KM Editor Migrations', () => {
         migration.verifyChildPackageForMigration(config, '1.6.1', '1.6.0')
     })
 
-    it('can migrate with applying "edit question"', () => {
+    it('can migrate with applying "edit question" 2', () => {
         migration.createMigration(config, '1.6.1', '1.6.2')
 
         migration.expectEvent('ebdc4add-a99a-4b80-afad-660f19106b9d')
