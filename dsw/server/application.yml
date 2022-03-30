@@ -2,7 +2,6 @@ general:
   environment: Production
   serverPort: 3000
   clientUrl: http://localhost:8080
-  serviceToken: abcd
   secret: ab012345678901234567890123456789
 
 database:
@@ -32,3 +31,8 @@ mail:
   ssl:
   username:
   password:
+
+plan:
+  recomputeJob:
+    enabled: false
+    cron: '* * * * *'

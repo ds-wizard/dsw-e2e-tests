@@ -53,6 +53,19 @@ const initPostgres = (config) => {
 module.exports = (on, config) => {
   const pg = initPostgres(config)
 
+  // App
+
+  async function appDelete(where) {
+    const result = await pg.get({ table: 'app', where })
+    for (let i = 0; i < result.rows.length; i++) {
+      const { uuid } = result.rows[i]
+      await userDelete({ app_uuid: uuid })
+      await pg.delete({ table: 'action_key', where: { app_uuid: uuid } })
+      await pg.delete({ table: 'app', where: { uuid } })
+    }
+    return true
+  }
+
 
   // Branch
 
@@ -91,8 +104,8 @@ module.exports = (on, config) => {
       await packageDelete({ fork_of_package_id: id })
       await branchDelete({ previous_package_id: id })
       await questionnaireDelete({ package_id: id })
-      await pg.delete({ table: 'knowledge_model_migration', where: { branch_previous_package_id: id }})
-      await pg.delete({ table: 'knowledge_model_migration', where: { target_package_id: id }})
+      await pg.delete({ table: 'knowledge_model_migration', where: { branch_previous_package_id: id } })
+      await pg.delete({ table: 'knowledge_model_migration', where: { target_package_id: id } })
       await pg.delete({ table: 'package', where: { id } })
     }
     return true
@@ -146,7 +159,14 @@ module.exports = (on, config) => {
     return true
   }
 
+  async function userAddPermission({ perm, email }) {
+    const result = await pg.get({ table: 'user_entity', where: { email } })
+    const permissions = [perm, ...result.rows[0].permissions]
+    return pg.query(`UPDATE user_entity SET permissions='{${permissions.join(',')}}' WHERE email='${email}'`)
+  }
+
   on('task', {
+    'app:delete': appDelete,
     'branch:delete': branchDelete,
     'document:delete': documentDelete,
     'package:delete': packageDelete,
@@ -154,7 +174,8 @@ module.exports = (on, config) => {
     'questionnaire:delete': questionnaireDelete,
     'user:activate': userActivate,
     'user:getActionParams': userGetActionParams,
-    'user:delete': userDelete
+    'user:delete': userDelete,
+    'user:addPermission': userAddPermission,
   })
 }
 

@@ -14,8 +14,7 @@
     "pgHost": "localhost",
     "pgDatabase": "dsw",
     "pgPassword": "postgres",
-    "pgPort": 5432,
-    "serviceToken": "abcd"
+    "pgPort": 5432
   },
   "screenshotsFolder": "output/screenshots",
   "videosFolder": "output/videos",

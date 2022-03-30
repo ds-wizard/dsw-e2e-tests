@@ -14,7 +14,7 @@ describe('Settings / Knowledge Model', () => {
 
     const expectVersionAvailable = (version) => {
         openKMVersion(version)
-        cy.getCy('km-detail_header-title').should('exist')
+        cy.getCy('detail-page_header-title').should('exist')
     }
 
 
