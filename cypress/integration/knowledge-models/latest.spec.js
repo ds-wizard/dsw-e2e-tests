@@ -16,7 +16,7 @@ describe('Latest version', () => {
     it('knowledge model detail', () => {
         cy.loginAs('researcher')
         cy.visitApp(`/knowledge-models/${orgId}:${kmId}:latest`)
-        cy.getCy('km-detail_metadata_version').contains(latest).should('exist')
+        cy.getCy('detail-page_metadata_version').contains(latest).should('exist')
     })
 
     it('knowledge model preview', () => {

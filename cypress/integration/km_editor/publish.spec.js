@@ -37,7 +37,7 @@ describe('KM Editor Publish', () => {
 
         cy.clickListingItemAction(`:${kmId}:`, 'view')
         cy.url().should('contain', kmId)
-        cy.getCy('km-detail_header-title').should('contain', kmName)
-        cy.getCy('km-detail_readme').should('contain', readme)
+        cy.getCy('detail-page_header-title').should('contain', kmName)
+        cy.getCy('detail-page_content').should('contain', readme)
     })
 })

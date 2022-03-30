@@ -5,36 +5,43 @@ const apiUrl = (url) => Cypress.env('api_url') + url
 
 const createHeaders = (token) => ({ Authorization: 'Bearer ' + token })
 
-const getTokenFor = (role) => cy.request({
+const getTokenWith = (email, password) => cy.request({
     method: 'POST',
     url: apiUrl('/tokens'),
-    body: {
-        email: Cypress.env(role + '_username'),
-        password: Cypress.env(role + '_password')
-    }
+    body: { email, password }
 })
 
+const getTokenFor = (role) => getTokenWith(
+    Cypress.env(role + '_username'),
+    Cypress.env(role + '_password')
+)
+
+const login = (resp) =>{
+    const token = resp.body.token
+
+    cy.request({
+        method: 'GET',
+        url: apiUrl('/users/current'),
+        headers: createHeaders(token)
+    }).then((resp) => {
+        window.localStorage.setItem('session', JSON.stringify({
+            sidebarCollapsed: false,
+            token: { token },
+            user: resp.body,
+            fullscreen: false,
+            v6: true
+        }))
+    })
+}
 
 // Authentication commands
 
 Cypress.Commands.add('loginAs', (role) => {
-    getTokenFor(role).then((resp) => {
-        const token = resp.body.token
+    getTokenFor(role).then(login)
+})
 
-        cy.request({
-            method: 'GET',
-            url: apiUrl('/users/current'),
-            headers: createHeaders(token)
-        }).then((resp) => {
-            window.localStorage.setItem('session', JSON.stringify({
-                sidebarCollapsed: false,
-                token: { token },
-                user: resp.body,
-                fullscreen: false,
-                v6: true
-            }))
-        })
-    })
+Cypress.Commands.add('loginWith', (email, password) => {
+    getTokenWith(email, password).then(login)
 })
 
 Cypress.Commands.add('logout', () => {
@@ -406,9 +413,12 @@ Cypress.Commands.add('wsSendAs', (role, url, msg) => {
 
 // Cache
 Cypress.Commands.add('clearServerCache', () => {
-    cy.request({
-        method: 'DELETE',
-        url: apiUrl('/caches'),
-        headers: createHeaders(Cypress.env('serviceToken'))
-    })
+    getTokenFor('admin').then((resp) => {
+        cy.request({
+            method: 'POST',
+            url: apiUrl('/admin/operations/executions'),
+            headers: createHeaders(resp.body.token),
+            body: {"sectionName":"Cache","operationName":"Purge All Caches","parameters":[]}
+        })
+    }) 
 })
