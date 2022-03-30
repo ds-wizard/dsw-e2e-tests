@@ -108,7 +108,7 @@ describe('KM Editor Edit Entity', () => {
                 id: 'another-integration',
                 name: 'Another Integration',
                 logo: 'base64image',
-                responseItemUrl: 'https://another.example.com/${{}id}',
+                itemUrl: 'https://another.example.com/${{}id}',
                 s_requestMethod: 'POST',
                 requestUrl: 'https://another.api.example.com/search?q=${{}q}',
                 requestBody: '{{}}',

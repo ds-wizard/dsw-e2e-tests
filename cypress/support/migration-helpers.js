@@ -66,8 +66,37 @@ function updateIntegrationRequestHeaders(event) {
     return event
 }
 
+// 3.10.0 - integrationType and requestEmptySearch added
+function updateIntegrationEvent2(event) {
+
+    const newFields = [
+        ['integrationType', 'ApiIntegration'],
+        ['requestEmptySearch', true],
+    ]
+
+    if (event.eventType === 'AddIntegrationEvent') {
+        newFields.forEach(([fieldName, defaultValue]) => {
+            if (event[fieldName] === undefined) {
+                event[fieldName] = defaultValue
+            }
+        })
+    } else if (event.eventType === 'EditIntegrationEvent') {
+        if (event.integrationType === undefined) {
+            event.integrationType = 'ApiIntegration'
+        }
+
+        if (event.requestEmptySearch === undefined) {
+            event.requestEmptySearch = { changed: false }
+        }
+    }
+
+    return event
+}
+
 function updateEvent(event) {
-    return updateIntegrationRequestHeaders(updateIntegrationEvent(event))
+    return updateIntegrationEvent2(
+        updateIntegrationRequestHeaders(
+            updateIntegrationEvent(event)))
 }
 
 export function verifyPackageWithBundle(packageId, fixtureName, pkgParams, checkEventUuid = true) {
@@ -113,12 +142,20 @@ export function verifyChildPackageForMigration(config, newVersion, oldVersion, c
 export function finishMigrationAndPublish(major, minor, patch) {
     cy.getCy('km-migration_completed')
     cy.getCy('km-migration_publish-button').click()
+
+    // Wait for KM fields to be filled
+    cy.get('#license').invoke('val').should('not.be.empty')
+
+    // Fill fields and submit
     cy.fillFields({
         'version-major': `${major}`,
         'version-minor': `${minor}`,
         'version-patch': `${patch}`
     })
     cy.getCy('km-publish_publish-button').click()
+
+    // Wait until it is published
+    cy.get('.Listing').should('exist')
 }
 
 export function checkMigrationForm(data) {

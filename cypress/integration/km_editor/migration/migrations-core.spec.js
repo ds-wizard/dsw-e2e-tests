@@ -48,12 +48,14 @@ describe('KM Editor Migrations', () => {
 
         migration.expectEvent('1a6a2d81-96b0-48ef-8c15-6668be5133e0')
         migration.apply()
+        migration.expectEvent('fb9fe60e-ebec-4c73-a157-189c125e4197')
 
         cy.visitApp('/km-editor')
         cy.clickListingItemAction(config.editorName, 'continue-migration')
 
         migration.expectEvent('fb9fe60e-ebec-4c73-a157-189c125e4197')
         migration.reject()
+        migration.expectEvent('db1be474-da77-4ce9-80df-8ebc9d108d3d')
 
         cy.visitApp('/km-editor')
         cy.clickListingItemAction(config.editorName, 'cancel-migration')
@@ -687,6 +689,11 @@ describe('KM Editor Migrations', () => {
         migration.expectEvent('5fed062d-41c9-48bd-b0f1-72441aefd981')
         migration.checkMigrationForm([
             {
+                'label': 'Type', 'validate': (x) => {
+                    x.get('ins').contains('Api')
+                }
+            },
+            {
                 'label': 'ID', 'validate': (x) => {
                     x.get('ins').contains('idIntegration')
                 }
@@ -754,6 +761,11 @@ describe('KM Editor Migrations', () => {
 
         migration.expectEvent('061f5fd2-fdcd-4882-befe-8a740c542878')
         migration.checkMigrationForm([
+            {
+                'label': 'Type', 'validate': (x) => {
+                    x.contains('Api')
+                }
+            },
             {
                 'label': 'ID', 'validate': (x) => {
                     x.get('del').contains('idIntegration')
@@ -833,6 +845,11 @@ describe('KM Editor Migrations', () => {
 
         migration.expectEvent('974f0ecf-208f-4316-80ba-7ea1e2585da1')
         migration.checkMigrationForm([
+            {
+                'label': 'Type', 'validate': (x) => {
+                    x.get('del').contains('Api')
+                }
+            },
             {
                 'label': 'ID', 'validate': (x) => {
                     x.get('del').contains('google')
