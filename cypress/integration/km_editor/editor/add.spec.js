@@ -95,7 +95,7 @@ describe('KM Editor Add Entity', () => {
                 id: 'service1',
                 name: 'Service 1',
                 logo: 'base64image',
-                responseItemUrl: 'https://example.com/${{}id}',
+                itemUrl: 'https://example.com/${{}id}',
                 s_requestMethod: 'POST',
                 requestUrl: 'https://api.example.com/search?q=${{}q}',
                 requestBody: '{{}}',
@@ -195,7 +195,7 @@ describe('KM Editor Add Entity', () => {
             const integration = {
                 id: 'integration-id',
                 name: 'My Integration',
-                responseItemUrl: 'http://example.com/${{}id}'
+                itemUrl: 'http://example.com/${{}id}'
             }
 
             const getIntegrationUuid = () => {

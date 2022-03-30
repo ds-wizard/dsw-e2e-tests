@@ -17,11 +17,6 @@ s3:
   password: minioPassword
   bucket: dsw
 
-messaging:
-  enabled: true
-  username: admin
-  password: password
-
 mail:
   enabled: false
   name:
