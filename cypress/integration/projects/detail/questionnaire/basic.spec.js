@@ -94,7 +94,9 @@ describe('Basic Questionnaire Tests', () => {
 
         // Remove items and save
         cy.get('.item:first-child() .btn-item-delete').click()
+        cy.clickModalAction()
         cy.get('.item:first-child() .btn-item-delete').click()
+        cy.clickModalAction()
         cy.get('.badge-human-identifier').contains('2.a.1').should('not.exist')
         cy.get('.badge-human-identifier').contains('2.b.1').should('not.exist')
         project.awaitSave()

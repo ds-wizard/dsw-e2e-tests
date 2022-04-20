@@ -281,6 +281,8 @@ describe('Questionnaire Summary Report - Metrics', () => {
         project.openChapter('Chapter 2')
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').should('have.length', 3)
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').eq(2).click()
+        cy.clickModalAction()
+
         const metrics2 = [
             { name: 'Findability', value: 0.70 },
             { name: 'Accessibility', value: 0.33 }, // = (0.6×0 + 0.3×1) / (0.6 + 0.3)
@@ -296,7 +298,9 @@ describe('Questionnaire Summary Report - Metrics', () => {
         project.openChapter('Chapter 2')
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').should('have.length', 2)
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').eq(1).click()
+        cy.clickModalAction()
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').eq(0).click()
+        cy.clickModalAction()
         project.expectSummaryReportMetrics([])
         project.expectSummaryReportMetrics([], 'Chapter 2')
     })

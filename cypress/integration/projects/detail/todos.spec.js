@@ -121,6 +121,7 @@ describe('TODOs', () => {
         project.expectTodoCount(1)
 
         cy.get('.btn-item-delete').click()
+        cy.clickModalAction()
         project.expectNoTodo()
     })
 

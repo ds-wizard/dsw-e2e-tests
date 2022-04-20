@@ -265,6 +265,7 @@ describe('Questionnaire Summary Report - Phases', () => {
         project.openChapter('Chapter 2')
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').should('have.length', 4)
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').eq(2).click()
+        cy.clickModalAction()
         project.expectSummaryReportAnswered({ current: { answered: 1, all: 5 }, all: { answered: 3, all: 15 } })
         project.expectSummaryReportAnswered({ current: { answered: 1, all: 2 }, all: { answered: 3, all: 6 } }, 'Chapter 2')
     })
