@@ -48,7 +48,8 @@
         "public": {
             "enabled": false,
             "packages": []
-        }
+        },
+        "integrationConfig": ""
     },
     "registry": {
         "enabled": false,

@@ -175,4 +175,17 @@ describe('Settings / Knowledge Model', () => {
         expectVersionForbidden('1.6.0')
         expectVersionForbidden('1.10.0')
     })
+
+    it('integration config', () => {
+        cy.loginAs('admin')
+        cy.visitApp('/settings/knowledge-models')
+
+        const integrationConfig = 'bioportal:\n\tsecret: elephant'
+        cy.fillFields({ integrationConfig })
+        cy.submitForm()
+
+
+        cy.visitApp('/settings/knowledge-models')
+        cy.checkFields({ integrationConfig })
+    })
 })
