@@ -27,6 +27,11 @@ mail:
   username:
   password:
 
+cloud:
+  enabled: false
+  domain: example.com
+  publicRegistrationEnabled: true
+
 plan:
   recomputeJob:
     enabled: false
