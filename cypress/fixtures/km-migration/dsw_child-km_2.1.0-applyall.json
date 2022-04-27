@@ -2459,6 +2459,14 @@
                     "name": "Our Specialist 1"
                 },
                 {
+                    "email": "expert@example.com",
+                    "uuid": "6d33f09f-6850-49aa-998f-2cd968d3fa15",
+                    "entityUuid": "19916f72-27c2-4026-b374-63739a28811f",
+                    "parentUuid": "9d70e07c-23bb-41e6-a305-0fa7782fb483",
+                    "eventType": "AddExpertEvent",
+                    "name": "Our Specialist 0"
+                },
+                {
                     "tagUuids": {
                         "changed": false
                     },
@@ -2469,6 +2477,7 @@
                     "expertUuids": {
                         "changed": true,
                         "value": [
+                            "19916f72-27c2-4026-b374-63739a28811f",
                             "3eb33aee-8aa1-4c40-b068-395ae089f141",
                             "7dbbbaad-1e0b-443c-8715-b9c558dad08a"
                         ]
@@ -2489,6 +2498,25 @@
                     "title": {
                         "changed": false
                     }
+                },
+                {
+                    "text": "Chapter text",
+                    "uuid": "dec48838-b562-4c7d-97cf-6d7fcfb9b2de",
+                    "entityUuid": "7a1ccbc1-5320-46b8-970c-61de894edc14",
+                    "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
+                    "eventType": "AddChapterEvent",
+                    "title": "Extra chapter"
+                },
+                {
+                    "tagUuids": [],
+                    "text": null,
+                    "uuid": "c5ee28a3-8c6b-45e6-a634-599a99c42c9c",
+                    "entityUuid": "ff492cc2-ffde-45a4-b030-66fa97f76d70",
+                    "questionType": "OptionsQuestion",
+                    "parentUuid": "7a1ccbc1-5320-46b8-970c-61de894edc14",
+                    "eventType": "AddQuestionEvent",
+                    "title": "Extra question",
+                    "requiredPhaseUuid": null
                 },
                 {
                     "tagUuids": [],
@@ -2521,6 +2549,17 @@
                     "title": {
                         "changed": false
                     }
+                },
+                {
+                    "tagUuids": [],
+                    "text": null,
+                    "uuid": "2ade8b0d-f084-4481-98be-d9d2ea4f9b16",
+                    "entityUuid": "f26b339b-8430-4ffe-a07f-869c0ce73055",
+                    "questionType": "OptionsQuestion",
+                    "parentUuid": "2145d321-de7b-4213-a78d-6a9a863a4b1f",
+                    "eventType": "AddQuestionEvent",
+                    "title": "Extraordinary question",
+                    "requiredPhaseUuid": null
                 },
                 {
                     "advice": null,
@@ -2562,6 +2601,59 @@
                         "changed": false
                     },
                     "title": {
+                        "changed": false
+                    }
+                },
+                {
+                    "uuid": "9d01e655-29d4-4c9e-a8c5-0de04996ff4e",
+                    "entityUuid": "0f1e6cba-370d-4469-80ca-0666045d1023",
+                    "parentUuid": "4ae6a08a-c94e-4a0f-8391-24765ad8fdb4",
+                    "eventType": "AddReferenceEvent",
+                    "shortUuid": "nope",
+                    "referenceType": "ResourcePageReference"
+                },
+                {
+                    "requestUrl": "/",
+                    "uuid": "be06f0e8-677c-4cc5-9f21-4d906b405407",
+                    "entityUuid": "42740dec-2e74-4c4a-aedc-2b35f0fb3808",
+                    "props": [],
+                    "responseNameField": "name",
+                    "parentUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
+                    "responseIdField": "id",
+                    "eventType": "AddIntegrationEvent",
+                    "name": "Extra integration",
+                    "requestHeaders": {},
+                    "id": "extraIntegration",
+                    "responseListField": "",
+                    "logo": "",
+                    "requestMethod": "GET",
+                    "itemUrl": "",
+                    "requestBody": ""
+                },
+                {
+                    "tagUuids": {
+                        "changed": false
+                    },
+                    "uuid": "998bc20d-35b0-4fcb-9bf5-94c02e66799b",
+                    "entityUuid": "834d2e4c-9095-4bbf-a5b6-6658252d8c2c",
+                    "parentUuid": "00000000-0000-0000-0000-000000000000",
+                    "eventType": "EditKnowledgeModelEvent",
+                    "chapterUuids": {
+                        "changed": false
+                    },
+                    "metricUuids": {
+                        "changed": false
+                    },
+                    "integrationUuids": {
+                        "changed": true,
+                        "value": [
+                            "d1aa25dd-c3db-46c8-b033-3c3af51073fc",
+                            "5f1c5d50-67a9-4731-829c-b04fb84a5ccc",
+                            "42740dec-2e74-4c4a-aedc-2b35f0fb3808",
+                            "a69fa9d2-0f78-4af3-8b79-e502df3eab47"
+                        ]
+                    },
+                    "phaseUuids": {
                         "changed": false
                     }
                 }
