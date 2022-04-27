@@ -2796,4 +2796,22 @@ describe('KM Editor Migrations', () => {
             false
         )
     })
+
+    it('can migrate with apply all', () => {
+        migration.createMigration(config, '2.0.0', '1.11.0')
+
+        cy.getCy('km-editor_migration').should('exist')
+        cy.getCy('km-migration_apply-all-button').click()
+
+        migration.finishMigrationAndPublish(2, 1, 0)
+        migration.verifyPackageWithBundle(
+            config.getChildPackageId('2.1.0'),
+            config.getChildKM('2.1.0-applyall'),
+            {
+                'previous_package_id': config.getChildPackageId('2.0.0'),
+                'fork_of_package_id': config.getParentPackageId('1.11.0')
+            },
+            false
+        )
+    })
 })

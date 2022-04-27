@@ -16,7 +16,7 @@ const getTokenFor = (role) => getTokenWith(
     Cypress.env(role + '_password')
 )
 
-const login = (resp) =>{
+const login = (resp) => {
     const token = resp.body.token
 
     cy.request({
@@ -413,12 +413,14 @@ Cypress.Commands.add('wsSendAs', (role, url, msg) => {
 
 // Cache
 Cypress.Commands.add('clearServerCache', () => {
+    cy.task('user:addPermission', { perm: 'DEV_PERM', email: Cypress.env('admin_username') })
+
     getTokenFor('admin').then((resp) => {
         cy.request({
             method: 'POST',
-            url: apiUrl('/admin/operations/executions'),
+            url: apiUrl('/dev-operations/executions'),
             headers: createHeaders(resp.body.token),
-            body: {"sectionName":"Cache","operationName":"Purge All Caches","parameters":[]}
+            body: { 'sectionName': 'Cache', 'operationName': 'Purge All Caches', 'parameters': [] }
         })
-    }) 
+    })
 })
