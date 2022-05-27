@@ -6,6 +6,15 @@ describe('Basic Questionnaire Tests', () => {
     const packageId = 'dsw:basic-questionnaire-test-km:1.0.0'
 
 
+    const getCurrentYearAndMonth = () => {
+        const date = new Date()
+        const year = date.getFullYear()
+        let month = date.getMonth() + 1
+        month = month < 10 ? `0${month}` : month
+        return `${year}-${month}`
+    }
+
+
     before(() => {
         cy.task('package:delete', { km_id: kmId })
         cy.clearServerCache()
@@ -17,7 +26,7 @@ describe('Basic Questionnaire Tests', () => {
     beforeEach(() => {
         cy.task('questionnaire:delete')
         cy.clearServerCache()
-        
+
         cy.createQuestionnaire({
             visibility: project.VisibleView,
             sharing: project.Restricted,
@@ -112,9 +121,6 @@ describe('Basic Questionnaire Tests', () => {
         label: 'Value Question String',
         value: 'My String Answer'
     }, {
-        label: 'Value Question Date',
-        value: '2019-05-29'
-    }, {
         label: 'Value Question Number',
         value: '125'
     }]
@@ -144,6 +150,88 @@ describe('Basic Questionnaire Tests', () => {
         project.checkAnswerText(label, value)
     })
 
+
+    it('answer Value Question DateTime', () => {
+        const label = 'Value Question DateTime'
+        const day = 18
+        const hour = 22
+        const minute = 43
+
+        // Select datepicker value
+        project.openDatePicker(label)
+        project.selectDay(day)
+        project.selectTime(hour, minute)
+        project.closeDatePicker(label)
+        project.awaitSave()
+
+        // reopen questionnaire and check that the answer is there
+        project.open(projectName)
+        const expectedDateTime = `${getCurrentYearAndMonth()}-${day} ${hour}:${minute}`
+        project.checkDatePickerValue(label, 'datetime', expectedDateTime)
+    })
+
+
+    it('answer Value Question Date', () => {
+        const label = 'Value Question Date'
+        const day = 21
+
+        // Select datepicker value
+        project.openDatePicker(label)
+        project.selectDay(day)
+        project.closeDatePicker(label)
+        project.awaitSave()
+
+        // reopen questionnaire and check that the answer is there
+        project.open(projectName)
+        const expectedDateTime = `${getCurrentYearAndMonth()}-${day}`
+        project.checkDatePickerValue(label, 'date', expectedDateTime)
+    })
+
+
+    it('answer Value Question Time', () => {
+        const label = 'Value Question Time'
+        const hour = 3
+        const minute = 8
+        const expectedTime = '03:08'
+
+        // Select datepicker value
+        project.openDatePicker(label)
+        project.selectTime(hour, minute)
+        project.closeDatePicker(label)
+        project.awaitSave()
+
+        // reopen questionnaire and check that the answer is there
+        project.open(projectName)
+        project.checkDatePickerValue(label, 'time', expectedTime)
+    })
+
+
+    const valueQuestionWithWrongValueTests = [{
+        label: 'Value Question Email',
+        wrongValue: 'abcd',
+        value: 'albert.einstein@example.com'
+    }, {
+        label: 'Value Question URL',
+        wrongValue: 'invalid',
+        value: 'http://example.com'
+    }]
+    valueQuestionWithWrongValueTests.forEach(({ label, wrongValue, value }) => {
+        it(`answer ${label}`, () => {
+            // type a wrong answer
+            project.typeAnswer(label, wrongValue)
+            project.expectWarningFor(label)
+            project.expectWarningCount(1)
+
+            // type correct answer
+            project.typeAnswer(label, value)
+            project.awaitSave()
+
+            // reopen questionnaire and check that the answer is there
+            project.open(projectName)
+            project.checkAnswer(label, value)
+        })
+
+    })
 
     it('answer deep nested question', () => {
         const label = 'Follow-up Question 2'
