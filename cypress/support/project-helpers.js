@@ -80,7 +80,7 @@ export function setProjectVisibility(visibility) {
         cy.uncheckToggle('visibilityEnabled')
     }
 
-    cy.clickModalAction() 
+    cy.clickModalAction()
 }
 
 export function setProjectSharing(sharing) {
@@ -93,7 +93,7 @@ export function setProjectSharing(sharing) {
         cy.uncheckToggle('sharingEnabled')
     }
 
-    cy.clickModalAction() 
+    cy.clickModalAction()
 }
 
 
@@ -261,6 +261,38 @@ export function checkAnswerText(label, answer) {
 }
 
 
+export function openDatePicker(label) {
+    cy.get('label').contains(label).closest('.form-group').find('input').click()
+}
+
+
+export function selectDay(day) {
+    cy.get('.flatpickr-calendar.open').find('.flatpickr-day').contains(`${day}`).click()
+}
+
+
+export function selectTime(hour, minutes) {
+    cy.get('.flatpickr-calendar.open').find('.flatpickr-hour').type(`${hour}`)
+    cy.get('.flatpickr-calendar.open').find('.flatpickr-minute').type(`${minutes}`)
+
+}
+
+export function closeDatePicker(label) {
+    cy.get('label').contains(label).click()
+    cy.wait(1000)
+}
+
+
+export function checkDatePickerValue(label, elem, value) {
+    cy.get('label')
+        .contains(label)
+        .closest('.form-group')
+        .find(`${elem}-picker`)
+        .invoke('prop', '_datePickerValue')
+        .should('eq', value)
+}
+
+
 export function addTodoFor(question) {
     cy.get('.form-group').contains(question).find('.action-add-todo').click()
 }
@@ -293,6 +325,16 @@ export function expectTodoCount(count) {
 export function expectNoTodo() {
     cy.get('.questionnaire__toolbar .item').contains('TODOs').parent().find('.badge').should('not.exist')
     cy.get('.action-todo').should('not.exist')
+}
+
+
+export function expectWarningFor(question) {
+    cy.get('.form-group').contains(question).parent().find(dataCy('flash_alert-warning')).should('exist')
+}
+
+
+export function expectWarningCount(count) {
+    cy.get('.questionnaire__toolbar .item').contains('Warnings').parent().find('.badge').contains(count)
 }
 
 
@@ -350,7 +392,7 @@ export function expectSummaryReportAnswered(indication, chapter) {
 
     const checkRows = ($rows) => {
         cy.wrap($rows).should('have.length', 2)
-        cy.wrap($rows[0]).find('td').then(($cells) => { 
+        cy.wrap($rows[0]).find('td').then(($cells) => {
             checkCells($cells, `Answered (current phase): ${indication.current.answered}/${indication.current.all}`)
         })
         cy.wrap($rows[1]).find('td').then(($cells) => {
