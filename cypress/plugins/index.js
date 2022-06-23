@@ -84,13 +84,7 @@ module.exports = (on, config) => {
   // Document
 
   async function documentDelete(where) {
-    const result = await pg.get({ table: 'document', where })
-    for (let i = 0; i < result.rows.length; i++) {
-      const { uuid } = result.rows[i]
-      await pg.delete({ table: 'document_queue', where: { document_uuid: uuid } })
-      await pg.delete({ table: 'document', where: { uuid } })
-    }
-    return true
+    return pg.delete({ table: 'document', where })
   }
 
 
