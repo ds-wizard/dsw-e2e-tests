@@ -24,17 +24,7 @@
         "supportRepositoryUrl": null
     },
     "dashboard": {
-        "widgets": {
-            "admin": [
-                "Welcome"
-            ],
-            "dataSteward": [
-                "Welcome"
-            ],
-            "researcher": [
-                "Welcome"
-            ]
-        },
+        "dashboardType": "RoleBasedDashboardType",
         "welcomeInfo": null,
         "welcomeWarning": null
     },
