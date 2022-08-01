@@ -42,11 +42,11 @@ describe('Questionnaire - View Settings', () => {
     it('Answered by', () => {
         withQuestionnaire(packageIdPhases, () => {
             project.typeAnswer('Question 1', 'abcd')
-            cy.get('.answered').should('exist')
+            cy.getCy('questionnaire_answered-by').should('exist')
             clickViewMenu('Answered by')
-            cy.get('.answered').should('not.exist')
+            cy.getCy('questionnaire_answered-by').should('not.exist')
             clickViewMenu('Answered by')
-            cy.get('.answered').should('exist')
+            cy.getCy('questionnaire_answered-by').should('exist')
         })
 
     })
