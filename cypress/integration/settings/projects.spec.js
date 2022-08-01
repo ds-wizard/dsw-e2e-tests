@@ -150,7 +150,7 @@ describe('Settings / Projects', () => {
 
     const expectCreateProjectButton = (visible) => {
         cy.visitApp(`/knowledge-models/${packageId}`)
-        cy.get('.top-header-actions .link-with-icon').contains('Create project').should(visible ? 'exist' : 'not.exist')
+        cy.getCy('km-detail_create-project-link').should(visible ? 'exist' : 'not.exist')
     }
 
     const creationTest = (projectCreation, role, expect) => {
