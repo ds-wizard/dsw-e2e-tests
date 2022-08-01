@@ -32,12 +32,12 @@ describe('Menu', () => {
         role: 'researcher',
         contains: [ 
             'projects-link', 
-            'km-link',
             'help', 
             'profile'
         ],
         notContains: [
             'users-link',
+            'km-link',
             'km-editor-link',
             'documents-link', 
             'templates-link', 
