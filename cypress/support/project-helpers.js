@@ -194,7 +194,7 @@ export function selectAnswer(answer) {
 
 export function openChapter(chapter) {
     cy.get('.DetailNavigation__Row .nav-link').contains('Questionnaire').click()
-    cy.get('.questionnaire__left-panel__chapters .nav-link').contains(chapter).click()
+    cy.get('.NavigationTree .nav-link').contains(chapter).click()
 }
 
 
