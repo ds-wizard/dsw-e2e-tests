@@ -203,7 +203,7 @@ export function expectEvent(eventUuid) {
 }
 
 export function checkDiffTreeAdded(data) {
-    checkDiffTree('added', data)
+    checkDiffTree('ins', data)
 }
 
 export function checkDiffTreeEdited(data) {
@@ -211,11 +211,11 @@ export function checkDiffTreeEdited(data) {
 }
 
 export function checkDiffTreeDeleted(data) {
-    checkDiffTree('deleted', data)
+    checkDiffTree('del', data)
 }
 
 export function checkDiffTree(what, data) {
-    const elements = cy.getCy(`km-migration_diff-tree-node_state-${what}`)
+    const elements = cy.getCy(`km-migration_diff-tree-node_${what}`)
     elements.should('have.length', data.length)
     for (let i = 0; i < data.length; i++) {
         elements.eq(i).contains(data[i])
