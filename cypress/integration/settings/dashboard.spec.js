@@ -11,17 +11,17 @@ describe('Settings / Dashboard', () => {
 
     it('dashboard style DMP', () => {
         cy.task('questionnaire:delete')
-        cy.getCy('form-group_html-radio-dmp').click()
+        cy.getCy('form-group_html-radio-roleBased').click()
         cy.submitForm()
         cy.visitApp('/dashboard')
-        cy.getCy('dashboard_dmp-workflow-widget').should('exist')
+        cy.getCy('dashboard_welcome').should('not.exist')
     })
 
     it('dashboard style Welcome', () => {
         cy.getCy('form-group_html-radio-welcome').click()
         cy.submitForm()
         cy.visitApp('/dashboard')
-        cy.getCy('dashboard_welcome-widget').should('exist')
+        cy.getCy('dashboard_welcome').should('exist')
     })
 
     it('welcome info', () => {
