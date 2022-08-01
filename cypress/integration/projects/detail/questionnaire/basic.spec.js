@@ -87,18 +87,18 @@ describe('Basic Questionnaire Tests', () => {
         // Add item and answer a question
         cy.clickBtn('Add')
         cy.get('.item').should('exist')
-        cy.get('.badge-human-identifier').contains('2.a.1').should('exist')
+        cy.get('.badge').contains('2.a.1').should('exist')
         project.selectAnswer('Item answer 1.2')
 
         // Add another item and save
         cy.clickBtn('Add')
-        cy.get('.badge-human-identifier').contains('2.b.1').should('exist')
+        cy.get('.badge').contains('2.b.1').should('exist')
         project.awaitSave()
 
         // Reopen questionnaire and check answers
         project.open(projectName)
-        cy.get('.badge-human-identifier').contains('2.a.1').should('exist')
-        cy.get('.badge-human-identifier').contains('2.b.1').should('exist')
+        cy.get('.badge').contains('2.a.1').should('exist')
+        cy.get('.badge').contains('2.b.1').should('exist')
         project.checkAnswerChecked('Item answer 1.2')
 
         // Remove items and save
@@ -106,14 +106,14 @@ describe('Basic Questionnaire Tests', () => {
         cy.clickModalAction()
         cy.get('.item:first-child() .btn-item-delete').click()
         cy.clickModalAction()
-        cy.get('.badge-human-identifier').contains('2.a.1').should('not.exist')
-        cy.get('.badge-human-identifier').contains('2.b.1').should('not.exist')
+        cy.get('.badge').contains('2.a.1').should('not.exist')
+        cy.get('.badge').contains('2.b.1').should('not.exist')
         project.awaitSave()
 
         // Reopen and check items are not there
         project.open(projectName)
-        cy.get('.badge-human-identifier').contains('2.a.1').should('not.exist')
-        cy.get('.badge-human-identifier').contains('2.b.1').should('not.exist')
+        cy.get('.badge').contains('2.a.1').should('not.exist')
+        cy.get('.badge').contains('2.b.1').should('not.exist')
     })
 
 

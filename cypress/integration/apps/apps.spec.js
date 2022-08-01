@@ -53,20 +53,20 @@ describe('Apps', () => {
     }
 
     const expectEnabled = () => {
-        cy.getCy('detail-page_metadata_enabled').find('.badge-success').contains('Enabled').should('exist')
+        cy.getCy('detail-page_metadata_enabled').find('.badge.bg-success').contains('Enabled').should('exist')
     }
 
     const expectDisabled = () => {
-        cy.getCy('detail-page_metadata_enabled').find('.badge-danger').contains('Disabled').should('exist')
+        cy.getCy('detail-page_metadata_enabled').find('.badge.bg-danger').contains('Disabled').should('exist')
     }
 
     const expectPlan = (plan, trial, expectActive) => {
         cy.getCy('plans-list_name').contains(plan.name).should('exist')
         if (trial) {
-            cy.getCy('plans-list_name').find('.badge-secondary').contains('Trial').should('exist')
+            cy.getCy('plans-list_name').find('.badge.bg-secondary').contains('Trial').should('exist')
         }
 
-        cy.getCy('plans-list_name').find('.badge-success').should(expectActive ? 'exist' : 'not.exist')
+        cy.getCy('plans-list_name').find('.badge.bg-success').should(expectActive ? 'exist' : 'not.exist')
         cy.getCy('plans-list_users').contains(plan.users || '-').should('exist')
         cy.getCy('plans-list_from').contains(`${plan.sinceDay}. ${plan.sinceMonth}. ${plan.sinceYear}`).should('exist')
         cy.getCy('plans-list_to').contains(`${plan.untilDay}. ${plan.untilMonth}. ${plan.untilYear}`).should('exist')

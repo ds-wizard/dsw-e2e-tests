@@ -36,7 +36,7 @@ export function switchPhase(phase) {
 
 export function checkDesirability(question, desirable) {
     const chainer = desirable ? 'have.class' : 'not.have.class'
-    cy.get(`#question-${question.uuid}`).contains('span.badge', question.identifier).should(chainer, 'badge-danger')
+    cy.get(`#question-${question.uuid}`).contains('span.badge', question.identifier).should(chainer, 'bg-danger')
     cy.get(`#question-${question.uuid}`).contains('span', question.title).should(chainer, 'text-danger')
 }
 

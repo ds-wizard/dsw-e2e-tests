@@ -103,7 +103,7 @@ describe('Documents', () => {
             d.createDocument(documentName, projectUuid, format)
 
             cy.wait(1000) // Wait for document generation
-            cy.get('span.badge-danger').contains('Error').should('be.visible')
+            cy.get('span.badge.bg-danger').contains('Error').should('be.visible')
         })
     })
 

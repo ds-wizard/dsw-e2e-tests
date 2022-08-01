@@ -92,19 +92,19 @@ describe('Questionnaire Versions', () => {
         // name
         openVersionHistory()
         nameVersion('1.0.0')
-        cy.get('.history-event .badge-secondary').contains('1.0.0').should('exist')
+        cy.get('.history-event .badge.bg-secondary').contains('1.0.0').should('exist')
 
         // rename
         clickEventAction('Rename this version')
         cy.fillFields({ name: '2.0.0' })
         cy.clickModalAction()
-        cy.get('.history-event .badge-secondary').contains('1.0.0').should('not.exist')
-        cy.get('.history-event .badge-secondary').contains('2.0.0').should('exist')
+        cy.get('.history-event .badge.bg-secondary').contains('1.0.0').should('not.exist')
+        cy.get('.history-event .badge.bg-secondary').contains('2.0.0').should('exist')
 
         // delete
         clickEventAction('Delete this version')
         cy.clickModalAction()
-        cy.get('.history-event .badge-secondary').should('not.exist')
+        cy.get('.history-event .badge.bg-secondary').should('not.exist')
     })
 
     it('revert to a version', () => {
@@ -138,7 +138,7 @@ describe('Questionnaire Versions', () => {
         clickEventAction('View questionnaire')
 
         // check it has opened correctly
-        cy.get('.QuestionnaireVersionViewModal .modal-header .badge-secondary').contains('1.0.0').should('exist')
+        cy.get('.QuestionnaireVersionViewModal .modal-header .badge.bg-secondary').contains('1.0.0').should('exist')
         cy.get('.QuestionnaireVersionViewModal .modal-content label').contains('Answer 1.1').find('input').should('not.be.checked')
         cy.get('.QuestionnaireVersionViewModal .modal-content label').contains('Value Question String').closest('.form-group').find('input').should('have.value', 'Answer')
 
@@ -175,6 +175,6 @@ describe('Questionnaire Versions', () => {
 
         cy.url().should('match', /\/projects\/.+\/documents$/)
         cy.get('.title-row').contains(projectName).should('exist')
-        cy.get('.badge-secondary').contains('1.0.0').should('exist')
+        cy.get('.badge.bg-secondary').contains('1.0.0').should('exist')
     })
 })

@@ -16,6 +16,6 @@ export function checkDocument(document, wait = false) {
     if (wait) {
         cy.wait(1000) // Wait for document generation
     }
-    cy.get('span.badge-danger').should('not.exist')
-    cy.get('span.badge-info').should('not.exist')
+    cy.get('span.badge.bg-danger').should('not.exist')
+    cy.get('span.badge.bg-info').should('not.exist')
 }
