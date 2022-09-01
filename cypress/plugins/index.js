@@ -130,10 +130,10 @@ module.exports = (on, config) => {
 
   // User
 
-  async function userActivate({ email }) {
+  async function userActivate({ email, active }) {
     return pg.update({
       table: 'user_entity',
-      values: { active: true },
+      values: { active },
       where: { email }
     })
   }

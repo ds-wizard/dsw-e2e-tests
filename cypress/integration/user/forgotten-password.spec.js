@@ -13,7 +13,7 @@ describe('Forgotten password', () => {
         cy.clearServerCache()
 
         cy.createUser(user)
-        cy.task('user:activate', { email: user.email })
+        cy.task('user:activate', { email: user.email, active: true })
     })
 
     it('can recover password', () => {

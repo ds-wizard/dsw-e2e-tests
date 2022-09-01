@@ -38,7 +38,7 @@ describe('Settings / Authentication', () => {
         cy.expectSuccessPageMessage()
 
         // Activate the new user account
-        cy.task('user:activate', { email: testEmail })
+        cy.task('user:activate', { email: testEmail, active: true })
 
         // Log in as the new user
         cy.visitApp('/')

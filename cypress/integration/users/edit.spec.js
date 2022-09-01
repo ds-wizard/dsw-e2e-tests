@@ -17,12 +17,13 @@ describe('Users Edit', () => {
         cy.clearServerCache()
         
         cy.createUser(user)
-        cy.loginAs('admin')
-        cy.visitApp('/users')
     })
 
 
     it('can edit profile', () => {
+        cy.loginAs('admin')
+        cy.visitApp('/users')
+
         const newUser = {
             email: newEmail,
             firstName: 'Danny Silver',
@@ -50,6 +51,9 @@ describe('Users Edit', () => {
     })
 
     it('can edit password', () => {
+        cy.loginAs('admin')
+        cy.visitApp('/users')
+
         const password = 'new/StronkPassw0rd'
 
         // open password edit form and save
@@ -61,12 +65,36 @@ describe('Users Edit', () => {
         cy.expectSuccessFlashMessage()
         
         // make sure user is active
-        cy.task('user:activate', { email: user.email })
+        cy.task('user:activate', { email: user.email, active: true })
 
         // logout and try to login with the new password
         cy.logout()
         cy.fillFields({ email: user.email, password })
         cy.submitForm()
         cy.url().should('contain', '/dashboard')
+    })
+
+    it('log out user after deactivated', () => {
+        // make sure user is active
+        cy.task('user:activate', { email: user.email, active: true })
+
+        // login as the test user
+        cy.visitApp('/')
+        cy.fillFields({
+            email: user.email,
+            password: user.password
+        })
+        cy.submitForm()
+        cy.url().should('include', '/dashboard')
+
+        // deactivate the user
+        cy.task('user:activate', { email: user.email, active: false })
+        cy.clearServerCache()
+
+        // try to open projects
+        cy.visitApp('/projects')
+
+        // test redirect to login
+        cy.get('.Public__Login').should('exist')
     })
 })
