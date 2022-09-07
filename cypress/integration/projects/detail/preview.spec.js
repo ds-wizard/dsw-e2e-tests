@@ -107,11 +107,11 @@ describe('Project - Preview', () => {
         }
     })
 
-    it('Template not set', () => {
+    it('Document template not set', () => {
         project.open(projectName)
         project.openPreview()
 
-        cy.get('h1').contains('Default template is not set.').should('exist')
+        cy.get('h1').contains('Default document template is not set.').should('exist')
         cy.clickBtn('Go to settings')
 
         cy.url().should('match', /\/projects\/.+\/settings/)

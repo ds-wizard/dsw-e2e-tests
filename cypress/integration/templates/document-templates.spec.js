@@ -1,4 +1,4 @@
-describe('Templates', () => {
+describe('Document Templates', () => {
 
     beforeEach(() => {
         cy.task('package:delete')
@@ -11,11 +11,11 @@ describe('Templates', () => {
 
     it('Default template', () => {
         cy.loginAs('datasteward')
-        cy.visitApp('/templates')
+        cy.visitApp('/document-templates')
 
         // View template detail
         cy.clickListingItemAction('Questionnaire Report', 'view')
-        cy.url().should('contain', '/templates/')
+        cy.url().should('contain', '/document-templates/')
         cy.getCy('detail-page_header-title').contains('Questionnaire Report')
 
         // Usable knowledge models
