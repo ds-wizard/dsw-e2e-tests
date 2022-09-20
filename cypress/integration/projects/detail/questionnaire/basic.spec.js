@@ -1,4 +1,5 @@
 import * as project from '../../../../support/project-helpers'
+import { dataCy } from '../../../../support/utils'
 
 describe('Basic Questionnaire Tests', () => {
     const projectName = 'Test Project'
@@ -102,9 +103,9 @@ describe('Basic Questionnaire Tests', () => {
         project.checkAnswerChecked('Item answer 1.2')
 
         // Remove items and save
-        cy.get('.item:first-child() .btn-item-delete').click()
+        cy.get(`.item:first-child() ${dataCy('item-delete')}`).click()
         cy.clickModalAction()
-        cy.get('.item:first-child() .btn-item-delete').click()
+        cy.get(`.item:first-child() ${dataCy('item-delete')}`).click()
         cy.clickModalAction()
         cy.get('.badge').contains('2.a.1').should('not.exist')
         cy.get('.badge').contains('2.b.1').should('not.exist')
@@ -114,6 +115,28 @@ describe('Basic Questionnaire Tests', () => {
         project.open(projectName)
         cy.get('.badge').contains('2.a.1').should('not.exist')
         cy.get('.badge').contains('2.b.1').should('not.exist')
+    })
+
+    it('collapse & expand item answer', () => {
+        // Add item and answer a question
+        cy.clickBtn('Add')
+        cy.get('.item').should('exist')
+        cy.get('.badge').contains('2.a.1').should('exist')
+        project.selectAnswer('Item answer 1.2')
+
+        // Collapse item
+        cy.get(`.item:first-child() ${dataCy('item-collapse')}`).click()
+
+        // Reopen project and check that the item is collapsed
+        project.open(projectName)
+        cy.get('.item:first-child()').should('have.class', 'item-collapsed')
+
+        // Expand item
+        cy.get(`.item:first-child() ${dataCy('item-expand')}`).click()
+
+        // Reopen project and check that the item is expanded
+        project.open(projectName)
+        cy.get('.item:first-child()').should('not.have.class', 'item-collapsed')
     })
 
 
