@@ -2,46 +2,41 @@ describe('Menu', () => {
     [{
         role: 'admin',
         contains: [
-            'users-link', 
-            'km-editor-link', 
-            'km-link',
-            'projects-link', 
-            'documents-link', 
-            'templates-link', 
-            'settings-link', 
-            'help', 
-            'profile'
+            'users',
+            'knowledge-models',
+            'projects',
+            'documents',
+            'settings',
+            'profile',
         ],
-        notContains: []
+        notContains: [
+            'document-templates',
+        ]
     }, {
         role: 'datasteward',
         contains: [
-            'km-editor-link', 
-            'km-link',
-            'projects-link', 
-            'templates-link', 
-            'help', 
-            'profile'
+            'knowledge-models',
+            'projects',
+            'document-templates',
+            'profile',
         ],
         notContains: [
-            'users-link',
-            'documents-link', 
-            'settings-link', 
+            'users',
+            'documents',
+            'settings',  
         ]
     }, {
         role: 'researcher',
         contains: [ 
-            'projects-link', 
-            'help', 
-            'profile'
+            'projects', 
+            'profile',
         ],
         notContains: [
-            'users-link',
-            'km-link',
-            'km-editor-link',
-            'documents-link', 
-            'templates-link', 
-            'settings-link', 
+            'users',
+            'knowledge-models',
+            'document-templates',
+            'documents',
+            'settings',
         ]
     }].forEach((roleItems) => {
         it('should contain correct items for ' + roleItems.role, () => {
@@ -49,11 +44,11 @@ describe('Menu', () => {
             cy.visitApp('/dashboard')
 
             roleItems.contains.forEach((item) => {
-                cy.getCy(`menu_${item}`).should('exist')
+                cy.get(`#menu_${item}`).should('exist')
             })
 
             roleItems.notContains.forEach((item) => {
-                cy.getCy(`menu_${item}`).should('not.exist')
+                cy.get(`#menu_${item}`).should('not.exist')
             })
         })
     })

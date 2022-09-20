@@ -37,8 +37,8 @@ describe('Settings / Privacy & Support', () => {
         cy.submitForm()
 
         // Open report issue modal
-        cy.getCy('menu_help').click()
-        cy.getCy('menu_help_report').click()
+        cy.get('#menu_profile').trigger('mouseenter')
+        cy.getCy('menu_report-issue').click()
 
         cy.getCy('report-modal_link_repository').contains(supportRepositoryName).should('have.attr', 'href', supportRepositoryUrl)
         cy.getCy('report-modal_link_support-mail').contains(supportEmail).should('have.attr', 'href', `mailto:${supportEmail}`)
