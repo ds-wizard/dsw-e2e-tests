@@ -1,4 +1,5 @@
 import * as project from '../../../../support/project-helpers'
+import { dataCy } from '../../../../support/utils'
 
 
 describe('Questionnaire Summary Report - Metrics', () => {
@@ -279,8 +280,8 @@ describe('Questionnaire Summary Report - Metrics', () => {
         
         // Delete some item
         project.openChapter('Chapter 2')
-        cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').should('have.length', 3)
-        cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').eq(2).click()
+        cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find(dataCy('item-delete')).should('have.length', 3)
+        cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find(dataCy('item-delete')).eq(2).click()
         cy.clickModalAction()
 
         const metrics2 = [
@@ -296,10 +297,10 @@ describe('Questionnaire Summary Report - Metrics', () => {
         
         // Delete all items
         project.openChapter('Chapter 2')
-        cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').should('have.length', 2)
-        cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').eq(1).click()
+        cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find(dataCy('item-delete')).should('have.length', 2)
+        cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find(dataCy('item-delete')).eq(1).click()
         cy.clickModalAction()
-        cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').eq(0).click()
+        cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find(dataCy('item-delete')).eq(0).click()
         cy.clickModalAction()
         project.expectSummaryReportMetrics([])
         project.expectSummaryReportMetrics([], 'Chapter 2')

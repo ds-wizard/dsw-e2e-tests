@@ -1,5 +1,6 @@
 import * as project from '../../../../support/project-helpers'
 import * as phases from '../../../../support/phases-helpers'
+import { dataCy } from '../../../../support/utils'
 
 
 describe('Questionnaire Summary Report - Phases', () => {
@@ -263,8 +264,8 @@ describe('Questionnaire Summary Report - Phases', () => {
         project.expectSummaryReportAnswered({ current: { answered: 1, all: 2 }, all: { answered: 4, all: 7 } }, 'Chapter 2')
         
         project.openChapter('Chapter 2')
-        cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').should('have.length', 4)
-        cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find('.btn-item-delete').eq(2).click()
+        cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find(dataCy('item-delete')).should('have.length', 4)
+        cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find(dataCy('item-delete')).eq(2).click()
         cy.clickModalAction()
         project.expectSummaryReportAnswered({ current: { answered: 1, all: 5 }, all: { answered: 3, all: 15 } })
         project.expectSummaryReportAnswered({ current: { answered: 1, all: 2 }, all: { answered: 3, all: 6 } }, 'Chapter 2')

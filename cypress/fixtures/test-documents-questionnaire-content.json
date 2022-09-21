@@ -7,6 +7,10 @@
             "value": {
                 "type": "AnswerReply",
                 "value": "c120286b-27c0-49d3-affc-1ffebada478b"
+            },
+            "phasesAnsweredIndication": {
+                "answeredQuestions": 0,
+                "unansweredQuestions": 0
             }
         },
         {
@@ -16,6 +20,10 @@
             "value": {
                 "type": "AnswerReply",
                 "value": "afce52a4-19d2-4e13-8430-e7b98ebcd717"
+            },
+            "phasesAnsweredIndication": {
+                "answeredQuestions": 0,
+                "unansweredQuestions": 0
             }
         },
         {
@@ -29,6 +37,10 @@
                     "ae0b235d-64b8-4702-9c6e-a40941fbec97",
                     "fc30b7d1-a15d-4218-aa03-e0d829aa33ce"
                 ]
+            },
+            "phasesAnsweredIndication": {
+                "answeredQuestions": 0,
+                "unansweredQuestions": 0
             }
         },
         {
@@ -38,6 +50,10 @@
             "value": {
                 "type": "StringReply",
                 "value": "Item 1"
+            },
+            "phasesAnsweredIndication": {
+                "answeredQuestions": 0,
+                "unansweredQuestions": 0
             }
         },
         {
@@ -47,6 +63,10 @@
             "value": {
                 "type": "StringReply",
                 "value": "Item 2"
+            },
+            "phasesAnsweredIndication": {
+                "answeredQuestions": 0,
+                "unansweredQuestions": 0
             }
         },
         {
@@ -56,6 +76,10 @@
             "value": {
                 "type": "StringReply",
                 "value": "Item 3"
+            },
+            "phasesAnsweredIndication": {
+                "answeredQuestions": 0,
+                "unansweredQuestions": 0
             }
         },
         {
@@ -65,6 +89,10 @@
             "value": {
                 "type": "StringReply",
                 "value": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas aliquet accumsan leo. Nullam rhoncus aliquam metus. Mauris dictum facilisis augue. Praesent in mauris eu tortor porttitor accumsan. Aliquam erat volutpat. Mauris dolor felis, sagittis at, luctus sed, aliquam non, tellus. Aenean placerat. Mauris dolor felis, sagittis at, luctus sed, aliquam non, tellus. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Curabitur ligula sapien, pulvinar a vestibulum quis, facilisis vel sapien.\n\nFusce consectetuer risus a nunc. Suspendisse nisl. Nullam dapibus fermentum ipsum. Curabitur ligula sapien, pulvinar a vestibulum quis, facilisis vel sapien. Donec quis nibh at felis congue commodo. Aenean id metus id velit ullamcorper pulvinar. Phasellus rhoncus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nullam at arcu a est sollicitudin euismod. Ut tempus purus at lorem. Integer malesuada. Fusce dui leo, imperdiet in, aliquam sit amet, feugiat eu, orci. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Praesent dapibus."
+            },
+            "phasesAnsweredIndication": {
+                "answeredQuestions": 0,
+                "unansweredQuestions": 0
             }
         },
         {
@@ -74,6 +102,10 @@
             "value": {
                 "type": "StringReply",
                 "value": "2020-05-01"
+            },
+            "phasesAnsweredIndication": {
+                "answeredQuestions": 0,
+                "unansweredQuestions": 0
             }
         },
         {
@@ -83,6 +115,10 @@
             "value": {
                 "type": "StringReply",
                 "value": "5"
+            },
+            "phasesAnsweredIndication": {
+                "answeredQuestions": 0,
+                "unansweredQuestions": 0
             }
         },
         {
@@ -92,6 +128,10 @@
             "value": {
                 "type": "StringReply",
                 "value": "Some short string"
+            },
+            "phasesAnsweredIndication": {
+                "answeredQuestions": 0,
+                "unansweredQuestions": 0
             }
         },
         {
@@ -105,6 +145,10 @@
                     "id": "Data_Stewardship_Wizard",
                     "value": "Data Stewardship Wizard"
                 }
+            },
+            "phasesAnsweredIndication": {
+                "answeredQuestions": 0,
+                "unansweredQuestions": 0
             }
         },
         {
@@ -114,6 +158,10 @@
             "value": {
                 "type": "StringReply",
                 "value": "We love unicode ❤🧙‍♂️🐳 and some symbols ěščřžýáíéäëöüæøå"
+            },
+            "phasesAnsweredIndication": {
+                "answeredQuestions": 0,
+                "unansweredQuestions": 0
             }
         }
     ],
