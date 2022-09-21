@@ -120,7 +120,7 @@ describe('TODOs', () => {
         project.addTodoFor('Answer Item Question 1')
         project.expectTodoCount(1)
 
-        cy.get('.btn-item-delete').click()
+        cy.getCy('item-delete').click()
         cy.clickModalAction()
         project.expectNoTodo()
     })

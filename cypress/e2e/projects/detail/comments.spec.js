@@ -263,6 +263,7 @@ describe('Comments', () => {
                 type: 'AddCommentEvent',
                 uuid: 'd805310f-62f4-4559-88b2-df425c9ded5d',
                 path: '99196c79-3de5-4add-a6c9-20e6ba179fae.49cdf436-5de7-43d9-8226-a33dfabbce3e',
+                newThread: true,
                 threadUuid: '291812c8-f58e-4cee-addd-47544d0d5a5b',
                 commentUuid: 'c9a9ba07-0d94-4fb2-810c-f71c8f759305',
                 text: 'This is a comment',

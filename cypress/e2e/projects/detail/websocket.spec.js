@@ -42,6 +42,10 @@ describe('Questionnaire WebSocket Tests', () => {
                 value: {
                     type: 'StringReply',
                     value
+                },
+                phasesAnsweredIndication: {
+                    answeredQuestions: 0,
+                    unansweredQuestions: 0,
                 }
             }
         }
@@ -63,6 +67,10 @@ describe('Questionnaire WebSocket Tests', () => {
                 value: {
                     type: 'AnswerReply',
                     value: 'd27c39c7-6e2f-45a6-9d47-a750ba81c6c5'
+                },
+                phasesAnsweredIndication: {
+                    answeredQuestions: 0,
+                    unansweredQuestions: 0,
                 }
             }
         }
@@ -83,6 +91,10 @@ describe('Questionnaire WebSocket Tests', () => {
                 value: {
                     type: 'ItemListReply',
                     value: items
+                },
+                phasesAnsweredIndication: {
+                    answeredQuestions: 0,
+                    unansweredQuestions: 0,
                 }
             }
         })
@@ -102,6 +114,10 @@ describe('Questionnaire WebSocket Tests', () => {
                 type: 'ClearReplyEvent',
                 uuid: '62e950ca-0cc5-4a78-9389-31f7494fc88c',
                 path: '16f2c2ec-7b12-4d5e-9477-4453e4cd9689.4ae3425e-31a3-475d-a201-3f12f0b69574',
+                phasesAnsweredIndication: {
+                    answeredQuestions: 0,
+                    unansweredQuestions: 0,
+                }
             }
         }
 
@@ -118,7 +134,11 @@ describe('Questionnaire WebSocket Tests', () => {
             data: {
                 type: 'SetPhaseEvent',
                 uuid: '62e950ca-0cc5-4a78-9389-31f7494fc88c',
-                phaseUuid
+                phaseUuid,
+                phasesAnsweredIndication: {
+                    answeredQuestions: 0,
+                    unansweredQuestions: 0,
+                }
             }
         }
 

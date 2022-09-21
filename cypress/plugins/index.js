@@ -113,11 +113,23 @@ module.exports = (on, config) => {
 
   // Questionnaire
 
+  async function questionnaireCommmentThreadDelete(where) {
+    const result = await pg.get({ table: 'questionnaire_comment_thread', where })
+    for (let i = 0; i < result.rows.length; i++) {
+      const { uuid } = result.rows[i]
+      await pg.delete({ table: 'questionnaire_comment', where: { comment_thread_uuid: uuid } })
+      await pg.delete({ table: 'questionnaire_comment_thread', where: { uuid } })
+    }
+    return true
+
+  }
+
   async function questionnaireDelete(where) {
     const result = await pg.get({ table: 'questionnaire', where })
     for (let i = 0; i < result.rows.length; i++) {
       const { uuid } = result.rows[i]
       await documentDelete({ questionnaire_uuid: uuid })
+      await questionnaireCommmentThreadDelete({ questionnaire_uuid: uuid })
       await pg.delete({ table: 'questionnaire_acl_user', where: { questionnaire_uuid: uuid } })
       await pg.delete({ table: 'questionnaire_acl_group', where: { questionnaire_uuid: uuid } })
       await pg.delete({ table: 'questionnaire_migration', where: { old_questionnaire_uuid: uuid } })
