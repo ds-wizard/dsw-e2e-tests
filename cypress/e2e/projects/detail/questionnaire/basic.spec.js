@@ -139,6 +139,35 @@ describe('Basic Questionnaire Tests', () => {
         cy.get('.item:first-child()').should('not.have.class', 'item-collapsed')
     })
 
+    it.only('reorder item answer', () => {
+        // Add item and answer a question
+        cy.clickBtn('Add')
+        cy.get('.item').should('exist')
+        cy.get('.badge').contains('2.a.1').should('exist')
+        project.selectAnswer('Item answer 1.2')
+
+        // Add another item and don't answer the question
+        cy.clickBtn('Add')
+        cy.get('.item').should('exist')
+        cy.get('.badge').contains('2.a.1').should('exist')
+
+        // Move the first item down and check that now the first one
+        cy.get(`.item:first-child() ${dataCy('item-move-down')}`).click()
+        cy.get('.item:first-child() label').contains('Item answer 1.2').closest('.form-group').find('input').should('not.be.checked')
+
+        // Reopen project and check it still works
+        project.open(projectName)
+        cy.get('.item:first-child() label').contains('Item answer 1.2').closest('.form-group').find('input').should('not.be.checked')
+
+        // Move items back and check that the first one is checked
+        cy.get(`.item:last-child() ${dataCy('item-move-up')}`).click()
+        cy.get('.item:first-child() label').contains('Item answer 1.2').closest('.form-group').find('input').should('be.checked')
+
+        // Reopen project and check it still works
+        project.open(projectName)
+        cy.get('.item:first-child() label').contains('Item answer 1.2').closest('.form-group').find('input').should('be.checked')
+    })
+
 
     const valueQuestionTests = [{
         label: 'Value Question String',

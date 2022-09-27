@@ -40,7 +40,7 @@ wait:
 
 .PHONY: open
 open:
-	$(CYPRESS) open
+	$(CYPRESS) open --browser chrome --e2e
 
 .PHONY: clean
 clean:
