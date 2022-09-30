@@ -87,6 +87,11 @@ describe('Apps', () => {
     })
 
 
+    after(() => {
+        cy.task('appLimit:reset', { uuid: '00000000-0000-0000-0000-000000000000' })
+    })
+
+
     it('create and edit app', () => {
         // Create app
         createApp()

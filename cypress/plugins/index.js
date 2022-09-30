@@ -26,7 +26,8 @@ const initPostgres = (config) => {
   }
 
   const createValues = (values) => {
-    return Object.entries(values).map(([field, value]) => `${field}='${value}'`).join(', ')
+    const toValue = (value) => value === null ? 'NULL' :`'${value}'`
+    return Object.entries(values).map(([field, value]) => `${field}=${toValue(value)}`).join(', ')
   }
 
   return {
@@ -66,6 +67,24 @@ module.exports = (on, config) => {
     return true
   }
 
+  // App limits
+
+  async function appLimitReset(where) {
+    return pg.update({
+      table: 'app_limit',
+      values: {
+        users: null,
+        active_users: null,
+        knowledge_models: null,
+        branches: null,
+        templates: null,
+        questionnaires: null,
+        documents: null,
+        storage: null,
+      },
+      where
+    })
+  }
 
   // Branch
 
@@ -174,6 +193,7 @@ module.exports = (on, config) => {
 
   on('task', {
     'app:delete': appDelete,
+    'appLimit:reset': appLimitReset,
     'branch:delete': branchDelete,
     'document:delete': documentDelete,
     'package:delete': packageDelete,
