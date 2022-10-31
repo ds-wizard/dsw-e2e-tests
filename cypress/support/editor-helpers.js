@@ -90,3 +90,13 @@ export function moveModalSelect(child) {
 function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
+
+
+export function expectWarningsCount(count) {
+    cy.get('.editor-breadcrumbs .item').contains('Warnings').parent().find('.badge').contains(count)
+}
+
+
+export function openWarnings() {
+    cy.get('.editor-breadcrumbs .item').contains('Warnings').click()
+}
