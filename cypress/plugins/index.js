@@ -179,6 +179,7 @@ module.exports = (on, config) => {
     for (let i = 0; i < result.rows.length; i++) {
       const { uuid } = result.rows[i]
       await pg.delete({ table: 'action_key', where: { user_id: uuid } })
+      await pg.delete({ table: 'user_token', where: { user_uuid: uuid } })
       await pg.delete({ table: 'persistent_command', where: { created_by: uuid } })
       await pg.delete({ table: 'user_entity', where: { uuid } })
     }
