@@ -166,7 +166,7 @@ describe('Questionnaire Versions', () => {
         project.selectAnswer('Answer 1.1')
         clickEventAction('Create document')
 
-        cy.get('h2').contains('New document').should('exist')
+        cy.get('h2').contains('New Document').should('exist')
         cy.get('.alert-info').contains('You are creating a document for a project version from').should('exist')
 
         cy.fillFields({ th_templateId: 'Questionnaire Report' })

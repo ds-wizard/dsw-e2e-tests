@@ -74,7 +74,7 @@ describe('Project CRUD', () => {
         project.open(projectName)
         project.openSettings()
 
-        cy.clickBtn('Delete this Project', true)
+        cy.clickBtn('Delete this project', true)
         cy.get('.modal-title').should('be.visible').and('contain', 'Delete Project')
         cy.get('.btn-danger').contains('Delete').click()
 

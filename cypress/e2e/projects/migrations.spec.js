@@ -46,7 +46,7 @@ describe('Questionnaire Migrations', () => {
         createQuestionnaire('vacation-planning', 0)
         cy.visitApp('/projects')
         cy.get('.badge').contains('update available').click()
-        cy.get('h2').contains('Create migration').should('exist')
+        cy.get('h2').contains('Create Migration').should('exist')
     })
 
     it('question title change', () => {
