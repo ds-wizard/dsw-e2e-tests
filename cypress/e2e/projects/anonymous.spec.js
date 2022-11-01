@@ -90,6 +90,7 @@ describe('Anonymous projects', () => {
 
             // add to user projects
             cy.clickBtn('Add to my projects')
+            cy.wait(1000)
             cy.contains('Add to my projects').should('not.exist')
             
             // disable sharing
