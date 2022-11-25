@@ -6,7 +6,7 @@ describe('Menu', () => {
             'knowledge-models',
             'projects',
             'documents',
-            'settings',
+            'system',
             'profile',
         ],
         notContains: [
@@ -23,7 +23,7 @@ describe('Menu', () => {
         notContains: [
             'users',
             'documents',
-            'settings',  
+            'system',  
         ]
     }, {
         role: 'researcher',
@@ -36,7 +36,7 @@ describe('Menu', () => {
             'knowledge-models',
             'document-templates',
             'documents',
-            'settings',
+            'system',
         ]
     }].forEach((roleItems) => {
         it('should contain correct items for ' + roleItems.role, () => {

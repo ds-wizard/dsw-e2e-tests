@@ -50,7 +50,7 @@ describe('Settings / Authentication', () => {
 
         // Check that admin only items are visible
         cy.get('#menu_users').should('exist')
-        cy.get('#menu_settings').should('exist')
+        cy.get('#menu_system').should('exist')
     })
 
     it('registration enabled', () => {
