@@ -107,6 +107,13 @@ module.exports = (on, config) => {
   }
 
 
+  // Locale
+
+  async function localeDelete(where) {
+    return pg.delete({ table: 'locale', where })
+  }
+
+
   // Package
 
   async function packageDelete(where) {
@@ -197,6 +204,7 @@ module.exports = (on, config) => {
     'appLimit:reset': appLimitReset,
     'branch:delete': branchDelete,
     'document:delete': documentDelete,
+    'locale:delete': localeDelete,
     'package:delete': packageDelete,
     'package:get': packageGet,
     'questionnaire:delete': questionnaireDelete,
