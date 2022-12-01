@@ -26,7 +26,7 @@ const initPostgres = (config) => {
   }
 
   const createValues = (values) => {
-    const toValue = (value) => value === null ? 'NULL' :`'${value}'`
+    const toValue = (value) => value === null ? 'NULL' : `'${value}'`
     return Object.entries(values).map(([field, value]) => `${field}=${toValue(value)}`).join(', ')
   }
 
@@ -62,6 +62,7 @@ module.exports = (on, config) => {
       const { uuid } = result.rows[i]
       await userDelete({ app_uuid: uuid })
       await pg.delete({ table: 'action_key', where: { app_uuid: uuid } })
+      await pg.delete({ table: 'locale', where: { app_uuid: uuid } })
       await pg.delete({ table: 'app', where: { uuid } })
     }
     return true
