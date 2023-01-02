@@ -63,7 +63,7 @@ jobs:
         make wait
 
     - name: Run Cypress
-      uses: cypress-io/github-action@v4
+      uses: cypress-io/github-action@v5
       with:
         browser: chrome
         headless: true

@@ -119,7 +119,11 @@ export function verifyPackageWithBundle(packageId, fixtureName, pkgParams, check
                     const skipKeys = ['requiredPhaseUuid', 'metricUuids', 'phaseUuids', 'annotations', 'createdAt']
                     const shouldSkip = (!checkEventUuid && key === 'uuid') || skipKeys.includes(key)
                     if (!shouldSkip) {
-                        cy.wrap(childEvent).its(key).should('deep.equal', parentEvent[key])
+                        if (parentEvent[key] === null) {
+                            cy.wrap(childEvent).its(key).should('be.null')
+                        } else {
+                            cy.wrap(childEvent).its(key).should('deep.equal', parentEvent[key])
+                        }
                     }
                 })
             })
