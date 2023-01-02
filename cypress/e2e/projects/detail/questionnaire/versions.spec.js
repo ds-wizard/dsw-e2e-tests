@@ -14,13 +14,14 @@ describe('Questionnaire Versions', () => {
         cy.get('.history-event').should('have.length', count)
     }
 
-    const clickEventAction = (action, lastChild = true) => {
-        cy.get(`.history-event:${lastChild ? 'last' : 'first'}-child .dropdown-toggle`).click()
-        cy.get('.dropdown-item').contains(action).click({ force: true })
+    const clickEventAction = (action, child = 'last-child') => {
+        const parentSelector = `.history-event:${child}`
+        cy.get(`${parentSelector} .dropdown-toggle`).click()
+        cy.get(`${parentSelector} .dropdown-item`).contains(action).click({ force: true })
     }
 
-    const nameVersion = (name, lastChild = true) => {
-        clickEventAction('Name this version', lastChild)
+    const nameVersion = (name, child = 'last-child') => {
+        clickEventAction('Name this version', child)
         cy.fillFields({ name })
         cy.clickBtn('Save')
     }
@@ -113,7 +114,7 @@ describe('Questionnaire Versions', () => {
         openVersionHistory()
         expectEventCount(3)
 
-        clickEventAction('Revert to this version')
+        clickEventAction('Revert to this version', 'nth-child(2)')
         cy.clickModalAction()
 
         cy.expectModalOpen('project-version', false)
@@ -129,13 +130,15 @@ describe('Questionnaire Versions', () => {
         project.typeAnswer('Value Question String', 'Answer')
 
         // name that as version 1.0.0
-        nameVersion('1.0.0')
+        nameVersion('1.0.0', 'first-child')
 
         // select another answer
         project.selectAnswer('Answer 1.1')
         
+        cy.wait(10000)
+
         // open original version
-        clickEventAction('View questionnaire')
+        clickEventAction('View questionnaire', 'nth-child(2)')
 
         // check it has opened correctly
         cy.get('.QuestionnaireVersionViewModal .modal-header .badge.bg-secondary').contains('1.0.0').should('exist')
@@ -148,10 +151,10 @@ describe('Questionnaire Versions', () => {
         openVersionHistory()
 
         project.typeAnswer('Value Question String', 'Answer')
-        nameVersion('1.0.0', false)
+        nameVersion('1.0.0', 'first-child')
         project.selectAnswer('Answer 1.1')
         project.selectAnswer('Choice 1')
-        nameVersion('2.0.0', false)
+        nameVersion('2.0.0', 'first-child')
         project.typeAnswerText('Value Question Text', 'Answer')
 
         expectEventCount(5)

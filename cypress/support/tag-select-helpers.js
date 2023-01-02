@@ -7,7 +7,7 @@ export function selectAll() {
 }
 
 export function select(tag) {
-    cy.get('.tag-label').contains(tag).click()
+    cy.get('.tag-selection .tag-label').contains(tag).click()
 }
 
 export function selectMultiple(tags) {

@@ -455,13 +455,13 @@ export function awaitSave() {
 
 
 export function resolveAndFinalizeMigration() {
-    cy.clickBtn('Resolve')
+    cy.getCy('project-migration_resolve').click()
     finalizeMigration()
 }
 
 
 export function finalizeMigration() {
-    cy.clickBtn('Finalize migration')
+    cy.getCy('project-migration_finalize').click()
     cy.url().should('match', /\/projects\/.+/)
     cy.get('.Questionnaire__Migration').should('not.exist')
     cy.get('.questionnaire__form').should('exist')
