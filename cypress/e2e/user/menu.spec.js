@@ -2,28 +2,25 @@ describe('Menu', () => {
     [{
         role: 'admin',
         contains: [
-            'users',
             'knowledge-models',
+            'document-templates',
             'projects',
             'documents',
-            'system',
+            'administration',
             'profile',
         ],
-        notContains: [
-            'document-templates',
-        ]
+        notContains: []
     }, {
         role: 'datasteward',
         contains: [
             'knowledge-models',
-            'projects',
             'document-templates',
+            'projects',
             'profile',
         ],
         notContains: [
-            'users',
             'documents',
-            'system',  
+            'administration', 
         ]
     }, {
         role: 'researcher',
@@ -32,11 +29,10 @@ describe('Menu', () => {
             'profile',
         ],
         notContains: [
-            'users',
             'knowledge-models',
             'document-templates',
             'documents',
-            'system',
+            'administration',
         ]
     }].forEach((roleItems) => {
         it('should contain correct items for ' + roleItems.role, () => {

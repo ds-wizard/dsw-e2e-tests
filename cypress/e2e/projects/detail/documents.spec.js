@@ -7,7 +7,7 @@ describe('Documents', () => {
     let projectUuid = ''
     const kmId = 'test-documents'
     const packageId = 'dsw:test-documents:1.0.0'
-    const templateId = 'dsw:questionnaire-report:1.4.0'
+    const documentTemplateId = 'dsw:questionnaire-report:1.4.0'
 
     const templateName = 'Questionnaire Report'
     const brokenTemplateName = 'Broken Template'
@@ -25,7 +25,7 @@ describe('Documents', () => {
 
     before(() => {
         cy.task('package:delete', { km_id: kmId })
-        cy.removeTemplate(templateId)
+        cy.removeTemplate(documentTemplateId)
         cy.removeTemplate('dsw:broken:0.1.0')
         cy.removeTemplate('dsw:not-allowed:0.1.0')
         cy.clearServerCache()
@@ -48,7 +48,7 @@ describe('Documents', () => {
             name: projectName,
             sharing: project.Restricted,
             packageId,
-            templateId
+            documentTemplateId
         }).then((resp) => {
             cy.fixture(`${kmId}-questionnaire-content`).then((req) => {
                 cy.updateQuestionnaireContent(resp.body.uuid, req)
@@ -96,7 +96,7 @@ describe('Documents', () => {
         it(`Broken Template - ${format}`, () => {
             project.open(projectName)
             project.openSettings()
-            cy.fillFields({ th_templateId: brokenTemplateName })
+            cy.fillFields({ th_documentTemplateId: brokenTemplateName })
             cy.clickBtn('Save')
 
             const documentName = `${projectName} (${brokenTemplateName} - ${format})`
@@ -109,16 +109,16 @@ describe('Documents', () => {
 
     it('Not Allowed Template', () => {
         cy.visitApp(`/projects/${projectUuid}/settings`)
-        cy.get('#templateId').click()
+        cy.get('#documentTemplateId').click()
 
-        cy.get('#templateId-search').clear().type(templateName)
-        cy.get('#templateId .TypeHintInput__TypeHints ul li a').contains(templateName).should('exist')
+        cy.get('#documentTemplateId-search').clear().type(templateName)
+        cy.get('#documentTemplateId .TypeHintInput__TypeHints ul li a').contains(templateName).should('exist')
         
-        cy.get('#templateId-search').clear().type(brokenTemplateName)
-        cy.get('#templateId .TypeHintInput__TypeHints ul li a').contains(brokenTemplateName).should('exist')
+        cy.get('#documentTemplateId-search').clear().type(brokenTemplateName)
+        cy.get('#documentTemplateId .TypeHintInput__TypeHints ul li a').contains(brokenTemplateName).should('exist')
         
-        cy.get('#templateId-search').clear().type(notAllowedTemplateName)
-        cy.get('#templateId .TypeHintInput__TypeHints ul li a').should('not.exist')
+        cy.get('#documentTemplateId-search').clear().type(notAllowedTemplateName)
+        cy.get('#documentTemplateId .TypeHintInput__TypeHints ul li a').should('not.exist')
     })
 
     it('Default template not set', () => {
@@ -127,18 +127,18 @@ describe('Documents', () => {
         // unset the default template
         project.open(projectName)
         project.openSettings()
-        cy.clearTypeHintInput('templateId')
+        cy.clearTypeHintInput('documentTemplateId')
         cy.clickBtn('Save')
 
         project.openDocuments()
         cy.clickBtn('New document')
 
         // no format id when tempalte is not selected
-        cy.get('#templateId').should('exist')
+        cy.get('#documentTemplateId').should('exist')
         cy.get('#formatId').should('not.exist')
 
         // select template and submit document
-        cy.fillFields({ th_templateId: templateName })
+        cy.fillFields({ th_documentTemplateId: templateName })
         d.submitDocumentForm(documentName, 'PDF Document')
         d.checkDocument(documentName, true)
     })

@@ -74,14 +74,16 @@ module.exports = (on, config) => {
     return pg.update({
       table: 'app_limit',
       values: {
-        users: null,
         active_users: null,
-        knowledge_models: null,
         branches: null,
-        templates: null,
-        questionnaires: null,
+        document_template_drafts: null,
+        document_templates: null,
         documents: null,
+        knowledge_models: null,
+        locales: null,
+        questionnaires: null,
         storage: null,
+        users: null,
       },
       where
     })
@@ -107,6 +109,22 @@ module.exports = (on, config) => {
     return pg.delete({ table: 'document', where })
   }
 
+
+  // Document Template Editors
+
+  async function documentTemplateDelete(where) {
+    const result = await pg.get({ table: 'document_template', where })
+    for (let i = 0; i < result.rows.length; i++) {
+      const { id } = result.rows[i]
+      documentDelete({ document_template_id: id })
+      await pg.delete({ table: 'document_template_draft_data', where: { document_template_id: id } })
+      await pg.delete({ table: 'document_template_asset', where: { document_template_id: id } })
+      await pg.delete({ table: 'document_template_file', where: { document_template_id: id } })
+      await pg.delete({ table: 'document_template', where: { id } })
+    }
+
+    return true
+  }
 
   // Locale
 
@@ -205,6 +223,7 @@ module.exports = (on, config) => {
     'appLimit:reset': appLimitReset,
     'branch:delete': branchDelete,
     'document:delete': documentDelete,
+    'documentTemplate:delete': documentTemplateDelete,
     'locale:delete': localeDelete,
     'package:delete': packageDelete,
     'package:get': packageGet,

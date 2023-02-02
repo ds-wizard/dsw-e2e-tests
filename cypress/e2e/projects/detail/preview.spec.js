@@ -4,7 +4,7 @@ describe('Project - Preview', () => {
     const projectName = 'Preview test'
     const kmId = 'test-documents'
     const packageId = 'dsw:test-documents:1.0.0'
-    const templateId = 'dsw:questionnaire-report:1.4.0'
+    const documentTemplateId = 'dsw:questionnaire-report:1.4.0'
 
     const browserFormats = [
         'JSON Data',
@@ -58,7 +58,7 @@ describe('Project - Preview', () => {
             name: projectName,
             sharing: project.Restricted,
             packageId,
-            templateId
+            documentTemplateId
         }).then((resp) => {
             cy.fixture(`${kmId}-questionnaire-content`).then((req) => {
                 cy.updateQuestionnaireContent(resp.body.uuid, req)

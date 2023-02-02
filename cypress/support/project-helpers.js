@@ -36,7 +36,7 @@ export function create(projectName, packageName) {
         name: projectName,
         th_packageId: packageName
     })
-    cy.clickBtn('Save')
+    cy.clickBtn('Create')
     cy.url().should('match', /\/projects\/.+/)
     expectTitle(projectName)
 }

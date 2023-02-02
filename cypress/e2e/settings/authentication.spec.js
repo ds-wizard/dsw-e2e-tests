@@ -49,8 +49,8 @@ describe('Settings / Authentication', () => {
         cy.submitForm()
 
         // Check that admin only items are visible
-        cy.get('#menu_users').should('exist')
-        cy.get('#menu_system').should('exist')
+        cy.get('#menu_administration').should('exist')
+        cy.get('#menu_documents').should('exist')
     })
 
     it('registration enabled', () => {
