@@ -32,7 +32,7 @@ describe('Project Template', () => {
             name: templateProjectName,
             th_packageId: packageName
         })
-        cy.clickBtn('Save')
+        cy.clickBtn('Create')
         project.awaitOpen()
 
         // Fill in an answer and create a todo
@@ -43,7 +43,7 @@ describe('Project Template', () => {
         project.openSettings()
         cy.fillFields({
             description: 'This is my template project',
-            th_templateId: templateName
+            th_documentTemplateId: templateName
         })
         cy.checkToggle('isTemplate')
         cy.contains('JSON Data').click()
@@ -69,7 +69,7 @@ describe('Project Template', () => {
             name: projectName,
             th_uuid: templateProjectName
         })
-        cy.clickBtn('Save')
+        cy.clickBtn('Create')
         cy.url().should('contain', '/projects/')
 
         // Check it is not a template

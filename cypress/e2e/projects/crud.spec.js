@@ -33,7 +33,7 @@ describe('Project CRUD', () => {
             th_packageId: packageName
         })
 
-        cy.clickBtn('Save')
+        cy.clickBtn('Create')
         cy.url().should('contain', '/projects/')
 
         cy.visitApp('/projects')

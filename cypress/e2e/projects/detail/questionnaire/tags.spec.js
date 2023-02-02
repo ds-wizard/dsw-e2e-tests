@@ -67,7 +67,7 @@ describe('Questionnaire Tags', () => {
                 th_packageId: packageName
             })
             tagSelect.selectMultiple(tags)
-            cy.clickBtn('Save')
+            cy.clickBtn('Create')
 
             cy.url().should('match', /\/projects\/.+/)
             project.expectTitle(projectName)

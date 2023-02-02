@@ -134,14 +134,14 @@ Cypress.Commands.add('importKM', (km) => {
 
 // Templates commands
 
-Cypress.Commands.add('removeTemplate', (templateId) => {
+Cypress.Commands.add('removeTemplate', (documentTemplateId) => {
     getTokenFor('admin').then((resp) => {
-        cy.task('document:delete', { template_id: templateId })
-        cy.task('questionnaire:delete', { template_id: templateId })
+        cy.task('document:delete', { document_template_id: documentTemplateId })
+        cy.task('questionnaire:delete', { document_template_id: documentTemplateId })
 
         cy.request({
             method: 'DELETE',
-            url: apiUrl(`/templates/${templateId}`),
+            url: apiUrl(`/document-templates/${documentTemplateId}`),
             headers: createHeaders(resp.body.token),
             failOnStatusCode: false
         })
@@ -172,7 +172,7 @@ Cypress.Commands.add('importTemplate', (templatePath) => {
                         reject({ request: xhr })
                     }
 
-                    xhr.open('POST', apiUrl('/templates/bundle'))
+                    xhr.open('POST', apiUrl('/document-templates/bundle'))
                     xhr.setRequestHeader('Authorization', `Bearer ${resp.body.token}`)
                     xhr.send(data)
                 })
@@ -183,13 +183,13 @@ Cypress.Commands.add('importTemplate', (templatePath) => {
 
 // Questionnaires commands
 
-Cypress.Commands.add('createQuestionnaire', ({ visibility, sharing, name, packageId, templateId }) => {
+Cypress.Commands.add('createQuestionnaire', ({ visibility, sharing, name, packageId, documentTemplateId }) => {
     getTokenFor('researcher').then((resp) => {
         cy.request({
             method: 'POST',
             url: apiUrl('/questionnaires'),
             headers: createHeaders(resp.body.token),
-            body: { visibility, sharing, name, packageId, templateId, questionTagUuids: [] }
+            body: { visibility, sharing, name, packageId, documentTemplateId, questionTagUuids: [] }
         })
     })
 })

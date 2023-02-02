@@ -172,7 +172,7 @@ describe('Questionnaire Versions', () => {
         cy.get('h2').contains('New Document').should('exist')
         cy.get('.alert-info').contains('You are creating a document for a project version from').should('exist')
 
-        cy.fillFields({ th_templateId: 'Questionnaire Report' })
+        cy.fillFields({ th_documentTemplateId: 'Questionnaire Report' })
         cy.contains('JSON Data').click()
         cy.clickBtn('Create')
 
