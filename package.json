@@ -8,6 +8,6 @@
     "pg": "^8.8.0"
   },
   "devDependencies": {
-    "cypress": "^12.2.0"
+    "cypress": "^12.6.0"
   }
 }
