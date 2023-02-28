@@ -37,7 +37,7 @@ describe('Project CRUD', () => {
         cy.url().should('contain', '/projects/')
 
         cy.visitApp('/projects')
-        cy.getListingItem(projectName).should('contain', packageId)
+        cy.getListingItem(projectName).should('contain', packageName)
     })
 
 
@@ -59,7 +59,7 @@ describe('Project CRUD', () => {
 
         cy.visitApp('/projects')
         cy.expectListingItemNotExist(p.name)
-        cy.getListingItem(projectName).should('contain', packageId)
+        cy.getListingItem(projectName).should('contain', packageName)
     })
 
 
