@@ -64,4 +64,14 @@ describe('Document Template Editor / Editor / Files', () => {
         cy.getCy('dt-editor_file-tree_asset').contains('document.docx').click()
         cy.get('.DocumentTemplateEditor__Asset--Other').should('exist')
     })
+
+    it('upload MD file', () => {
+        editor.addAsset()
+        cy.get('.dropzone').selectFile('cypress/fixtures/dt-editor/readme.md', {
+            action: 'drag-drop'
+        })
+        cy.clickModalAction()
+        cy.getCy('dt-editor_file-tree_file').contains('readme.md').click()
+        cy.get('code-editor').should('exist')
+    })
 })
