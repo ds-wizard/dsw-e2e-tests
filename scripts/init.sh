@@ -4,9 +4,9 @@
 ./scripts/build-templates.sh
 
 # Init docker-compose file
-SERVER_IMAGE="${SERVER_IMAGE:-docker.ds-wizard.org/wizard-server:develop}"
-CLIENT_IMAGE="${CLIENT_IMAGE:-docker.ds-wizard.org/wizard-client:develop}"
-DOCWORKER_IMAGE="${DOCWORKER_IMAGE:-docker.ds-wizard.org/document-worker:develop}"
+SERVER_IMAGE="${SERVER_IMAGE:-dswbot/wizard-server:develop}"
+CLIENT_IMAGE="${CLIENT_IMAGE:-dswbot/wizard-client:develop}"
+DOCWORKER_IMAGE="${DOCWORKER_IMAGE:-dswbot/document-worker:develop}"
 
 DOCKER_COMPOSE_FILE=dsw/docker-compose.yml
 
