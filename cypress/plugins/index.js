@@ -54,6 +54,12 @@ const initPostgres = (config) => {
 module.exports = (on, config) => {
   const pg = initPostgres(config)
 
+  // Action Key
+
+  async function actionKeyDelete(where) {
+    return pg.delete({ table: 'action_key', where })
+  }
+
   // App
 
   async function appDelete(where) {
@@ -66,6 +72,32 @@ module.exports = (on, config) => {
       await pg.delete({ table: 'app', where: { uuid } })
     }
     return true
+  }
+
+  // App config
+
+  async function appConfigDisable2FA() {
+    return pg.update({
+      table: 'app_config',
+      values: {
+        authentication: JSON.stringify({
+          "defaultRole": "dataSteward",
+          "external": {
+            "services": []
+          },
+          "internal": {
+            "registration": {
+              "enabled": true
+            },
+            "twoFactorAuth": {
+              "codeLength": 6,
+              "enabled": false,
+              "expiration": 600
+            }
+          }
+        })
+      }
+    })
   }
 
   // App limits
@@ -219,7 +251,9 @@ module.exports = (on, config) => {
   }
 
   on('task', {
+    'actionKey:delete': actionKeyDelete,
     'app:delete': appDelete,
+    'appConfig:disable2FA': appConfigDisable2FA,
     'appLimit:reset': appLimitReset,
     'branch:delete': branchDelete,
     'document:delete': documentDelete,

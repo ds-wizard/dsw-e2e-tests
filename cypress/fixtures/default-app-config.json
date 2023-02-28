@@ -13,6 +13,11 @@
         "internal": {
             "registration": {
                 "enabled": true
+            },
+            "twoFactorAuth": {
+                "codeLength": 6,
+                "enabled": false,
+                "expiration": 600
             }
         }
     },

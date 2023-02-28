@@ -366,6 +366,7 @@ Cypress.Commands.add('uncheckToggle', (field) => {
 // Settings commands
 
 Cypress.Commands.add('putDefaultAppConfig', () => {
+    cy.task('appConfig:disable2FA')
     getTokenFor('admin').then((resp) => {
         cy.fixture('default-app-config').then((config) => {
             cy.request({

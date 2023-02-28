@@ -67,6 +67,29 @@ describe('Settings / Authentication', () => {
         cy.getCy('public_nav_sign-up').should('not.exist')
     })
 
+    it('2FA login', () => {
+        cy.task('actionKey:delete')
+
+        cy.checkToggle('twoFactorAuthEnabled')
+        cy.submitForm()
+        cy.logout()
+
+        cy.visitApp('/')
+        cy.fillFields({
+            email: Cypress.env('datasteward_username'),
+            password: Cypress.env('datasteward_password')
+        })
+        cy.submitForm()
+        cy.get('#code').should('exist')
+        cy.task('user:getActionParams', { email: Cypress.env('datasteward_username'), type: 'TwoFactorAuthActionKey' }).then(([uuid, hash]) => {
+            cy.fillFields({
+                code: hash
+            })
+            cy.submitForm()
+            cy.url().should('include', '/dashboard')
+        })
+    })
+
     it('OpenID service', () => {
         // Fill in an OpenID service
         cy.clickBtn('Add', true)
