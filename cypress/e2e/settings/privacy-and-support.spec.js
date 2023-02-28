@@ -29,18 +29,18 @@ describe('Settings / Privacy & Support', () => {
 
     it('support', () => {
         const supportEmail = 'support@ds-wizard.org'
-        const supportRepositoryName = 'My Support Repository'
-        const supportRepositoryUrl = 'http://example.com'
+        const supportSiteName = 'My Support Repository'
+        const supportSiteUrl = 'http://example.com'
 
         // Set support properties
-        cy.fillFields({ supportEmail, supportRepositoryName, supportRepositoryUrl })
+        cy.fillFields({ supportEmail, supportSiteName, supportSiteUrl })
         cy.submitForm()
 
         // Open report issue modal
         cy.get('#menu_profile').trigger('mouseenter')
         cy.getCy('menu_report-issue').click()
 
-        cy.getCy('report-modal_link_repository').contains(supportRepositoryName).should('have.attr', 'href', supportRepositoryUrl)
+        cy.getCy('report-modal_link_repository').contains(supportSiteName).should('have.attr', 'href', supportSiteUrl)
         cy.getCy('report-modal_link_support-mail').contains(supportEmail).should('have.attr', 'href', `mailto:${supportEmail}`)
     })
 })
