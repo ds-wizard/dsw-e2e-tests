@@ -63,7 +63,7 @@ describe('Locale', () => {
         // Import the language bundle
         cy.get('#locale-import-input').selectFile('cypress/fixtures/locale/cs.zip', { force: true })
         cy.get('.file-view').should('exist')
-        cy.clickBtn('Upload')
+        cy.clickBtn('Import')
         cy.url().should('not.contain', 'import')
 
         // Open detail
