@@ -18,6 +18,7 @@ export const TodoUUID = '615b9028-5e3f-414f-b245-12d2ae2eeb20'
 
 export function open(projectName) {
     cy.visitApp('/projects')
+    cy.getCy('listing_list').should('exist')
     cy.clickListingItemAction(projectName, 'open')
     expectTitle(projectName)
 }

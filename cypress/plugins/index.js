@@ -148,7 +148,8 @@ module.exports = (on, config) => {
     const result = await pg.get({ table: 'document_template', where })
     for (let i = 0; i < result.rows.length; i++) {
       const { id } = result.rows[i]
-      documentDelete({ document_template_id: id })
+      await documentDelete({ document_template_id: id })
+      await questionnaireDelete({ document_template_id: id })
       await pg.delete({ table: 'document_template_draft_data', where: { document_template_id: id } })
       await pg.delete({ table: 'document_template_asset', where: { document_template_id: id } })
       await pg.delete({ table: 'document_template_file', where: { document_template_id: id } })
