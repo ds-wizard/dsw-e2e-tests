@@ -68,9 +68,9 @@ describe('Locale', () => {
 
         // Open detail
         cy.clickListingItemAction('Czech', 'view')
-        cy.get('.top-header-actions').contains('Enable').click()
-        cy.get('.top-header-actions').contains('Set default').click()
-        cy.get('.top-header-actions').contains('Enable').should('not.exist')
+        cy.clickDropdownAction('enable')
+        cy.clickDropdownAction('set-default')
+        cy.get('.dropdown-item').contains('Enable').should('not.exist')
 
         // Change language to Czech
         cy.get('#menu_profile').trigger('mouseenter')

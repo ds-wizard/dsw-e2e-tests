@@ -38,12 +38,14 @@ describe('KM Editor Create', () => {
 
         cy.visitApp('/knowledge-models/dsw:test-km-1:1.0.0')
 
-        cy.getCy('km-detail_create-editor-link').click()
+        cy.clickDropdownAction('create-km-editor')
         cy.url().should('contain', '/km-editor/create')
 
         cy.checkFields({
             name: kmName,
             kmId,
+        })
+        cy.fillFields({
             'version-major': '1',
             'version-minor': '0',
             'version-patch': '0'
@@ -62,7 +64,7 @@ describe('KM Editor Create', () => {
 
         cy.visitApp('/knowledge-models/dsw:test-km-1:1.0.0')
 
-        cy.getCy('km-detail_fork-link').click()
+        cy.clickDropdownAction('fork')
         cy.url().should('contain', '/km-editor/create')
 
         cy.checkFields({ name: '', kmId: '' })

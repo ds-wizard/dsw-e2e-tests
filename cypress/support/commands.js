@@ -308,6 +308,13 @@ Cypress.Commands.add('expectError', () => {
     cy.getCy('illustrated-message_error').should('exist')
 })
 
+
+// Detail commands
+
+Cypress.Commands.add('clickDropdownAction', (action) => {
+    cy.get('.top-header-actions .dropdown-menu').find(dataCy(`listing-item_action_${action}`)).click({ force: true })
+})
+
 // Form commands
 
 Cypress.Commands.add('fillFields', (fields) => {

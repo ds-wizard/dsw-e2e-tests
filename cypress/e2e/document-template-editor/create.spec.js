@@ -36,7 +36,7 @@ describe('Document Template Editor / Create', () => {
 
     it('can create from existing', () => {
         cy.visitApp('/document-templates/dsw:questionnaire-report:1.4.0')
-        cy.getCy('dt-detail_create-editor-link').click()
+        cy.clickDropdownAction('create-editor')
         cy.submitForm()
 
         // it should be prefilled to next minor version
