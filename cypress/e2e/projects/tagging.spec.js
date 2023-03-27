@@ -29,6 +29,7 @@ describe('Project Tagging', () => {
         project.openSettings()
         projectTags.forEach(project.addProjectTag)
         project.saveSettings()
+        cy.wait(100)
     }
 
 
@@ -44,6 +45,7 @@ describe('Project Tagging', () => {
         project.addProjectTag('Math')
         project.addProjectTag('History')
         project.saveSettings()
+        cy.wait(100)
 
 
         // go back to setting and check that the tags are there
@@ -60,6 +62,7 @@ describe('Project Tagging', () => {
         project.removeProjectTag('Biology')
         project.removeProjectTag('History')
         project.saveSettings()
+        cy.wait(100)
 
         // go back to setting and check that the tags are saved correctly
         project.open(defaultProjectName)
