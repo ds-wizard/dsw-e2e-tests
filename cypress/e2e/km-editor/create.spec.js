@@ -18,7 +18,13 @@ describe('KM Editor Create', () => {
         cy.getCy('km-editor_create-button').click()
         cy.url().should('contain', '/km-editor/create')
 
-        cy.fillFields({ name: kmName, kmId })
+        cy.fillFields({
+            name: kmName,
+            kmId,
+            'version-major': '1',
+            'version-minor': '0',
+            'version-patch': '0'
+        })
         cy.submitForm()
         cy.url().should('contain', '/km-editor/editor/')
 
@@ -31,11 +37,17 @@ describe('KM Editor Create', () => {
         const kmId = 'test-km-1'
 
         cy.visitApp('/knowledge-models/dsw:test-km-1:1.0.0')
-        
+
         cy.getCy('km-detail_create-editor-link').click()
         cy.url().should('contain', '/km-editor/create')
 
-        cy.checkFields({ name: kmName, kmId })
+        cy.checkFields({
+            name: kmName,
+            kmId,
+            'version-major': '1',
+            'version-minor': '0',
+            'version-patch': '0'
+        })
 
         cy.submitForm()
         cy.url().should('contain', '/km-editor/editor/')
@@ -49,12 +61,18 @@ describe('KM Editor Create', () => {
         const kmId = 'fork-km-1'
 
         cy.visitApp('/knowledge-models/dsw:test-km-1:1.0.0')
-        
+
         cy.getCy('km-detail_fork-link').click()
         cy.url().should('contain', '/km-editor/create')
 
         cy.checkFields({ name: '', kmId: '' })
-        cy.fillFields({ name: kmName, kmId })
+        cy.fillFields({
+            name: kmName,
+            kmId,
+            'version-major': '1',
+            'version-minor': '0',
+            'version-patch': '0'
+        })
 
         cy.submitForm()
         cy.url().should('contain', '/km-editor/editor/')

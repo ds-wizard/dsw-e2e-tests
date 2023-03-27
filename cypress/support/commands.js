@@ -232,13 +232,13 @@ Cypress.Commands.add('updateQuestionnaireContent', (questionnaireUuid, data) => 
 
 // KM Editor commands
 
-Cypress.Commands.add('createKMEditor', ({ kmId, name, previousPackageId }) => {
+Cypress.Commands.add('createKMEditor', ({ kmId, name, version, previousPackageId }) => {
     getTokenFor('datasteward').then((resp) => {
         cy.request({
             method: 'POST',
             url: apiUrl('/branches'),
             headers: createHeaders(resp.body.token),
-            body: { kmId, name, previousPackageId }
+            body: { kmId, name, version, previousPackageId }
         })
     })
 })
@@ -253,16 +253,14 @@ Cypress.Commands.add('deleteKMEditor', (kmId) => {
     })
 })
 
-Cypress.Commands.add('publishKMEditor', ({ kmId, version, description, readme, license }) => {
+Cypress.Commands.add('publishKMEditor', ({ branchUuid }) => {
     getTokenFor('datasteward').then((resp) => {
         cy.request({
-            method: 'PUT',
-            url: apiUrl(`/branches/${kmId}/versions/${version}`),
+            method: 'POST',
+            url: apiUrl('/packages/from-branch'),
             headers: createHeaders(resp.body.token),
             body: {
-                description,
-                readme,
-                license
+                branchUuid
             }
         })
     })

@@ -159,7 +159,7 @@ export function finishMigrationAndPublish(major, minor, patch) {
     cy.getCy('km-publish_publish-button').click()
 
     // Wait until it is published
-    cy.get('.Listing').should('exist')
+    cy.get('.DetailPage').should('exist')
 }
 
 export function checkMigrationForm(data) {
@@ -189,6 +189,7 @@ export function prepareChildKmEditor(config, version) {
     cy.createKMEditor({
         kmId: config.childKmId,
         name: config.editorName,
+        version,
         previousPackageId: config.getChildPackageId(version)
     })
     cy.visitApp('/km-editor')

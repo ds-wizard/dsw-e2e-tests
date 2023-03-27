@@ -11,7 +11,7 @@ describe('KMEditor WebSocket Tests', () => {
         cy.clearServerCache()
 
         cy.createKMEditor({
-            kmId, name: kmName, previousPackageId: null
+            kmId, name: kmName, version: '1.0.0', previousPackageId: null
         }).then(result => {
             console.log(result)
             kmEditorUuid = result.body.uuid
@@ -124,11 +124,7 @@ describe('KMEditor WebSocket Tests', () => {
     it('Disconnect when published', () => {
         // publish a version
         cy.publishKMEditor({
-            kmId: kmEditorUuid,
-            version: '2.3.6',
-            description: 'This is a Knowledge Model',
-            readme: '# Knowledge Model',
-            license: 'MIT'
+            branchUuid: kmEditorUuid
         })
 
         // check error appears

@@ -8,7 +8,7 @@ describe('KM Editor Warnings', () => {
         cy.task('branch:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.createKMEditor({ kmId, name: kmName, previousPackageId: null })
+        cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageId: null })
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')
         editor.open(kmId)

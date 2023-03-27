@@ -19,7 +19,7 @@ describe('KM Editor Edit Entity', () => {
         cy.task('branch:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.createKMEditor({ kmId, name: kmName, previousPackageId })
+        cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageId })
         cy.loginAs('datasteward')
         cy.visitApp('/km-editor')
     })
