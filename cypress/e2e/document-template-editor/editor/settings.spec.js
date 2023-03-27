@@ -17,7 +17,8 @@ describe('Document Template Editor / Editor / Template', () => {
         cy.visitApp('/document-template-editors/create?selected=dsw:questionnaire-report:1.4.0&edit=true')
         cy.submitForm()
         cy.url().should('contain', '/document-template-editors/dsw:questionnaire-report:1.5.0')
-        cy.get('.DocumentTemplateEditor__MetadataEditor__Content').should('exist')
+        cy.get('.file-tree').should('exist')
+        cy.getCy('dt-editor_nav_settings').click()
     })
 
     it('simple edit', () => {
@@ -35,6 +36,7 @@ describe('Document Template Editor / Editor / Template', () => {
 
         // reopen and check fields
         cy.visitApp('/document-template-editors/dsw:questionnaire-report:1.5.0')
+        cy.getCy('dt-editor_nav_settings').click()
         cy.checkFields({
             name,
             description,
