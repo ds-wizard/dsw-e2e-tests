@@ -92,7 +92,7 @@ describe('Settings / Authentication', () => {
 
     it('OpenID service', () => {
         // Fill in an OpenID service
-        cy.clickBtn('Add', true)
+        cy.getCy('form-group_list_add-button').contains('Add service').click()
         cy.fillFields({
             'services\\.0\\.id': 'google',
             'services\\.0\\.clientId': 'my_app',

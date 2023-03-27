@@ -30,7 +30,7 @@ describe('Anonymous projects', () => {
         cy.loginAs('admin')
         cy.visitApp('/settings/knowledge-models')
         cy.checkToggle('publicEnabled')
-        cy.get('.btn-secondary').contains('Add').click()
+        cy.getCy('form-group_list_add-button').contains('Add knowledge model').click()
         cy.fillFields({
             'publicPackages\\.0\\.orgId': orgId,
             'publicPackages\\.0\\.kmId': kmId
