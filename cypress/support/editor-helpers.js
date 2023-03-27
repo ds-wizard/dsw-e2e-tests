@@ -56,6 +56,12 @@ export function openKM() {
 }
 
 
+export function openPhases() {
+    cy.getCy('km-editor_nav_phases').click()
+    cy.getCy('km-editor_phases').should('exist')
+}
+
+
 export function openTags() {
     cy.getCy('km-editor_nav_tags').click()
     cy.getCy('km-editor_tags').should('exist')
