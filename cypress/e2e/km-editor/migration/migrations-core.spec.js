@@ -27,20 +27,20 @@ describe('KM Editor Migrations', () => {
     })
 
     // BASIC
-    it('contains upgrade option', () => {
+    it('contains update option', () => {
         migration.prepareChildKmEditor(config, '1.0.0')
 
         cy.getListingItem(config.childKmId)
             .should('contain', config.editorName)
             .and('contain', config.getParentPackageId('1.0.0'))
-        cy.clickListingItemAction(config.editorName, 'upgrade')
+        cy.clickListingItemAction(config.editorName, 'update')
         cy.clickModalCancel()
     })
 
     it('can click "update available" badge', () => {
         migration.prepareChildKmEditor(config, '1.0.0')
         cy.getCy('km-editor_list_outdated-badge').click()
-        cy.expectModalOpen('km-editor-upgrade')
+        cy.expectModalOpen('km-editor-update')
     })
 
     it('can pause, resume, and cancel migration', () => {
