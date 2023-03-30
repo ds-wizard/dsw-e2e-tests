@@ -174,9 +174,9 @@ export function checkMigrationForm(data) {
 
 export function createMigration(config, version, parentVersion) {
     prepareChildKmEditor(config, version)
-    cy.clickListingItemAction(config.editorName, 'upgrade')
+    cy.clickListingItemAction(config.editorName, 'update')
 
-    cy.expectModalOpen('km-editor-upgrade')
+    cy.expectModalOpen('km-editor-update')
     cy.fillFields({
         s_targetPackageId: config.getParentPackageId(parentVersion)
     })
