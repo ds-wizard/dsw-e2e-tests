@@ -1,8 +1,8 @@
 describe('Deprecated KM', () => {
     const orgId = 'dsw'
-    const kmId = 'parent-km'
-    const kmName = 'Parent KM'
-    const version = '1.11.0'
+    const kmId = 'test-km-1'
+    const kmName = 'Test Knowledge Model 1'
+    const version = '1.0.0'
 
     const searchKM = (value) => {
         cy.get(`#packageId`).click()
@@ -13,7 +13,7 @@ describe('Deprecated KM', () => {
         cy.task('package:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.importKM('km-migration/dsw_parent-km_1.11.0')
+        cy.importKM('/test-km-1')
     })
 
     it('set deprecated and restore', () => {
