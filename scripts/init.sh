@@ -3,11 +3,10 @@
 # Init templates
 ./scripts/build-templates.sh
 
-# Init docker-compose file
+# Docker Images
 SERVER_IMAGE="${SERVER_IMAGE:-dswbot/wizard-server:develop}"
 CLIENT_IMAGE="${CLIENT_IMAGE:-dswbot/wizard-client:develop}"
 DOCWORKER_IMAGE="${DOCWORKER_IMAGE:-dswbot/document-worker:develop}"
-
 DOCKER_COMPOSE_FILE=dsw/docker-compose.yml
 
 cp -r dsw/docker-compose.template.yml $DOCKER_COMPOSE_FILE
