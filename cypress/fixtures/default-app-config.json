@@ -28,16 +28,16 @@
         "supportRepositoryName": null,
         "supportRepositoryUrl": null
     },
-    "dashboard": {
+    "dashboardAndLoginScreen": {
         "dashboardType": "RoleBasedDashboardType",
-        "welcomeInfo": null,
-        "welcomeWarning": null
+        "loginInfo": null,
+        "loginInfoSidebar": null,
+        "announcements": []
     },
     "lookAndFeel": {
         "appTitle": null,
         "appTitleShort": null,
-        "customMenuLinks": [],
-        "loginInfo": null
+        "customMenuLinks": []
     },
     "knowledgeModel": {
         "public": {
