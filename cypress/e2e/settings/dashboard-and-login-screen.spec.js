@@ -24,20 +24,39 @@ describe('Settings / Dashboard', () => {
         cy.getCy('dashboard_welcome').should('exist')
     })
 
-    it('login info', () => {
-        cy.fillFields({ loginInfo: '# Welcome\n\nThis is a wizard instance for e2e tests'})
-        cy.submitForm()
-        cy.logout()
+    const loginInfoCases = [{
+        name: 'markdown',
+        fields: { loginInfo: '# Welcome\n\nThis is a wizard instance for e2e tests' },
+        element: 'login_info'
+    }, {
+        name: 'html',
+        fields: { loginInfo: '<h1>Welcome</h1><p>This is a wizard instance for e2e tests</p>' },
+        element: 'login_info'
+    }, {
+        name: 'sidebar markdown',
+        fields: { loginInfoSidebar: '# Welcome\n\nThis is a wizard instance for e2e tests' },
+        element: 'login_info-sidebar'
+    }, {
+        name: 'sidebar html',
+        fields: { loginInfoSidebar: '<h1>Welcome</h1><p>This is a wizard instance for e2e tests</p>' },
+        element: 'login_info-sidebar'
+    }]
+    loginInfoCases.forEach(({ name, fields, element }) => {
+        it(`login info ${name}`, () => {
+            cy.fillFields(fields)
+            cy.submitForm()
+            cy.logout()
 
-        cy.getCy('login_side-info').find('h1').contains('Welcome')
-        cy.getCy('login_side-info').find('p').contains('This is a wizard instance for e2e tests')
+            cy.getCy(element).find('h1').contains('Welcome')
+            cy.getCy(element).find('p').contains('This is a wizard instance for e2e tests')
+        })
     })
 
     it('announcement info', () => {
         // Add welcome info and fill some details
         cy.getCy('form-group_list_add-button').click()
         cy.get('label').contains('Info').click()
-        cy.fillFields({ 'announcements\\.0\\.content': '# Info Announcement'})
+        cy.fillFields({ 'announcements\\.0\\.content': '# Info Announcement' })
         cy.checkToggle('announcements\\.0\\.dashboard')
         cy.submitForm()
 
@@ -55,7 +74,7 @@ describe('Settings / Dashboard', () => {
         // Add welcome info and fill some details
         cy.getCy('form-group_list_add-button').click()
         cy.get('label').contains('Warning').click()
-        cy.fillFields({ 'announcements\\.0\\.content': '# Warning Announcement'})
+        cy.fillFields({ 'announcements\\.0\\.content': '# Warning Announcement' })
         cy.checkToggle('announcements\\.0\\.loginScreen')
         cy.submitForm()
 
@@ -74,7 +93,7 @@ describe('Settings / Dashboard', () => {
         // Add welcome info and fill some details
         cy.getCy('form-group_list_add-button').click()
         cy.get('label').contains('Critical').click()
-        cy.fillFields({ 'announcements\\.0\\.content': '# Critical Announcement'})
+        cy.fillFields({ 'announcements\\.0\\.content': '# Critical Announcement' })
         cy.checkToggle('announcements\\.0\\.dashboard')
         cy.checkToggle('announcements\\.0\\.loginScreen')
         cy.submitForm()

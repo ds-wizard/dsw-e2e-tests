@@ -49,13 +49,4 @@ describe('Settings / Look & Feel', () => {
         // Check that the link is gone
         cy.getCy('menu_custom-link').should('not.exist')
     })
-
-    it('login info', () => {
-        cy.fillFields({ loginInfo: '# Welcome\n\nThis is a wizard instance for e2e tests'})
-        cy.submitForm()
-        cy.logout()
-
-        cy.getCy('login_side-info').find('h1').contains('Welcome')
-        cy.getCy('login_side-info').find('p').contains('This is a wizard instance for e2e tests')
-    })
 })
