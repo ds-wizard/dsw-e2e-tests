@@ -54,8 +54,7 @@ describe('Settings / Authentication', () => {
     })
 
     it('registration enabled', () => {
-        cy.checkToggle('registrationEnabled')
-        cy.submitForm()
+        cy.expectToggleChecked('registrationEnabled')
         cy.logout()
         cy.getCy('public_nav_sign-up').should('exist')
     })

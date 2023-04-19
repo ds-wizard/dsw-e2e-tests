@@ -26,7 +26,7 @@ describe('Settings / Projects', () => {
     beforeEach(() => {
         cy.task('questionnaire:delete')
         cy.putDefaultAppConfig()
-        
+
         cy.loginAs('admin')
         cy.visitApp('/settings/projects')
     })
@@ -38,8 +38,7 @@ describe('Settings / Projects', () => {
     // questionnaire visibility
 
     it('questionnaire visibility enabled', () => {
-        cy.checkToggle('questionnaireVisibilityEnabled')
-        cy.submitForm()
+        cy.expectToggleChecked('questionnaireVisibilityEnabled')
 
         createProjectAndOpenShare()
         cy.get('#visibilityEnabled').should('exist')
@@ -54,8 +53,7 @@ describe('Settings / Projects', () => {
     })
 
     it('default questionnaire visibility - Private', () => {
-        cy.get(`#${project.Private}`).check()
-        cy.submitForm()
+        cy.get(`#${project.Private}`).should('be.checked')
 
         createProjectAndOpenShare()
         cy.get('#visibilityEnabled').should('not.be.checked')
@@ -82,8 +80,7 @@ describe('Settings / Projects', () => {
     // questionnaire sharing
 
     it('questionnaire sharing enabled', () => {
-        cy.checkToggle('questionnaireSharingEnabled')
-        cy.submitForm()
+        cy.expectToggleChecked('questionnaireSharingEnabled')
 
         createProjectAndOpenShare()
         cy.get('#sharingEnabled').should('exist')
@@ -98,8 +95,7 @@ describe('Settings / Projects', () => {
     })
 
     it('default questionnaire visibility - Restricted', () => {
-        cy.get(`#${project.Restricted}`).check()
-        cy.submitForm()
+        cy.get(`#${project.Restricted}`).should('be.checked')
 
         createProjectAndOpenShare()
         cy.get('#sharingEnabled').should('not.be.checked')
@@ -125,7 +121,7 @@ describe('Settings / Projects', () => {
 
     // project creation
 
-    const expectBothEnabled =() => {
+    const expectBothEnabled = () => {
         cy.getCy('project_create_nav_template').should('exist')
         cy.getCy('project_create_nav_custom').should('exist')
 
@@ -144,7 +140,7 @@ describe('Settings / Projects', () => {
         cy.getCy('project_create_nav_template').should('not.exist')
         cy.getCy('project_create_nav_custom').should('not.exist')
         cy.get('#uuid').should('exist')
-        
+
         expectCreateProjectButton(false)
     }
 
@@ -153,10 +149,12 @@ describe('Settings / Projects', () => {
         cy.getCy('listing-item_action_create-project').should(visible ? 'exist' : 'not.exist')
     }
 
-    const creationTest = (projectCreation, role, expect) => {
+    const creationTest = (projectCreation, role, expect, isDefault) => {
         it(`project creation ${projectCreation} for ${role}`, () => {
-            cy.get(`#${projectCreation}`).check({ force: true })
-            cy.submitForm()
+            if (!isDefault) {
+                cy.get(`#${projectCreation}`).check({ force: true })
+                cy.submitForm()
+            }
             cy.logout()
 
             cy.loginAs(role)
@@ -169,21 +167,24 @@ describe('Settings / Projects', () => {
 
     const tests = [{
         projectCreation: project.TemplateAndCustomQuestionnaireCreation,
+        isDefault: true,
         researcher: expectBothEnabled,
         datasteward: expectBothEnabled
     }, {
         projectCreation: project.TemplateQuestionnaireCreation,
+        isDefault: false,
         researcher: expectTemplateOnlyEnabled,
         datasteward: expectBothEnabled
     }, {
         projectCreation: project.CustomQuestionnaireCreation,
+        isDefault: false,
         researcher: expectCustomOnlyEnabled,
         datasteward: expectCustomOnlyEnabled
     }]
 
-    tests.forEach(({projectCreation, researcher, datasteward}) => {
-        creationTest(projectCreation, 'researcher', researcher)
-        creationTest(projectCreation, 'datasteward', datasteward)
+    tests.forEach(({ projectCreation, isDefault, researcher, datasteward }) => {
+        creationTest(projectCreation, 'researcher', researcher, isDefault)
+        creationTest(projectCreation, 'datasteward', datasteward, isDefault)
     })
 
 
@@ -191,8 +192,7 @@ describe('Settings / Projects', () => {
 
     it('summary report enabled', () => {
         // Enable summary report
-        cy.checkToggle('summaryReport')
-        cy.clickBtn('Save', true)
+        cy.expectToggleChecked('summaryReport')
 
         // Create a project
         createProject()
@@ -233,8 +233,7 @@ describe('Settings / Projects', () => {
 
     it('feedback not enabled', () => {
         // Enable feedback
-        cy.uncheckToggle('feedbackEnabled')
-        cy.submitForm()
+        cy.expectToggleUnchecked('feedbackEnabled')
 
         // Create a project
         createProject()
@@ -245,8 +244,7 @@ describe('Settings / Projects', () => {
 
     it('project tagging enabled', () => {
         // Enable project tagging
-        cy.checkToggle('projectTaggingEnabled')
-        cy.submitForm()
+        cy.expectToggleChecked('projectTaggingEnabled')
 
         // Create project
         createProject()
@@ -254,7 +252,7 @@ describe('Settings / Projects', () => {
         // Check project tags in settings
         project.openSettings()
         cy.get('#projectTag').should('exist')
-        
+
         // Go to list view and check the filter is not yet there
         cy.visitApp('/projects')
         cy.get('#filter-projectTags').should('not.exist')
@@ -283,7 +281,7 @@ describe('Settings / Projects', () => {
         // check project doesn't have tags
         project.openSettings()
         cy.get('#projectTag').should('not.exist')
-        
+
         // go to list view and check the filter is not there
         cy.visitApp('/projects')
         cy.get('#filter-projectTags').should('not.exist')

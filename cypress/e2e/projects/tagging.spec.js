@@ -26,10 +26,13 @@ describe('Project Tagging', () => {
 
     const createProjectWithTags = (projectName, projectTags) => {
         project.create(projectName, packageName)
-        project.openSettings()
-        projectTags.forEach(project.addProjectTag)
-        project.saveSettings()
-        cy.wait(100)
+
+        if (projectTags.length > 0) {
+            project.openSettings()
+            projectTags.forEach(project.addProjectTag)
+            project.saveSettings()
+            cy.wait(100)
+        }
     }
 
 
@@ -247,7 +250,7 @@ describe('Project Tagging', () => {
             // create a handful of projects with different tags and system tags
             cy.loginAs('researcher')
             projects.forEach((project) => createProjectWithTags(project.name, project.tags))
-            
+
             // try some filtering combinations and check the correct projects are returned
             testCases.forEach((testCase) => {
                 cy.visitApp('/projects')

@@ -367,6 +367,14 @@ Cypress.Commands.add('uncheckToggle', (field) => {
     cy.get(`#${field}`).uncheck({ force: true })
 })
 
+Cypress.Commands.add('expectToggleChecked', (field) => {
+    cy.get(`#${field}`).should('be.checked')
+})
+
+Cypress.Commands.add('expectToggleUnchecked', (field) => {
+    cy.get(`#${field}`).should('be.not.checked')
+})
+
 
 // Settings commands
 

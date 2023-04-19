@@ -1,4 +1,4 @@
-describe('Settings / Knowledge Model Registry', () => {
+describe('Settings / Registry', () => {
     beforeEach(() => {
         cy.putDefaultAppConfig()
         cy.loginAs('admin')
@@ -24,8 +24,7 @@ describe('Settings / Knowledge Model Registry', () => {
     })
 
     it('disabled', () => {
-        cy.uncheckToggle('enabled')
-        cy.submitForm()
+        cy.expectToggleUnchecked('enabled')
 
         cy.visitApp('/knowledge-models/import')
         cy.getCy('km_import_nav_registry').should('not.exist')
