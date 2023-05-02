@@ -8,8 +8,8 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./server/application.yml:/application/engine-wizard/config/application.yml:ro
-      - ./server/integration.yml:/application/engine-wizard/config/integration.yml:ro
+      - ./server/application.yml:/app/config/application.yml:ro
+      - ./server/integration.yml:/app/config/integration.yml:ro
     depends_on: 
       - minio
       - postgres
@@ -28,7 +28,7 @@ services:
     image: {DOCWORKER_IMAGE}
     restart: always
     volumes:
-      - ./docworker/config.yml:/app/config.yml:ro
+      - ./docworker/config.yml:/app/config/application.yml:ro
     depends_on: 
       - minio
       - postgres
