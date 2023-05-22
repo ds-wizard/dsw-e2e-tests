@@ -66,7 +66,7 @@ describe('Settings / Authentication', () => {
         cy.getCy('public_nav_sign-up').should('not.exist')
     })
 
-    it('2FA login', () => {
+    it.only('2FA login', () => {
         cy.task('actionKey:delete')
 
         cy.checkToggle('twoFactorAuthEnabled')

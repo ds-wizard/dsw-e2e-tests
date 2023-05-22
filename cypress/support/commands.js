@@ -16,7 +16,7 @@ const getTokenFor = (role) => getTokenWith(
     Cypress.env(role + '_password')
 )
 
-const login = (resp) => {
+const login = (resp, expiresAt = null) => {
     const token = resp.body.token
 
     cy.request({
@@ -24,20 +24,25 @@ const login = (resp) => {
         url: apiUrl('/users/current'),
         headers: createHeaders(token)
     }).then((resp) => {
-        window.localStorage.setItem('session', JSON.stringify({
-            sidebarCollapsed: false,
-            token: { token },
-            user: resp.body,
-            fullscreen: false,
-            v6: true
-        }))
+        createSession(token, resp.body, expiresAt)
     })
+}
+
+const createSession = (token, user, expiresAt = null) => {
+    expiresAt = expiresAt || new Date(Date.now() + 14000 * 86400)
+    window.localStorage.setItem('session', JSON.stringify({
+        sidebarCollapsed: false,
+        token: { token, expiresAt },
+        user,
+        fullscreen: false,
+        v7: true
+    }))
 }
 
 // Authentication commands
 
-Cypress.Commands.add('loginAs', (role) => {
-    getTokenFor(role).then(login)
+Cypress.Commands.add('loginAs', (role, expiresAt = null) => {
+    getTokenFor(role).then((resp) => login(resp, expiresAt))
 })
 
 Cypress.Commands.add('loginWith', (email, password) => {
