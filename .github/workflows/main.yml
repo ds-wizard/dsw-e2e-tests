@@ -8,15 +8,15 @@ on:
       server_image:
         description: 'Wizard Server image'
         required: false
-        default: 'datastewardshipwizard/wizard-server:develop'
+        default: 'dswbot/wizard-server:develop'
       client_image:
         description: 'Wizard Client image'
         required: false
-        default: 'datastewardshipwizard/wizard-client:develop'
+        default: 'dswbot/wizard-client:develop'
       docworker_image:
         description: 'Document Worker image'
         required: false
-        default: 'datastewardshipwizard/document-worker:develop'
+        default: 'dswbot/document-worker:develop'
         
 jobs:
   dsw-e2e:
