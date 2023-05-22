@@ -229,7 +229,7 @@ module.exports = (on, config) => {
   }
 
   async function userGetActionParams({ email, type }) {
-    const result = await pg.query(`SELECT u.uuid, a.hash, a.type FROM user_entity u INNER JOIN action_key a ON u.uuid=a.user_id WHERE u.email='${email}' AND a.type='${type}'`)
+    const result = await pg.query(`SELECT u.uuid, a.hash, a.type FROM user_entity u INNER JOIN action_key a ON u.uuid=a.identity WHERE u.email='${email}' AND a.type='${type}'`)
     return [result.rows[0].uuid, result.rows[0].hash]
   }
 
@@ -237,7 +237,7 @@ module.exports = (on, config) => {
     const result = await pg.get({ table: 'user_entity', where })
     for (let i = 0; i < result.rows.length; i++) {
       const { uuid } = result.rows[i]
-      await pg.delete({ table: 'action_key', where: { user_id: uuid } })
+      await pg.delete({ table: 'action_key', where: { identity: uuid } })
       await pg.delete({ table: 'user_token', where: { user_uuid: uuid } })
       await pg.delete({ table: 'persistent_command', where: { created_by: uuid } })
       await pg.delete({ table: 'user_entity', where: { uuid } })
