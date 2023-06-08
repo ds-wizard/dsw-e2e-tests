@@ -129,6 +129,7 @@ describe('Questionnaire WebSocket Tests', () => {
 
     it('SetLevel', () => {
         const phaseUuid = 'adc9133d-afcd-4616-9aea-db5f475898a2'
+        const phaseName = 'Before Finishing the Project'
         const msg = {
             type: 'SetContent_ClientQuestionnaireAction',
             data: {
@@ -143,7 +144,7 @@ describe('Questionnaire WebSocket Tests', () => {
         }
 
         cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg)
-        cy.get('.questionnaire__left-panel__phase select').should('have.value', phaseUuid)
+        cy.getCy('phase-selection').should('contain', phaseName)
     })
 
 

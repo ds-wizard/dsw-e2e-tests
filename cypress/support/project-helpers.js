@@ -106,7 +106,7 @@ export function expectTitle(questionnaireName) {
 export function expectViewer() {
     cy.url().should('match', /\/projects\/.+/)
     cy.get('.questionnaire__form .form-group input[type=text]').should('be.disabled')
-    cy.get('.questionnaire__left-panel__phase select').should('be.disabled')
+    cy.getCy('phase-selection').should('be.disabled')
     cy.getCy('questionnaire_question-action_comment').should('not.exist')
     checkDisabledShareAndSettings()
 }
@@ -114,7 +114,7 @@ export function expectViewer() {
 export function expectCommenter() {
     cy.url().should('match', /\/projects\/.+/)
     cy.get('.questionnaire__form .form-group input[type=text]').should('be.disabled')
-    cy.get('.questionnaire__left-panel__phase select').should('be.disabled')
+    cy.getCy('phase-selection').should('be.disabled')
     cy.getCy('questionnaire_question-action_comment').should('exist')
     checkDisabledShareAndSettings()
 }
@@ -123,7 +123,7 @@ export function expectCommenter() {
 export function expectEditor() {
     cy.url().should('match', /\/projects\/.+/)
     cy.get('.questionnaire__form .form-group input[type=text]').should('not.be.disabled')
-    cy.get('.questionnaire__left-panel__phase select').should('not.be.disabled')
+    cy.getCy('phase-selection').should('not.be.disabled')
     checkDisabledShareAndSettings()
 }
 
@@ -131,7 +131,7 @@ export function expectEditor() {
 export function expectOwner() {
     cy.url().should('match', /\/projects\/.+/)
     cy.get('.questionnaire__form .form-group input[type=text]').should('not.be.disabled')
-    cy.get('.questionnaire__left-panel__phase select').should('not.be.disabled')
+    cy.getCy('phase-selection').should('not.be.disabled')
     cy.getCy('project_detail_share-button').should('exist')
     cy.get('.DetailNavigation__Row .nav-link').contains('Settings').should('exist')
 }

@@ -239,7 +239,7 @@ describe('Questionnaire Summary Report - Phases', () => {
 
     testCases.forEach(({ name, phase, selections, indications }) => {
         it(name, () => {
-            if (phase !== null) {
+            if (phase !== null && phase != 0) {
                 phases.switchPhase(phases.phases[phase])
             }
             selections.forEach((selection) => {
