@@ -66,6 +66,8 @@ describe('Questionnaire Tags', () => {
                 name: projectName,
                 th_packageId: packageName
             })
+
+            cy.get('#question-tags-filter').click()
             tagSelect.selectMultiple(tags)
             cy.clickBtn('Create')
 
