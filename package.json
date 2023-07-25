@@ -5,9 +5,9 @@
   "repository": "https://github.com/ds-wizard/dsw-e2e-tests",
   "license": "Apache-2.0",
   "dependencies": {
-    "pg": "^8.11.0"
+    "pg": "^8.11.1"
   },
   "devDependencies": {
-    "cypress": "^12.14.0"
+    "cypress": "^12.17.2"
   }
 }
