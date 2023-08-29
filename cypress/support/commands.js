@@ -299,6 +299,11 @@ Cypress.Commands.add('clickListingItemAction', (identifier, action) => {
 })
 
 
+Cypress.Commands.add('expectListingItemAction', (identifier, action, shouldExist) => {
+    cy.getListingItem(identifier).find(dataCy(`listing-item_action_${action}`)).should(shouldExist ? 'exist' : 'not.exist')
+})
+
+
 Cypress.Commands.add('expectListingItemNotExist', (identifier) => {
     cy.getCy('listing_list').contains(identifier).should('not.exist')
 })
@@ -318,6 +323,10 @@ Cypress.Commands.add('expectError', () => {
 
 Cypress.Commands.add('clickDropdownAction', (action) => {
     cy.get('.top-header-actions .dropdown-menu').find(dataCy(`listing-item_action_${action}`)).click({ force: true })
+})
+
+Cypress.Commands.add('expectDropdownAction', (action, shouldExist) => {
+    cy.get('.top-header-actions .dropdown-menu').find(dataCy(`listing-item_action_${action}`)).should(shouldExist ? 'exist' : 'not.exist')
 })
 
 // Form commands

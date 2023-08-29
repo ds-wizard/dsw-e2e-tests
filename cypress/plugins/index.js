@@ -141,8 +141,15 @@ module.exports = (on, config) => {
     return pg.delete({ table: 'document', where })
   }
 
+  // Document Templates
 
-  // Document Template Editors
+  async function documentTemplateSetNonEditable(where) {
+    return pg.update({
+      table: 'document_template',
+      values: { non_editable: true },
+      where
+    })
+  }
 
   async function documentTemplateDelete(where) {
     const result = await pg.get({ table: 'document_template', where })
@@ -188,6 +195,13 @@ module.exports = (on, config) => {
     return result.rows[0]
   }
 
+  async function packageSetNonEditable(where) {
+    return pg.update({
+      table: 'package',
+      values: { non_editable: true },
+      where
+    })
+  }
 
   // Questionnaire
 
@@ -259,9 +273,11 @@ module.exports = (on, config) => {
     'branch:delete': branchDelete,
     'document:delete': documentDelete,
     'documentTemplate:delete': documentTemplateDelete,
+    'documentTemplate:setNonEditable': documentTemplateSetNonEditable,
     'locale:delete': localeDelete,
     'package:delete': packageDelete,
     'package:get': packageGet,
+    'package:setNonEditable': packageSetNonEditable,
     'questionnaire:delete': questionnaireDelete,
     'user:activate': userActivate,
     'user:getActionParams': userGetActionParams,
