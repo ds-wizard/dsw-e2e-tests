@@ -94,7 +94,7 @@ describe('Users Edit', () => {
         // try to open projects
         cy.visitApp('/projects')
 
-        // test redirect to login
-        cy.get('.Public__Login').should('exist')
+        // test that the user was logged out
+        cy.getCy('illustrated-message_logout-successful').should('exist')
     })
 })
