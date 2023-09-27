@@ -1,4 +1,4 @@
-describe('Apps', () => {
+describe('Tenants', () => {
     const superAdmin = {
         email: 'galileo.galilei@example.com',
         firstName: 'Galileo',
@@ -7,25 +7,25 @@ describe('Apps', () => {
         password: 'Galileo\'s p455w0rd'
     }
 
-    const app = {
-        appId: 'institution',
-        appName: 'My Institution',
+    const tenant = {
+        tenantId: 'institution',
+        tenantName: 'My Institution',
         email: 'clarice.farley@example.com',
         firstName: 'Clarice',
         lastName: 'Farley'
     }
 
     const newApp = {
-        appId: 'university',
+        tenantId: 'university',
         name: 'Very Nice University'
     }
 
     const createApp = () => {
-        cy.visitApp('/apps')
+        cy.visitApp('/tenants')
         cy.clickBtn('Create')
-        cy.fillFields(app)
+        cy.fillFields(tenant)
         cy.clickBtn('Create')
-        cy.getListingItem(app.appName).find('.title a').click()
+        cy.getListingItem(tenant.tenantName).find('.title a').click()
     }
 
     const fillPlan = (plan, trial) => {
@@ -36,20 +36,20 @@ describe('Apps', () => {
             cy.uncheckToggle('test')
         }
         cy.clickModalAction()
-        cy.getCy('modal_app_plan-edit').should('not.be.visible')
+        cy.getCy('modal_tenant_plan-edit').should('not.be.visible')
     }
 
     const createPlan = (plan, trial, expectActive) => {
-        cy.getCy('app-detail_add-plan').click()
+        cy.getCy('tenant-detail_add-plan').click()
         fillPlan(plan, trial)
     }
 
-    const expectAppName = (appName) => {
-        cy.getCy('detail-page_header-title').contains(appName).should('exist')
+    const expectAppName = (tenantName) => {
+        cy.getCy('detail-page_header-title').contains(tenantName).should('exist')
     }
 
-    const expectAppId = (appId) => {
-        cy.getCy('detail-page_metadata_app-id').contains(appId).should('exist')
+    const expectAppId = (tenantId) => {
+        cy.getCy('detail-page_metadata_tenant-id').contains(tenantId).should('exist')
     }
 
     const expectEnabled = () => {
@@ -76,40 +76,40 @@ describe('Apps', () => {
     before(() => {
         cy.task('user:delete', { email: superAdmin.email })
         cy.createUser(superAdmin)
-        cy.task('user:addPermission', { perm: 'APP_PERM', email: superAdmin.email })
+        cy.task('user:addPermission', { perm: 'TENANT_PERM', email: superAdmin.email })
     })
 
 
     beforeEach(() => {
-        cy.task('app:delete', { app_id: app.appId })
-        cy.task('app:delete', { app_id: newApp.appId })
+        cy.task('tenant:delete', { tenant_id: tenant.tenantId })
+        cy.task('tenant:delete', { tenant_id: newApp.tenantId })
         cy.loginWith(superAdmin.email, superAdmin.password)
     })
 
 
     after(() => {
-        cy.task('appLimit:reset', { uuid: '00000000-0000-0000-0000-000000000000' })
+        cy.task('tenantLimit:reset', { uuid: '00000000-0000-0000-0000-000000000000' })
     })
 
 
-    it('create and edit app', () => {
-        // Create app
+    it('create and edit tenant', () => {
+        // Create tenant
         createApp()
 
         // Check it was created correctly
-        expectAppName(app.appName)
-        expectAppId(app.appId)
+        expectAppName(tenant.tenantName)
+        expectAppId(tenant.tenantId)
         expectEnabled()
 
-        // Edit app
-        cy.getCy('app-detail_edit').click()
+        // Edit tenant
+        cy.getCy('tenant-detail_edit').click()
         cy.fillFields(newApp)
         cy.clickModalAction()
-        cy.getCy('modal_app-edit').should('not.be.visible')
+        cy.getCy('modal_tenant-edit').should('not.be.visible')
 
         // Check it was edited correctly
         expectAppName(newApp.name)
-        expectAppId(newApp.appId)
+        expectAppId(newApp.tenantId)
         expectEnabled()
     })
 
@@ -200,7 +200,7 @@ describe('Apps', () => {
             untilMonth: '12',
             untilYear: '2020',
         }
-        cy.getCy('app-detail_plan_edit').click()
+        cy.getCy('tenant-detail_plan_edit').click()
         fillPlan(plan2, true)
         expectPlan(plan2, true, false)
         expectDisabled()
@@ -216,7 +216,7 @@ describe('Apps', () => {
             untilMonth: '12',
             untilYear: '2070',
         }
-        cy.getCy('app-detail_plan_edit').click()
+        cy.getCy('tenant-detail_plan_edit').click()
         fillPlan(plan3, false)
         expectPlan(plan3, false, false)
         expectDisabled()
@@ -232,7 +232,7 @@ describe('Apps', () => {
             untilMonth: '12',
             untilYear: '2070',
         }
-        cy.getCy('app-detail_plan_edit').click()
+        cy.getCy('tenant-detail_plan_edit').click()
         fillPlan(plan4, false)
         expectPlan(plan4, false, true)
         expectEnabled()
@@ -257,9 +257,9 @@ describe('Apps', () => {
         expectPlan(plan, false, true)
         expectEnabled()
 
-        cy.getCy('app-detail_plan_delete').click()
+        cy.getCy('tenant-detail_plan_delete').click()
         cy.clickModalAction()
-        cy.getCy('modal_app_plan-delete').should('not.be.visible')
+        cy.getCy('modal_tenant_plan-delete').should('not.be.visible')
         expectDisabled()
     })
 })

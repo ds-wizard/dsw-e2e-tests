@@ -1,7 +1,7 @@
 general:
   environment: Production
   serverPort: 3000
-  clientUrl: http://localhost:8080
+  clientUrl: http://localhost:8080/wizard
   secret: ab012345678901234567890123456789
   rsaPrivateKey: |
     -----BEGIN RSA PRIVATE KEY-----

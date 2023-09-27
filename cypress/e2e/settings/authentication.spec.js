@@ -110,7 +110,7 @@ describe('Settings / Authentication', () => {
         cy.getCy('settings_authentication_service_parameter-value').type('fit.cvut.cz')
 
         // check callback url
-        cy.getCy('form-group_text_callback-url').contains('http://localhost:8080/auth/google/callback')
+        cy.getCy('form-group_text_callback-url').contains('http://localhost:8080/wizard/auth/google/callback')
 
         // Save and log out
         cy.submitForm()

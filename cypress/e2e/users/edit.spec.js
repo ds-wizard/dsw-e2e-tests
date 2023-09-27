@@ -92,7 +92,7 @@ describe('Users Edit', () => {
         cy.clearServerCache()
 
         // try to open projects
-        cy.visitApp('/projects')
+        cy.get('#menu_projects > a').click()
 
         // test that the user was logged out
         cy.getCy('illustrated-message_logout-successful').should('exist')
