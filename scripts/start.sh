@@ -3,8 +3,8 @@
 set -e
 
 # Docker Images
-SERVER_IMAGE="${SERVER_IMAGE:-dswbot/wizard-server:develop}"
-CLIENT_IMAGE="${CLIENT_IMAGE:-dswbot/wizard-client:develop}"
+SERVER_IMAGE="${SERVER_IMAGE:-dswbot/wizard-server:next-develop}"
+CLIENT_IMAGE="${CLIENT_IMAGE:-dswbot/wizard-client:develop-next}"
 DOCWORKER_IMAGE="${DOCWORKER_IMAGE:-dswbot/document-worker:develop}"
 
 cd dsw

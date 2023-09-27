@@ -60,67 +60,6 @@ module.exports = (on, config) => {
     return pg.delete({ table: 'action_key', where })
   }
 
-  // App
-
-  async function appDelete(where) {
-    const result = await pg.get({ table: 'app', where })
-    for (let i = 0; i < result.rows.length; i++) {
-      const { uuid } = result.rows[i]
-      await userDelete({ app_uuid: uuid })
-      await pg.delete({ table: 'action_key', where: { app_uuid: uuid } })
-      await pg.delete({ table: 'locale', where: { app_uuid: uuid } })
-      await pg.delete({ table: 'app', where: { uuid } })
-    }
-    return true
-  }
-
-  // App config
-
-  async function appConfigDisable2FA() {
-    return pg.update({
-      table: 'app_config',
-      values: {
-        authentication: JSON.stringify({
-          "defaultRole": "dataSteward",
-          "external": {
-            "services": []
-          },
-          "internal": {
-            "registration": {
-              "enabled": true
-            },
-            "twoFactorAuth": {
-              "codeLength": 6,
-              "enabled": false,
-              "expiration": 600
-            }
-          }
-        })
-      }
-    })
-  }
-
-  // App limits
-
-  async function appLimitReset(where) {
-    return pg.update({
-      table: 'app_limit',
-      values: {
-        active_users: null,
-        branches: null,
-        document_template_drafts: null,
-        document_templates: null,
-        documents: null,
-        knowledge_models: null,
-        locales: null,
-        questionnaires: null,
-        storage: null,
-        users: null,
-      },
-      where
-    })
-  }
-
   // Branch
 
   async function branchDelete(where) {
@@ -231,6 +170,68 @@ module.exports = (on, config) => {
     return true
   }
 
+  // Tenant
+
+  async function tenantDelete(where) {
+    const result = await pg.get({ table: 'tenant', where })
+    for (let i = 0; i < result.rows.length; i++) {
+      const { uuid } = result.rows[i]
+      await userDelete({ tenant_uuid: uuid })
+      await pg.delete({ table: 'action_key', where: { tenant_uuid: uuid } })
+      await pg.delete({ table: 'locale', where: { tenant_uuid: uuid } })
+      await pg.delete({ table: 'tenant_plan', where: { tenant_uuid: uuid } })
+      await pg.delete({ table: 'tenant', where: { uuid } })
+    }
+    return true
+  }
+
+  // Tenant config
+
+  async function tenantConfigDisable2FA() {
+    return pg.update({
+      table: 'tenant_config',
+      values: {
+        authentication: JSON.stringify({
+          'defaultRole': 'dataSteward',
+          'external': {
+            'services': []
+          },
+          'internal': {
+            'registration': {
+              'enabled': true
+            },
+            'twoFactorAuth': {
+              'codeLength': 6,
+              'enabled': false,
+              'expiration': 600
+            }
+          }
+        })
+      }
+    })
+  }
+
+
+  // Tenant limits
+
+  async function tenantLimitReset(where) {
+    return pg.update({
+      table: 'tenant_limit_bundle',
+      values: {
+        active_users: null,
+        branches: null,
+        document_template_drafts: null,
+        document_templates: null,
+        documents: null,
+        knowledge_models: null,
+        locales: null,
+        questionnaires: null,
+        storage: null,
+        users: null,
+      },
+      where
+    })
+  }
 
   // User
 
@@ -267,9 +268,6 @@ module.exports = (on, config) => {
 
   on('task', {
     'actionKey:delete': actionKeyDelete,
-    'app:delete': appDelete,
-    'appConfig:disable2FA': appConfigDisable2FA,
-    'appLimit:reset': appLimitReset,
     'branch:delete': branchDelete,
     'document:delete': documentDelete,
     'documentTemplate:delete': documentTemplateDelete,
@@ -279,6 +277,9 @@ module.exports = (on, config) => {
     'package:get': packageGet,
     'package:setNonEditable': packageSetNonEditable,
     'questionnaire:delete': questionnaireDelete,
+    'tenant:delete': tenantDelete,
+    'tenantConfig:disable2FA': tenantConfigDisable2FA,
+    'tenantLimit:reset': tenantLimitReset,
     'user:activate': userActivate,
     'user:getActionParams': userGetActionParams,
     'user:delete': userDelete,

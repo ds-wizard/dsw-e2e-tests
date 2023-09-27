@@ -2,8 +2,8 @@ const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
   env: {
-    url: 'http://localhost:8080',
-    api_url: 'http://localhost:3000',
+    url: 'http://localhost:8080/wizard',
+    api_url: 'http://localhost:3000/wizard-api',
     admin_username: 'albert.einstein@example.com',
     admin_password: 'password',
     datasteward_username: 'nikola.tesla@example.com',

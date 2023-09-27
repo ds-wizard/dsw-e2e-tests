@@ -30,7 +30,7 @@ const login = (resp, expiresAt = null) => {
 
 const createSession = (token, user, expiresAt = null) => {
     expiresAt = expiresAt || new Date(Date.now() + 14000 * 86400)
-    window.localStorage.setItem('session', JSON.stringify({
+    window.localStorage.setItem('session/wizard', JSON.stringify({
         sidebarCollapsed: false,
         token: { token, expiresAt },
         user,
@@ -50,7 +50,7 @@ Cypress.Commands.add('loginWith', (email, password) => {
 })
 
 Cypress.Commands.add('logout', () => {
-    window.localStorage.removeItem('session')
+    window.localStorage.removeItem('session/wizard')
     cy.visitApp('/')
 })
 
@@ -393,12 +393,12 @@ Cypress.Commands.add('expectToggleUnchecked', (field) => {
 // Settings commands
 
 Cypress.Commands.add('putDefaultAppConfig', () => {
-    cy.task('appConfig:disable2FA')
+    cy.task('tenantConfig:disable2FA')
     getTokenFor('admin').then((resp) => {
         cy.fixture('default-app-config').then((config) => {
             cy.request({
                 method: 'PUT',
-                url: apiUrl('/configs/app'),
+                url: apiUrl('/tenants/current/config'),
                 headers: createHeaders(resp.body.token),
                 body: config
             })
