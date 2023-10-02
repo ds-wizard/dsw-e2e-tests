@@ -63,7 +63,7 @@ jobs:
         make wait
 
     - name: Run Cypress
-      uses: cypress-io/github-action@v5
+      uses: cypress-io/github-action@v6
       if: env.CYPRESS_RECORD_KEY != ''
       with:
         browser: chrome
@@ -76,7 +76,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Run Cypress (no record)
-      uses: cypress-io/github-action@v5
+      uses: cypress-io/github-action@v6
       if: env.CYPRESS_RECORD_KEY == ''
       with:
         browser: chrome
