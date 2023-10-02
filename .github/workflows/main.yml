@@ -64,12 +64,23 @@ jobs:
 
     - name: Run Cypress
       uses: cypress-io/github-action@v5
+      if: env.CYPRESS_RECORD_KEY != ''
       with:
         browser: chrome
-        headless: true
+        headed: false
         record: true
         parallel: true
         group: 'DSW E2E Test @ GitHub Actions'
+      env:
+        CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Run Cypress (no record)
+      uses: cypress-io/github-action@v5
+      if: env.CYPRESS_RECORD_KEY == ''
+      with:
+        browser: chrome
+        headed: false
       env:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

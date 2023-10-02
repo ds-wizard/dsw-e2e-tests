@@ -20,7 +20,6 @@ module.exports = defineConfig({
   },
   screenshotsFolder: 'output/screenshots',
   videosFolder: 'output/videos',
-  videoUploadOnPasses: false,
   numTestsKeptInMemory: 1,
   viewportWidth: 1280,
   viewportHeight: 800,
