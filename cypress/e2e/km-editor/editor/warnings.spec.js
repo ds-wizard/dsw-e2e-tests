@@ -318,15 +318,13 @@ describe('KM Editor Warnings', () => {
             'Empty ID for integration',
             'Empty request URL for integration',
             'Empty request HTTP method for integration',
-            'Empty response item ID for integration',
             'Empty response item template for integration',
-            'Empty item URL for integration',
         ]
 
         warnings.forEach(warning => {
             cy.visitApp('/km-editor')
             editor.open(kmId)
-            editor.expectWarningsCount(6)
+            editor.expectWarningsCount(warnings.length)
             editor.openWarnings()
             cy.contains(warning).click()
             cy.checkFields(integration)
@@ -345,13 +343,12 @@ describe('KM Editor Warnings', () => {
         const warnings = [
             'Empty ID for integration',
             'Empty widget URL for integration',
-            'Empty item URL for integration',
         ]
 
         warnings.forEach(warning => {
             cy.visitApp('/km-editor')
             editor.open(kmId)
-            editor.expectWarningsCount(3)
+            editor.expectWarningsCount(warnings.length)
             editor.openWarnings()
             cy.contains(warning).click()
             cy.checkFields(integration)
