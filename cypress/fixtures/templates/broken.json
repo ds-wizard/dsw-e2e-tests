@@ -31,7 +31,7 @@
           }
         },
         {
-          "name": "wkhtmltopdf",
+          "name": "weasyprint",
           "options": {}
         }
       ]

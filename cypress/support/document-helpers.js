@@ -16,7 +16,7 @@ export function checkDocument(document, wait = false) {
     if (wait) {
         cy.wait(1000) // Wait for document generation
     }
-    cy.getCy('badge_doc_error').should('not.exist')
-    cy.getCy('badge_doc_in-progress').should('not.exist')
     cy.getCy('badge_doc_queued').should('not.exist')
+    cy.getCy('badge_doc_in-progress').should('not.exist')
+    cy.getCy('badge_doc_error').should('not.exist')
 }
