@@ -6,7 +6,7 @@
   "name": "Not-Allowed Template",
   "description": "This template is not allowed",
   "readme": "# Not-Allowed Template",
-  "metamodelVersion": 12,
+  "metamodelVersion": 13,
   "license": "nolicense",
   "allowedPackages": [
     {
