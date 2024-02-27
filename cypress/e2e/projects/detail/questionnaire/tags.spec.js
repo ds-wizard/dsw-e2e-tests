@@ -60,7 +60,6 @@ describe('Questionnaire Tags', () => {
         it('create questionnaire with correct questions', () => {
             cy.visitApp('/projects')
             cy.getCy('projects_create-button').click()
-            cy.get('.nav-link').contains('Custom').click()
 
             cy.fillFields({
                 name: projectName,

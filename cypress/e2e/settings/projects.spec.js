@@ -6,8 +6,19 @@ describe('Settings / Projects', () => {
     const packageId = 'dsw:test-km-1:1.0.0'
     const packageName = 'Test Knowledge Model 1'
 
+    const projectTemplateName = 'Test Project Template'
+
     const createProject = () => {
         project.create(projectName, packageName)
+    }
+
+    const createProjectTemplate = () => {
+        project.create(projectTemplateName, packageName)
+        project.openSettings()
+        cy.checkToggle('isTemplate')
+        project.saveSettings()
+        project.setProjectVisibility(project.VisibleView)
+        cy.visitApp('/settings/projects')
     }
 
     const createProjectAndOpenShare = () => {
@@ -139,7 +150,7 @@ describe('Settings / Projects', () => {
     const expectTemplateOnlyEnabled = () => {
         cy.getCy('project_create_nav_template').should('not.exist')
         cy.getCy('project_create_nav_custom').should('not.exist')
-        cy.get('#uuid').should('exist')
+        cy.get('#templateId').should('exist')
 
         expectCreateProjectButton(false)
     }
@@ -151,6 +162,8 @@ describe('Settings / Projects', () => {
 
     const creationTest = (projectCreation, role, expect, isDefault) => {
         it(`project creation ${projectCreation} for ${role}`, () => {
+            createProjectTemplate()
+
             if (!isDefault) {
                 cy.get(`#${projectCreation}`).check({ force: true })
                 cy.submitForm()

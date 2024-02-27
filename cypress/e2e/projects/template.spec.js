@@ -27,7 +27,6 @@ describe('Project Template', () => {
         cy.loginAs('datasteward')
         cy.visitApp('/projects')
         cy.getCy('projects_create-button').click()
-        cy.get('.nav-link').contains('Custom').click()
         cy.fillFields({
             name: templateProjectName,
             th_packageId: packageName
@@ -67,7 +66,7 @@ describe('Project Template', () => {
         cy.getCy('projects_create-button').click()
         cy.fillFields({
             name: projectName,
-            th_uuid: templateProjectName
+            th_templateId: templateProjectName
         })
         cy.clickBtn('Create')
         cy.url().should('contain', '/projects/')

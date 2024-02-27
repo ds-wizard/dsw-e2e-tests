@@ -31,8 +31,8 @@ export function openAnonymous(projectId, projectName) {
 
 
 export function create(projectName, packageName) {
-    cy.visitApp('/projects/create/custom')
-    cy.get('.Questionnaires__Create').should('exist')
+    cy.visitApp('/projects/create')
+    cy.get('.Projects__Create').should('exist')
     cy.fillFields({
         name: projectName,
         th_packageId: packageName

@@ -27,10 +27,10 @@ describe('Latest version', () => {
 
     it('project create', () => {
         cy.loginAs('researcher')
-        cy.visitApp(`/projects/create/custom?selected=${orgId}:${kmId}:latest`)
+        cy.visitApp(`/projects/create?selectedKnowledgeModel=${orgId}:${kmId}:latest`)
         
         cy.fillFields({ name: 'My Project'})
-        cy.getCy('project_save-button').click()
+        cy.get('.btn-primary').contains('Create').click()
 
         project.openSettings()
         cy.getCy('typehint-item_package_version').contains(latest).should('exist')

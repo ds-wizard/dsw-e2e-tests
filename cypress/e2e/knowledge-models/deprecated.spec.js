@@ -27,7 +27,7 @@ describe('Deprecated KM', () => {
         cy.get('.badge.bg-danger').contains('deprecated').should('exist')
 
         // check it is not suggested
-        cy.visitApp('/projects/create/custom')
+        cy.visitApp('/projects/create')
         searchKM(kmId)
         cy.get('.TypeHintInput__TypeHints .empty').should('exist')
 
@@ -36,7 +36,7 @@ describe('Deprecated KM', () => {
         cy.clickDropdownAction('restore')
 
         // check it is suggested again
-        cy.visitApp('/projects/create/custom')
+        cy.visitApp('/projects/create')
         cy.fillFields({ th_packageId: kmName })
     })
 })
