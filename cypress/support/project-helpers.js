@@ -452,6 +452,7 @@ export function expectSummaryReportMetrics(metrics, chapter) {
 
 export function awaitSave() {
     cy.get('.questionnaire-header__saving').contains('Saved')
+    cy.get('.questionnaire-header__saving').should('not.contain', 'Saved')
 }
 
 

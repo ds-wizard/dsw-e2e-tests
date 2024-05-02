@@ -251,6 +251,9 @@ describe('Questionnaire Summary Report - Metrics', () => {
                     project.selectAnswer(answer)
                 })
             })
+            if (selections.length > 0) {
+                project.awaitSave()
+            }
             reports.forEach(({ chapter, metrics }) => {
                 project.expectSummaryReportMetrics(metrics, chapter)
             })
@@ -267,6 +270,7 @@ describe('Questionnaire Summary Report - Metrics', () => {
         // A(0.3, 1), I(1, 0.9), G(0, 1), O(0.7, 0.2)
         cy.get('.item:nth-child(3)').contains('label', 'Template option 2').click()
         // F(0.3, 0.7), A(0.6, 0), R(1, 0.3), G(1, 1), O(0, 0)
+        project.awaitSave()
         const metrics1 = [
             { name: 'Findability', value: 0.70 },
             { name: 'Accessibility', value: 0.20 }, // = (0.6×0 + 0.3×1 + 0.6×0) / (0.6 + 0.3 + 0.6)
@@ -283,6 +287,7 @@ describe('Questionnaire Summary Report - Metrics', () => {
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find(dataCy('item-delete')).should('have.length', 3)
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find(dataCy('item-delete')).eq(2).click()
         cy.clickModalAction()
+        project.awaitSave()
 
         const metrics2 = [
             { name: 'Findability', value: 0.70 },
@@ -302,6 +307,7 @@ describe('Questionnaire Summary Report - Metrics', () => {
         cy.clickModalAction()
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find(dataCy('item-delete')).eq(0).click()
         cy.clickModalAction()
+        project.awaitSave()
         project.expectSummaryReportMetrics([])
         project.expectSummaryReportMetrics([], 'Chapter 2')
     })
@@ -318,6 +324,8 @@ describe('Questionnaire Summary Report - Metrics', () => {
         project.selectAnswer('Option 1.2') // F(0.3, 0.6), A(0.9, 0), I(0.6, 1), R(0, 0.9), G(0, 0), O(0.5, 0.3)
         project.selectAnswer('Option 2.2') // A(1, 0.4), R(0.4, 1), O(0.3, 0.3)
         project.selectAnswer('Option 2.2.1') // F(0.3, 1), R(1, 0.4)
+        project.awaitSave()
+
         project.expectSummaryReportMetrics([
             { name: 'Findability', value: 0.87 }, // = (0.3×1 + 0.3×0.6 + 0.3×1) / (0.3 + 0.3 + 0.3)
             { name: 'Accessibility', value: 0.21 }, // = (0.9×0 + 1×0.4) / (0.9 + 1)
@@ -347,6 +355,7 @@ describe('Questionnaire Summary Report - Metrics', () => {
         cy.get('#question-0eec0ecc-1da8-4db5-b7a3-da57d884eb52 > div > a.clear-answer').click() // OPEN
         project.openChapter('Chapter 2')
         cy.get('#question-16bd8329-cd7b-4029-84c4-5de0aa166369 > div > a.clear-answer').click() // Complex question 2 (with followup)
+        project.awaitSave()
         project.expectSummaryReportMetrics([
             { name: 'Findability', value: 0.60 }, // only 1.2
             { name: 'Accessibility', value: 0.00 }, // only 1.2
@@ -374,6 +383,7 @@ describe('Questionnaire Summary Report - Metrics', () => {
         cy.get('#question-0fc83103-a1b8-4a09-b65e-d2d3db037d4a > div > a.clear-answer').click() // GOOD
         project.openChapter('Chapter 2')
         cy.get('#question-4a1c2501-f4c7-41f1-8c73-67c0f7a6d7d6 > div > a.clear-answer').click() // Complex question 1
+        project.awaitSave()
         project.expectSummaryReportMetrics([])
         project.expectSummaryReportMetrics([], 'Chapter 1')
         project.expectSummaryReportMetrics([], 'Chapter 2')

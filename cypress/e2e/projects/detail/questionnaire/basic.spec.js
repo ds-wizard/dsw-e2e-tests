@@ -153,19 +153,21 @@ describe('Basic Questionnaire Tests', () => {
 
         // Move the first item down and check that now the first one
         cy.get(`.item:first-child() ${dataCy('item-move-down')}`).click()
-        cy.get('.item:first-child() label').contains('Item answer 1.2').closest('.form-group').find('input').should('not.be.checked')
+        cy.get('.item:first-child() label').contains('Item answer 1.2').closest('label').find('input').should('not.be.checked')
+        project.awaitSave()
 
         // Reopen project and check it still works
         project.open(projectName)
-        cy.get('.item:first-child() label').contains('Item answer 1.2').closest('.form-group').find('input').should('not.be.checked')
+        cy.get('.item:first-child() label').contains('Item answer 1.2').closest('label').find('input').should('not.be.checked')
 
         // Move items back and check that the first one is checked
         cy.get(`.item:last-child() ${dataCy('item-move-up')}`).click()
-        cy.get('.item:first-child() label').contains('Item answer 1.2').closest('.form-group').find('input').should('be.checked')
+        cy.get('.item:first-child() label').contains('Item answer 1.2').closest('label').find('input').should('be.checked')
+        project.awaitSave()
 
         // Reopen project and check it still works
         project.open(projectName)
-        cy.get('.item:first-child() label').contains('Item answer 1.2').closest('.form-group').find('input').should('be.checked')
+        cy.get('.item:first-child() label').contains('Item answer 1.2').closest('label').find('input').should('be.checked')
     })
 
 

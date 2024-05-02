@@ -248,6 +248,9 @@ describe('Questionnaire Summary Report - Phases', () => {
                     project.selectAnswer(answer)
                 })
             })
+            if (selections.length > 0) {
+                project.awaitSave()
+            }
             indications.forEach(({ chapter, indication }) => {
                 project.expectSummaryReportAnswered(indication, chapter)
             })
@@ -260,6 +263,7 @@ describe('Questionnaire Summary Report - Phases', () => {
         cy.get('.item:nth-child(1)').contains('label', 'Template option 2').click()
         cy.get('.item:nth-child(2)').contains('label', 'Template option 1').click()
         cy.get('.item:nth-child(3)').contains('label', 'Template option 2').click()
+        project.awaitSave()
         project.expectSummaryReportAnswered({ current: { answered: 1, all: 5 }, all: { answered: 4, all: 16 } })
         project.expectSummaryReportAnswered({ current: { answered: 1, all: 2 }, all: { answered: 4, all: 7 } }, 'Chapter 2')
         
@@ -267,6 +271,7 @@ describe('Questionnaire Summary Report - Phases', () => {
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find(dataCy('item-delete')).should('have.length', 4)
         cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find(dataCy('item-delete')).eq(2).click()
         cy.clickModalAction()
+        project.awaitSave()
         project.expectSummaryReportAnswered({ current: { answered: 1, all: 5 }, all: { answered: 3, all: 15 } })
         project.expectSummaryReportAnswered({ current: { answered: 1, all: 2 }, all: { answered: 3, all: 6 } }, 'Chapter 2')
     })
@@ -285,6 +290,7 @@ describe('Questionnaire Summary Report - Phases', () => {
         project.openChapter('Chapter 3')
         project.selectAnswer('Choice 2.1')
         project.selectAnswer('Choice 3.1')
+        project.awaitSave()
         project.expectSummaryReportAnswered({ current: { answered: 3, all: 5 }, all: { answered: 9, all: 13 } })
         project.expectSummaryReportAnswered({ current: { answered: 1, all: 2 }, all: { answered: 4, all: 6 } }, 'Chapter 1')
         project.expectSummaryReportAnswered({ current: { answered: 1, all: 2 }, all: { answered: 3, all: 4 } }, 'Chapter 2')
@@ -297,6 +303,7 @@ describe('Questionnaire Summary Report - Phases', () => {
         cy.get('#question-16bd8329-cd7b-4029-84c4-5de0aa166369 > div > a.clear-answer').click() // Complex question 2 (with followup)
         project.openChapter('Chapter 3')
         project.selectAnswer('Choice 2.1')
+        project.awaitSave()
         project.expectSummaryReportAnswered({ current: { answered: 0, all: 5 }, all: { answered: 4, all: 12 } })
         project.expectSummaryReportAnswered({ current: { answered: 0, all: 2 }, all: { answered: 2, all: 6 } }, 'Chapter 1')
         project.expectSummaryReportAnswered({ current: { answered: 0, all: 2 }, all: { answered: 1, all: 3 } }, 'Chapter 2')

@@ -128,6 +128,7 @@ describe('Questionnaire Versions', () => {
         // fill in one answer
         openVersionHistory()
         project.typeAnswer('Value Question String', 'Answer')
+        project.awaitSave()
 
         // name that as version 1.0.0
         nameVersion('1.0.0', 'first-child')
@@ -151,9 +152,11 @@ describe('Questionnaire Versions', () => {
         openVersionHistory()
 
         project.typeAnswer('Value Question String', 'Answer')
+        project.awaitSave()
         nameVersion('1.0.0', 'first-child')
         project.selectAnswer('Answer 1.1')
         project.selectAnswer('Choice 1')
+        project.awaitSave()
         nameVersion('2.0.0', 'first-child')
         project.typeAnswerText('Value Question Text', 'Answer')
 
