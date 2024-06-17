@@ -173,14 +173,10 @@ describe('Questionnaire WebSocket Tests', () => {
         cy.visitApp(`/projects/${projectUuid}`)
 
         // change sharing to restricted
-        cy.updateQuestionnaire(projectUuid, {
+        cy.updateQuestionnaireShare(projectUuid, {
             visibility: project.VisibleEdit,
             sharing: project.Restricted,
-            description: null,
-            name: projectName,
             permissions: [],
-            isTemplate: false,
-            projectTags: [],
         })
 
         // check error appears

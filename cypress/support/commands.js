@@ -223,6 +223,17 @@ Cypress.Commands.add('updateQuestionnaire', (questionnaireUuid, data) => {
     })
 })
 
+Cypress.Commands.add('updateQuestionnaireShare', (questionnaireUuid, data) => {
+    getTokenFor('researcher').then((resp) => {
+        cy.request({
+            method: 'PUT',
+            url: apiUrl(`/questionnaires/${questionnaireUuid}/share`),
+            headers: createHeaders(resp.body.token),
+            body: data
+        })
+    })
+})
+
 Cypress.Commands.add('updateQuestionnaireContent', (questionnaireUuid, data) => {
     getTokenFor('researcher').then((resp) => {
         cy.request({
