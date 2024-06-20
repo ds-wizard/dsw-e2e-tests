@@ -55,7 +55,7 @@ describe('Project Template', () => {
         // set project public
         cy.clickBtn('Share')
         cy.checkToggle('visibilityEnabled')
-        cy.get('.modal-content .btn').contains('Save').click()
+        cy.get('.modal-content .btn').contains('Done').click()
 
         cy.logout()
 

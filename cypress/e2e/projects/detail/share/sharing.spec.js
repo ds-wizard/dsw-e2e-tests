@@ -108,20 +108,7 @@ describe('Project Sharing', () => {
         expectAnon: project.expectEditor
     }]
 
-    it('public link visible', () => {
-        cy.loginAs('researcher')
-
-        project.create(projectName, packageName)
-        
-        cy.clickBtn('Share')
-        cy.checkToggle('sharingEnabled')
-
-        cy.url().then(url => {
-            cy.get('#public-link').should('have.value', url)
-        })
-    })
-
-    testCases.forEach(({ visibility, sharing, expectUser, expectAnon}) => {
+    testCases.forEach(({ visibility, sharing, expectUser, expectAnon }) => {
         it(`works for ${visibility} and ${sharing}`, () => {
             cy.loginAs('researcher')
 
