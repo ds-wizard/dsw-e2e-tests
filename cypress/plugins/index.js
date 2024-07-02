@@ -122,6 +122,7 @@ module.exports = (on, config) => {
       await packageDelete({ fork_of_package_id: id })
       await branchDelete({ previous_package_id: id })
       await questionnaireDelete({ package_id: id })
+      await pg.delete({ table: 'knowledge_model_cache', where: { package_id: id } })
       await pg.delete({ table: 'knowledge_model_migration', where: { branch_previous_package_id: id } })
       await pg.delete({ table: 'knowledge_model_migration', where: { target_package_id: id } })
       await pg.delete({ table: 'package', where: { id } })
