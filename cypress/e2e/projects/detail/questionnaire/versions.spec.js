@@ -36,9 +36,11 @@ describe('Questionnaire Versions', () => {
     })
 
     beforeEach(() => {
+        cy.clearLocalStorage()
+
         cy.task('questionnaire:delete')
         cy.clearServerCache()
-        
+
         cy.createQuestionnaire({
             visibility: project.VisibleView,
             sharing: project.Restricted,
@@ -119,7 +121,6 @@ describe('Questionnaire Versions', () => {
 
         cy.expectModalOpen('project-version', false)
         cy.get('.history').should('not.exist')
-        openVersionHistory()
         expectEventCount(2)
         project.checkAnswerNotChecked('Answer 1.1')
     })
@@ -135,7 +136,7 @@ describe('Questionnaire Versions', () => {
 
         // select another answer
         project.selectAnswer('Answer 1.1')
-        
+
         cy.wait(10000)
 
         // open original version

@@ -245,6 +245,13 @@ Cypress.Commands.add('updateQuestionnaireContent', (questionnaireUuid, data) => 
     })
 })
 
+Cypress.Commands.add('clearCurrentQuestionnaireSidePanelLocalStorage', () => {
+    cy.url().then((url) => {
+        const projectUuid = url.match(/\/wizard\/projects\/(.*)/)[1]
+        cy.clearLocalStorage(`project-${projectUuid}-right-panel`)
+    })
+})
+
 
 // KM Editor commands
 
@@ -451,6 +458,7 @@ Cypress.Commands.add('wsSendAs', (role, url, msg) => {
 
 
 // Cache
+
 Cypress.Commands.add('clearServerCache', () => {
     cy.task('user:addPermission', { perm: 'DEV_PERM', email: Cypress.env('admin_username') })
 

@@ -16,6 +16,8 @@ describe('Comments', () => {
 
 
     beforeEach(() => {
+        cy.clearLocalStorage()
+
         cy.task('questionnaire:delete')
         cy.clearServerCache()
 
@@ -35,6 +37,7 @@ describe('Comments', () => {
         project.openCommentsFor('Options Question 1')
         project.startNewCommentThread('This is a new thread')
         project.expectCommentCount(1)
+        cy.clearCurrentQuestionnaireSidePanelLocalStorage()
         cy.reload()
         project.expectCommentCount(1)
     }
@@ -47,6 +50,7 @@ describe('Comments', () => {
         project.openPrivateNotesFor('Options Question 1')
         project.startNewPrivateNotesThread('This is a new thread')
         project.expectCommentCount(2)
+        cy.clearCurrentQuestionnaireSidePanelLocalStorage()
         cy.reload()
         project.expectCommentCount(2)
     }
@@ -54,9 +58,10 @@ describe('Comments', () => {
     const testNoPrivateNotes = () => {
         project.openCommentsFor('Options Question 1')
         cy.getCy('comments_nav_private-notes').should('not.exist')
+        cy.clearCurrentQuestionnaireSidePanelLocalStorage()
     }
 
-    it('as DSW Admin', () => {
+    it('as Admin', () => {
         cy.logout()
         cy.loginAs('admin')
         project.open(projectName)
@@ -231,6 +236,7 @@ describe('Comments', () => {
         project.startNewCommentThread('This is a new thread')
         project.addUser('Nikola Tesla', 'Commenter')
         cy.logout()
+        cy.clearLocalStorage()
 
         cy.loginAs('datasteward')
         project.open(projectName)
@@ -245,6 +251,7 @@ describe('Comments', () => {
         project.startNewPrivateNotesThread('This is a new thread')
         project.addUser('Nikola Tesla', 'Editor')
         cy.logout()
+        cy.clearLocalStorage()
 
         cy.loginAs('datasteward')
         project.open(projectName)

@@ -312,4 +312,15 @@ describe('Basic Questionnaire Tests', () => {
         cy.get('.nav-link').contains('Chapter 2').click()
         project.checkAnswerChecked('Answer 2.2')
     })
+
+
+    it('keep sidepanel open after refresh', () => {
+        // open comments tab
+        cy.get('.item').contains('Comments').click()
+        cy.get('.comments-overview').should('be.visible')
+
+        // check that it remains open after reopening the page
+        cy.reload()
+        cy.get('.comments-overview').should('be.visible')
+    })
 })
