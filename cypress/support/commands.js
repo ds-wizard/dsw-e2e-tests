@@ -312,6 +312,11 @@ Cypress.Commands.add('getListingItem', (identifier) => {
 })
 
 
+Cypress.Commands.add('clickListingItem', (identifier) => {
+    cy.getCy('listing_item').contains(identifier).closest(dataCy('listing_item')).find('.title a').click()
+})
+
+
 Cypress.Commands.add('clickListingItemAction', (identifier, action) => {
     cy.getListingItem(identifier).find(dataCy(`listing-item_action_${action}`)).click({ force: true })
 })

@@ -284,4 +284,75 @@ describe('Comments', () => {
         project.openCommentsFor('Options Question 1')
         cy.get('.Comment_MD').contains('This is a comment').should('exist')
     })
+
+    it('assign comments', () => {
+        // create comment
+        project.openCommentsFor('Options Question 1')
+        project.startNewCommentThread('Please do this')
+
+        // assign it to user
+        cy.getCy('comments_comment_assign').click()
+        cy.getCy('project_comment-assign_user-suggestion').contains('Isaac').click()
+        cy.get('.CommentThread__AssignedHeader--You').should('be.visible')
+
+        // check that it is visible on the dashboard
+        cy.visitApp('/dashboard')
+        cy.get('.Dashboard__ItemList a').contains('Please do this').click()
+        cy.get('.CommentThread__AssignedHeader--You').should('be.visible')
+        cy.get('.Comment_MD').contains('Please do this').should('be.visible')
+
+        // check that it is visible on the the comments overview
+        cy.visitApp('/comments?resolved=false')
+        cy.clickListingItem('Please do this')
+        cy.get('.CommentThread__AssignedHeader--You').should('be.visible')
+        cy.get('.Comment_MD').contains('Please do this').should('be.visible')
+
+        // resolve comment
+        cy.getCy('comments_comment_resolve').click()
+        cy.get('.CommentThread__AssignedHeader--You').should('not.exist')
+
+        // check that it is not visible on the dashboard
+        cy.visitApp('/dashboard')
+        cy.get('h2').contains('Unresolved Assigned Comments').should('not.exist')
+
+        // check that it is not visible on the comments overview
+        cy.visitApp('/comments?resolved=false')
+        cy.expectEmptyListing()
+    })
+
+    it('assign editor note', () => {
+        // create editor note
+        project.openPrivateNotesFor('Options Question 1')
+        project.startNewPrivateNotesThread('Please do this')
+
+        // assign it to user
+        cy.getCy('comments_comment_assign').click()
+        cy.getCy('project_comment-assign_user-suggestion').contains('Isaac').click()
+        cy.get('.CommentThread__AssignedHeader--You').should('be.visible')
+
+        // check that it is visible on the dashboard
+        cy.visitApp('/dashboard')
+        cy.get('.Dashboard__ItemList a').contains('Please do this').click()
+        cy.get('.CommentThread__AssignedHeader--You').should('be.visible')
+        cy.get('.Comment_MD').contains('Please do this').should('be.visible')
+
+        // check that it is visible on the the comments overview
+        cy.visitApp('/comments?resolved=false')
+        cy.clickListingItem('Please do this')
+        cy.get('.CommentThread__AssignedHeader--You').should('be.visible')
+        cy.get('.Comment_MD').contains('Please do this').should('be.visible')
+
+        // remove assignement
+        cy.getCy('comments_comment_menu').click()
+        cy.get('.dropdown-item').contains('Remove assignment').click()
+        cy.get('.CommentThread__AssignedHeader--You').should('not.exist')
+
+        // check that it is not visible on the dashboard
+        cy.visitApp('/dashboard')
+        cy.get('h2').contains('Unresolved Assigned Comments').should('not.exist')
+
+        // check that it is not visible on the comments overview
+        cy.visitApp('/comments?resolved=false')
+        cy.expectEmptyListing()
+    })
 })
