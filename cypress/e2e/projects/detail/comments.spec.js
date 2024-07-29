@@ -261,6 +261,20 @@ describe('Comments', () => {
         project.expectCommentCount(0)
     })
 
+    it('view all resolved comments', () => {
+        project.openCommentsFor('Options Question 1')
+        project.startNewCommentThread('This is a new thread')
+        cy.getCy('comments_comment_resolve').click()
+
+        cy.get('.item').contains('Comments').click()
+        cy.get('.comments-overview .form-check-label').should('contain', 'View resolved comments (1)').click()
+        cy.get('.comments-overview .fa-ul li').should('contain', 'Options Question 1')
+        cy.get('.comments-overview .fa-ul li .bg-success.rounded-pill').should('contain', '1')
+        cy.get('.comments-overview .fa-ul li a').click()
+
+        cy.get('.CommentThread.CommentThread--Resolved').should('exist')
+    })
+
     it('websocket', () => {
         project.setProjectSharing(project.AnyoneWithLinkEdit)
 
