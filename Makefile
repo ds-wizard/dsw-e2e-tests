@@ -18,7 +18,7 @@ start:
 
 .PHONY: stop
 stop:
-	@cd dsw && docker-compose down
+	@cd dsw && docker compose down
 
 
 .PHONY: run

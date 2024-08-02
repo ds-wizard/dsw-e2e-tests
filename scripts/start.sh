@@ -13,5 +13,5 @@ docker pull --platform linux/amd64 $SERVER_IMAGE
 docker pull --platform linux/amd64 $DOCWORKER_IMAGE
 docker pull --platform linux/amd64 $CLIENT_IMAGE
 
-docker-compose up -d
+docker compose up -d
 ./create-bucket.sh
