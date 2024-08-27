@@ -155,6 +155,20 @@ describe('KM Editor Edit Entity', () => {
             cy.getCy('integration-input_name').should('have.value', 'X-Auth')
             cy.getCy('integration-input_value').should('have.value', 'abcd')
         })
+
+        it('edit Resource Page', () => {
+            // Edit Resource Page
+            cy.visitApp('/km-editor')
+            editor.open(kmId)
+            editor.traverseChildren(['Resource Collection'])
+            cy.fillFields({title: 'Another Resource Page',})
+
+            // Open editor again and check that changes were saved
+            cy.visitApp('/km-editor')
+            editor.open(kmId)
+            editor.traverseChildren(['Another Resource Page'])
+            cy.checkFields({title: 'Another Resource Page',})
+        })
     })
 
     describe('Chapter', () => {
@@ -364,7 +378,7 @@ describe('KM Editor Edit Entity', () => {
                 cy.checkFields(question)
             })
 
-            it('edit Reference', () => {
+            it('edit URL Reference', () => {
                 const reference = {
                     s_type: 'ResourcePage',
                     shortUuid: 'bqa'
