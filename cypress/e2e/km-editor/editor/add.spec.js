@@ -141,6 +141,22 @@ describe('KM Editor Add Entity', () => {
             cy.checkFields(integration)
 
         })
+
+        it('add Resource Collection', () => {
+            const resourceCollection = {
+                title: 'My Resource Collection'
+            }
+
+            // Add resource and save
+            editor.open(kmId)
+            editor.createChildren([['resource-collection', resourceCollection]])
+
+            // Reopen editor and check that the resource is there
+            cy.visitApp('/km-editor')
+            editor.open(kmId)
+            editor.openChild(resourceCollection.title)
+            cy.checkFields(resourceCollection)
+        })
     })
 
 
@@ -567,6 +583,53 @@ describe('KM Editor Add Entity', () => {
                 editor.open(kmId)
                 editor.traverseChildren([...path, expert.name])
                 cy.checkFields(expert)
+            })
+        })
+    })
+
+    // Resource Collections ------------------------------------------------------------------------------
+
+    describe('Resource Collection', () => {
+        const chapter = { title: 'My Chapter' }
+        const question = { title: 'My Question' }
+        const resourceCollection = {
+            title: 'My Resource Collection'
+        }
+        const resourcePage = {
+            title: 'My Resource Page',
+            content: 'This is a resource page.'
+        }
+        const reference = {
+            s_type: 'ResourcePage',
+            s_resourcePageUuid: resourcePage.title
+        }
+
+        // Add resource
+        it.only('add Resource', () => {
+            editor.open(kmId)
+            editor.createChildren([
+                ['resource-collection', resourceCollection],
+                ['resource-page', resourcePage]
+            ])
+
+            // Get resource page uuid
+            cy.url().then((url) => {
+                const uuid = url.split('/').pop()
+                reference.s_resourcePageUuid = uuid
+
+                cy.visitApp('/km-editor')
+                editor.open(kmId)
+                editor.createChildren([
+                    ['chapter', chapter],
+                    ['question', question],
+                    ['reference', reference]
+                ])
+
+                // Reopen editor again and check that the resource is there
+                cy.visitApp('/km-editor')
+                editor.open(kmId)
+                editor.traverseChildren([chapter.title, question.title, resourcePage.title])
+                cy.checkFields(reference)
             })
         })
     })
