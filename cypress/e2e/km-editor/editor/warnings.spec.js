@@ -176,33 +176,6 @@ describe('KM Editor Warnings', () => {
         cy.checkFields(choice)
     })
 
-    it('Reference Short UUID', () => {
-        const chapter = {
-            title: 'Chapter 1',
-            text: 'This chapter text'
-        }
-        const question = {
-            s_type: 'Value',
-            title: 'Question 1',
-            text: 'This question text'
-        }
-        const reference = {
-            s_type: 'ResourcePage',
-        }
-        editor.createChildren([
-            ['chapter', chapter], 
-            ['question', question],
-            ['reference', reference]
-        ])
-
-        cy.visitApp('/km-editor')
-        editor.open(kmId)
-        editor.expectWarningsCount(1)
-        editor.openWarnings()
-        cy.contains('Empty short UUID for page reference').click()
-        cy.checkFields(reference)
-    })
-
     it('Reference URL', () => {
         const chapter = {
             title: 'Chapter 1',
@@ -228,6 +201,32 @@ describe('KM Editor Warnings', () => {
         editor.expectWarningsCount(1)
         editor.openWarnings()
         cy.contains('Empty URL for URL reference').click()
+        cy.checkFields(reference)
+    })
+
+    it('Reference Resource Page', () => {
+        const chapter = {
+            title: 'Chapter 1',
+            text: 'This chapter text'
+        }
+        const question = {
+            s_type: 'Value',
+            title: 'Question 1',
+            text: 'This question text'
+        }
+        const reference = {s_type: 'ResourcePage'}
+
+        editor.createChildren([
+            ['chapter', chapter], 
+            ['question', question],
+            ['reference', reference]
+        ])
+
+        cy.visitApp('/km-editor')
+        editor.open(kmId)
+        editor.expectWarningsCount(1)
+        editor.openWarnings()
+        cy.contains('No resource page selected for resource page reference').click()
         cy.checkFields(reference)
     })
 

@@ -116,7 +116,7 @@ export function verifyPackageWithBundle(packageId, fixtureName, pkgParams, check
                 const parentEvent = updateEvent(parentPkg.events[index])
 
                 Object.keys(childEvent).forEach((key) => {
-                    const skipKeys = ['requiredPhaseUuid', 'metricUuids', 'phaseUuids', 'annotations', 'createdAt']
+                    const skipKeys = ['requiredPhaseUuid', 'metricUuids', 'phaseUuids', 'annotations', 'createdAt', 'resourcePageUuid', 'resourceCollectionUuids']
                     const shouldSkip = (!checkEventUuid && key === 'uuid') || skipKeys.includes(key)
                     if (!shouldSkip) {
                         if (parentEvent[key] === null) {

@@ -402,7 +402,7 @@ describe('KM Editor Edit Entity', () => {
                 cy.checkFields(urlReference)
             })
 
-            it.only('edit Resource Page', () => {
+            it('edit Resource Page', () => {
                 const resourcePage = {
                     s_resourcePageUuid: '0d676b1a-4d9c-4b1f-be21-49b383397460',
                 }

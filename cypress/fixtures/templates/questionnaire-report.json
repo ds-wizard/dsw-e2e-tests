@@ -156,6 +156,11 @@
             "uuid": "2a2ac698-aa56-4bff-a36f-8127451b46ab",
             "content": "<!DOCTYPE HTML><html><body><pre>{{ctx | tojson(indent=2)}}</pre></body></html>",
             "fileName": "default.html.j2"
+        },
+        {
+            "uuid": "2a2ac698-aa56-4bff-a36f-8127451b46ac",
+            "content": "* {padding: 0}",
+            "fileName": "default.css"
         }
     ],
     "assets": [],

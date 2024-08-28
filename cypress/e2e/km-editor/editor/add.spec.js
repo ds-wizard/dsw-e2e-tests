@@ -605,7 +605,7 @@ describe('KM Editor Add Entity', () => {
         }
 
         // Add resource
-        it.only('add Resource', () => {
+        it('add Resource', () => {
             editor.open(kmId)
             editor.createChildren([
                 ['resource-collection', resourceCollection],
