@@ -273,7 +273,8 @@ describe('KM Editor Edit Entity', () => {
         answerTitle: 'Answer 2',
         choiceTitle: 'Choice 1',
         followUpTitle: 'Answer Item Question 1',
-        referenceTitle: 'Reference 1',
+        urlReferenceLabel: 'Reference 1',
+        resourcePageTitle: 'Resource Page 1',
         expertTitle: 'Expert 1'
     }, {
         title: 'Follow-up Question',
@@ -283,7 +284,8 @@ describe('KM Editor Edit Entity', () => {
         answerTitle: 'Follow-up Answer',
         choiceTitle: 'Follow-up Choice',
         followUpTitle: 'Follow-up Answer Item Question',
-        referenceTitle: 'Follow-up Reference',
+        urlReferenceLabel: 'Follow-up Reference',
+        resourcePageTitle: 'Follow-up Resource Page',
         expertTitle: 'Follow-up Expert'
     }, {
         title: 'Answer Item Question',
@@ -293,7 +295,8 @@ describe('KM Editor Edit Entity', () => {
         answerTitle: 'Answer Item Question Answer',
         choiceTitle: 'Answer Item Question Choice',
         followUpTitle: 'Answer Item Question Answer Item Question',
-        referenceTitle: 'Answer Item Question Reference',
+        urlReferenceLabel: 'Answer Item Question Reference',
+        resourcePageTitle: 'Answer Item Question Resource Page',
         expertTitle: 'Answer Item Question Expert'
     }, {
         title: 'Deep Nested Question',
@@ -303,7 +306,8 @@ describe('KM Editor Edit Entity', () => {
         answerTitle: 'Deep Nested Answer 1',
         choiceTitle: 'Deep Nested Choice 1',
         followUpTitle: 'Deep Nested Answer Item Question',
-        referenceTitle: 'Deep Nested Reference 1',
+        urlReferenceLabel: 'Deep Nested Reference 1',
+        resourcePageTitle: 'Deep Nested Resource Page 1',
         expertTitle: 'Deep Nested Expert 1'
     }]
 
@@ -315,7 +319,8 @@ describe('KM Editor Edit Entity', () => {
         answerTitle,
         choiceTitle,
         followUpTitle,
-        referenceTitle,
+        urlReferenceLabel,
+        resourcePageTitle,
         expertTitle
     }) => {
         describe(title, () => {
@@ -379,22 +384,40 @@ describe('KM Editor Edit Entity', () => {
             })
 
             it('edit URL Reference', () => {
-                const reference = {
-                    s_type: 'ResourcePage',
-                    shortUuid: 'bqa'
+                const urlReference = {
+                    url: 'http://another.example.com',
+                    label: 'Another Reference'
                 }
 
                 // Open editor and edit reference
                 cy.visitApp('/km-editor')
                 editor.open(kmId)
-                editor.traverseChildren([...optionsQuestionPath, referenceTitle])
-                cy.fillFields(reference)
+                editor.traverseChildren([...optionsQuestionPath, urlReferenceLabel])
+                cy.fillFields(urlReference)
 
                 // Open editor again and check that changes were saved
                 cy.visitApp('/km-editor')
                 editor.open(kmId)
-                editor.traverseChildren([...optionsQuestionPath, reference.shortUuid])
-                cy.checkFields(reference)
+                editor.traverseChildren([...optionsQuestionPath, urlReference.label])
+                cy.checkFields(urlReference)
+            })
+
+            it.only('edit Resource Page', () => {
+                const resourcePage = {
+                    s_resourcePageUuid: '0d676b1a-4d9c-4b1f-be21-49b383397460',
+                }
+
+                // Open editor and change resource page
+                cy.visitApp('/km-editor')
+                editor.open(kmId)
+                editor.traverseChildren([...optionsQuestionPath, resourcePageTitle])
+                cy.fillFields(resourcePage)
+
+                // Open editor again and check that changes were saved
+                cy.visitApp('/km-editor')
+                editor.open(kmId)
+                editor.traverseChildren([...optionsQuestionPath, "Another Resource Page"])
+                cy.checkFields(resourcePage)
             })
 
             it('edit Expert', () => {

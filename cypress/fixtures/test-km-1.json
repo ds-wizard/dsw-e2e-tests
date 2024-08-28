@@ -978,6 +978,39 @@
             "value": "4be6980b-42ae-4de6-bffc-5f54f0802c3d"
           },
           "uuid": "66125723-ca9f-4c90-8c85-813c300201e5"
+        },
+        {
+          "annotations": { "changed": false },
+          "createdAt": "2024-08-28T06:55:10.53Z",
+          "entityUuid": "16fd0e53-9f31-4c56-b916-befc28570380",
+          "eventType": "EditReferenceEvent",
+          "parentUuid": "6efcf49e-9f79-448f-9275-b1eeaac058be",
+          "referenceType": "ResourcePageReference",
+          "resourcePageUuid": {
+            "changed": true,
+            "value": "eaa0ca12-2e42-4835-9aa6-680bc072ccd8"
+          },
+          "uuid": "867456e1-f534-441d-9985-91db6d2042ca"
+        },
+        {
+          "annotations": [],
+          "content": "",
+          "createdAt": "2024-08-28T06:59:27.519Z",
+          "entityUuid": "0d676b1a-4d9c-4b1f-be21-49b383397460",
+          "eventType": "AddResourcePageEvent",
+          "parentUuid": "b70066c0-9f8b-4efc-beb2-3efbad6279ec",
+          "title": "",
+          "uuid": "01483c6f-b61c-4939-bcc6-da6c5272e0c7"
+        },
+        {
+          "annotations": { "changed": false },
+          "content": { "changed": false },
+          "createdAt": "2024-08-28T06:59:33.871Z",
+          "entityUuid": "0d676b1a-4d9c-4b1f-be21-49b383397460",
+          "eventType": "EditResourcePageEvent",
+          "parentUuid": "b70066c0-9f8b-4efc-beb2-3efbad6279ec",
+          "title": { "changed": true, "value": "Another Resource Page" },
+          "uuid": "3bcd03d9-12f9-45b6-80b1-7719e0086fb2"
         }
       ],
       "forkOfPackageId": null,
