@@ -89,7 +89,7 @@ describe('Questionnaire Versions', () => {
         expectEventCount(2)
     })
 
-    it.only('name, rename and delete a version', () => {
+    it('name, rename and delete a version', () => {
         project.typeAnswer('Value Question String', 'Answer')
 
         // name
