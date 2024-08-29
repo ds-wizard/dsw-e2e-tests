@@ -141,6 +141,22 @@ describe('KM Editor Add Entity', () => {
             cy.checkFields(integration)
 
         })
+
+        it('add Resource Collection', () => {
+            const resourceCollection = {
+                title: 'My Resource Collection'
+            }
+
+            // Add resource and save
+            editor.open(kmId)
+            editor.createChildren([['resource-collection', resourceCollection]])
+
+            // Reopen editor and check that the resource is there
+            cy.visitApp('/km-editor')
+            editor.open(kmId)
+            editor.openChild(resourceCollection.title)
+            cy.checkFields(resourceCollection)
+        })
     })
 
 
@@ -526,31 +542,55 @@ describe('KM Editor Add Entity', () => {
                 cy.checkFields(itemQuestion)
             })
 
+            it('add URL Reference', () => {
+                const reference = {
+                    s_type: 'URL',
+                    url: 'https://ds-wizard.org',
+                    label: 'Data Stewardship Wizard'
+                }
 
-            const references = [['atq', {
-                s_type: 'ResourcePage',
-                shortUuid: 'atq'
-            }], ['Data Stewardship Wizard', {
-                s_type: 'URL',
-                url: 'https://ds-wizard.org',
-                label: 'Data Stewardship Wizard'
-            }]]
+                // Add reference and its parents
+                editor.open(kmId)
+                editor.createChildren([...childrenOptions, ['reference', reference]])
 
-            references.forEach(([referenceLabel, reference]) => {
-                it('add ' + reference.s_type, () => {
-
-                    // Add reference and its parents
-                    editor.open(kmId)
-                    editor.createChildren([...childrenOptions, ['reference', reference]])
-
-                    // Reopen editor again and check that the reference is there
-                    cy.visitApp('/km-editor')
-                    editor.open(kmId)
-                    editor.traverseChildren([...path, referenceLabel])
-                    cy.checkFields(reference)
-                })
+                // Reopen editor again and check that the reference is there
+                cy.visitApp('/km-editor')
+                editor.open(kmId)
+                editor.traverseChildren([...path, reference.label])
+                cy.checkFields(reference)
             })
 
+            it('add Resource Page Reference', () => {
+                const reference = {
+                    s_type: 'ResourcePage',
+                    s_resourcePageUuid: 'My Resource Page'
+                }
+                const resourceCollection = {title: 'My Resource Collection'}
+                const resourcePage = {title: 'My Resource Page'}
+                
+                //Add resource collection and resource page
+                editor.open(kmId)
+                editor.createChildren([
+                    ['resource-collection', resourceCollection],
+                    ['resource-page', resourcePage]
+                ])
+
+                cy.url().then((url) => {
+                    const uuid = url.split('/').pop()
+                        reference.s_resourcePageUuid = uuid
+                        cy.visitApp('/km-editor')
+
+                        // Add reference and its parents
+                        editor.open(kmId)
+                        editor.createChildren([...childrenOptions, ['reference', reference]])
+
+                        // Reopen editor again and check that the reference is there
+                        cy.visitApp('/km-editor')
+                        editor.open(kmId)
+                        editor.traverseChildren([...path, resourcePage.title])
+                        cy.checkFields(reference)
+                })
+            })
 
             it('add Expert', () => {
                 const expert = {
@@ -567,6 +607,51 @@ describe('KM Editor Add Entity', () => {
                 editor.open(kmId)
                 editor.traverseChildren([...path, expert.name])
                 cy.checkFields(expert)
+            })
+        })
+    })
+
+    // Resource Collections ------------------------------------------------------------------------------
+
+    describe('Resource Collection', () => {
+        const chapter = { title: 'My Chapter' }
+        const question = { title: 'My Question' }
+        const resourceCollection = {title: 'My Resource Collection'}
+        const resourcePage = {
+            title: 'My Resource Page',
+            content: 'This is a resource page.'
+        }
+        const reference = {
+            s_type: 'ResourcePage',
+            s_resourcePageUuid: resourcePage.title
+        }
+
+        // Add resource Page
+        it('add Resource Page', () => {
+            editor.open(kmId)
+            editor.createChildren([
+                ['resource-collection', resourceCollection],
+                ['resource-page', resourcePage]
+            ])
+
+            // Get resource page uuid
+            cy.url().then((url) => {
+                const uuid = url.split('/').pop()
+                reference.s_resourcePageUuid = uuid
+
+                cy.visitApp('/km-editor')
+                editor.open(kmId)
+                editor.createChildren([
+                    ['chapter', chapter],
+                    ['question', question],
+                    ['reference', reference]
+                ])
+
+                // Reopen editor again and check that the resource is there
+                cy.visitApp('/km-editor')
+                editor.open(kmId)
+                editor.traverseChildren([chapter.title, question.title, resourcePage.title])
+                cy.checkFields(reference)
             })
         })
     })

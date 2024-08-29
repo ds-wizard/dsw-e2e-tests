@@ -265,13 +265,8 @@ describe('KM Editor Migrations', () => {
                     x.get('ins').contains('Resource Page')
                 }
             },
-            {
-                'label': 'Short UUID', 'validate': (x) => {
-                    x.get('ins').contains('atq')
-                }
-            }
+            {}
         ])
-        migration.checkDiffTreeAdded(['atq'])
         migration.apply()
 
         // Add reference (URL)
@@ -333,14 +328,8 @@ describe('KM Editor Migrations', () => {
                     x.contains('Resource Page')
                 }
             },
-            {
-                'label': 'Short UUID', 'validate': (x) => {
-                    x.get('del').contains('atq')
-                    x.get('ins').contains('xyz')
-                }
-            }
+            {}
         ])
-        migration.checkDiffTreeEdited(['xyz'])
         migration.apply()
 
         // Edit reference (URL)
@@ -409,12 +398,10 @@ describe('KM Editor Migrations', () => {
             {
                 'label': 'References', 'validate': (x) => {
                     x.get('ul.del > li').should('have.length', 3)
-                    x.get('ul.del > li').eq(0).contains('xyz')
                     x.get('ul.del > li').eq(1).contains('Better Google it')
                     x.get('ul.del > li').eq(2).contains('4ae6a08a-c94e-4a0f-8391-24765ad8fdb4')
                     x.get('ul.ins > li').should('have.length', 3)
                     x.get('ul.ins > li').eq(0).contains('Better Google it')
-                    x.get('ul.ins > li').eq(1).contains('xyz')
                     x.get('ul.ins > li').eq(2).contains('4ae6a08a-c94e-4a0f-8391-24765ad8fdb4')
                 }
             },
@@ -488,7 +475,6 @@ describe('KM Editor Migrations', () => {
                 }
             }
         ])
-        migration.checkDiffTreeDeleted(['xyz'])
         migration.apply()
 
         migration.finishMigrationAndPublish(1, 3, 2)
@@ -2014,7 +2000,7 @@ describe('KM Editor Migrations', () => {
         migration.verifyChildPackageForMigration(config, '1.8.0', '1.7.2')
     })
 
-    
+
     it('can migrate with applying "edit follow-up question"', () => {
         migration.createMigration(config, '1.8.0', '1.8.1')
 
@@ -2295,11 +2281,11 @@ describe('KM Editor Migrations', () => {
         migration.expectEvent('5bcbcadb-7c37-417e-b0c1-9d7d656fef97')
         migration.checkDiffTreeAdded(['Yes'])
         migration.apply()
-        
+
         migration.expectEvent('db6a9849-984d-4992-beba-933a8208d114')
         migration.checkDiffTreeAdded(['No'])
         migration.apply()
-        
+
         migration.expectEvent('e883e684-7653-4b01-81e8-2c5771d0cd1f')
         migration.checkDiffTreeAdded(['Another item template question'])
         migration.apply()
@@ -2721,7 +2707,7 @@ describe('KM Editor Migrations', () => {
         migration.expectEvent('7fba5383-5374-49e8-a645-b7fad2ba657f')
         migration.checkDiffTreeAdded(['Answer 1.1c'])
         migration.apply()
-        
+
         // next event uuid changed by DSW
         cy.getCy('km-migration_event_7fba5383-5374-49e8-a645-b7fad2ba657f').should('not.exist')
         migration.checkMigrationForm([
@@ -2772,7 +2758,6 @@ describe('KM Editor Migrations', () => {
         migration.apply()
 
         migration.expectEvent('9d01e655-29d4-4c9e-a8c5-0de04996ff4e')
-        migration.checkDiffTreeAdded(['nope'])
         migration.reject()
 
         migration.expectEvent('be06f0e8-677c-4cc5-9f21-4d906b405407')
