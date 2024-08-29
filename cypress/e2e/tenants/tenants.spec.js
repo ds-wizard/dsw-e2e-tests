@@ -22,7 +22,7 @@ describe('Tenants', () => {
 
     const createApp = () => {
         cy.visitApp('/tenants')
-        cy.clickBtn('Create')
+        cy.clickBtn(/^Create$/)
         cy.fillFields(tenant)
         cy.clickBtn('Create')
         cy.getListingItem(tenant.tenantName).find('.title a').click()
