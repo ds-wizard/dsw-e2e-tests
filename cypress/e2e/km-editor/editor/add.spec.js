@@ -560,7 +560,7 @@ describe('KM Editor Add Entity', () => {
                 cy.checkFields(reference)
             })
 
-            it('add Resource Page', () => {
+            it('add Resource Page Reference', () => {
                 const reference = {
                     s_type: 'ResourcePage',
                     s_resourcePageUuid: 'My Resource Page'
@@ -626,8 +626,8 @@ describe('KM Editor Add Entity', () => {
             s_resourcePageUuid: resourcePage.title
         }
 
-        // Add resource
-        it('add Resource', () => {
+        // Add resource Page
+        it('add Resource Page', () => {
             editor.open(kmId)
             editor.createChildren([
                 ['resource-collection', resourceCollection],

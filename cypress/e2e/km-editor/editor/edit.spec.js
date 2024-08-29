@@ -156,8 +156,8 @@ describe('KM Editor Edit Entity', () => {
             cy.getCy('integration-input_value').should('have.value', 'abcd')
         })
 
-        it('edit Resource Page', () => {
-            // Edit Resource Page
+        it('edit Resource Page Reference', () => {
+            // Edit Resource Page Reference
             cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.traverseChildren(['Resource Collection'])
@@ -402,8 +402,8 @@ describe('KM Editor Edit Entity', () => {
                 cy.checkFields(urlReference)
             })
 
-            it('edit Resource Page', () => {
-                const resourcePage = {
+            it('edit Resource Page Reference', () => {
+                const resourcePageReference = {
                     s_resourcePageUuid: '0d676b1a-4d9c-4b1f-be21-49b383397460',
                 }
 
@@ -411,13 +411,13 @@ describe('KM Editor Edit Entity', () => {
                 cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, resourcePageTitle])
-                cy.fillFields(resourcePage)
+                cy.fillFields(resourcePageReference)
 
                 // Open editor again and check that changes were saved
                 cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, "Another Resource Page"])
-                cy.checkFields(resourcePage)
+                cy.checkFields(resourcePageReference)
             })
 
             it('edit Expert', () => {
