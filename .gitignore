@@ -85,5 +85,4 @@ dsw/docker-compose.yml
 cypress/fixtures/templates/*.zip
 
 # Downloads
-
 cypress/downloads

@@ -542,7 +542,7 @@ describe('KM Editor Add Entity', () => {
                 cy.checkFields(itemQuestion)
             })
 
-            it('add Reference', () => {
+            it('add URL Reference', () => {
                 const reference = {
                     s_type: 'URL',
                     url: 'https://ds-wizard.org',
