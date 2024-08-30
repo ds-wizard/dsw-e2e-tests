@@ -85,6 +85,26 @@ describe('KM Editor Warnings', () => {
         cy.checkFields(question)
     })
 
+    it('Question Item Select', () => {
+        const chapter = {
+            title: 'Chapter 1',
+            text: 'This chapter text'
+        }
+        const question = {
+            s_type: 'ItemSelect',
+            title: 'Question 1',
+            text: 'This question text'
+        }
+        editor.createChildren([['chapter', chapter], ['question', question]])
+
+        cy.visitApp('/km-editor')
+        editor.open(kmId)
+        editor.expectWarningsCount(1)
+        editor.openWarnings()
+        cy.contains('No list question selected for item select question').click()
+        cy.checkFields(question)
+    })
+
     it('Question Choices', () => {
         const chapter = {
             title: 'Chapter 1',
@@ -351,6 +371,48 @@ describe('KM Editor Warnings', () => {
             editor.openWarnings()
             cy.contains(warning).click()
             cy.checkFields(integration)
+        })
+    })
+
+    it('Resource Collection', () => {
+        editor.createChildren([
+            ['resource-collection', {}]
+        ])
+
+        const warnings = [
+            'Empty title for resource collection'
+        ]
+
+        warnings.forEach(warning => {
+            cy.visitApp('/km-editor')
+            editor.open(kmId)
+            editor.expectWarningsCount(warnings.length)
+            editor.openWarnings()
+            cy.contains(warning).click()
+        })
+    })
+
+    it('Resource Page', () => {
+        const resourceCollection = {
+            title: 'Resource Collection'
+        }
+
+        editor.createChildren([
+            ['resource-collection', resourceCollection],
+            ['resource-page', {}]
+        ])
+
+        const warnings = [
+            'Empty title for resource page',
+            'Empty content for resource page',
+        ]
+
+        warnings.forEach(warning => {
+            cy.visitApp('/km-editor')
+            editor.open(kmId)
+            editor.expectWarningsCount(warnings.length)
+            editor.openWarnings()
+            cy.contains(warning).click()
         })
     })
 })
