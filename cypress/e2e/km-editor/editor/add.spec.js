@@ -611,6 +611,44 @@ describe('KM Editor Add Entity', () => {
         })
     })
 
+    describe('Item Select Question', () => {
+        it('add Item Select Question', () => {
+            const chapter = { title: 'My Chapter' }
+            const listQuestion = {
+                s_type: 'List',
+                title: 'List all project colors'
+            }
+
+            const itemSelectQuestion = {
+                s_type: 'ItemSelect',
+                title: 'What is your favorite color?',
+                s_listQuestionUuid: listQuestion.title
+            }
+
+            // Add item select question and its parents
+            editor.open(kmId)
+            editor.createChildren([['chapter', chapter], ['question', listQuestion]])
+
+            // Get uuid of created list question
+            cy.url().then((url) => {
+                const listQuestionUuid = url.split('/').pop()
+
+                // Create the item select question
+                cy.getCy('breadcrumb-item').contains(chapter.title).click()
+                editor.createChildren([['question', itemSelectQuestion]])
+
+                // Reopen editor again and check that the item select question is there
+                cy.visitApp('/km-editor')
+                editor.open(kmId)
+                editor.traverseChildren([chapter.title, itemSelectQuestion.title])
+
+                // We need to use uuid for the check
+                itemSelectQuestion.s_listQuestionUuid = listQuestionUuid
+                cy.checkFields(itemSelectQuestion)
+            })
+        })
+    })
+
     // Resource Collections ------------------------------------------------------------------------------
 
     describe('Resource Collection', () => {
