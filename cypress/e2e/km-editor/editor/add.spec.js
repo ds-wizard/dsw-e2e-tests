@@ -130,6 +130,7 @@ describe('KM Editor Add Entity', () => {
             addProp('name')
             addProp('database')
             addHeader('Authorization', 'Bearer $token')
+            editor.awaitSave()
 
             // Reopen editor again and check that the integration is there
             cy.visitApp('/km-editor')
@@ -470,6 +471,7 @@ describe('KM Editor Add Entity', () => {
                 // Add answer and save
                 editor.addInputChild('answer')
                 cy.fillFields(followUpAnswer)
+                editor.awaitSave()
 
                 // Reopen editor again and check that the answer is there
                 cy.visitApp('/km-editor')
@@ -514,6 +516,7 @@ describe('KM Editor Add Entity', () => {
                 // Add choice and save
                 editor.addInputChild('choice')
                 cy.fillFields(choice)
+                editor.awaitSave()
 
                 // Reopen editor again and check that the choice is there
                 cy.visitApp('/km-editor')

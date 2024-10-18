@@ -36,6 +36,7 @@ describe('KM Editor Edit Entity', () => {
             editor.open(kmId)
             editor.traverseChildren(['Chapter 1'])
             cy.fillFields(chapter)
+            editor.awaitSave()
 
             // Open editor again and check that changes were saved
             cy.visitApp('/km-editor')
@@ -56,6 +57,7 @@ describe('KM Editor Edit Entity', () => {
             editor.open(kmId)
             editor.traverseChildren(['Findability'])
             cy.fillFields(metric)
+            editor.awaitSave()
 
             // Open editor again and check that changes were saved
             cy.visitApp('/km-editor')
@@ -75,6 +77,7 @@ describe('KM Editor Edit Entity', () => {
             editor.open(kmId)
             editor.traverseChildren(['Before Submitting the Proposal'])
             cy.fillFields(metric)
+            editor.awaitSave()
 
             // Open editor again and check that changes were saved
             cy.visitApp('/km-editor')
@@ -95,6 +98,7 @@ describe('KM Editor Edit Entity', () => {
             editor.traverseChildren(['Tag 1'])
             cy.fillFields(tag)
             cy.getCy('form-group_color_color-button', ':nth-child(7)').click()
+            editor.awaitSave()
 
             // Open editor again and check that changes were saved
             cy.visitApp('/km-editor')
@@ -139,6 +143,8 @@ describe('KM Editor Edit Entity', () => {
             cy.getCy('integration-input_name').clear().type('X-Auth')
             cy.getCy('integration-input_value').clear().type('abcd')
 
+            editor.awaitSave()
+
             // Open editor again and check that changes were saved
             cy.visitApp('/km-editor')
             editor.open(kmId)
@@ -161,13 +167,14 @@ describe('KM Editor Edit Entity', () => {
             cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.traverseChildren(['Resource Collection'])
-            cy.fillFields({title: 'Another Resource Page',})
+            cy.fillFields({ title: 'Another Resource Page', })
+            editor.awaitSave()
 
             // Open editor again and check that changes were saved
             cy.visitApp('/km-editor')
             editor.open(kmId)
             editor.traverseChildren(['Another Resource Page'])
-            cy.checkFields({title: 'Another Resource Page',})
+            cy.checkFields({ title: 'Another Resource Page', })
         })
     })
 
@@ -254,7 +261,16 @@ describe('KM Editor Edit Entity', () => {
                 cy.visitApp('/km-editor')
                 editor.open(kmId)
                 editor.traverseChildren(['Chapter 1', originalTitle])
+
+                if (question.s_type) {
+                    cy.fillFields({ s_type: question.s_type })
+                    editor.awaitSave()
+
+                    delete question.s_type
+                }
+
                 cy.fillFields(question)
+                editor.awaitSave()
 
                 // Open editor again and check that changes were saved
                 cy.visitApp('/km-editor')
@@ -338,6 +354,7 @@ describe('KM Editor Edit Entity', () => {
                 editor.traverseChildren([...optionsQuestionPath, answerTitle])
                 cy.checkToggle('metricMeasure-8db30660-d4e5-4c0a-bf3e-553f3f0f997a-enabled')
                 cy.fillFields(answer)
+                editor.awaitSave()
 
                 // Open editor again and check that changes were saved
                 cy.visitApp('/km-editor')
@@ -356,6 +373,7 @@ describe('KM Editor Edit Entity', () => {
                 editor.open(kmId)
                 editor.traverseChildren([...multiChoiceQuestionPath, choiceTitle])
                 cy.fillFields(choice)
+                editor.awaitSave()
 
                 // Open editor again and check that changes were saved
                 cy.visitApp('/km-editor')
@@ -375,6 +393,7 @@ describe('KM Editor Edit Entity', () => {
                 editor.open(kmId)
                 editor.traverseChildren([...listQuestionPath, followUpTitle])
                 cy.fillFields(question)
+                editor.awaitSave()
 
                 // Open editor again and check that changes were saved
                 cy.visitApp('/km-editor')
@@ -394,6 +413,7 @@ describe('KM Editor Edit Entity', () => {
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, urlReferenceLabel])
                 cy.fillFields(urlReference)
+                editor.awaitSave()
 
                 // Open editor again and check that changes were saved
                 cy.visitApp('/km-editor')
@@ -412,6 +432,7 @@ describe('KM Editor Edit Entity', () => {
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, resourcePageTitle])
                 cy.fillFields(resourcePageReference)
+                editor.awaitSave()
 
                 // Open editor again and check that changes were saved
                 cy.visitApp('/km-editor')
@@ -431,6 +452,7 @@ describe('KM Editor Edit Entity', () => {
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, expertTitle])
                 cy.fillFields(expert)
+                editor.awaitSave()
 
                 // Open editor again and check that changes were saved
                 cy.visitApp('/km-editor')

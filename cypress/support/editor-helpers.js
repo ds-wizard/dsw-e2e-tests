@@ -25,6 +25,7 @@ export function createChildren(parents) {
     parents.forEach(([type, fields]) => {
         addInputChild(type)
         cy.fillFields(fields)
+        awaitSave()
     })
 }
 
@@ -105,4 +106,10 @@ export function expectWarningsCount(count) {
 
 export function openWarnings() {
     cy.get('.editor-breadcrumbs .item').contains('Warnings').click()
+}
+
+
+export function awaitSave() {
+    cy.get('.questionnaire-header__saving').contains('Saved')
+    cy.get('.questionnaire-header__saving').should('not.contain', 'Saved')
 }
