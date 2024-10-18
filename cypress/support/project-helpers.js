@@ -194,8 +194,13 @@ export function selectAnswer(answer) {
 
 
 export function openChapter(chapter) {
-    cy.get('.DetailNavigation__Row .nav-link').contains('Questionnaire').click()
+    openQuestionnaire()
     cy.get('.NavigationTree .nav-link').contains(chapter).click()
+}
+
+
+export function openQuestionnaire(chapter) {
+    cy.get('.DetailNavigation__Row .nav-link').contains('Questionnaire').click()
 }
 
 
@@ -214,13 +219,20 @@ export function openDocuments() {
 }
 
 
+export function openFiles() {
+    cy.get('.DetailNavigation__Row .nav-link').contains('Files').click()
+}
+
+
 export function openSettings() {
     cy.get('.DetailNavigation__Row .nav-link').contains('Settings').click()
 }
 
+
 export function saveSettings() {
     cy.clickBtn('Save')
 }
+
 
 export function checkAnswerChecked(answer) {
     cy.get('label').contains(answer).find('input').should('be.checked')

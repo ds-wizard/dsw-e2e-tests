@@ -649,6 +649,28 @@ describe('KM Editor Add Entity', () => {
         })
     })
 
+    describe('File Question', () => {
+        it('add File Question', () => {
+            const chapter = { title: 'My Chapter' }
+            const fileQuestion = {
+                s_type: 'File',
+                title: 'Upload your project plan',
+                fileTypes: '.csv,.xls,.xlsx',
+                maxSize: '12000'
+            }
+
+            // Add file question and its parents
+            editor.open(kmId)
+            editor.createChildren([['chapter', chapter], ['question', fileQuestion]])
+
+            // Reopen editor again and check that the file question is there
+            cy.visitApp('/km-editor')
+            editor.open(kmId)
+            editor.traverseChildren([chapter.title, fileQuestion.title])
+            cy.checkFields(fileQuestion)
+        })
+    })
+
     // Resource Collections ------------------------------------------------------------------------------
 
     describe('Resource Collection', () => {
