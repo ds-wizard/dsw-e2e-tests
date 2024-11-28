@@ -93,10 +93,32 @@ function updateIntegrationEvent2(event) {
     return event
 }
 
+// 4.13.0 - validations added to ValueQuestion
+function updateValidations(event) {
+    const newFields = [
+        ['validations', []],
+    ]
+
+    if (event.eventType === 'AddQuestionEvent' && event.questionType === 'ValueQuestion') {
+        newFields.forEach(([fieldName, defaultValue]) => {
+            if (event[fieldName] === undefined) {
+                event[fieldName] = defaultValue
+            }
+        })
+    } else if (event.eventType === 'EditQuestionEvent' && event.questionType === 'ValueQuestion') {
+        if (event.validations === undefined) {
+            event.validations = { changed: false }
+        }
+    }
+
+    return event
+}
+
 function updateEvent(event) {
-    return updateIntegrationEvent2(
-        updateIntegrationRequestHeaders(
-            updateIntegrationEvent(event)))
+    return updateValidations(
+        updateIntegrationEvent2(
+            updateIntegrationRequestHeaders(
+                updateIntegrationEvent(event))))
 }
 
 export function verifyPackageWithBundle(packageId, fixtureName, pkgParams, checkEventUuid = true) {
