@@ -49,6 +49,7 @@ jobs:
 
     - name: Prepare
       run: |
+        npm ci
         docker login -u "$PRIVATE_REGISTRY_USERNAME" -p "$PRIVATE_REGISTRY_PASSWORD" "$PRIVATE_REGISTRY_URL"
         make clean
         make init
@@ -60,7 +61,6 @@ jobs:
     - name: Start DS Wizard
       run: |
         make start
-        make wait
 
     - name: Run Cypress
       uses: cypress-io/github-action@v6

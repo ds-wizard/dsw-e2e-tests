@@ -14,4 +14,6 @@ docker pull --platform linux/amd64 $DOCWORKER_IMAGE
 docker pull --platform linux/amd64 $CLIENT_IMAGE
 
 docker compose up -d
-./create-bucket.sh
+./scripts/wait.sh
+./scripts/create-bucket.sh
+./scripts/wait-housekeeping.js

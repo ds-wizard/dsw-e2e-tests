@@ -30,27 +30,21 @@ run:
 all:
 	@make clean && make init && make start && ($(CYPRESS) run || true) && make stop
 
-.PHONY: wait
-wait:
-	@while ! curl http://localhost:3000/ 2>/dev/null; \
-	do \
-		echo "Retrying ..."; \
-		sleep 2; \
-	done
 
 .PHONY: open
 open:
 	$(CYPRESS) open --browser chrome --e2e
 
+
 .PHONY: clean
 clean:
 	@rm -rf output && rm -f dsw/docker-compose.yml
+
 
 .PHONY: ci
 ci:
 	make clean
 	make init
 	make start
-	make wait
 	make run
 	make stop
