@@ -182,7 +182,6 @@ module.exports = (on, config) => {
       await userDelete({ tenant_uuid: uuid })
       await pg.delete({ table: 'action_key', where: { tenant_uuid: uuid } })
       await pg.delete({ table: 'locale', where: { tenant_uuid: uuid } })
-      await pg.delete({ table: 'tenant_plan', where: { tenant_uuid: uuid } })
       await pg.delete({ table: 'tenant', where: { uuid } })
     }
     return true
@@ -221,16 +220,16 @@ module.exports = (on, config) => {
     return pg.update({
       table: 'tenant_limit_bundle',
       values: {
-        active_users: null,
-        branches: null,
-        document_template_drafts: null,
-        document_templates: null,
-        documents: null,
-        knowledge_models: null,
-        locales: null,
-        questionnaires: null,
-        storage: null,
-        users: null,
+        active_users: -10000,
+        branches: -10000,
+        document_template_drafts: -10000,
+        document_templates: -10000,
+        documents: -10000,
+        knowledge_models: -10000,
+        locales: -10000,
+        questionnaires: -10000,
+        storage: -10000000000,
+        users: -10000,
       },
       where
     })
@@ -255,6 +254,7 @@ module.exports = (on, config) => {
     const result = await pg.get({ table: 'user_entity', where })
     for (let i = 0; i < result.rows.length; i++) {
       const { uuid } = result.rows[i]
+      await pg.delete({ table: 'audit', where: { created_by: uuid } })
       await pg.delete({ table: 'action_key', where: { identity: uuid } })
       await pg.delete({ table: 'user_token', where: { user_uuid: uuid } })
       await pg.delete({ table: 'persistent_command', where: { created_by: uuid } })
