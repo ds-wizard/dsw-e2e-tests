@@ -45,6 +45,90 @@ describe('Document Template Editor / Editor / Files', () => {
         cy.getCy('dt-editor_file-tree_file').contains('default.css').should('not.exist')
     })
 
+    it('rename file', () => {
+        cy.getCy('dt-editor_file-tree_file').contains('default.css').click()
+        cy.getCy('dt-editor_file-tree_rename').click()
+        cy.fillFields( { 'new-file-name': 'main.css' })
+        cy.clickModalAction()
+        cy.getCy('dt-editor_file-tree_file').contains('default.css').should('not.exist')
+        cy.getCy('dt-editor_file-tree_file').contains('main.css').should('exist')
+    })
+
+    it('rename folder', () => {
+        // create file and folder
+        editor.addFolder()
+        cy.fillFields({ 'folder-name': 'src' })
+        cy.clickModalAction()
+        cy.getCy('dt-editor_file-tree_folder').contains('src').click()
+        editor.addFile()
+        cy.fillFields({ 'file-name': 'index.html' })
+        cy.clickModalAction()
+
+        // rename folder
+        cy.getCy('dt-editor_file-tree_folder').contains('src').click()
+        cy.getCy('dt-editor_file-tree_rename').click()
+        cy.fillFields( { 'new-file-name': 'scripts' })
+        cy.clickModalAction()
+
+        // check that the folder was renamed
+        cy.getCy('dt-editor_file-tree_folder').contains('src').should('not.exist')
+        cy.getCy('dt-editor_file-tree_folder').contains('scripts').should('exist')
+    })
+
+    it('move file', () => {
+        // create a folder
+        editor.addFolder()
+        cy.fillFields({ 'folder-name': 'src' })
+        cy.clickModalAction()
+
+        // move file to the folder
+        cy.getCy('dt-editor_file-tree_file').contains('default.css').click()
+        cy.getCy('dt-editor_file-tree_move').click()
+        cy.get('.move-modal-tree').contains('src').click()
+        cy.clickModalAction()
+
+        // check that file is still visible
+        cy.getCy('dt-editor_file-tree_file').contains('default.css').should('exist')
+        
+        // collapse the folder and check that the file is no longer visible
+        cy.getCy('dt-editor_file-tree_folder').contains('src').closest('a').prev().click()
+        cy.getCy('dt-editor_file-tree_file').contains('default.css').should('not.exist')
+    })
+
+    it('move folder', () => {
+        // create a folder
+        editor.addFolder()
+        cy.fillFields({ 'folder-name': 'src' })
+        cy.clickModalAction()
+
+        // create another folder
+        cy.getCy('dt-editor_file-tree_folder').contains('Questionnaire Report').click()
+        editor.addFolder()
+        cy.fillFields({ 'folder-name': 'css' })
+        cy.clickModalAction()
+
+        // move file to the second folder
+        cy.getCy('dt-editor_file-tree_file').contains('default.css').click()
+        cy.getCy('dt-editor_file-tree_move').click()
+        cy.get('.move-modal-tree').contains('css').click()
+        cy.clickModalAction()
+
+        // move the second folder to the first
+        cy.getCy('dt-editor_file-tree_folder').contains('css').click()
+        cy.getCy('dt-editor_file-tree_move').click()
+        cy.get('.move-modal-tree').contains('src').click()
+        cy.clickModalAction()
+
+        // check that both, the file and the folder are visible
+        cy.getCy('dt-editor_file-tree_file').contains('default.css').should('exist')
+        cy.getCy('dt-editor_file-tree_folder').contains('css').should('exist')
+
+        // collapse the folder and check that the file and the folder are no longer visible
+        cy.getCy('dt-editor_file-tree_folder').contains('src').closest('a').prev().click()
+        cy.getCy('dt-editor_file-tree_file').contains('default.css').should('not.exist')
+        cy.getCy('dt-editor_file-tree_folder').contains('css').should('not.exist')
+    })
+
     it('upload image asset', () => {
         editor.addAsset()
         cy.get('.dropzone').selectFile('cypress/fixtures/dt-editor/image.svg', {
