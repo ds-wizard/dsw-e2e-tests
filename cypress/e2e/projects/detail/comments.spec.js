@@ -267,12 +267,41 @@ describe('Comments', () => {
         cy.getCy('comments_comment_resolve').click()
 
         cy.get('.item').contains('Comments').click()
-        cy.get('.comments-overview .form-check-label').should('contain', 'View resolved comments (1)').click()
+        cy.get('.comments-overview .form-check-label').should('contain', 'View resolved comments').click()
         cy.get('.comments-overview .fa-ul li').should('contain', 'Options Question 1')
         cy.get('.comments-overview .fa-ul li .bg-success.rounded-pill').should('contain', '1')
         cy.get('.comments-overview .fa-ul li a').click()
 
         cy.get('.CommentThread.CommentThread--Resolved').should('exist')
+    })
+
+    it('navigate between comments', () => {
+        project.openCommentsFor('Options Question 1')
+        project.startNewCommentThread('Thread 1')
+        project.openCommentsFor('Integration Question 1')
+        project.startNewCommentThread('Thread 2')
+        project.openCommentsFor('Question 2')
+        project.startNewCommentThread('Thread 3')
+        
+        project.openCommentsFor('Options Question 1')
+        cy.getCy('comments_nav_count').should('contain', '1/3')
+        cy.get('.Comment_MD').contains('Thread 1').should('exist')
+
+        cy.getCy('comments_nav_next').click()
+        cy.getCy('comments_nav_count').should('contain', '2/3')
+        cy.get('.Comment_MD').contains('Thread 2').should('exist')
+
+        cy.getCy('comments_nav_next').click()
+        cy.getCy('comments_nav_count').should('contain', '3/3')
+        cy.get('.Comment_MD').contains('Thread 3').should('exist')
+
+        cy.getCy('comments_nav_next').click()
+        cy.getCy('comments_nav_count').should('contain', '1/3')
+        cy.get('.Comment_MD').contains('Thread 1').should('exist')
+
+        cy.getCy('comments_nav_prev').click()
+        cy.getCy('comments_nav_count').should('contain', '3/3')
+        cy.get('.Comment_MD').contains('Thread 3').should('exist')
     })
 
     it('websocket', () => {
