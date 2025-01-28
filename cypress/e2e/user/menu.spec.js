@@ -5,7 +5,6 @@ describe('Menu', () => {
             'knowledge-models',
             'document-templates',
             'projects',
-            'documents',
             'administration',
             'profile',
         ],
@@ -19,7 +18,6 @@ describe('Menu', () => {
             'profile',
         ],
         notContains: [
-            'documents',
             'administration', 
         ]
     }, {
@@ -31,7 +29,6 @@ describe('Menu', () => {
         notContains: [
             'knowledge-models',
             'document-templates',
-            'documents',
             'administration',
         ]
     }].forEach((roleItems) => {

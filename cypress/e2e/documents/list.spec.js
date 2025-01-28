@@ -41,7 +41,7 @@ describe('Document List', () => {
 
     beforeEach(() => {
         cy.loginAs('admin')
-        cy.visitApp('/documents')
+        cy.visitApp('/project-documents')
     })
 
     it('default sort', () => {
