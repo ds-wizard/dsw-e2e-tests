@@ -49,6 +49,6 @@ in git) and change the desired values. The file might look like this:
 
 ## How to write tests
 
-- Ue `data-cy` attribute for targeting elements, `id` is acceptable for form fields.
+- Use `data-cy` attribute for targeting elements, `id` is acceptable for form fields.
 - Every container that loads content from API should have `data-cy`. This should be tested to exist before testing the content.
 - Use `.contains` only for values filled from the test or test fixtures.
