@@ -61,10 +61,13 @@ describe('Locale', () => {
         cy.clickBtn('Import')
 
         // Import the language bundle
-        cy.get('#locale-import-input').selectFile('cypress/fixtures/locale/cs.zip', { force: true })
-        cy.get('.file-view').should('exist')
+        cy.getCy('dropzone').selectFile('cypress/fixtures/locale/cs.zip', {
+            action: 'drag-drop'
+        })
+        cy.getCy('file-import_file').should('exist')
         cy.clickBtn('Import')
-        cy.url().should('not.contain', 'import')
+        cy.getCy('flash_alert-success').should('exist')
+        cy.clickBtn('Done')
 
         // Open detail
         cy.clickListingItemAction('Czech', 'view')
