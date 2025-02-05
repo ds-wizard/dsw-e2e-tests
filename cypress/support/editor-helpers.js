@@ -3,7 +3,7 @@ import { dataCy } from './utils'
 
 export function open(kmId) {
     cy.clickListingItemAction(kmId, 'open-editor')
-    cy.url().should('contain', '/km-editor/edit')
+    cy.url().should('contain', '/knowledge-model-editors/edit')
     cy.getCy('km-editor').should('exist')
 }
 

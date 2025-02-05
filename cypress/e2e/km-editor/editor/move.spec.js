@@ -20,7 +20,7 @@ describe('KM Editor Move Entity', () => {
 
         cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageId })
         cy.loginAs('datasteward')
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
     })
 
     const testCases = [{
@@ -187,7 +187,7 @@ describe('KM Editor Move Entity', () => {
             newPath.slice(0, -1).forEach(editor.moveModalOpenItem)
             editor.moveModalSelect(newPath[newPath.length - 1])
 
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.traverseChildren([...newPath, entity])
         })

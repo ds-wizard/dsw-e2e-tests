@@ -214,7 +214,7 @@ export function prepareChildKmEditor(config, version) {
         version,
         previousPackageId: config.getChildPackageId(version)
     })
-    cy.visitApp('/km-editor')
+    cy.visitApp('/knowledge-model-editors')
 }
 
 export function apply() {

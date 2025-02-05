@@ -13,7 +13,7 @@ describe('KM Editor Add Entity', () => {
 
         cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageId: null })
         cy.loginAs('datasteward')
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
     })
 
 
@@ -31,7 +31,7 @@ describe('KM Editor Add Entity', () => {
             editor.createChildren([['chapter', chapter]])
 
             // Reopen editor again and check that the chapter is there
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.openChild(chapter.title)
             cy.checkFields(chapter)
@@ -49,7 +49,7 @@ describe('KM Editor Add Entity', () => {
             editor.createChildren([['metric', metric]])
 
             // Reopen editor and check that the metric is there
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.openChild(metric.title)
             cy.checkFields(metric)
@@ -66,7 +66,7 @@ describe('KM Editor Add Entity', () => {
             editor.createChildren([['phase', phase]])
 
             // Reopen editor and check that the phase is there
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.openChild(phase.title)
             cy.checkFields(phase)
@@ -84,7 +84,7 @@ describe('KM Editor Add Entity', () => {
             cy.getCy('form-group_color_color-button', ':nth-child(5)').click()
 
             // Reopen editor again and check that the tag is there
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.openChild(tag.name)
             cy.checkFields({ ...tag, color: '#34495E' })
@@ -133,7 +133,7 @@ describe('KM Editor Add Entity', () => {
             editor.awaitSave()
 
             // Reopen editor again and check that the integration is there
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.openChild(integration.name)
             checkProp('name', 1)
@@ -153,7 +153,7 @@ describe('KM Editor Add Entity', () => {
             editor.createChildren([['resource-collection', resourceCollection]])
 
             // Reopen editor and check that the resource is there
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.openChild(resourceCollection.title)
             cy.checkFields(resourceCollection)
@@ -195,7 +195,7 @@ describe('KM Editor Add Entity', () => {
                 ])
 
                 // Reopen editor again and check that the question is there
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([chapter.title, question.title])
                 cy.checkFields(question)
@@ -234,7 +234,7 @@ describe('KM Editor Add Entity', () => {
             })
 
             // Open editor again and check that the question is there
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.traverseChildren([chapter.title, question.title])
             cy.checkFields(question)
@@ -474,7 +474,7 @@ describe('KM Editor Add Entity', () => {
                 editor.awaitSave()
 
                 // Reopen editor again and check that the answer is there
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([...path, followUpAnswer.label])
                 cy.checkFields(followUpAnswer)
@@ -498,7 +498,7 @@ describe('KM Editor Add Entity', () => {
                 ])
 
                 // Reopen editor again and check that the follow-up question is there
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([...path, answer.label, followUpQuestion.title])
                 cy.checkFields(followUpQuestion)
@@ -519,7 +519,7 @@ describe('KM Editor Add Entity', () => {
                 editor.awaitSave()
 
                 // Reopen editor again and check that the choice is there
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([...path, choice.label])
                 cy.checkFields(choice)
@@ -539,7 +539,7 @@ describe('KM Editor Add Entity', () => {
                 editor.createChildren([...childrenList, ['question', itemQuestion]])
 
                 // Reopen editor again and check that the answer item question is there
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([...path, itemQuestion.title])
                 cy.checkFields(itemQuestion)
@@ -557,7 +557,7 @@ describe('KM Editor Add Entity', () => {
                 editor.createChildren([...childrenOptions, ['reference', reference]])
 
                 // Reopen editor again and check that the reference is there
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([...path, reference.label])
                 cy.checkFields(reference)
@@ -581,14 +581,14 @@ describe('KM Editor Add Entity', () => {
                 cy.url().then((url) => {
                     const uuid = url.split('/').pop()
                         reference.s_resourcePageUuid = uuid
-                        cy.visitApp('/km-editor')
+                        cy.visitApp('/knowledge-model-editors')
 
                         // Add reference and its parents
                         editor.open(kmId)
                         editor.createChildren([...childrenOptions, ['reference', reference]])
 
                         // Reopen editor again and check that the reference is there
-                        cy.visitApp('/km-editor')
+                        cy.visitApp('/knowledge-model-editors')
                         editor.open(kmId)
                         editor.traverseChildren([...path, resourcePage.title])
                         cy.checkFields(reference)
@@ -606,7 +606,7 @@ describe('KM Editor Add Entity', () => {
                 editor.createChildren([...childrenList, ['expert', expert]])
 
                 // Reopen editor again and check that the expert is there
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([...path, expert.name])
                 cy.checkFields(expert)
@@ -641,7 +641,7 @@ describe('KM Editor Add Entity', () => {
                 editor.createChildren([['question', itemSelectQuestion]])
 
                 // Reopen editor again and check that the item select question is there
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([chapter.title, itemSelectQuestion.title])
 
@@ -667,7 +667,7 @@ describe('KM Editor Add Entity', () => {
             editor.createChildren([['chapter', chapter], ['question', fileQuestion]])
 
             // Reopen editor again and check that the file question is there
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.traverseChildren([chapter.title, fileQuestion.title])
             cy.checkFields(fileQuestion)
@@ -702,7 +702,7 @@ describe('KM Editor Add Entity', () => {
                 const uuid = url.split('/').pop()
                 reference.s_resourcePageUuid = uuid
 
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.createChildren([
                     ['chapter', chapter],
@@ -711,7 +711,7 @@ describe('KM Editor Add Entity', () => {
                 ])
 
                 // Reopen editor again and check that the resource is there
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([chapter.title, question.title, resourcePage.title])
                 cy.checkFields(reference)

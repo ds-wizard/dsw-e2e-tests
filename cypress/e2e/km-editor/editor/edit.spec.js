@@ -21,7 +21,7 @@ describe('KM Editor Edit Entity', () => {
 
         cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageId })
         cy.loginAs('datasteward')
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
     })
 
     describe('Knowledge Model', () => {
@@ -32,14 +32,14 @@ describe('KM Editor Edit Entity', () => {
             }
 
             // Edit Chapter
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.traverseChildren(['Chapter 1'])
             cy.fillFields(chapter)
             editor.awaitSave()
 
             // Open editor again and check that changes were saved
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.traverseChildren([chapter.title])
             cy.checkFields(chapter)
@@ -53,14 +53,14 @@ describe('KM Editor Edit Entity', () => {
             }
 
             // Edit Metric
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.traverseChildren(['Findability'])
             cy.fillFields(metric)
             editor.awaitSave()
 
             // Open editor again and check that changes were saved
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.traverseChildren([metric.title])
             cy.checkFields(metric)
@@ -73,14 +73,14 @@ describe('KM Editor Edit Entity', () => {
             }
 
             // Edit Metric
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.traverseChildren(['Before Submitting the Proposal'])
             cy.fillFields(metric)
             editor.awaitSave()
 
             // Open editor again and check that changes were saved
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.traverseChildren([metric.title])
             cy.checkFields(metric)
@@ -93,7 +93,7 @@ describe('KM Editor Edit Entity', () => {
             }
 
             // Edit tag
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.traverseChildren(['Tag 1'])
             cy.fillFields(tag)
@@ -101,7 +101,7 @@ describe('KM Editor Edit Entity', () => {
             editor.awaitSave()
 
             // Open editor again and check that changes were saved
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.traverseChildren([tag.name])
             cy.checkFields({ ...tag, color: '#27AE60' })
@@ -126,7 +126,7 @@ describe('KM Editor Edit Entity', () => {
             }
 
             // Edit integration
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.traverseChildren(['Integration 1'])
 
@@ -146,7 +146,7 @@ describe('KM Editor Edit Entity', () => {
             editor.awaitSave()
 
             // Open editor again and check that changes were saved
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.traverseChildren([integration.name])
 
@@ -164,14 +164,14 @@ describe('KM Editor Edit Entity', () => {
 
         it('edit Resource Page Reference', () => {
             // Edit Resource Page Reference
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.traverseChildren(['Resource Collection'])
             cy.fillFields({ title: 'Another Resource Page', })
             editor.awaitSave()
 
             // Open editor again and check that changes were saved
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.traverseChildren(['Another Resource Page'])
             cy.checkFields({ title: 'Another Resource Page', })
@@ -258,7 +258,7 @@ describe('KM Editor Edit Entity', () => {
         questionTests.forEach(({ testName, originalTitle, question }) => {
             it(testName, () => {
                 // Edit question
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren(['Chapter 1', originalTitle])
 
@@ -273,7 +273,7 @@ describe('KM Editor Edit Entity', () => {
                 editor.awaitSave()
 
                 // Open editor again and check that changes were saved
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren(['Chapter 1', question.title])
                 cy.checkFields(question)
@@ -349,7 +349,7 @@ describe('KM Editor Edit Entity', () => {
                 }
 
                 // Open editor and edit answer
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, answerTitle])
                 cy.checkToggle('metricMeasure-8db30660-d4e5-4c0a-bf3e-553f3f0f997a-enabled')
@@ -357,7 +357,7 @@ describe('KM Editor Edit Entity', () => {
                 editor.awaitSave()
 
                 // Open editor again and check that changes were saved
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, answer.label])
                 cy.checkFields(answer)
@@ -369,14 +369,14 @@ describe('KM Editor Edit Entity', () => {
                 }
 
                 // Open editor and edit choice
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([...multiChoiceQuestionPath, choiceTitle])
                 cy.fillFields(choice)
                 editor.awaitSave()
 
                 // Open editor again and check that changes were saved
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([...multiChoiceQuestionPath, choice.label])
                 cy.checkFields(choice)
@@ -389,14 +389,14 @@ describe('KM Editor Edit Entity', () => {
                 }
 
                 // Open editor and edit follow-up question
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([...listQuestionPath, followUpTitle])
                 cy.fillFields(question)
                 editor.awaitSave()
 
                 // Open editor again and check that changes were saved
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([...listQuestionPath, question.title])
                 cy.checkFields(question)
@@ -409,14 +409,14 @@ describe('KM Editor Edit Entity', () => {
                 }
 
                 // Open editor and edit reference
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, urlReferenceLabel])
                 cy.fillFields(urlReference)
                 editor.awaitSave()
 
                 // Open editor again and check that changes were saved
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, urlReference.label])
                 cy.checkFields(urlReference)
@@ -428,14 +428,14 @@ describe('KM Editor Edit Entity', () => {
                 }
 
                 // Open editor and change resource page
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, resourcePageTitle])
                 cy.fillFields(resourcePageReference)
                 editor.awaitSave()
 
                 // Open editor again and check that changes were saved
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, "Another Resource Page"])
                 cy.checkFields(resourcePageReference)
@@ -448,14 +448,14 @@ describe('KM Editor Edit Entity', () => {
                 }
 
                 // Open editor and edit expert
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, expertTitle])
                 cy.fillFields(expert)
                 editor.awaitSave()
 
                 // Open editor again and check that changes were saved
-                cy.visitApp('/km-editor')
+                cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, expert.name])
                 cy.checkFields(expert)

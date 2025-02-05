@@ -27,7 +27,7 @@ describe('KM Editor Value Question Validation', () => {
 
         cy.createKMEditor({ kmId, name: kmName, version: '1.0.0' })
         cy.loginAs('datasteward')
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
         editor.createChildren([
             ['chapter', { title: 'Chapter 1' }],

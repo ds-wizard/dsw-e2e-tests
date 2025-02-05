@@ -37,7 +37,7 @@ describe('Non-editable KM', () => {
     })
 
     it('cannot create editor manually', () => {
-        cy.visitApp(`/km-editor/create?selected=${orgId}:${kmId}:${version}&edit=true`)
+        cy.visitApp(`/knowledge-model-editors/create?selected=${orgId}:${kmId}:${version}&edit=true`)
         cy.get('.version-suggestions a:first-child').click()
         cy.submitForm()
         cy.getCy('flash_alert-danger').should('exist')

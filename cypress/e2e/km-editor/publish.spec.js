@@ -12,7 +12,7 @@ describe('KM Editor Publish', () => {
 
         cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageId: null })
         cy.loginAs('datasteward')
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
     })
 
     it('can be published', () => {

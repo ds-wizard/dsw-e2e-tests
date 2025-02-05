@@ -24,7 +24,7 @@ describe('KM Editor Preview - Tags', () => {
         
         cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageId })
         cy.loginAs('datasteward')
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
     })
 
 

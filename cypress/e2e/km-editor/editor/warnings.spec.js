@@ -10,7 +10,7 @@ describe('KM Editor Warnings', () => {
 
         cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageId: null })
         cy.loginAs('datasteward')
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
     })
 
@@ -20,7 +20,7 @@ describe('KM Editor Warnings', () => {
         }
         editor.createChildren([['chapter', chapter]])
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
         editor.expectWarningsCount(1)
         editor.openWarnings()
@@ -38,7 +38,7 @@ describe('KM Editor Warnings', () => {
         }
         editor.createChildren([['chapter', chapter], ['question', question]])
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
         editor.expectWarningsCount(2)
         editor.openWarnings()
@@ -57,7 +57,7 @@ describe('KM Editor Warnings', () => {
         }
         editor.createChildren([['chapter', chapter], ['question', question]])
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
         editor.expectWarningsCount(1)
         editor.openWarnings()
@@ -77,7 +77,7 @@ describe('KM Editor Warnings', () => {
         }
         editor.createChildren([['chapter', chapter], ['question', question]])
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
         editor.expectWarningsCount(1)
         editor.openWarnings()
@@ -97,7 +97,7 @@ describe('KM Editor Warnings', () => {
         }
         editor.createChildren([['chapter', chapter], ['question', question]])
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
         editor.expectWarningsCount(1)
         editor.openWarnings()
@@ -117,7 +117,7 @@ describe('KM Editor Warnings', () => {
         }
         editor.createChildren([['chapter', chapter], ['question', question]])
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
         editor.expectWarningsCount(1)
         editor.openWarnings()
@@ -137,7 +137,7 @@ describe('KM Editor Warnings', () => {
         }
         editor.createChildren([['chapter', chapter], ['question', question]])
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
         editor.expectWarningsCount(1)
         editor.openWarnings()
@@ -163,7 +163,7 @@ describe('KM Editor Warnings', () => {
             ['answer', answer]
         ])
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
         editor.expectWarningsCount(1)
         editor.openWarnings()
@@ -188,7 +188,7 @@ describe('KM Editor Warnings', () => {
             ['choice', choice]
         ])
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
         editor.expectWarningsCount(1)
         editor.openWarnings()
@@ -216,7 +216,7 @@ describe('KM Editor Warnings', () => {
             ['reference', reference]
         ])
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
         editor.expectWarningsCount(1)
         editor.openWarnings()
@@ -242,7 +242,7 @@ describe('KM Editor Warnings', () => {
             ['reference', reference]
         ])
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
         editor.expectWarningsCount(1)
         editor.openWarnings()
@@ -269,7 +269,7 @@ describe('KM Editor Warnings', () => {
             ['expert', expert]
         ])
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
         editor.expectWarningsCount(1)
         editor.openWarnings()
@@ -285,7 +285,7 @@ describe('KM Editor Warnings', () => {
             ['metric', metric],
         ])
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
         editor.expectWarningsCount(1)
         editor.openWarnings()
@@ -301,7 +301,7 @@ describe('KM Editor Warnings', () => {
             ['phase', phase],
         ])
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
         editor.expectWarningsCount(1)
         editor.openWarnings()
@@ -317,7 +317,7 @@ describe('KM Editor Warnings', () => {
             ['tag', tag],
         ])
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
         editor.expectWarningsCount(1)
         editor.openWarnings()
@@ -341,7 +341,7 @@ describe('KM Editor Warnings', () => {
         ]
 
         warnings.forEach(warning => {
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.expectWarningsCount(warnings.length)
             editor.openWarnings()
@@ -365,7 +365,7 @@ describe('KM Editor Warnings', () => {
         ]
 
         warnings.forEach(warning => {
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.expectWarningsCount(warnings.length)
             editor.openWarnings()
@@ -384,7 +384,7 @@ describe('KM Editor Warnings', () => {
         ]
 
         warnings.forEach(warning => {
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.expectWarningsCount(warnings.length)
             editor.openWarnings()
@@ -408,7 +408,7 @@ describe('KM Editor Warnings', () => {
         ]
 
         warnings.forEach(warning => {
-            cy.visitApp('/km-editor')
+            cy.visitApp('/knowledge-model-editors')
             editor.open(kmId)
             editor.expectWarningsCount(warnings.length)
             editor.openWarnings()

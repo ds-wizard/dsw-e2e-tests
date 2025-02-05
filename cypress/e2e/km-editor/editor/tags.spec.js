@@ -20,7 +20,7 @@ describe('KM Editor Tags', () => {
 
         cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageId })
         cy.loginAs('datasteward')
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
     })
 
 
@@ -55,7 +55,7 @@ describe('KM Editor Tags', () => {
         cy.getCy('tag').contains(tagName).click()
 
         // Open editor again and check that it is selected
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
         editor.traverseChildren(['Chapter 1', 'Question 4'])
         cy.getCy('tag').contains(tagName).find('input').should('be.checked')
@@ -82,7 +82,7 @@ describe('KM Editor Tags', () => {
             .click()
 
         // Open editor again and check that it is selected
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
         editor.openTags()
         cy

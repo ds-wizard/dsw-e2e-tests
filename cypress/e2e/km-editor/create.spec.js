@@ -13,10 +13,10 @@ describe('KM Editor Create', () => {
         const kmName = 'Test Knowledge Model'
         const kmId = 'test-km'
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
 
         cy.getCy('km-editor_create-button').click()
-        cy.url().should('contain', '/km-editor/create')
+        cy.url().should('contain', '/knowledge-model-editors/create')
 
         cy.fillFields({
             name: kmName,
@@ -26,9 +26,9 @@ describe('KM Editor Create', () => {
             'version-patch': '0'
         })
         cy.submitForm()
-        cy.url().should('contain', '/km-editor/editor/')
+        cy.url().should('contain', '/knowledge-model-editors/editor/')
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         cy.getListingItem(kmId).should('contain', kmName)
     })
 
@@ -39,7 +39,7 @@ describe('KM Editor Create', () => {
         cy.visitApp('/knowledge-models/dsw:test-km-1:1.0.0')
 
         cy.clickDropdownAction('create-km-editor')
-        cy.url().should('contain', '/km-editor/create')
+        cy.url().should('contain', '/knowledge-model-editors/create')
 
         cy.checkFields({
             name: kmName,
@@ -52,9 +52,9 @@ describe('KM Editor Create', () => {
         })
 
         cy.submitForm()
-        cy.url().should('contain', '/km-editor/editor/')
+        cy.url().should('contain', '/knowledge-model-editors/editor/')
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         cy.getListingItem(kmId).should('contain', kmName)
     })
 
@@ -65,7 +65,7 @@ describe('KM Editor Create', () => {
         cy.visitApp('/knowledge-models/dsw:test-km-1:1.0.0')
 
         cy.clickDropdownAction('fork')
-        cy.url().should('contain', '/km-editor/create')
+        cy.url().should('contain', '/knowledge-model-editors/create')
 
         cy.checkFields({ name: '', kmId: '' })
         cy.fillFields({
@@ -77,9 +77,9 @@ describe('KM Editor Create', () => {
         })
 
         cy.submitForm()
-        cy.url().should('contain', '/km-editor/editor/')
+        cy.url().should('contain', '/knowledge-model-editors/editor/')
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         cy.getListingItem(kmId).should('contain', kmName)
     })
 
@@ -87,7 +87,7 @@ describe('KM Editor Create', () => {
         const kmName = 'Test Knowledge Model'
         const kmId = 'test-knowledge-model'
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         cy.getCy('km-editor_create-button').click()
 
         cy.get('#name').type(kmName).blur()

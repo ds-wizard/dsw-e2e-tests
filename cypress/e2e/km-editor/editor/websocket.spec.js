@@ -18,7 +18,7 @@ describe('KMEditor WebSocket Tests', () => {
             console.log(kmEditorUuid)
         })
         cy.loginAs('datasteward')
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         editor.open(kmId)
     })
 

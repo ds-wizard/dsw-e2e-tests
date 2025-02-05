@@ -50,14 +50,14 @@ describe('KM Editor Migrations', () => {
         migration.apply()
         migration.expectEvent('fb9fe60e-ebec-4c73-a157-189c125e4197')
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         cy.clickListingItemAction(config.editorName, 'continue-migration')
 
         migration.expectEvent('fb9fe60e-ebec-4c73-a157-189c125e4197')
         migration.reject()
         migration.expectEvent('db1be474-da77-4ce9-80df-8ebc9d108d3d')
 
-        cy.visitApp('/km-editor')
+        cy.visitApp('/knowledge-model-editors')
         cy.clickListingItemAction(config.editorName, 'cancel-migration')
         cy.getListingItem(config.childKmId).should('contain', config.editorName)
         cy.getListingItem(config.childKmId).find(dataCy('km-editor_list_outdated-badge')).should('exist')
