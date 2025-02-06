@@ -1,3 +1,4 @@
+import 'cypress-iframe'
 import { dataCy } from './utils'
 
 
