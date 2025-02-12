@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import * as project from '../../../support/project-helpers'
 
 describe('Questionnaire WebSocket Tests', () => {
@@ -37,7 +38,7 @@ describe('Questionnaire WebSocket Tests', () => {
             type: 'SetContent_ClientQuestionnaireAction',
             data: {
                 type: 'SetReplyEvent',
-                uuid: '62e950ca-0cc5-4a78-9389-31f7494fc88c',
+                uuid: uuidv4(),
                 path: '16f2c2ec-7b12-4d5e-9477-4453e4cd9689.57aeb801-e56e-4039-bf8c-82acae654e2b',
                 value: {
                     type: 'StringReply',
@@ -62,7 +63,7 @@ describe('Questionnaire WebSocket Tests', () => {
             type: 'SetContent_ClientQuestionnaireAction',
             data: {
                 type: 'SetReplyEvent',
-                uuid: '62e950ca-0cc5-4a78-9389-31f7494fc88c',
+                uuid: uuidv4(),
                 path: '16f2c2ec-7b12-4d5e-9477-4453e4cd9689.4ae3425e-31a3-475d-a201-3f12f0b69574',
                 value: {
                     type: 'AnswerReply',
@@ -86,7 +87,7 @@ describe('Questionnaire WebSocket Tests', () => {
             type: 'SetContent_ClientQuestionnaireAction',
             data: {
                 type: 'SetReplyEvent',
-                uuid: '62e950ca-0cc5-4a78-9389-31f7494fc88c',
+                uuid: uuidv4(),
                 path: '16f2c2ec-7b12-4d5e-9477-4453e4cd9689.5aea9458-6cfb-48db-8ed8-1d4d99b8076d',
                 value: {
                     type: 'ItemListReply',
@@ -112,7 +113,7 @@ describe('Questionnaire WebSocket Tests', () => {
             type: 'SetContent_ClientQuestionnaireAction',
             data: {
                 type: 'ClearReplyEvent',
-                uuid: '62e950ca-0cc5-4a78-9389-31f7494fc88c',
+                uuid: uuidv4(),
                 path: '16f2c2ec-7b12-4d5e-9477-4453e4cd9689.4ae3425e-31a3-475d-a201-3f12f0b69574',
                 phasesAnsweredIndication: {
                     answeredQuestions: 0,
@@ -134,7 +135,7 @@ describe('Questionnaire WebSocket Tests', () => {
             type: 'SetContent_ClientQuestionnaireAction',
             data: {
                 type: 'SetPhaseEvent',
-                uuid: '62e950ca-0cc5-4a78-9389-31f7494fc88c',
+                uuid: uuidv4(),
                 phaseUuid,
                 phasesAnsweredIndication: {
                     answeredQuestions: 0,
@@ -154,7 +155,7 @@ describe('Questionnaire WebSocket Tests', () => {
             type: 'SetContent_ClientQuestionnaireAction',
             data: {
                 type: 'SetLabelsEvent',
-                uuid: '62e950ca-0cc5-4a78-9389-31f7494fc88c',
+                uuid: uuidv4(),
                 path: '16f2c2ec-7b12-4d5e-9477-4453e4cd9689.4ae3425e-31a3-475d-a201-3f12f0b69574',
                 value
             }
