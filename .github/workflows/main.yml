@@ -47,6 +47,10 @@ jobs:
         CLIENT_IMAGE: ${{ github.event.inputs.client_image }}
         DOCWORKER_IMAGE: ${{ github.event.inputs.docworker_image }}
 
+    - name: Set etc/hosts
+      run: |
+        echo "127.0.0.1	minio" | sudo tee -a /etc/hosts
+
     - name: Prepare
       run: |
         npm ci
