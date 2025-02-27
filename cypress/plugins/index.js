@@ -168,6 +168,7 @@ module.exports = (on, config) => {
       await pg.delete({ table: 'questionnaire_migration', where: { new_questionnaire_uuid: uuid } })
       await pg.delete({ table: 'document_template_draft_data', where: { questionnaire_uuid: uuid } })
       await pg.delete({ table: 'questionnaire_file', where: { questionnaire_uuid: uuid } })
+      await pg.delete({ table: 'questionnaire_version', where: { questionnaire_uuid: uuid } })
       await pg.delete({ table: 'questionnaire_event', where: { questionnaire_uuid: uuid } })
       await pg.delete({ table: 'questionnaire', where: { uuid } })
     }
