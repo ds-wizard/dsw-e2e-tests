@@ -13,7 +13,7 @@ describe('KM Editor Value Question Validation', () => {
 
     const flatpickrPickDay = (day) => {
         flatpickrOpen()
-        cy.get('.flatpickr-calendar.open').find('.flatpickr-day').contains(`${day}`).click()
+        cy.get('.flatpickr-calendar.open').find('.flatpickr-day').contains(new RegExp(`^${day}$`)).click()
     }
 
     const flatpickrPickTime = (hours, minutes) => {
