@@ -108,7 +108,17 @@ module.exports = (on, config) => {
   // Locale
 
   async function localeDelete(where) {
-    return pg.delete({ table: 'locale', where })
+    await pg.update({
+      table: 'user_entity',
+      values: { locale: null },
+    })
+    await pg.delete({ table: 'locale', where })
+    await pg.update({
+      table: 'locale',
+      values: { default_locale: true },
+      where: { organization_id: '~' }
+    })
+    return true
   }
 
 
@@ -260,7 +270,7 @@ module.exports = (on, config) => {
       await pg.delete({ table: 'action_key', where: { identity: uuid } })
       await pg.delete({ table: 'user_token', where: { user_uuid: uuid } })
       await pg.delete({ table: 'persistent_command', where: { created_by: uuid } })
-      await pg.delete({ table: 'user_group_membership', where: { user_uuid: uuid }})
+      await pg.delete({ table: 'user_group_membership', where: { user_uuid: uuid } })
       await pg.delete({ table: 'user_entity', where: { uuid } })
     }
     return true

@@ -34,8 +34,14 @@ describe('Locale', () => {
             appMinor: '17',
             appPatch: '0'
         })
-        cy.get('#locale-import-input').selectFile('cypress/fixtures/locale/cs.po', { force: true })
-        cy.get('.file-view').should('exist')
+
+        cy.getCy('wizard-locale-dropzone').find('.dropzone').selectFile('cypress/fixtures/locale/cs.po', {
+            action: 'drag-drop'
+        })
+        cy.getCy('mail-locale-dropzone').find('.dropzone').selectFile('cypress/fixtures/locale/cs.po', {
+            action: 'drag-drop'
+        })
+
         cy.clickBtn('Create')
         cy.url().should('not.contain', 'create')
 
@@ -46,7 +52,8 @@ describe('Locale', () => {
         // Change language to Czech
         cy.get('#menu_profile').trigger('mouseenter')
         cy.getCy('menu_languages').click()
-        cy.get('.nav-link').contains('Czech').click()
+        cy.get('.language-selection label').contains('Czech').click()
+        cy.clickBtn('Save')
 
         // Check the new language
         cy.contains('Uživatelé').click()
@@ -78,7 +85,8 @@ describe('Locale', () => {
         // Change language to Czech
         cy.get('#menu_profile').trigger('mouseenter')
         cy.getCy('menu_languages').click()
-        cy.get('.nav-link').contains('Czech').click()
+        cy.get('.language-selection label').contains('Czech').click()
+        cy.clickBtn('Save')
 
         // Check the new language
         cy.contains('Uživatelé').click()
