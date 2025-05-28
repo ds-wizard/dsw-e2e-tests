@@ -9,7 +9,7 @@ docker run --rm --net $MINIO_NET \
   -e MINIO_BUCKET=$MINIO_BUCKET \
   -e MINIO_USER=$MINIO_USER \
   -e MINIO_PASS=$MINIO_PASS \
-  --entrypoint sh minio/mc -c "\
+  --entrypoint sh minio/mc:RELEASE.2025-04-16T18-13-26Z -c "\
   mc config host add dswminio http://minio:9000 minio minioPassword && \
   mc mb dswminio/\$MINIO_BUCKET
 "
