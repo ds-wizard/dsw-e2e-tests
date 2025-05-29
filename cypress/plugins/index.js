@@ -282,6 +282,22 @@ module.exports = (on, config) => {
     return pg.query(`UPDATE user_entity SET permissions='{${permissions.join(',')}}' WHERE email='${email}'`)
   }
 
+  async function userSetToursDone({ email }) {
+    const result = await pg.get({ table: 'user_entity', where: { email } })
+    const tourIds = [
+      'dashboard',
+      'projects_create',
+      'projects_detail',
+      'projects_detail_share-modal',
+      'projects_index',
+      'users_edit_tours'
+    ]
+    for (let i = 0; i < tourIds.length; i++) {
+      await pg.query(`INSERT INTO user_tour (user_uuid, tour_id, tenant_uuid, created_at) VALUES ('${result.rows[0].uuid}', '${tourIds[i]}', '00000000-0000-0000-0000-000000000000', NOW()) ON CONFLICT DO NOTHING`)
+    }
+    return true
+  }
+
   on('task', {
     'actionKey:delete': actionKeyDelete,
     'branch:delete': branchDelete,
@@ -300,6 +316,7 @@ module.exports = (on, config) => {
     'user:getActionParams': userGetActionParams,
     'user:delete': userDelete,
     'user:addPermission': userAddPermission,
+    'user:setToursDone': userSetToursDone
   })
 }
 

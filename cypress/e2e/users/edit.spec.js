@@ -77,6 +77,7 @@ describe('Users Edit', () => {
     it('log out user after deactivated', () => {
         // make sure user is active
         cy.task('user:activate', { email: user.email, active: true })
+        cy.task('user:setToursDone', { email: user.email })
 
         // login as the test user
         cy.visitApp('/')

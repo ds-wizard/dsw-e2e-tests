@@ -25,6 +25,7 @@ describe('Edit profile', () => {
 
         cy.createUser(user)
         cy.task('user:activate', { email: user.email, active: true })
+        cy.task('user:setToursDone', { email: user.email })
     })
 
     it('can edit profile', () => {
