@@ -10,7 +10,7 @@ services:
     volumes:
       - ./server/application.yml:/app/config/application.yml:ro
       - ./server/integration.yml:/app/config/integration.yml:ro
-    depends_on: 
+    depends_on:
       - minio
       - postgres
 
@@ -29,12 +29,13 @@ services:
     restart: always
     volumes:
       - ./docworker/config.yml:/app/config/application.yml:ro
-    depends_on: 
+    depends_on:
       - minio
       - postgres
-    
+
   postgres:
     image: postgres:15.2
+    container_name: postgres
     restart: always
     ports:
       - 5432:5432
@@ -42,6 +43,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: dsw
+    volumes:
+      - ./scripts/patch-db-wizard.sql:/scripts/patch-db-wizard.sql:ro
 
   minio:
     image: minio/minio:RELEASE.2025-04-22T22-12-26Z
