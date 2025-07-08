@@ -203,24 +203,13 @@ module.exports = (on, config) => {
 
   async function tenantConfigDisable2FA() {
     return pg.update({
-      table: 'tenant_config',
+      table: 'config_authentication',
       values: {
-        authentication: JSON.stringify({
-          'defaultRole': 'dataSteward',
-          'external': {
-            'services': []
-          },
-          'internal': {
-            'registration': {
-              'enabled': true
-            },
-            'twoFactorAuth': {
-              'codeLength': 6,
-              'enabled': false,
-              'expiration': 600
-            }
-          }
-        })
+        default_role: 'dataSteward',
+        internal_registration_enabled: true,
+        internal_two_factor_auth_enabled: false,
+        internal_two_factor_auth_code_length: 6,
+        internal_two_factor_auth_code_expiration: 600,
       }
     })
   }
