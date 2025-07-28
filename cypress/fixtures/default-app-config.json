@@ -28,6 +28,9 @@
         "supportRepositoryName": null,
         "supportRepositoryUrl": null
     },
+    "features": {
+        "toursEnabled": false
+    },
     "dashboardAndLoginScreen": {
         "dashboardType": "RoleBasedDashboardType",
         "loginInfo": null,

@@ -36,3 +36,7 @@ Cypress.on('window:before:load', function (window) {
         set: function () { }
     })
 })
+
+before(() => {
+    cy.putDefaultAppConfig()
+})
