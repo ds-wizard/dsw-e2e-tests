@@ -325,8 +325,9 @@ describe('KM Editor Warnings', () => {
         cy.checkFields(tag)
     })
 
-    it('Integration API', () => {
+    it('Integration API Legacy', () => {
         const integration = {
+            s_type: 'ApiLegacy',
             name: 'API Integration',
         }
         editor.createChildren([
@@ -336,7 +337,6 @@ describe('KM Editor Warnings', () => {
         const warnings = [
             'Empty ID for integration',
             'Empty request URL for integration',
-            'Empty request HTTP method for integration',
             'Empty response item template for integration',
         ]
 

@@ -141,7 +141,7 @@
             "value": {
                 "type": "IntegrationReply",
                 "value": {
-                    "type": "IntegrationType",
+                    "type": "IntegrationLegacyType",
                     "id": "Data_Stewardship_Wizard",
                     "value": "Data Stewardship Wizard"
                 }

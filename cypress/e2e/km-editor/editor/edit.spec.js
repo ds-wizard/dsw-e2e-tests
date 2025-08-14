@@ -107,7 +107,7 @@ describe('KM Editor Edit Entity', () => {
             cy.checkFields({ ...tag, color: '#27AE60' })
         })
 
-        it('edit Integration', () => {
+        it('edit API Legacy Integration', () => {
             const integration = {
                 id: 'another-integration',
                 name: 'Another Integration',
@@ -122,7 +122,7 @@ describe('KM Editor Edit Entity', () => {
             }
 
             const checkProp = (name, i) => {
-                cy.get(`${dataCy('props-input_input-wrapper')}:nth-child(${i}) ${dataCy('props-input_input')}`).should('have.value', name)
+                cy.get(`${dataCy('variables-input_input-wrapper')}:nth-child(${i}) ${dataCy('variables-input_input')}`).should('have.value', name)
             }
 
             // Edit integration
@@ -134,14 +134,14 @@ describe('KM Editor Edit Entity', () => {
             cy.fillFields(integration)
 
             // edit props
-            cy.getCy('props-input_add-button').click()
-            cy.get(`${dataCy('props-input_input-wrapper')}:last-child ${dataCy('props-input_input')}`).type('new-prop')
-            cy.get(`${dataCy('props-input_input-wrapper')}:first-child`).find(dataCy('prop-remove')).click()
+            cy.getCy('variables-input_add-button').click()
+            cy.get(`${dataCy('variables-input_input-wrapper')}:last-child ${dataCy('variables-input_input')}`).type('new-prop')
+            cy.get(`${dataCy('variables-input_input-wrapper')}:first-child`).find(dataCy('variables-input_remove')).click()
 
             // edit headers
-            cy.getCy('integration-input_item', ':last-child').find(dataCy('prop-remove')).click()
-            cy.getCy('integration-input_name').clear().type('X-Auth')
-            cy.getCy('integration-input_value').clear().type('abcd')
+            cy.getCy('headers-input_item', ':last-child').find(dataCy('headers-input_remove')).click()
+            cy.getCy('headers-input_name').clear().type('X-Auth')
+            cy.getCy('headers-input_value').clear().type('abcd')
 
             editor.awaitSave()
 
@@ -158,8 +158,8 @@ describe('KM Editor Edit Entity', () => {
             checkProp('new-prop', 2)
 
             // check headers
-            cy.getCy('integration-input_name').should('have.value', 'X-Auth')
-            cy.getCy('integration-input_value').should('have.value', 'abcd')
+            cy.getCy('headers-input_name').should('have.value', 'X-Auth')
+            cy.getCy('headers-input_value').should('have.value', 'abcd')
         })
 
         it('edit Resource Page Reference', () => {
