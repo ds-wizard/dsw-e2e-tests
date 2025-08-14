@@ -114,11 +114,29 @@ function updateValidations(event) {
     return event
 }
 
+// 4.22.0 - New API integration and renamed props to variables
+function updatePropsToVariables(event) {
+    if (event['props'] !== undefined && event['integrationType'] === 'ApiIntegration') {
+        event['integrationType'] = 'ApiLegacyIntegration'
+    }
+
+    if (event['variables'] === undefined && event['props'] !== undefined) {
+        event['variables'] = event['props']
+    }
+
+    return event
+}
+
 function updateEvent(event) {
-    return updateValidations(
-        updateIntegrationEvent2(
-            updateIntegrationRequestHeaders(
-                updateIntegrationEvent(event))))
+    const updates = [
+        updateIntegrationEvent,
+        updateIntegrationRequestHeaders,
+        updateIntegrationEvent2,
+        updateValidations,
+        updatePropsToVariables
+    ]
+
+    return updates.reduce((acc, update) => update(acc), event)
 }
 
 export function verifyPackageWithBundle(packageId, fixtureName, pkgParams, checkEventUuid = true) {

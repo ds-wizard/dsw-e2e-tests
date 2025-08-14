@@ -29,7 +29,13 @@ jobs:
         containers: [1, 2, 3, 4]
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Chrome
+      uses: browser-actions/setup-chrome@v1
+      with:
+        chrome-version: 139
 
     - name: Set variables from repository dispatch
       if: github.event_name == 'repository_dispatch'
@@ -65,7 +71,7 @@ jobs:
       uses: cypress-io/github-action@v6
       if: env.CYPRESS_RECORD_KEY != ''
       with:
-        browser: chrome
+        browser: chrome-for-testing
         headed: false
         record: true
         parallel: true
@@ -78,7 +84,7 @@ jobs:
       uses: cypress-io/github-action@v6
       if: env.CYPRESS_RECORD_KEY == ''
       with:
-        browser: chrome
+        browser: chrome-for-testing
         headed: false
       env:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}

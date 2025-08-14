@@ -48,3 +48,8 @@ ci:
 	make start
 	make run
 	make stop
+
+
+.PHONY: templates
+templates:
+	@scripts/build-templates.sh

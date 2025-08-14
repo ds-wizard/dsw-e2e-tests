@@ -90,8 +90,48 @@ describe('KM Editor Add Entity', () => {
             cy.checkFields({ ...tag, color: '#34495E' })
         })
 
-        it('add Integration', () => {
+        it('add API Integration', () => {
             const integration = {
+                name: 'My API Integration',
+                requestUrl: 'http://mockserver:8083/{{}{{} variables.collection }}?q={{}{{} q }}',
+                testQ: 'Language'
+            }
+
+            editor.open(kmId)
+            editor.createChildren([['integration', integration]])
+            
+            cy.get('.foldable-group').contains('Advanced Integration Configuration').click()
+            cy.getCy('variables-input_add-button').click()
+            cy.getCy('variables-input_input').type('collection')
+            cy.get('#testVariable-collection').type('basic1')
+
+            cy.contains('Load').click()
+
+            cy.get('.badge.bg-success').should('contain', '200 OK')
+            cy.get('.response-code').should('exist')
+
+            // Fill in response item template and check the preview
+            cy.get('#responseItemTemplate').type('The name is: ')
+            cy.get('.form-group-markup-editor .btn-outline-primary').contains('name').click()
+
+            editor.awaitSave()
+
+            cy.get('.form-group-markup-editor .nav-link').contains('Preview').click()
+            cy.get('.form-group-markup-editor .Markdown').should('contain', 'The name is: Adverse Drug Reaction Markup Language')
+
+            // Fill in response item template for selection and check the preview
+            cy.get('.foldable-group').contains('Advanced Response Configuration').click()
+            cy.get('#responseItemTemplateForSelection').type('ID = {{}{{} item["id"] }}')
+
+            editor.awaitSave()
+
+            cy.get('.foldable-group-content .form-group-markup-editor .nav-link').contains('Preview').click()
+            cy.get('.form-group-markup-editor .Markdown').should('contain', 'ID = standard01')
+        })
+
+        it('add API Legacy Integration', () => {
+            const integration = {
+                s_type: 'ApiLegacy',
                 id: 'service1',
                 name: 'Service 1',
                 logo: 'base64image',
@@ -105,23 +145,23 @@ describe('KM Editor Add Entity', () => {
             }
 
             const addProp = (name) => {
-                cy.getCy('props-input_add-button').click()
-                cy.get(`${dataCy('props-input_input-wrapper')}:last-child ${dataCy('props-input_input')}`).type(name)
+                cy.getCy('variables-input_add-button').click()
+                cy.get(`${dataCy('variables-input_input-wrapper')}:last-child ${dataCy('variables-input_input')}`).type(name)
             }
 
             const checkProp = (name, i) => {
-                cy.get(`${dataCy('props-input_input-wrapper')}:nth-child(${i}) ${dataCy('props-input_input')}`).should('have.value', name)
+                cy.get(`${dataCy('variables-input_input-wrapper')}:nth-child(${i}) ${dataCy('variables-input_input')}`).should('have.value', name)
             }
 
             const addHeader = (header, value) => {
-                cy.get('.card [data-cy="integration-input_add-button"]').click()
-                cy.getCy('integration-input_name').type(header)
-                cy.getCy('integration-input_value').type(value)
+                cy.get('.card [data-cy="headers-input_add-button"]').click()
+                cy.get('[data-cy="headers-input_item"]:last-child [data-cy="headers-input_name"]').type(header)
+                cy.get('[data-cy="headers-input_item"]:last-child [data-cy="headers-input_value"]').type(value)
             }
 
             const checkHeader = (header, value) => {
-                cy.getCy('integration-input_name').should('have.value', header)
-                cy.getCy('integration-input_value').should('have.value', value)
+                cy.get('[data-cy="headers-input_item"]:last-child [data-cy="headers-input_name"]').should('have.value', header)
+                cy.get('[data-cy="headers-input_item"]:last-child [data-cy="headers-input_value"]').should('have.value', value)
             }
 
             // Add integration and save
@@ -140,7 +180,6 @@ describe('KM Editor Add Entity', () => {
             checkProp('database', 2)
             checkHeader('Authorization', 'Bearer $token')
             cy.checkFields(integration)
-
         })
 
         it('add Resource Collection', () => {
@@ -210,9 +249,7 @@ describe('KM Editor Add Entity', () => {
             }
 
             const integration = {
-                id: 'integration-id',
-                name: 'My Integration',
-                itemUrl: 'http://example.com/${{}id}'
+                name: 'My Integration'
             }
 
             const getIntegrationUuid = () => {
