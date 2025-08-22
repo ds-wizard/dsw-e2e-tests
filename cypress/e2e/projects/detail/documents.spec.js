@@ -66,7 +66,7 @@ describe('Documents', () => {
             cy.clickBtn('New document')
 
             d.submitDocumentForm(documentName, format)
-            d.checkDocument(documentName, true)
+            d.checkDocument(documentName)
         })
     })
 
@@ -140,6 +140,6 @@ describe('Documents', () => {
         // select template and submit document
         cy.fillFields({ th_documentTemplateId: templateName })
         d.submitDocumentForm(documentName, 'PDF Document')
-        d.checkDocument(documentName, true)
+        d.checkDocument(documentName)
     })
 })

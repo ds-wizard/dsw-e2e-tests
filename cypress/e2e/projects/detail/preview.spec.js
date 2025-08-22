@@ -29,7 +29,7 @@ describe('Project - Preview', () => {
     }
 
     const expectPreview = () => {
-        cy.get('iframe').should('exist')
+        cy.get('iframe', { timeout: 10000 }).should('exist')
     }
 
     const expectDownload = () => {

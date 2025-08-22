@@ -1,5 +1,6 @@
 database:
   connectionString: postgresql://postgres:postgres@postgres:5432/dsw
+  queueTimeout: 2
 
 s3:
   url: http://minio:9000

@@ -1,4 +1,5 @@
 import * as project from './project-helpers'
+import { dataCy } from './utils'
 
 export function submitDocumentForm(document, format) {
     cy.get('#name').clear().type(document)
@@ -11,12 +12,9 @@ export function createDocument(document, questionnaireUuid, format) {
     submitDocumentForm(document, format)
 }
 
-export function checkDocument(document, wait = false) {
+export function checkDocument(document,) {
     cy.contains(document)
-    if (wait) {
-        cy.wait(1000) // Wait for document generation
-    }
-    cy.getCy('badge_doc_queued').should('not.exist')
-    cy.getCy('badge_doc_in-progress').should('not.exist')
+    cy.get(dataCy('badge_doc_queued'), { timeout: 10000 }).should('not.exist')
+    cy.get(dataCy('badge_doc_in-progress'), { timeout: 10000 }).should('not.exist')
     cy.getCy('badge_doc_error').should('not.exist')
 }
