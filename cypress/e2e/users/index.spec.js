@@ -3,7 +3,7 @@ describe('Users Index', () => {
         email: 'abigail.owen@example.com',
         firstName: 'Abigail',
         lastName: 'Owen',
-        role: 'DATASTEWARD',
+        role: 'dataSteward',
         password: 'StronkPassw0rd'
     }
 
