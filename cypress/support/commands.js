@@ -364,8 +364,8 @@ Cypress.Commands.add('fillFields', (fields) => {
         } else if (key.startsWith('th_')) {
             key = key.replace(/^th_/, '')
             cy.get(`#${key}`).click()
-            cy.get(`#${key} .TypeHintInput__TypeHints__Search`).type(value)
-            cy.get(`#${key} .TypeHintInput__TypeHints ul li a`).contains(value).click()
+            cy.get(`#${key}_search`).type(value)
+            cy.get(`#${key} .typehints ul li a`).contains(value).click()
         } else if (key.startsWith('c_')) {
             key = key.replace(/^c_/, '')
             if (value) {
@@ -385,8 +385,9 @@ Cypress.Commands.add('fillFields', (fields) => {
 
 
 Cypress.Commands.add('clearTypeHintInput', (field) => {
-    cy.get(`#${field} .TypeHintInput__Value a`).click()
+    cy.get(`#${field} .typehint-input-value a`).click()
 })
+
 
 Cypress.Commands.add('checkFields', (fields) => {
     Object.entries(fields).forEach(([key, value]) => {

@@ -4,7 +4,7 @@ import { dataCy } from './utils'
 export function submitDocumentForm(document, format) {
     cy.get('#name').clear().type(document)
     cy.contains(format).click()
-    cy.get('.form-actions button').contains('Create').click()
+    cy.getCy('form-actions').find('button').contains('Create').click()
 }
 
 export function createDocument(document, questionnaireUuid, format) {

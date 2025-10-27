@@ -111,14 +111,14 @@ describe('Documents', () => {
         cy.visitApp(`/projects/${projectUuid}/settings`)
         cy.get('#documentTemplateId').click()
 
-        cy.get('#documentTemplateId-search').clear().type(templateName)
-        cy.get('#documentTemplateId .TypeHintInput__TypeHints ul li a').contains(templateName).should('exist')
+        cy.get('#documentTemplateId_search').clear().type(templateName)
+        cy.get('#documentTemplateId .typehints ul li a').contains(templateName).should('exist')
         
-        cy.get('#documentTemplateId-search').clear().type(brokenTemplateName)
-        cy.get('#documentTemplateId .TypeHintInput__TypeHints ul li a').contains(brokenTemplateName).should('exist')
+        cy.get('#documentTemplateId_search').clear().type(brokenTemplateName)
+        cy.get('#documentTemplateId .typehints ul li a').contains(brokenTemplateName).should('exist')
         
-        cy.get('#documentTemplateId-search').clear().type(notAllowedTemplateName)
-        cy.get('#documentTemplateId .TypeHintInput__TypeHints ul li a').should('not.exist')
+        cy.get('#documentTemplateId_search').clear().type(notAllowedTemplateName)
+        cy.get('#documentTemplateId .typehints ul li a').should('not.exist')
     })
 
     it('Default template not set', () => {
