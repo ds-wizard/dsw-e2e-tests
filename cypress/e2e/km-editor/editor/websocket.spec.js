@@ -113,7 +113,7 @@ describe('KMEditor WebSocket Tests', () => {
         cy.deleteKMEditor(kmEditorUuid)
 
         // check error appears
-        cy.get('.full-page-illustrated-message').should('exist')
+        cy.getCy('illustrated-message_error').should('exist')
         cy.get('h1').contains('Oops!').should('exist')
 
         // check it doesn't work after refresh
@@ -128,7 +128,7 @@ describe('KMEditor WebSocket Tests', () => {
         })
 
         // check error appears
-        cy.get('.full-page-illustrated-message').should('exist')
+        cy.getCy('illustrated-message_error').should('exist')
         cy.get('h1').contains('Oops!').should('exist')
 
         // check it works after refresh
