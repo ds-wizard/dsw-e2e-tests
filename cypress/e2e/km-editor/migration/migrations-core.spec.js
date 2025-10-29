@@ -376,7 +376,7 @@ describe('KM Editor Migrations', () => {
                 }
             }
         ])
-        migration.checkDiffTreeEdited(['4ae6a08a-c94e-4a0f-8391-24765ad8fdb4'])
+        migration.checkDiffTreeEdited(['Question 1.1'])
         migration.apply()
 
         // Change order of references
@@ -399,10 +399,10 @@ describe('KM Editor Migrations', () => {
                 'label': 'References', 'validate': (x) => {
                     x.get('ul.del > li').should('have.length', 3)
                     x.get('ul.del > li').eq(1).contains('Better Google it')
-                    x.get('ul.del > li').eq(2).contains('4ae6a08a-c94e-4a0f-8391-24765ad8fdb4')
+                    x.get('ul.del > li').eq(2).contains('Question 1.1')
                     x.get('ul.ins > li').should('have.length', 3)
                     x.get('ul.ins > li').eq(0).contains('Better Google it')
-                    x.get('ul.ins > li').eq(2).contains('4ae6a08a-c94e-4a0f-8391-24765ad8fdb4')
+                    x.get('ul.ins > li').eq(2).contains('Question 1.1')
                 }
             },
             { 'label': 'Experts', 'validate': (x) => { } },
@@ -458,7 +458,7 @@ describe('KM Editor Migrations', () => {
                 }
             }
         ])
-        migration.checkDiffTreeDeleted(['4ae6a08a-c94e-4a0f-8391-24765ad8fdb4'])
+        migration.checkDiffTreeDeleted(['Question 1.1'])
         migration.apply()
 
         // Delete reference (book)
