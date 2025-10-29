@@ -135,7 +135,7 @@ describe('Questionnaire Migrations', () => {
         createMigrationTo('vacation-planning', 6)
 
         // check changes and finalize
-        cy.get('.full-page-illustrated-message').contains('No changes to review')
+        cy.getCy('illustrated-message_no-changes').should('exist')
         project.finalizeMigration()
 
         // check correct version
@@ -172,7 +172,7 @@ describe('Questionnaire Migrations', () => {
         createMigrationTo('vacation-planning', 7)
 
         // check changes and finalize
-        cy.get('.full-page-illustrated-message').contains('No changes to review')
+        cy.getCy('illustrated-message_no-changes').should('exist')
         project.finalizeMigration()
 
         // check correct version
@@ -240,7 +240,7 @@ describe('Questionnaire Migrations', () => {
         createMigrationTo('vacation-planning', 11)
         
         // check changes and finalize
-        cy.get('.full-page-illustrated-message').contains('No changes to review')
+        cy.getCy('illustrated-message_no-changes').should('exist')
         project.finalizeMigration()
 
         // check correct version
@@ -278,7 +278,7 @@ describe('Questionnaire Migrations', () => {
         createMigrationTo('move-test', 1)
 
         // check changes and finalize
-        cy.get('.full-page-illustrated-message').contains('No changes to review')
+        cy.getCy('illustrated-message_no-changes').should('exist')
         project.finalizeMigration()
 
         // check migrated things
