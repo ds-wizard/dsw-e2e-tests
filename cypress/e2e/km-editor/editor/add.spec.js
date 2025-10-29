@@ -617,18 +617,48 @@ describe('KM Editor Add Entity', () => {
 
                 cy.url().then((url) => {
                     const uuid = url.split('/').pop()
-                        reference.s_resourcePageUuid = uuid
-                        cy.visitApp('/knowledge-model-editors')
+                    reference.s_resourcePageUuid = uuid
+                    cy.visitApp('/knowledge-model-editors')
 
-                        // Add reference and its parents
-                        editor.open(kmId)
-                        editor.createChildren([...childrenOptions, ['reference', reference]])
+                    // Add reference and its parents
+                    editor.open(kmId)
+                    editor.createChildren([...childrenOptions, ['reference', reference]])
 
-                        // Reopen editor again and check that the reference is there
-                        cy.visitApp('/knowledge-model-editors')
-                        editor.open(kmId)
-                        editor.traverseChildren([...path, resourcePage.title])
-                        cy.checkFields(reference)
+                    // Reopen editor again and check that the reference is there
+                    cy.visitApp('/knowledge-model-editors')
+                    editor.open(kmId)
+                    editor.traverseChildren([...path, resourcePage.title])
+                    cy.checkFields(reference)
+                })
+            })
+
+            it('add Cross Reference', () => {
+                const reference = {
+                    s_type: 'Cross',
+                    description: 'This is a cross reference to another question.',
+                }
+                const targetQuestionTitle = 'Reference Question'
+
+                editor.open(kmId)
+                editor.createChildren([
+                    ['chapter', { title: 'Reference Chapter' }],
+                    ['question', { title: targetQuestionTitle }]
+                ])
+
+                cy.url().then((url) => {
+                    const questionUuid = url.split('/').pop()
+                    reference.s_targetQuestionUuid = questionUuid
+                    cy.visitApp('/knowledge-model-editors')
+
+                    // Add reference and its parents
+                    editor.open(kmId)
+                    editor.createChildren([...childrenOptions, ['reference', reference]])
+
+                    // Reopen editor again and check that the reference is there
+                    cy.visitApp('/knowledge-model-editors')
+                    editor.open(kmId)
+                    editor.traverseChildren([...path, targetQuestionTitle])
+                    cy.checkFields(reference)
                 })
             })
 

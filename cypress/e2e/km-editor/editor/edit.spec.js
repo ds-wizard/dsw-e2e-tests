@@ -290,7 +290,8 @@ describe('KM Editor Edit Entity', () => {
         choiceTitle: 'Choice 1',
         followUpTitle: 'Answer Item Question 1',
         urlReferenceLabel: 'Reference 1',
-        resourcePageTitle: 'Resource Page 1',
+        resourcePageReferenceTitle: 'Resource Page 1',
+        crossReferenceTitle: 'Reference Question 1',
         expertTitle: 'Expert 1'
     }, {
         title: 'Follow-up Question',
@@ -301,7 +302,8 @@ describe('KM Editor Edit Entity', () => {
         choiceTitle: 'Follow-up Choice',
         followUpTitle: 'Follow-up Answer Item Question',
         urlReferenceLabel: 'Follow-up Reference',
-        resourcePageTitle: 'Follow-up Resource Page',
+        resourcePageReferenceTitle: 'Follow-up Resource Page',
+        crossReferenceTitle: 'Reference Question 1',
         expertTitle: 'Follow-up Expert'
     }, {
         title: 'Answer Item Question',
@@ -312,7 +314,8 @@ describe('KM Editor Edit Entity', () => {
         choiceTitle: 'Answer Item Question Choice',
         followUpTitle: 'Answer Item Question Answer Item Question',
         urlReferenceLabel: 'Answer Item Question Reference',
-        resourcePageTitle: 'Answer Item Question Resource Page',
+        resourcePageReferenceTitle: 'Answer Item Question Resource Page',
+        crossReferenceTitle: 'Reference Question 1',
         expertTitle: 'Answer Item Question Expert'
     }, {
         title: 'Deep Nested Question',
@@ -323,11 +326,12 @@ describe('KM Editor Edit Entity', () => {
         choiceTitle: 'Deep Nested Choice 1',
         followUpTitle: 'Deep Nested Answer Item Question',
         urlReferenceLabel: 'Deep Nested Reference 1',
-        resourcePageTitle: 'Deep Nested Resource Page 1',
+        resourcePageReferenceTitle: 'Deep Nested Resource Page 1',
+        crossReferenceTitle: 'Reference Question 1',
         expertTitle: 'Deep Nested Expert 1'
     }]
 
-    questionFixtures.slice(0, 1).forEach(({
+    questionFixtures.forEach(({
         title,
         optionsQuestionPath,
         multiChoiceQuestionPath,
@@ -336,7 +340,8 @@ describe('KM Editor Edit Entity', () => {
         choiceTitle,
         followUpTitle,
         urlReferenceLabel,
-        resourcePageTitle,
+        resourcePageReferenceTitle,
+        crossReferenceTitle,
         expertTitle
     }) => {
         describe(title, () => {
@@ -430,7 +435,7 @@ describe('KM Editor Edit Entity', () => {
                 // Open editor and change resource page
                 cy.visitApp('/knowledge-model-editors')
                 editor.open(kmId)
-                editor.traverseChildren([...optionsQuestionPath, resourcePageTitle])
+                editor.traverseChildren([...optionsQuestionPath, resourcePageReferenceTitle])
                 cy.fillFields(resourcePageReference)
                 editor.awaitSave()
 
@@ -439,6 +444,26 @@ describe('KM Editor Edit Entity', () => {
                 editor.open(kmId)
                 editor.traverseChildren([...optionsQuestionPath, "Another Resource Page"])
                 cy.checkFields(resourcePageReference)
+            })
+
+            it('edit Cross Reference', () => {
+                const crossReference = {
+                    s_targetQuestionUuid: '18d8316d-a126-4b44-9c41-dafb8b37a127',
+                    description: 'New cross reference description',
+                }
+
+                // Open editor and change resource page
+                cy.visitApp('/knowledge-model-editors')
+                editor.open(kmId)
+                editor.traverseChildren([...optionsQuestionPath, crossReferenceTitle])
+                cy.fillFields(crossReference)
+                editor.awaitSave()
+
+                // Open editor again and check that changes were saved
+                cy.visitApp('/knowledge-model-editors')
+                editor.open(kmId)
+                editor.traverseChildren([...optionsQuestionPath, "Reference Question 2"])
+                cy.checkFields(crossReference)
             })
 
             it('edit Expert', () => {

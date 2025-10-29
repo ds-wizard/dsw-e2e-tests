@@ -124,17 +124,31 @@
           "uuid": "04d738dd-3b71-4433-afd6-65b105fa71cd"
         },
         {
-          "annotations": { "changed": false },
-          "chapterUuids": { "changed": false },
+          "annotations": {
+            "changed": false
+          },
+          "chapterUuids": {
+            "changed": false
+          },
           "createdAt": "1970-01-01T00:00:00Z",
           "entityUuid": "05917b70-873f-449f-ab3c-fad225da403e",
           "eventType": "EditKnowledgeModelEvent",
-          "integrationUuids": { "changed": false },
-          "metricUuids": { "changed": false },
+          "integrationUuids": {
+            "changed": false
+          },
+          "metricUuids": {
+            "changed": false
+          },
           "parentUuid": "00000000-0000-0000-0000-000000000000",
-          "phaseUuids": { "changed": false },
-          "resourceCollectionUuids": { "changed": false },
-          "tagUuids": { "changed": false },
+          "phaseUuids": {
+            "changed": false
+          },
+          "resourceCollectionUuids": {
+            "changed": false
+          },
+          "tagUuids": {
+            "changed": false
+          },
           "uuid": "b124bb79-e6c4-4e35-ace9-5028ac3a4a94"
         },
         {
@@ -289,14 +303,25 @@
           "uuid": "40477e47-ce7c-40fb-befb-223384801ecd"
         },
         {
-          "advice": { "changed": false },
-          "annotations": { "changed": false },
+          "advice": {
+            "changed": false
+          },
+          "annotations": {
+            "changed": false
+          },
           "createdAt": "1970-01-01T00:00:00Z",
           "entityUuid": "85f39eec-17eb-4b93-8e61-f5474cb0c626",
           "eventType": "EditAnswerEvent",
-          "followUpUuids": { "changed": false },
-          "label": { "changed": true, "value": "Answer Item Question Answer" },
-          "metricMeasures": { "changed": false },
+          "followUpUuids": {
+            "changed": false
+          },
+          "label": {
+            "changed": true,
+            "value": "Answer Item Question Answer"
+          },
+          "metricMeasures": {
+            "changed": false
+          },
           "parentUuid": "7bd30917-fea3-4988-9f24-4c65c8a89874",
           "uuid": "eeb4295b-1e67-4e78-a596-46b209aa813d"
         },
@@ -537,12 +562,21 @@
           "logo": "data:image/svg+xml;base64,...",
           "name": "Integration 1",
           "parentUuid": "05917b70-873f-449f-ab3c-fad225da403e",
-          "props": ["database", "category"],
+          "props": [
+            "database",
+            "category"
+          ],
           "requestBody": "",
           "requestEmptySearch": true,
           "requestHeaders": [
-            { "key": "Accept", "value": "application/json" },
-            { "key": "Authorization", "value": "Bearer ${token}" }
+            {
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer ${token}"
+            }
           ],
           "requestMethod": "GET",
           "requestUrl": "https://api.example.com/?q=${q}",
@@ -729,13 +763,20 @@
           "uuid": "12337224-49ea-4f66-b6bb-586d4c27c7e9"
         },
         {
-          "annotations": { "changed": false },
+          "annotations": {
+            "changed": false
+          },
           "createdAt": "2024-08-27T11:42:56.603Z",
           "entityUuid": "b70066c0-9f8b-4efc-beb2-3efbad6279ec",
           "eventType": "EditResourceCollectionEvent",
           "parentUuid": "05917b70-873f-449f-ab3c-fad225da403e",
-          "resourcePageUuids": { "changed": false },
-          "title": { "changed": true, "value": "Resource Collection" },
+          "resourcePageUuids": {
+            "changed": false
+          },
+          "title": {
+            "changed": true,
+            "value": "Resource Collection"
+          },
           "uuid": "61070632-67f1-46c6-9ed0-b0ecf08ad629"
         },
         {
@@ -760,7 +801,9 @@
           "uuid": "970f6998-c885-4419-abef-32da02c702f4"
         },
         {
-          "annotations": { "changed": false },
+          "annotations": {
+            "changed": false
+          },
           "createdAt": "2024-08-27T11:43:44.62Z",
           "entityUuid": "94c83168-7ef8-421e-95fc-412c39337606",
           "eventType": "EditReferenceEvent",
@@ -773,13 +816,20 @@
           "uuid": "61c2ec2d-cf60-49bb-84fb-c9fdb9f1fa80"
         },
         {
-          "annotations": { "changed": false },
-          "content": { "changed": false },
+          "annotations": {
+            "changed": false
+          },
+          "content": {
+            "changed": false
+          },
           "createdAt": "2024-08-27T11:43:55.082Z",
           "entityUuid": "bbb9ba4a-5308-4896-962c-6b0bd46a5598",
           "eventType": "EditResourcePageEvent",
           "parentUuid": "b70066c0-9f8b-4efc-beb2-3efbad6279ec",
-          "title": { "changed": true, "value": "Follow-up Resource Page" },
+          "title": {
+            "changed": true,
+            "value": "Follow-up Resource Page"
+          },
           "uuid": "cf06aff5-fc5f-4a50-8f9c-41a01ede39d7"
         },
         {
@@ -793,13 +843,20 @@
           "uuid": "e27c210c-9e71-4233-923f-6d392c5ca83d"
         },
         {
-          "annotations": { "changed": false },
-          "content": { "changed": false },
+          "annotations": {
+            "changed": false
+          },
+          "content": {
+            "changed": false
+          },
           "createdAt": "2024-08-27T11:44:20.537Z",
           "entityUuid": "6b925bf1-5e14-4a0c-b3c7-1b9dc66f44b6",
           "eventType": "EditResourcePageEvent",
           "parentUuid": "b70066c0-9f8b-4efc-beb2-3efbad6279ec",
-          "title": { "changed": true, "value": "Answer Item Resource Page" },
+          "title": {
+            "changed": true,
+            "value": "Answer Item Resource Page"
+          },
           "uuid": "a4a46bf1-f756-4be8-bfe1-b37efcd1660c"
         },
         {
@@ -814,7 +871,9 @@
           "uuid": "3669a392-4892-4c44-ab0b-7e057658c207"
         },
         {
-          "annotations": { "changed": false },
+          "annotations": {
+            "changed": false
+          },
           "createdAt": "2024-08-27T11:44:28.454Z",
           "entityUuid": "ae2a5ebd-c5c5-4c3a-a13a-2d9317ecbb99",
           "eventType": "EditReferenceEvent",
@@ -838,14 +897,21 @@
           "uuid": "4e9d9085-7b08-475e-be11-7f5fd944624e"
         },
         {
-          "annotations": { "changed": false },
+          "annotations": {
+            "changed": false
+          },
           "createdAt": "2024-08-27T11:44:54.295Z",
           "entityUuid": "00219d23-d661-48fd-b8b8-19a276035cbc",
           "eventType": "EditReferenceEvent",
-          "label": { "changed": false },
+          "label": {
+            "changed": false
+          },
           "parentUuid": "b15ef97c-766e-457a-992f-7caf75d35256",
           "referenceType": "URLReference",
-          "url": { "changed": true, "value": "" },
+          "url": {
+            "changed": true,
+            "value": ""
+          },
           "uuid": "23146419-36cc-40e0-8da8-026da25b0af8"
         },
         {
@@ -859,27 +925,40 @@
           "uuid": "80247718-6635-4bae-874f-01c7fde28638"
         },
         {
-          "annotations": { "changed": false },
-          "content": { "changed": false },
+          "annotations": {
+            "changed": false
+          },
+          "content": {
+            "changed": false
+          },
           "createdAt": "2024-08-27T11:45:00.273Z",
           "entityUuid": "eaa0ca12-2e42-4835-9aa6-680bc072ccd8",
           "eventType": "EditResourcePageEvent",
           "parentUuid": "b70066c0-9f8b-4efc-beb2-3efbad6279ec",
-          "title": { "changed": true, "value": "Resource Page 1" },
+          "title": {
+            "changed": true,
+            "value": "Resource Page 1"
+          },
           "uuid": "5d9ca005-8734-4fa7-9a0f-ad1c28cb8a68"
         },
         {
-          "annotations": { "changed": false },
+          "annotations": {
+            "changed": false
+          },
           "createdAt": "2024-08-27T11:45:03.415Z",
           "entityUuid": "00219d23-d661-48fd-b8b8-19a276035cbc",
           "eventType": "EditReferenceEvent",
           "parentUuid": "b15ef97c-766e-457a-992f-7caf75d35256",
           "referenceType": "ResourcePageReference",
-          "resourcePageUuid": { "changed": false },
+          "resourcePageUuid": {
+            "changed": false
+          },
           "uuid": "b1b9c6c7-1119-497a-b517-a0cd36de6696"
         },
         {
-          "annotations": { "changed": false },
+          "annotations": {
+            "changed": false
+          },
           "createdAt": "2024-08-27T11:45:05.48Z",
           "entityUuid": "00219d23-d661-48fd-b8b8-19a276035cbc",
           "eventType": "EditReferenceEvent",
@@ -902,13 +981,20 @@
           "uuid": "aa0b00ad-5c18-414a-bb9b-15a1450155e8"
         },
         {
-          "annotations": { "changed": false },
-          "content": { "changed": false },
+          "annotations": {
+            "changed": false
+          },
+          "content": {
+            "changed": false
+          },
           "createdAt": "2024-08-27T11:45:53.101Z",
           "entityUuid": "58cb2695-6d28-45a0-9831-c3db8c20712e",
           "eventType": "EditResourcePageEvent",
           "parentUuid": "b70066c0-9f8b-4efc-beb2-3efbad6279ec",
-          "title": { "changed": true, "value": "Deep Nested Resource Page 1" },
+          "title": {
+            "changed": true,
+            "value": "Deep Nested Resource Page 1"
+          },
           "uuid": "3a22ae55-2e61-421d-98c1-0d1bd8137c02"
         },
         {
@@ -923,7 +1009,9 @@
           "uuid": "ed2acc46-d409-48ad-9a37-dab5ad52ae1b"
         },
         {
-          "annotations": { "changed": false },
+          "annotations": {
+            "changed": false
+          },
           "createdAt": "2024-08-27T11:46:01.536Z",
           "entityUuid": "16fd0e53-9f31-4c56-b916-befc28570380",
           "eventType": "EditReferenceEvent",
@@ -946,13 +1034,20 @@
           "uuid": "a2b4c330-1726-44a1-a4f7-e830d4fac5a8"
         },
         {
-          "annotations": { "changed": false },
-          "content": { "changed": false },
+          "annotations": {
+            "changed": false
+          },
+          "content": {
+            "changed": false
+          },
           "createdAt": "2024-08-27T11:46:23.129Z",
           "entityUuid": "4be6980b-42ae-4de6-bffc-5f54f0802c3d",
           "eventType": "EditResourcePageEvent",
           "parentUuid": "b70066c0-9f8b-4efc-beb2-3efbad6279ec",
-          "title": { "changed": true, "value": "Multi-Choice Resource Page 1" },
+          "title": {
+            "changed": true,
+            "value": "Multi-Choice Resource Page 1"
+          },
           "uuid": "32bd9062-0504-4e4c-8501-0b4f2236ab56"
         },
         {
@@ -967,7 +1062,9 @@
           "uuid": "7578e905-684b-47b4-a586-c35f394ca5ee"
         },
         {
-          "annotations": { "changed": false },
+          "annotations": {
+            "changed": false
+          },
           "createdAt": "2024-08-27T11:46:31.528Z",
           "entityUuid": "f1337307-5900-4571-80d7-defa926529e7",
           "eventType": "EditReferenceEvent",
@@ -980,7 +1077,9 @@
           "uuid": "66125723-ca9f-4c90-8c85-813c300201e5"
         },
         {
-          "annotations": { "changed": false },
+          "annotations": {
+            "changed": false
+          },
           "createdAt": "2024-08-28T06:55:10.53Z",
           "entityUuid": "16fd0e53-9f31-4c56-b916-befc28570380",
           "eventType": "EditReferenceEvent",
@@ -1003,14 +1102,335 @@
           "uuid": "01483c6f-b61c-4939-bcc6-da6c5272e0c7"
         },
         {
-          "annotations": { "changed": false },
-          "content": { "changed": false },
+          "annotations": {
+            "changed": false
+          },
+          "content": {
+            "changed": false
+          },
           "createdAt": "2024-08-28T06:59:33.871Z",
           "entityUuid": "0d676b1a-4d9c-4b1f-be21-49b383397460",
           "eventType": "EditResourcePageEvent",
           "parentUuid": "b70066c0-9f8b-4efc-beb2-3efbad6279ec",
-          "title": { "changed": true, "value": "Another Resource Page" },
+          "title": {
+            "changed": true,
+            "value": "Another Resource Page"
+          },
           "uuid": "3bcd03d9-12f9-45b6-80b1-7719e0086fb2"
+        },
+        {
+          "annotations": [],
+          "createdAt": "2025-10-29T12:26:04.202Z",
+          "entityUuid": "2d34e50c-78d2-49f4-96a0-7c94c6fe4650",
+          "eventType": "AddQuestionEvent",
+          "parentUuid": "153861ab-86be-4006-aa6b-bc8bd2ed2f31",
+          "questionType": "OptionsQuestion",
+          "requiredPhaseUuid": null,
+          "tagUuids": [],
+          "text": null,
+          "title": "",
+          "uuid": "c8cf023b-90b0-4b88-a4e6-6abd9c65c846"
+        },
+        {
+          "annotations": {
+            "changed": false
+          },
+          "createdAt": "2025-10-29T12:26:12.726Z",
+          "entityUuid": "2d34e50c-78d2-49f4-96a0-7c94c6fe4650",
+          "eventType": "EditQuestionEvent",
+          "expertUuids": {
+            "changed": false
+          },
+          "parentUuid": "153861ab-86be-4006-aa6b-bc8bd2ed2f31",
+          "questionType": "ValueQuestion",
+          "referenceUuids": {
+            "changed": false
+          },
+          "requiredPhaseUuid": {
+            "changed": false
+          },
+          "tagUuids": {
+            "changed": false
+          },
+          "text": {
+            "changed": false
+          },
+          "title": {
+            "changed": true,
+            "value": "Reference Question 1"
+          },
+          "uuid": "e4e7d295-944c-490e-8f48-aa0308ed97c6",
+          "validations": {
+            "changed": false
+          },
+          "valueType": {
+            "changed": true,
+            "value": "StringQuestionValueType"
+          }
+        },
+        {
+          "annotations": [],
+          "createdAt": "2025-10-29T12:26:18.657Z",
+          "entityUuid": "18d8316d-a126-4b44-9c41-dafb8b37a127",
+          "eventType": "AddQuestionEvent",
+          "parentUuid": "153861ab-86be-4006-aa6b-bc8bd2ed2f31",
+          "questionType": "OptionsQuestion",
+          "requiredPhaseUuid": null,
+          "tagUuids": [],
+          "text": null,
+          "title": "",
+          "uuid": "dfb45dfc-18c4-472c-b079-50478da78d67"
+        },
+        {
+          "annotations": {
+            "changed": false
+          },
+          "answerUuids": {
+            "changed": false
+          },
+          "createdAt": "2025-10-29T12:26:19.897Z",
+          "entityUuid": "18d8316d-a126-4b44-9c41-dafb8b37a127",
+          "eventType": "EditQuestionEvent",
+          "expertUuids": {
+            "changed": false
+          },
+          "parentUuid": "153861ab-86be-4006-aa6b-bc8bd2ed2f31",
+          "questionType": "OptionsQuestion",
+          "referenceUuids": {
+            "changed": false
+          },
+          "requiredPhaseUuid": {
+            "changed": false
+          },
+          "tagUuids": {
+            "changed": false
+          },
+          "text": {
+            "changed": false
+          },
+          "title": {
+            "changed": true,
+            "value": "Reference Question 2"
+          },
+          "uuid": "658257ea-86d6-4c86-8ba8-6129ae884bcd"
+        },
+        {
+          "annotations": {
+            "changed": false
+          },
+          "createdAt": "2025-10-29T12:26:24.122Z",
+          "entityUuid": "18d8316d-a126-4b44-9c41-dafb8b37a127",
+          "eventType": "EditQuestionEvent",
+          "expertUuids": {
+            "changed": false
+          },
+          "parentUuid": "153861ab-86be-4006-aa6b-bc8bd2ed2f31",
+          "questionType": "ValueQuestion",
+          "referenceUuids": {
+            "changed": false
+          },
+          "requiredPhaseUuid": {
+            "changed": false
+          },
+          "tagUuids": {
+            "changed": false
+          },
+          "text": {
+            "changed": false
+          },
+          "title": {
+            "changed": false
+          },
+          "uuid": "71c00b1a-2e2f-42a9-b024-0c5ec66f2fbd",
+          "validations": {
+            "changed": false
+          },
+          "valueType": {
+            "changed": true,
+            "value": "StringQuestionValueType"
+          }
+        },
+        {
+          "annotations": [],
+          "createdAt": "2025-10-29T12:26:29.928Z",
+          "entityUuid": "15d04f6c-b527-4c3a-bb41-137d029ffdd6",
+          "eventType": "AddReferenceEvent",
+          "label": "",
+          "parentUuid": "dfb9f538-2b0a-4725-aab6-8ed7831a480b",
+          "referenceType": "URLReference",
+          "url": "",
+          "uuid": "1472d4e3-59fc-42aa-be9e-43b0bb8d57a7"
+        },
+        {
+          "annotations": {
+            "changed": false
+          },
+          "createdAt": "2025-10-29T12:26:34.006Z",
+          "description": {
+            "changed": true,
+            "value": "Follow-up Reference Question 1"
+          },
+          "entityUuid": "15d04f6c-b527-4c3a-bb41-137d029ffdd6",
+          "eventType": "EditReferenceEvent",
+          "parentUuid": "dfb9f538-2b0a-4725-aab6-8ed7831a480b",
+          "referenceType": "CrossReference",
+          "targetUuid": {
+            "changed": true,
+            "value": "2d34e50c-78d2-49f4-96a0-7c94c6fe4650"
+          },
+          "uuid": "80befa19-beb9-4816-859b-a9c0a271419e"
+        },
+        {
+          "annotations": [],
+          "createdAt": "2025-10-29T12:27:08.277Z",
+          "entityUuid": "c6577d25-e955-4d83-ad8d-6e193c547a3c",
+          "eventType": "AddReferenceEvent",
+          "label": "",
+          "parentUuid": "7bd30917-fea3-4988-9f24-4c65c8a89874",
+          "referenceType": "URLReference",
+          "url": "",
+          "uuid": "4beb8718-54af-44ba-8b22-fdb6fc8efce2"
+        },
+        {
+          "annotations": {
+            "changed": false
+          },
+          "createdAt": "2025-10-29T12:27:10.097Z",
+          "description": {
+            "changed": true,
+            "value": "Answer Item Reference Question 1"
+          },
+          "entityUuid": "c6577d25-e955-4d83-ad8d-6e193c547a3c",
+          "eventType": "EditReferenceEvent",
+          "parentUuid": "7bd30917-fea3-4988-9f24-4c65c8a89874",
+          "referenceType": "CrossReference",
+          "targetUuid": {
+            "changed": true,
+            "value": "2d34e50c-78d2-49f4-96a0-7c94c6fe4650"
+          },
+          "uuid": "fc75a1b3-a841-45c0-83fc-323b9957437a"
+        },
+        {
+          "annotations": [],
+          "createdAt": "2025-10-29T12:27:23.313Z",
+          "entityUuid": "0c8ea901-a808-4d0d-95cc-90f4747ea285",
+          "eventType": "AddReferenceEvent",
+          "label": "",
+          "parentUuid": "6efcf49e-9f79-448f-9275-b1eeaac058be",
+          "referenceType": "URLReference",
+          "url": "",
+          "uuid": "dee0abe8-79fb-492a-a582-8fe3c3b71b23"
+        },
+        {
+          "annotations": {
+            "changed": false
+          },
+          "createdAt": "2025-10-29T12:27:30.675Z",
+          "description": {
+            "changed": true,
+            "value": "Deep Nested Reference Question 1"
+          },
+          "entityUuid": "0c8ea901-a808-4d0d-95cc-90f4747ea285",
+          "eventType": "EditReferenceEvent",
+          "parentUuid": "6efcf49e-9f79-448f-9275-b1eeaac058be",
+          "referenceType": "CrossReference",
+          "targetUuid": {
+            "changed": true,
+            "value": "2d34e50c-78d2-49f4-96a0-7c94c6fe4650"
+          },
+          "uuid": "e23599a5-1133-4027-8326-c71a0a0e6f0a"
+        },
+        {
+          "annotations": [],
+          "createdAt": "2025-10-29T12:27:49.285Z",
+          "entityUuid": "c8710ff0-f5a9-48a5-bba4-4643f7ecf70b",
+          "eventType": "AddReferenceEvent",
+          "label": "",
+          "parentUuid": "5def822c-4d94-40a3-94dc-d8569567357b",
+          "referenceType": "URLReference",
+          "url": "",
+          "uuid": "12638ea0-d04b-45ac-a95c-81be20d436e2"
+        },
+        {
+          "annotations": {
+            "changed": false
+          },
+          "createdAt": "2025-10-29T12:27:52.638Z",
+          "description": {
+            "changed": true,
+            "value": "Multi-Choice Reference Question 1"
+          },
+          "entityUuid": "c8710ff0-f5a9-48a5-bba4-4643f7ecf70b",
+          "eventType": "EditReferenceEvent",
+          "parentUuid": "5def822c-4d94-40a3-94dc-d8569567357b",
+          "referenceType": "CrossReference",
+          "targetUuid": {
+            "changed": true,
+            "value": "2d34e50c-78d2-49f4-96a0-7c94c6fe4650"
+          },
+          "uuid": "6916ba14-9c92-4ae2-b806-140ccd8a9aa9"
+        },
+        {
+          "annotations": [],
+          "createdAt": "2025-10-29T12:28:31.292Z",
+          "entityUuid": "95bcaca2-c8c5-4cb5-89c6-0f9ea1fa5750",
+          "eventType": "AddReferenceEvent",
+          "label": "",
+          "parentUuid": "b15ef97c-766e-457a-992f-7caf75d35256",
+          "referenceType": "URLReference",
+          "url": "",
+          "uuid": "a6926da5-681a-4df9-82b1-dbd3ddf80930"
+        },
+        {
+          "annotations": {
+            "changed": false
+          },
+          "createdAt": "2025-10-29T12:28:35.272Z",
+          "description": {
+            "changed": true,
+            "value": "Reference Question 1"
+          },
+          "entityUuid": "95bcaca2-c8c5-4cb5-89c6-0f9ea1fa5750",
+          "eventType": "EditReferenceEvent",
+          "parentUuid": "b15ef97c-766e-457a-992f-7caf75d35256",
+          "referenceType": "CrossReference",
+          "targetUuid": {
+            "changed": true,
+            "value": "2d34e50c-78d2-49f4-96a0-7c94c6fe4650"
+          },
+          "uuid": "666f19aa-9add-468a-8af6-ed919cb2ec36"
+        },
+        {
+          "annotations": {
+            "changed": false
+          },
+          "createdAt": "2025-10-30T08:42:45.884Z",
+          "entityUuid": "16fd0e53-9f31-4c56-b916-befc28570380",
+          "eventType": "EditReferenceEvent",
+          "parentUuid": "6efcf49e-9f79-448f-9275-b1eeaac058be",
+          "referenceType": "ResourcePageReference",
+          "resourcePageUuid": {
+            "changed": true,
+            "value": "58cb2695-6d28-45a0-9831-c3db8c20712e"
+          },
+          "uuid": "6fd5a6ed-3deb-45b2-b1bf-65ae14e19448"
+        },
+        {
+          "annotations": {
+            "changed": false
+          },
+          "content": {
+            "changed": false
+          },
+          "createdAt": "2025-10-30T08:45:58.129Z",
+          "entityUuid": "6b925bf1-5e14-4a0c-b3c7-1b9dc66f44b6",
+          "eventType": "EditResourcePageEvent",
+          "parentUuid": "b70066c0-9f8b-4efc-beb2-3efbad6279ec",
+          "title": {
+            "changed": true,
+            "value": "Answer Item Question Resource Page"
+          },
+          "uuid": "d957db4b-5e7a-4331-847d-2996bcbb39f1"
         }
       ],
       "forkOfPackageId": null,
