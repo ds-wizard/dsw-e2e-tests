@@ -181,7 +181,7 @@ describe('Questionnaire WebSocket Tests', () => {
         })
 
         // check error appears
-        cy.get('.full-page-illustrated-message').should('exist')
+        cy.getCy('illustrated-message_error').should('exist')
         cy.get('h1').contains('Oops!').should('exist')
 
         // check redirect to login after refresh
