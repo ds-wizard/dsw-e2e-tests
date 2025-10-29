@@ -21,6 +21,10 @@ describe('KM Editor Value Question Validation', () => {
         cy.get('.flatpickr-calendar.open').find('.flatpickr-minute').type(`${minutes}`)
     }
 
+    const flatpickerClose = () => {
+        cy.get('body').click(0,0) // Click outside to close the datepicker
+    }
+
     beforeEach(() => {
         cy.task('branch:delete', { km_id: kmId })
         cy.clearServerCache()
@@ -154,6 +158,7 @@ describe('KM Editor Value Question Validation', () => {
             's_validation-0-type': 'FromDate',
         })
         flatpickrPickDay(5)
+        flatpickerClose()
         editor.awaitSave()
         editor.openPreview()
 
@@ -175,6 +180,7 @@ describe('KM Editor Value Question Validation', () => {
             's_validation-0-type': 'ToDate',
         })
         flatpickrPickDay(5)
+        flatpickerClose()
         editor.awaitSave()
         editor.openPreview()
 
@@ -197,6 +203,7 @@ describe('KM Editor Value Question Validation', () => {
         })
         flatpickrPickDay(5)
         flatpickrPickTime(10, 15)
+        flatpickerClose()
         editor.awaitSave()
         editor.openPreview()
 
@@ -231,6 +238,7 @@ describe('KM Editor Value Question Validation', () => {
         })
         flatpickrPickDay(5)
         flatpickrPickTime(10, 15)
+        flatpickerClose()
         editor.awaitSave()
         editor.openPreview()
 
@@ -265,6 +273,7 @@ describe('KM Editor Value Question Validation', () => {
         })
         flatpickrOpen()
         flatpickrPickTime(10, 15)
+        flatpickerClose()
         editor.awaitSave()
         editor.openPreview()
 
@@ -287,6 +296,7 @@ describe('KM Editor Value Question Validation', () => {
         })
         flatpickrOpen()
         flatpickrPickTime(10, 15)
+        flatpickerClose()
         editor.awaitSave()
         editor.openPreview()
 
