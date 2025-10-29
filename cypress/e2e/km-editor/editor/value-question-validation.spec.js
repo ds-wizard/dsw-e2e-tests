@@ -22,7 +22,7 @@ describe('KM Editor Value Question Validation', () => {
     }
 
     const flatpickerClose = () => {
-        cy.get('body').click(0,0) // Click outside to close the datepicker
+        cy.clickElsewhere()
     }
 
     beforeEach(() => {

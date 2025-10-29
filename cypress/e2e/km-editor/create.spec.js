@@ -40,6 +40,7 @@ describe('KM Editor Create', () => {
 
         cy.clickDropdownAction('create-km-editor')
         cy.url().should('contain', '/knowledge-model-editors/create')
+        cy.clickElsewhere()
 
         cy.checkFields({
             name: kmName,

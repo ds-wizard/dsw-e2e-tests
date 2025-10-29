@@ -32,7 +32,7 @@ describe('Deprecated KM', () => {
         // check it is not suggested
         cy.visitApp('/projects/create')
         searchKM(kmId)
-        return
+
         cy.get('.typehints-empty').should('exist')
 
         // restore KM

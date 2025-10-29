@@ -479,3 +479,10 @@ Cypress.Commands.add('clearServerCache', () => {
         })
     })
 })
+
+
+// Utils
+
+Cypress.Commands.add('clickElsewhere', () => {
+    cy.get('body').click(0, 0)
+})
