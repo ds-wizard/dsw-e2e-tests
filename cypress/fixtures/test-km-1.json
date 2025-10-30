@@ -1206,7 +1206,8 @@
             "changed": false
           },
           "text": {
-            "changed": false
+            "changed": true,
+            "value": "This is a question used for cross-referencing."
           },
           "title": {
             "changed": true,
@@ -1431,6 +1432,170 @@
             "value": "Answer Item Question Resource Page"
           },
           "uuid": "d957db4b-5e7a-4331-847d-2996bcbb39f1"
+        },
+        {
+          "annotations": [],
+          "createdAt": "2025-10-30T10:53:43.911Z",
+          "entityUuid": "0537df73-33bd-4e89-87ed-ec3cf5c33b74",
+          "eventType": "AddQuestionEvent",
+          "parentUuid": "25adef08-7758-48b0-9072-99b2cd2aa1e5",
+          "questionType": "OptionsQuestion",
+          "requiredPhaseUuid": null,
+          "tagUuids": [],
+          "text": null,
+          "title": "",
+          "uuid": "3c8f416b-6793-4472-85d1-817964c107ad"
+        },
+        {
+          "annotations": {
+            "changed": false
+          },
+          "answerUuids": {
+            "changed": false
+          },
+          "createdAt": "2025-10-30T10:53:46.163Z",
+          "entityUuid": "0537df73-33bd-4e89-87ed-ec3cf5c33b74",
+          "eventType": "EditQuestionEvent",
+          "expertUuids": {
+            "changed": false
+          },
+          "parentUuid": "25adef08-7758-48b0-9072-99b2cd2aa1e5",
+          "questionType": "OptionsQuestion",
+          "referenceUuids": {
+            "changed": false
+          },
+          "requiredPhaseUuid": {
+            "changed": false
+          },
+          "tagUuids": {
+            "changed": false
+          },
+          "text": {
+            "changed": false
+          },
+          "title": {
+            "changed": true,
+            "value": "Follow-up Question 4"
+          },
+          "uuid": "80ed9196-2357-4f65-b04c-3806ee7d06c1"
+        },
+        {
+          "annotations": {
+            "changed": false
+          },
+          "createdAt": "2025-10-30T10:53:51.268Z",
+          "entityUuid": "0537df73-33bd-4e89-87ed-ec3cf5c33b74",
+          "eventType": "EditQuestionEvent",
+          "expertUuids": {
+            "changed": false
+          },
+          "parentUuid": "25adef08-7758-48b0-9072-99b2cd2aa1e5",
+          "questionType": "ValueQuestion",
+          "referenceUuids": {
+            "changed": false
+          },
+          "requiredPhaseUuid": {
+            "changed": false
+          },
+          "tagUuids": {
+            "changed": false
+          },
+          "text": {
+            "changed": false
+          },
+          "title": {
+            "changed": false
+          },
+          "uuid": "4f84af71-dfc9-4885-9839-8ac7cbe098ca",
+          "validations": {
+            "changed": false
+          },
+          "valueType": {
+            "changed": true,
+            "value": "StringQuestionValueType"
+          }
+        },
+        {
+          "annotations": [],
+          "createdAt": "2025-10-30T10:54:06.813Z",
+          "entityUuid": "839b5d8e-e749-49ce-86f7-797a011632c8",
+          "eventType": "AddQuestionEvent",
+          "parentUuid": "7fc37c87-63bf-43d9-b968-a03b690c0023",
+          "questionType": "OptionsQuestion",
+          "requiredPhaseUuid": null,
+          "tagUuids": [],
+          "text": null,
+          "title": "",
+          "uuid": "4181f729-6e0a-4418-a10b-5d23d34cc83c"
+        },
+        {
+          "annotations": {
+            "changed": false
+          },
+          "answerUuids": {
+            "changed": false
+          },
+          "createdAt": "2025-10-30T10:54:08.63Z",
+          "entityUuid": "839b5d8e-e749-49ce-86f7-797a011632c8",
+          "eventType": "EditQuestionEvent",
+          "expertUuids": {
+            "changed": false
+          },
+          "parentUuid": "7fc37c87-63bf-43d9-b968-a03b690c0023",
+          "questionType": "OptionsQuestion",
+          "referenceUuids": {
+            "changed": false
+          },
+          "requiredPhaseUuid": {
+            "changed": false
+          },
+          "tagUuids": {
+            "changed": false
+          },
+          "text": {
+            "changed": false
+          },
+          "title": {
+            "changed": true,
+            "value": "Answer Item Question 4"
+          },
+          "uuid": "edbebd5a-136d-4c73-a2fb-12351c844e65"
+        },
+        {
+          "annotations": {
+            "changed": false
+          },
+          "createdAt": "2025-10-30T10:54:13.879Z",
+          "entityUuid": "839b5d8e-e749-49ce-86f7-797a011632c8",
+          "eventType": "EditQuestionEvent",
+          "expertUuids": {
+            "changed": false
+          },
+          "parentUuid": "7fc37c87-63bf-43d9-b968-a03b690c0023",
+          "questionType": "ValueQuestion",
+          "referenceUuids": {
+            "changed": false
+          },
+          "requiredPhaseUuid": {
+            "changed": false
+          },
+          "tagUuids": {
+            "changed": false
+          },
+          "text": {
+            "changed": false
+          },
+          "title": {
+            "changed": false
+          },
+          "uuid": "65515c56-6e0b-429f-90cf-155dc6b34c93",
+          "validations": {
+            "changed": false
+          },
+          "valueType": {
+            "changed": true,
+            "value": "StringQuestionValueType"
+          }
         }
       ],
       "forkOfPackageId": null,
