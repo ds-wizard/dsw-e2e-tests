@@ -28,7 +28,7 @@ describe('Settings / Projects', () => {
 
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
         cy.importKM('test-km-1')
@@ -142,7 +142,7 @@ describe('Settings / Projects', () => {
     const expectCustomOnlyEnabled = () => {
         cy.getCy('project_create_nav_template').should('not.exist')
         cy.getCy('project_create_nav_custom').should('not.exist')
-        cy.get('#packageId').should('exist')
+        cy.get('#knowledgeModelPackageId').should('exist')
 
         expectCreateProjectButton(true)
     }

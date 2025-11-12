@@ -3,10 +3,10 @@ import * as project from '../../../support/project-helpers'
 describe('Document Template Editor / Editor / Preview', () => {
     const projectName = 'My Project'
     const kmId = 'basic-questionnaire-test-km'
-    const packageId = 'dsw:basic-questionnaire-test-km:1.0.0'
+    const knowledgeModelPackageId = 'dsw:basic-questionnaire-test-km:1.0.0'
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.putDefaultAppConfig()
         cy.clearServerCache()
 
@@ -25,7 +25,7 @@ describe('Document Template Editor / Editor / Preview', () => {
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
-            packageId
+            knowledgeModelPackageId
         })
 
         // create document template editor

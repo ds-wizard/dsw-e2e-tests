@@ -44,7 +44,7 @@ describe('Document Template Editor / Editor / Preview with KM Editor', () => {
     }
     
     beforeEach(() => {
-        cy.task('branch:delete')
+        cy.task('knowledgeModelEditor:delete')
         cy.task('documentTemplate:delete')
         cy.putDefaultAppConfig()
         cy.clearServerCache()

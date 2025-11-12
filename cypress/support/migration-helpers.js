@@ -1,3 +1,5 @@
+import { create } from "./project-helpers"
+
 export class Config {
     constructor(childKmId, parentKmId, editorName) {
         this.childKmId = childKmId
@@ -127,43 +129,76 @@ function updatePropsToVariables(event) {
     return event
 }
 
+
+function updateEventFormat(event) {
+    if (event['content'] !== undefined) {
+        return event
+    }
+
+    const content = { ...event }
+    delete content.uuid
+    delete content.entityUuid
+    delete content.parentUuid
+    delete content.createdAt
+
+    return {
+        uuid: event.uuid,
+        entity_uuid: event.entityUuid,
+        parent_uuid: event.parentUuid,
+        created_at: event.createdAt,
+        content
+    }
+}
+
 function updateEvent(event) {
     const updates = [
         updateIntegrationEvent,
         updateIntegrationRequestHeaders,
         updateIntegrationEvent2,
         updateValidations,
-        updatePropsToVariables
+        updatePropsToVariables,
+        updateEventFormat
     ]
 
     return updates.reduce((acc, update) => update(acc), event)
 }
 
+function validateKeyInEventObject(parent, child, key, skipKeys, forceSkip = false) {
+    const shouldSkip = forceSkip || skipKeys.includes(key)
+    if (!shouldSkip) {
+        if (parent[key] === null) {
+            cy.wrap(child).its(key).should('be.null')
+        } else {
+            cy.wrap(child).its(key).should('deep.equal', parent[key])
+        }
+    }
+}
+
 export function verifyPackageWithBundle(packageId, fixtureName, pkgParams, checkEventUuid = true) {
-    cy.task('package:get', {
+    cy.task('knowledgeModelPackage:get', {
         id: packageId
     }).then(pkg => {
         cy.fixture(fixtureName).then(parentPkgBundle => {
-            const parentPkg = parentPkgBundle.packages.filter(innerPkg => {
-                return innerPkg.id == packageId
-            })[0]
+            const parentPkg = parentPkgBundle.packages.filter(innerPkg => innerPkg.id == packageId)[0]
             Object.keys(pkgParams).forEach((key) => {
                 cy.wrap(pkg).its(key).should('eq', pkgParams[key])
             })
+
             cy.wrap(pkg).its('events').should('have.length', parentPkg.events.length)
 
             pkg.events.forEach((childEvent, index) => {
                 const parentEvent = updateEvent(parentPkg.events[index])
 
                 Object.keys(childEvent).forEach((key) => {
-                    const skipKeys = ['requiredPhaseUuid', 'metricUuids', 'phaseUuids', 'annotations', 'createdAt', 'resourcePageUuid', 'resourceCollectionUuids']
-                    const shouldSkip = (!checkEventUuid && key === 'uuid') || skipKeys.includes(key)
-                    if (!shouldSkip) {
-                        if (parentEvent[key] === null) {
-                            cy.wrap(childEvent).its(key).should('be.null')
-                        } else {
-                            cy.wrap(childEvent).its(key).should('deep.equal', parentEvent[key])
-                        }
+                    if (key === 'content') {
+                        Object.keys(childEvent.content).forEach((contentKey) => {
+                            const skipContentKeys = ['requiredPhaseUuid', 'metricUuids', 'phaseUuids', 'annotations', 'createdAt', 'resourcePageUuid', 'resourceCollectionUuids']
+                            validateKeyInEventObject(parentEvent.content, childEvent.content, contentKey, skipContentKeys)
+                        })
+                    } else {
+                        const skipKeys = ['package_id', 'tenant_uuid', 'created_at']
+                        const forceSkip = !checkEventUuid && key === 'uuid'
+                        validateKeyInEventObject(parentEvent, childEvent, key, skipKeys, forceSkip)
                     }
                 })
             })

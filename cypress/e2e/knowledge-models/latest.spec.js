@@ -6,7 +6,7 @@ describe('Latest version', () => {
     const latest = '1.11.0'
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.task('questionnaire:delete')
         cy.clearServerCache()
 

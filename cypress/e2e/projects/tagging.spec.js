@@ -9,7 +9,7 @@ describe('Project Tagging', () => {
     const packageName = 'Test Knowledge Model 1'
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
         cy.importKM('test-km-1')

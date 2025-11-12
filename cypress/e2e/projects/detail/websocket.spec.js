@@ -4,11 +4,11 @@ import * as project from '../../../support/project-helpers'
 describe('Questionnaire WebSocket Tests', () => {
     const projectName = 'Test Questionnaire'
     const kmId = 'basic-questionnaire-test-km'
-    const packageId = 'dsw:basic-questionnaire-test-km:1.0.0'
+    const knowledgeModelPackageId = 'dsw:basic-questionnaire-test-km:1.0.0'
     let projectUuid = ''
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
         cy.importKM(kmId)
@@ -23,7 +23,7 @@ describe('Questionnaire WebSocket Tests', () => {
             visibility: project.VisibleEdit,
             sharing: project.AnyoneWithLinkEdit,
             name: projectName,
-            packageId
+            knowledgeModelPackageId
         }).then(result => {
             projectUuid = result.body.uuid
         })

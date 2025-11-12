@@ -130,7 +130,7 @@ Cypress.Commands.add('importKM', (km) => {
         cy.fixture(km).then(body => {
             cy.request({
                 method: 'POST',
-                url: apiUrl('/packages'),
+                url: apiUrl('/knowledge-model-packages'),
                 headers: createHeaders(resp.body.token),
                 body
             })
@@ -190,25 +190,25 @@ Cypress.Commands.add('importTemplate', (templatePath) => {
 
 // Questionnaires commands
 
-Cypress.Commands.add('createQuestionnaire', ({ visibility, sharing, name, packageId, documentTemplateId }) => {
+Cypress.Commands.add('createQuestionnaire', ({ visibility, sharing, name, knowledgeModelPackageId, documentTemplateId }) => {
     getTokenFor('researcher').then((resp) => {
         cy.request({
             method: 'POST',
             url: apiUrl('/questionnaires'),
             headers: createHeaders(resp.body.token),
-            body: { visibility, sharing, name, packageId, documentTemplateId, questionTagUuids: [] }
+            body: { visibility, sharing, name, knowledgeModelPackageId, documentTemplateId, questionTagUuids: [] }
         })
     })
 })
 
 Cypress.Commands.add('createQuestionnaires', (questionnaires) => {
     getTokenFor('researcher').then((resp) => {
-        questionnaires.forEach(({ visibility, sharing, packageId, name }) => {
+        questionnaires.forEach(({ visibility, sharing, knowledgeModelPackageId, name }) => {
             cy.request({
                 method: 'POST',
                 url: apiUrl('/questionnaires'),
                 headers: createHeaders(resp.body.token),
-                body: { visibility, sharing, name, packageId, questionTagUuids: [] }
+                body: { visibility, sharing, name, knowledgeModelPackageId, questionTagUuids: [] }
             })
         })
     })
@@ -261,7 +261,7 @@ Cypress.Commands.add('createKMEditor', ({ kmId, name, version, previousPackageId
     getTokenFor('datasteward').then((resp) => {
         cy.request({
             method: 'POST',
-            url: apiUrl('/branches'),
+            url: apiUrl('/knowledge-model-editors'),
             headers: createHeaders(resp.body.token),
             body: { kmId, name, version, previousPackageId }
         })
@@ -272,20 +272,20 @@ Cypress.Commands.add('deleteKMEditor', (kmId) => {
     getTokenFor('datasteward').then((resp) => {
         cy.request({
             method: 'DELETE',
-            url: apiUrl(`/branches/${kmId}`),
+            url: apiUrl(`/knowledge-model-editors/${kmId}`),
             headers: createHeaders(resp.body.token)
         })
     })
 })
 
-Cypress.Commands.add('publishKMEditor', ({ branchUuid }) => {
+Cypress.Commands.add('publishKMEditor', ({ editorUuid }) => {
     getTokenFor('datasteward').then((resp) => {
         cy.request({
             method: 'POST',
-            url: apiUrl('/packages/from-branch'),
+            url: apiUrl('/knowledge-model-packages/from-editor'),
             headers: createHeaders(resp.body.token),
             body: {
-                branchUuid
+                editorUuid
             }
         })
     })

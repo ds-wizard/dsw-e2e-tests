@@ -4,7 +4,7 @@ import * as project from '../../../../support/project-helpers'
 describe('Questionnaire Search', () => {
     const projectName = 'Test Project'
     const kmId = 'test-km-1'
-    const packageId = 'dsw:test-km-1:1.0.0'
+    const knowledgeModelPackageId = 'dsw:test-km-1:1.0.0'
 
 
     const search = (term, open = true) => {
@@ -24,7 +24,7 @@ describe('Questionnaire Search', () => {
     }
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
         cy.importKM(kmId)
@@ -38,7 +38,7 @@ describe('Questionnaire Search', () => {
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
-            packageId
+            knowledgeModelPackageId
         })
         cy.loginAs('researcher')
         project.open(projectName)

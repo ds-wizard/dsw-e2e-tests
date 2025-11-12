@@ -9,14 +9,14 @@ describe('KM Editor Edit Entity', () => {
     const previousPackageId = 'dsw:test-km-1:1.0.0'
 
     before(() => {
-        cy.task('package:delete', { km_id: previousKmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: previousKmId })
         cy.clearServerCache()
 
         cy.importKM('test-km-1')
     })
 
     beforeEach(() => {
-        cy.task('branch:delete', { km_id: kmId })
+        cy.task('knowledgeModelEditor:delete', { km_id: kmId })
         cy.clearServerCache()
 
         cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageId })

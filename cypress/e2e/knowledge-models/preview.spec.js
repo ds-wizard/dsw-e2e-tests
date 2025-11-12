@@ -3,12 +3,12 @@ import * as project from '../../support/project-helpers'
 describe('Knowledge Models / Preview', () => {
     const orgId = 'dsw'
     const kmId = 'test-km-1'
-    const packageId = 'dsw:test-km-1:1.0.0'
+    const knowledgeModelPackageId = 'dsw:test-km-1:1.0.0'
     const questionUuid = 'd52ab630-2ef1-46fe-a6c0-6e4b93a9850f'
     const kmName = 'Test Knowledge Model 1'
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
         cy.importKM('test-km-1')
@@ -52,7 +52,7 @@ describe('Knowledge Models / Preview', () => {
                 cy.loginAs('researcher')
             }
 
-            cy.visitApp(`/knowledge-models/${packageId}/preview${withQuestionUuid ? `?questionUuid=${questionUuid}` : ''}`)
+            cy.visitApp(`/knowledge-models/${knowledgeModelPackageId}/preview${withQuestionUuid ? `?questionUuid=${questionUuid}` : ''}`)
             cy.get('.top-header').contains(kmName).should('exist')
 
             if (withQuestionUuid) {

@@ -5,11 +5,11 @@ describe('Project CRUD', () => {
     const otherProjectName = 'Original Test Project'
     const kmId = 'test-km-1'
     const packageName = 'Test Knowledge Model 1'
-    const packageId = 'dsw:test-km-1:1.0.0'
+    const knowledgeModelPackageId = 'dsw:test-km-1:1.0.0'
 
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
         cy.importKM('test-km-1')
@@ -29,7 +29,7 @@ describe('Project CRUD', () => {
         cy.getCy('projects_create-button').click()
         cy.fillFields({
             name: projectName,
-            th_packageId: packageName
+            th_knowledgeModelPackageId: packageName
         })
 
         cy.clickBtn('Create')
@@ -45,7 +45,7 @@ describe('Project CRUD', () => {
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: otherProjectName,
-            packageId
+            knowledgeModelPackageId
         }
         
         cy.createQuestionnaire(p)
@@ -67,7 +67,7 @@ describe('Project CRUD', () => {
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
-            packageId
+            knowledgeModelPackageId
         }
         cy.createQuestionnaire(p)
         project.open(projectName)

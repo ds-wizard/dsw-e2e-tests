@@ -11,20 +11,20 @@ describe('Questionnaire Migrations', () => {
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
-            packageId: getPackageId(km, minor)
+            knowledgeModelPackageId: getPackageId(km, minor)
         })
     }
 
     const createMigrationTo = (km, minor) => {
         cy.visitApp('/projects')
         cy.clickListingItemAction(projectName, 'create-migration')
-        cy.fillFields({ s_packageId: getPackageId(km, minor) })
+        cy.fillFields({ s_knowledgeModelPackageId: getPackageId(km, minor) })
         cy.clickBtn('Create')
         cy.get('.Questionnaire__Migration').should('exist')
     }
 
     const importKM = (kmId, minorVersions) => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.importKM(getKM(kmId, minorVersions))
     }
 

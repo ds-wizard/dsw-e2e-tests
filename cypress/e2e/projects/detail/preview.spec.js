@@ -3,7 +3,7 @@ import * as project from '../../../support/project-helpers'
 describe('Project - Preview', () => {
     const projectName = 'Preview test'
     const kmId = 'test-documents'
-    const packageId = 'dsw:test-documents:1.0.0'
+    const knowledgeModelPackageId = 'dsw:test-documents:1.0.0'
     const documentTemplateId = 'dsw:questionnaire-report:1.4.0'
 
     const browserFormats = [
@@ -38,7 +38,7 @@ describe('Project - Preview', () => {
     }
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.removeTemplate('dsw:questionnaire-report:1.4.0')
         cy.clearServerCache()
         
@@ -57,7 +57,7 @@ describe('Project - Preview', () => {
             sharing: project.Restricted,
             name: projectName,
             sharing: project.Restricted,
-            packageId,
+            knowledgeModelPackageId,
             documentTemplateId
         }).then((resp) => {
             cy.fixture(`${kmId}-questionnaire-content`).then((req) => {

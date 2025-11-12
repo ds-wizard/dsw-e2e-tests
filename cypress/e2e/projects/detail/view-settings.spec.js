@@ -13,12 +13,12 @@ describe('Questionnaire - View Settings', () => {
         cy.get('.questionnaire__toolbar .dropdown-item').contains(item).click()
     }
 
-    const withQuestionnaire = (packageId, callback) => {
+    const withQuestionnaire = (knowledgeModelPackageId, callback) => {
         cy.createQuestionnaire({
             visibility: project.VisibleEdit,
             sharing: project.AnyoneWithLinkEdit,
             name: projectName,
-            packageId
+            knowledgeModelPackageId
         }).then(() => {
             cy.loginAs('researcher')
             project.open(projectName)
@@ -27,7 +27,7 @@ describe('Questionnaire - View Settings', () => {
     }
 
     before(() => {
-        cy.task('package:delete')
+        cy.task('knowledgeModelPackage:delete')
         cy.clearServerCache()
 
         cy.importKM(kmIdTags)

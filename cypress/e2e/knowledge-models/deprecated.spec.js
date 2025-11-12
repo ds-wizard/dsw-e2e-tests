@@ -5,15 +5,15 @@ describe('Deprecated KM', () => {
     const version = '1.0.0'
 
     const searchKM = (value) => {
-        cy.get(`#packageId`).click()
-        cy.get(`#packageId_search`).type(value)
+        cy.get(`#knowledgeModelPackageId`).click()
+        cy.get(`#knowledgeModelPackageId_search`).type(value)
     }
 
     before(() => {
         cy.putDefaultAppConfig()
 
         cy.task('questionnaire:delete')
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
         cy.importKM('/test-km-1')
@@ -41,6 +41,6 @@ describe('Deprecated KM', () => {
 
         // check it is suggested again
         cy.visitApp('/projects/create')
-        cy.fillFields({ th_packageId: kmName })
+        cy.fillFields({ th_knowledgeModelPackageId: kmName })
     })
 })

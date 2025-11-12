@@ -3,10 +3,10 @@ import * as project from '../../support/project-helpers'
 
 describe('Project List', () => {
     const kmId = 'test-km-1'
-    const packageId = 'dsw:test-km-1:1.0.0'
+    const knowledgeModelPackageId = 'dsw:test-km-1:1.0.0'
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.task('questionnaire:delete')
         cy.clearServerCache()
 
@@ -18,7 +18,7 @@ describe('Project List', () => {
                 visibility: project.VisibleEdit,
                 sharing: project.Restricted,
                 name: `Questionnaire ${('0' + i).slice(-2)}`,
-                packageId
+                knowledgeModelPackageId
             })
         }
         cy.createQuestionnaires(projects)

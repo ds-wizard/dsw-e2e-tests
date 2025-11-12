@@ -7,7 +7,7 @@ describe('KM Editor Tags', () => {
     const previousPackageId = 'mto:km-with-tags:1.0.0'
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
         cy.importKM('km-with-tags')
@@ -15,7 +15,7 @@ describe('KM Editor Tags', () => {
 
 
     beforeEach(() => {
-        cy.task('branch:delete', { km_id: kmId })
+        cy.task('knowledgeModelEditor:delete', { km_id: kmId })
         cy.clearServerCache()
 
         cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageId })

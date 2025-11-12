@@ -19,7 +19,7 @@ describe('Settings / Knowledge Model', () => {
 
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
         cy.importKM('km-migration/dsw_parent-km_1.11.0')

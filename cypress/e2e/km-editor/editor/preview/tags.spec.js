@@ -11,7 +11,7 @@ describe('KM Editor Preview - Tags', () => {
     // test cases
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
         cy.importKM('km-with-tags')
@@ -19,7 +19,7 @@ describe('KM Editor Preview - Tags', () => {
 
 
     beforeEach(() => {
-        cy.task('branch:delete', { km_id: kmId })
+        cy.task('knowledgeModelEditor:delete', { km_id: kmId })
         cy.clearServerCache()
         
         cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageId })
