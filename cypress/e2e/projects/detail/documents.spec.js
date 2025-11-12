@@ -6,7 +6,7 @@ describe('Documents', () => {
     const projectName = 'Documents test'
     let projectUuid = ''
     const kmId = 'test-documents'
-    const packageId = 'dsw:test-documents:1.0.0'
+    const knowledgeModelPackageId = 'dsw:test-documents:1.0.0'
     const documentTemplateId = 'dsw:questionnaire-report:1.4.0'
 
     const templateName = 'Questionnaire Report'
@@ -24,7 +24,7 @@ describe('Documents', () => {
     const brokenFormats = formats.slice(2, formats.length)
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.removeTemplate(documentTemplateId)
         cy.removeTemplate('dsw:broken:0.1.0')
         cy.removeTemplate('dsw:not-allowed:0.1.0')
@@ -47,7 +47,7 @@ describe('Documents', () => {
             sharing: project.Restricted,
             name: projectName,
             sharing: project.Restricted,
-            packageId,
+            knowledgeModelPackageId,
             documentTemplateId
         }).then((resp) => {
             cy.fixture(`${kmId}-questionnaire-content`).then((req) => {

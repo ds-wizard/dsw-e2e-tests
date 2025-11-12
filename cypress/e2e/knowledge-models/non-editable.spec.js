@@ -5,11 +5,11 @@ describe('Non-editable KM', () => {
     const version = '1.0.0'
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
         cy.importKM('/test-km-1')
-        cy.task('package:setNonEditable', { km_id: kmId })
+        cy.task('knowledgeModelPackage:setNonEditable', { km_id: kmId })
     })
 
     beforeEach(() => {

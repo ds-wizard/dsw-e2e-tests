@@ -8,7 +8,7 @@ describe('KM Editor Migrations Multi-Choice', () => {
     )
 
     before(() => {
-        cy.task('package:delete', { km_id: config.parentKmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: config.parentKmId })
         cy.putDefaultAppConfig()
         cy.clearServerCache()
 
@@ -16,8 +16,8 @@ describe('KM Editor Migrations Multi-Choice', () => {
     })
 
     beforeEach(() => {
-        cy.task('package:delete', { km_id: config.childKmId })
-        cy.task('branch:delete')
+        cy.task('knowledgeModelPackage:delete', { km_id: config.childKmId })
+        cy.task('knowledgeModelEditor:delete')
         cy.clearServerCache()
 
         cy.loginAs('datasteward')

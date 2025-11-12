@@ -39,6 +39,10 @@ const initPostgres = (config) => {
       return withClient(client => client.query(`SELECT * FROM ${table}${createWhere(where)}`))
     },
 
+    getSorted: ({ table, where, order }) => {
+      return withClient(client => client.query(`SELECT * FROM ${table}${createWhere(where)} ORDER BY ${order}`))
+    },
+
     update: ({ table, values, where }) => {
       return withClient(client => client.query(`UPDATE ${table} SET ${createValues(values)}${createWhere(where)}`))
     },
@@ -59,20 +63,6 @@ module.exports = (on, config) => {
   async function actionKeyDelete(where) {
     return pg.delete({ table: 'action_key', where })
   }
-
-  // Branch
-
-  async function branchDelete(where) {
-    const result = await pg.get({ table: 'branch', where })
-    for (let i = 0; i < result.rows.length; i++) {
-      const { uuid } = result.rows[i]
-      await pg.delete({ table: 'knowledge_model_migration', where: { branch_uuid: uuid } })
-      await pg.delete({ table: 'branch_data', where: { branch_uuid: uuid } })
-      await pg.delete({ table: 'branch', where: { uuid } })
-    }
-    return true
-  }
-
 
   // Document
 
@@ -121,33 +111,49 @@ module.exports = (on, config) => {
     return true
   }
 
+  // Knowledge Model Editor
 
-  // Package
-
-  async function packageDelete(where) {
-    const result = await pg.get({ table: 'package', where })
+  async function knowledgeModelEditorDelete(where) {
+    const result = await pg.get({ table: 'knowledge_model_editor', where })
     for (let i = 0; i < result.rows.length; i++) {
-      const { id } = result.rows[i]
-      await packageDelete({ previous_package_id: id })
-      await packageDelete({ fork_of_package_id: id })
-      await branchDelete({ previous_package_id: id })
-      await questionnaireDelete({ package_id: id })
-      await pg.delete({ table: 'knowledge_model_cache', where: { package_id: id } })
-      await pg.delete({ table: 'knowledge_model_migration', where: { branch_previous_package_id: id } })
-      await pg.delete({ table: 'knowledge_model_migration', where: { target_package_id: id } })
-      await pg.delete({ table: 'package', where: { id } })
+      const { uuid } = result.rows[i]
+      await pg.update({ table: 'document_template_draft_data', values: { knowledge_model_editor_uuid: null }, where: { knowledge_model_editor_uuid: uuid } })
+      await pg.delete({ table: 'knowledge_model_migration', where: { editor_uuid: uuid } })
+      await pg.delete({ table: 'knowledge_model_editor', where: { uuid } })
     }
     return true
   }
 
-  async function packageGet(where) {
-    const result = await pg.get({ table: 'package', where })
-    return result.rows[0]
+  // Knowledge Model Package
+
+  async function knowledgeModelPackageDelete(where) {
+    const result = await pg.get({ table: 'knowledge_model_package', where })
+    for (let i = 0; i < result.rows.length; i++) {
+      const { id } = result.rows[i]
+      await knowledgeModelPackageDelete({ previous_package_id: id })
+      await knowledgeModelPackageDelete({ fork_of_package_id: id })
+      await knowledgeModelEditorDelete({ previous_package_id: id })
+      await questionnaireDelete({ knowledge_model_package_id: id })
+      await pg.delete({ table: 'knowledge_model_cache', where: { package_id: id } })
+      await pg.delete({ table: 'knowledge_model_migration', where: { editor_previous_package_id: id } })
+      await pg.delete({ table: 'knowledge_model_migration', where: { target_package_id: id } })
+      await pg.delete({ table: 'knowledge_model_package', where: { id } })
+    }
+    return true
   }
 
-  async function packageSetNonEditable(where) {
+  async function knowledgeModelPackageGet(where) {
+    const result = await pg.get({ table: 'knowledge_model_package', where })
+
+    const package = result.rows[0]
+    const events = await pg.getSorted({ table: 'knowledge_model_package_event', where: { package_id: package.id }, order: "created_at" })
+
+    return {...package, events: events.rows }
+  }
+
+  async function knowledgeModelPackageSetNonEditable(where) {
     return pg.update({
-      table: 'package',
+      table: 'knowledge_model_package',
       values: { non_editable: true },
       where
     })
@@ -214,7 +220,6 @@ module.exports = (on, config) => {
     })
   }
 
-
   // Tenant limits
 
   async function tenantLimitReset(where) {
@@ -222,10 +227,10 @@ module.exports = (on, config) => {
       table: 'tenant_limit_bundle',
       values: {
         active_users: -10000,
-        branches: -10000,
         document_template_drafts: -10000,
         document_templates: -10000,
         documents: -10000,
+        knowledge_model_editors: -10000,
         knowledge_models: -10000,
         locales: -10000,
         questionnaires: -10000,
@@ -289,14 +294,14 @@ module.exports = (on, config) => {
 
   on('task', {
     'actionKey:delete': actionKeyDelete,
-    'branch:delete': branchDelete,
     'document:delete': documentDelete,
     'documentTemplate:delete': documentTemplateDelete,
     'documentTemplate:setNonEditable': documentTemplateSetNonEditable,
     'locale:delete': localeDelete,
-    'package:delete': packageDelete,
-    'package:get': packageGet,
-    'package:setNonEditable': packageSetNonEditable,
+    'knowledgeModelEditor:delete': knowledgeModelEditorDelete,
+    'knowledgeModelPackage:delete': knowledgeModelPackageDelete,
+    'knowledgeModelPackage:get': knowledgeModelPackageGet,
+    'knowledgeModelPackage:setNonEditable': knowledgeModelPackageSetNonEditable,
     'questionnaire:delete': questionnaireDelete,
     'tenant:delete': tenantDelete,
     'tenantConfig:disable2FA': tenantConfigDisable2FA,
@@ -308,4 +313,3 @@ module.exports = (on, config) => {
     'user:setToursDone': userSetToursDone
   })
 }
-

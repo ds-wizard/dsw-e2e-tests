@@ -7,7 +7,7 @@ describe('KM Editor Preview - Phases', () => {
 
 
     before(() => {
-        cy.task('package:delete', { km_id: phases.kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: phases.kmId })
         cy.clearServerCache()
         
         cy.importKM(phases.kmId)
@@ -15,7 +15,7 @@ describe('KM Editor Preview - Phases', () => {
 
 
     beforeEach(() => {
-        cy.task('branch:delete', { km_id: phases.kmId })
+        cy.task('knowledgeModelEditor:delete', { km_id: phases.kmId })
         cy.createKMEditor({ kmId: phases.kmId, name: kmName, version: '1.0.0', previousPackageId: phases.packageId })
         cy.loginAs('datasteward')
         cy.visitApp('/knowledge-model-editors')

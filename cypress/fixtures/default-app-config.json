@@ -45,7 +45,7 @@
     "knowledgeModel": {
         "public": {
             "enabled": false,
-            "packages": []
+            "knowledgeModelPackages": []
         },
         "integrationConfig": ""
     },

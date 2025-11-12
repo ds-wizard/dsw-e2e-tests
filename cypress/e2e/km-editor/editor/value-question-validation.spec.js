@@ -26,7 +26,7 @@ describe('KM Editor Value Question Validation', () => {
     }
 
     beforeEach(() => {
-        cy.task('branch:delete', { km_id: kmId })
+        cy.task('knowledgeModelEditor:delete', { km_id: kmId })
         cy.clearServerCache()
 
         cy.createKMEditor({ kmId, name: kmName, version: '1.0.0' })

@@ -9,7 +9,7 @@ describe('Project Template', () => {
     const templateName = 'Questionnaire Report'
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.removeTemplate('dsw:questionnaire-report:1.4.0')
         cy.clearServerCache()
 
@@ -29,7 +29,7 @@ describe('Project Template', () => {
         cy.getCy('projects_create-button').click()
         cy.fillFields({
             name: templateProjectName,
-            th_packageId: packageName
+            th_knowledgeModelPackageId: packageName
         })
         cy.clickBtn('Create')
         project.awaitOpen()

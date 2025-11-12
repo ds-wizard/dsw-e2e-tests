@@ -4,11 +4,11 @@ import * as project from '../../../support/project-helpers'
 describe('TODOs', () => {
     const projectName = 'Test Project'
     const kmId = 'test-km-1'
-    const packageId = 'dsw:test-km-1:1.0.0'
+    const knowledgeModelPackageId = 'dsw:test-km-1:1.0.0'
 
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
         cy.importKM('test-km-1')
@@ -25,7 +25,7 @@ describe('TODOs', () => {
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
-            packageId
+            knowledgeModelPackageId
         })
         cy.loginAs('researcher')
         project.open(projectName)

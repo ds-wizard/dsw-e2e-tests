@@ -8,7 +8,7 @@ describe('Questionnaire Tags', () => {
     const packageName = 'KM With Tags'
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
         cy.importKM('km-with-tags')
@@ -63,7 +63,7 @@ describe('Questionnaire Tags', () => {
 
             cy.fillFields({
                 name: projectName,
-                th_packageId: packageName
+                th_knowledgeModelPackageId: packageName
             })
 
             cy.get('#question-tags-filter').click()

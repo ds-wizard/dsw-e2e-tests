@@ -1,8 +1,8 @@
 describe('KM Editor Create', () => {
 
     beforeEach(() => {
-        cy.task('package:delete')
-        cy.task('branch:delete')
+        cy.task('knowledgeModelPackage:delete')
+        cy.task('knowledgeModelEditor:delete')
         cy.clearServerCache()
 
         cy.importKM('test-km-1')

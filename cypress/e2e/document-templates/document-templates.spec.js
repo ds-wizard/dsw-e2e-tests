@@ -1,7 +1,7 @@
 describe('Document Templates', () => {
 
     beforeEach(() => {
-        cy.task('package:delete')
+        cy.task('knowledgeModelPackage:delete')
         cy.removeTemplate('dsw:questionnaire-report:1.4.0')
         cy.clearServerCache()
 

@@ -6,7 +6,7 @@ describe('Questionnaire Phases', () => {
     const projectName = 'Test of Phases'
 
     before(() => {
-        cy.task('package:delete', { km_id: phases.kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: phases.kmId })
         cy.clearServerCache()
 
         cy.importKM(phases.kmId)
@@ -21,7 +21,7 @@ describe('Questionnaire Phases', () => {
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
-            packageId: phases.packageId
+            knowledgeModelPackageId: phases.packageId
         })
         cy.loginAs('researcher')
         project.open(projectName)

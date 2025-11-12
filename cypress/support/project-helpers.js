@@ -35,7 +35,7 @@ export function create(projectName, packageName) {
     cy.get('#name').should('exist')
     cy.fillFields({
         name: projectName,
-        th_packageId: packageName
+        th_knowledgeModelPackageId: packageName
     })
     cy.clickBtn('Create')
     cy.url().should('match', /\/projects\/.+/)

@@ -4,7 +4,7 @@ import * as phases from '../../../../support/phases-helpers'
 describe('Questionnaire Versions', () => {
     const projectName = 'Test Project'
     const kmId = 'basic-questionnaire-test-km'
-    const packageId = 'dsw:basic-questionnaire-test-km:1.0.0'
+    const knowledgeModelPackageId = 'dsw:basic-questionnaire-test-km:1.0.0'
 
     const openVersionHistory = () => {
         cy.get('.questionnaire__toolbar .item').contains('Version history').click()
@@ -27,7 +27,7 @@ describe('Questionnaire Versions', () => {
     }
 
     before(() => {
-        cy.task('package:delete', { km_id: kmId })
+        cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.removeTemplate('dsw:questionnaire-report:1.4.0')
         cy.clearServerCache()
 
@@ -45,7 +45,7 @@ describe('Questionnaire Versions', () => {
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
-            packageId
+            knowledgeModelPackageId
         })
         cy.loginAs('researcher')
         project.open(projectName)
