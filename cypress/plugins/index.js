@@ -84,11 +84,7 @@ module.exports = (on, config) => {
     const result = await pg.get({ table: 'document_template', where })
     for (let i = 0; i < result.rows.length; i++) {
       const { id } = result.rows[i]
-      await documentDelete({ document_template_id: id })
       await questionnaireDelete({ document_template_id: id })
-      await pg.delete({ table: 'document_template_draft_data', where: { document_template_id: id } })
-      await pg.delete({ table: 'document_template_asset', where: { document_template_id: id } })
-      await pg.delete({ table: 'document_template_file', where: { document_template_id: id } })
       await pg.delete({ table: 'document_template', where: { id } })
     }
 
@@ -98,10 +94,6 @@ module.exports = (on, config) => {
   // Locale
 
   async function localeDelete(where) {
-    await pg.update({
-      table: 'user_entity',
-      values: { locale: null },
-    })
     await pg.delete({ table: 'locale', where })
     await pg.update({
       table: 'locale',
@@ -118,7 +110,6 @@ module.exports = (on, config) => {
     for (let i = 0; i < result.rows.length; i++) {
       const { uuid } = result.rows[i]
       await pg.update({ table: 'document_template_draft_data', values: { knowledge_model_editor_uuid: null }, where: { knowledge_model_editor_uuid: uuid } })
-      await pg.delete({ table: 'knowledge_model_migration', where: { editor_uuid: uuid } })
       await pg.delete({ table: 'knowledge_model_editor', where: { uuid } })
     }
     return true
@@ -132,11 +123,6 @@ module.exports = (on, config) => {
       const { id } = result.rows[i]
       await knowledgeModelPackageDelete({ previous_package_id: id })
       await knowledgeModelPackageDelete({ fork_of_package_id: id })
-      await knowledgeModelEditorDelete({ previous_package_id: id })
-      await questionnaireDelete({ knowledge_model_package_id: id })
-      await pg.delete({ table: 'knowledge_model_cache', where: { package_id: id } })
-      await pg.delete({ table: 'knowledge_model_migration', where: { editor_previous_package_id: id } })
-      await pg.delete({ table: 'knowledge_model_migration', where: { target_package_id: id } })
       await pg.delete({ table: 'knowledge_model_package', where: { id } })
     }
     return true
@@ -161,31 +147,11 @@ module.exports = (on, config) => {
 
   // Questionnaire
 
-  async function questionnaireCommmentThreadDelete(where) {
-    const result = await pg.get({ table: 'questionnaire_comment_thread', where })
-    for (let i = 0; i < result.rows.length; i++) {
-      const { uuid } = result.rows[i]
-      await pg.delete({ table: 'questionnaire_comment', where: { comment_thread_uuid: uuid } })
-      await pg.delete({ table: 'questionnaire_comment_thread', where: { uuid } })
-    }
-    return true
-
-  }
-
   async function questionnaireDelete(where) {
     const result = await pg.get({ table: 'questionnaire', where })
     for (let i = 0; i < result.rows.length; i++) {
       const { uuid } = result.rows[i]
-      await documentDelete({ questionnaire_uuid: uuid })
-      await questionnaireCommmentThreadDelete({ questionnaire_uuid: uuid })
-      await pg.delete({ table: 'questionnaire_perm_user', where: { questionnaire_uuid: uuid } })
-      await pg.delete({ table: 'questionnaire_perm_group', where: { questionnaire_uuid: uuid } })
-      await pg.delete({ table: 'questionnaire_migration', where: { old_questionnaire_uuid: uuid } })
-      await pg.delete({ table: 'questionnaire_migration', where: { new_questionnaire_uuid: uuid } })
       await pg.delete({ table: 'document_template_draft_data', where: { questionnaire_uuid: uuid } })
-      await pg.delete({ table: 'questionnaire_file', where: { questionnaire_uuid: uuid } })
-      await pg.delete({ table: 'questionnaire_version', where: { questionnaire_uuid: uuid } })
-      await pg.delete({ table: 'questionnaire_event', where: { questionnaire_uuid: uuid } })
       await pg.delete({ table: 'questionnaire', where: { uuid } })
     }
     return true
@@ -194,15 +160,7 @@ module.exports = (on, config) => {
   // Tenant
 
   async function tenantDelete(where) {
-    const result = await pg.get({ table: 'tenant', where })
-    for (let i = 0; i < result.rows.length; i++) {
-      const { uuid } = result.rows[i]
-      await userDelete({ tenant_uuid: uuid })
-      await pg.delete({ table: 'action_key', where: { tenant_uuid: uuid } })
-      await pg.delete({ table: 'locale', where: { tenant_uuid: uuid } })
-      await pg.delete({ table: 'tenant', where: { uuid } })
-    }
-    return true
+    return pg.delete({ table: 'tenant', where })
   }
 
   // Tenant config
@@ -257,17 +215,7 @@ module.exports = (on, config) => {
   }
 
   async function userDelete(where) {
-    const result = await pg.get({ table: 'user_entity', where })
-    for (let i = 0; i < result.rows.length; i++) {
-      const { uuid } = result.rows[i]
-      await pg.delete({ table: 'audit', where: { created_by: uuid } })
-      await pg.delete({ table: 'action_key', where: { identity: uuid } })
-      await pg.delete({ table: 'user_token', where: { user_uuid: uuid } })
-      await pg.delete({ table: 'persistent_command', where: { created_by: uuid } })
-      await pg.delete({ table: 'user_group_membership', where: { user_uuid: uuid } })
-      await pg.delete({ table: 'user_entity', where: { uuid } })
-    }
-    return true
+    return pg.delete({ table: 'user_entity', where })
   }
 
   async function userAddPermission({ perm, email }) {
