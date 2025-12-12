@@ -16,7 +16,7 @@ describe('Questionnaire Tags', () => {
 
 
     beforeEach(() => {
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.clearServerCache()
         
         cy.loginAs('researcher')

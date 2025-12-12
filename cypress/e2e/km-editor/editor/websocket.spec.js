@@ -23,7 +23,7 @@ describe('KMEditor WebSocket Tests', () => {
     it('Basic editations', () => {
         // Add chapter
         const addChapterMsg = {
-            "type": "SetContent_ClientKnowledgeModelEditorAction",
+            "type": "SetContent_ClientKnowledgeModelEditorMessage",
             "data": {
                 "type": "AddKnowledgeModelEditorWebSocketEvent",
                 "uuid": "83c73272-3926-4486-aa1e-2a3bad78608c",
@@ -52,7 +52,7 @@ describe('KMEditor WebSocket Tests', () => {
 
         // Edit that chapter
         const editChapterMsg = {
-            "type": "SetContent_ClientKnowledgeModelEditorAction",
+            "type": "SetContent_ClientKnowledgeModelEditorMessage",
             "data": {
                 "type": "AddKnowledgeModelEditorWebSocketEvent",
                 "uuid": "17aa44c9-ed54-4681-a77a-bca140266dd5",
@@ -91,7 +91,7 @@ describe('KMEditor WebSocket Tests', () => {
 
         // Delete the chapter
         const deleteChapterMsg = {
-            "type": "SetContent_ClientKnowledgeModelEditorAction",
+            "type": "SetContent_ClientKnowledgeModelEditorMessage",
             "data": {
                 "type": "AddKnowledgeModelEditorWebSocketEvent",
                 "uuid": "6e081af8-a7a5-4523-9c83-f2c23f8561bf",

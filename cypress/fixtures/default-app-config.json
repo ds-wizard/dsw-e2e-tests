@@ -53,17 +53,17 @@
         "enabled": false,
         "token": ""
     },
-    "questionnaire": {
-        "questionnaireVisibility": {
+    "project": {
+        "projectVisibility": {
             "enabled": true,
-            "defaultValue": "PrivateQuestionnaire"
+            "defaultValue": "PrivateProjectVisibility"
         },
-        "questionnaireSharing": {
+        "projectSharing": {
             "anonymousEnabled": false,
             "enabled": true,
-            "defaultValue": "RestrictedQuestionnaire"
+            "defaultValue": "RestrictedProjectSharing"
         },
-        "questionnaireCreation": "TemplateAndCustomQuestionnaireCreation",
+        "projectCreation": "TemplateAndCustomProjectCreation",
         "phases": {
             "enabled": true
         },

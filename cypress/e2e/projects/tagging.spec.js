@@ -16,7 +16,7 @@ describe('Project Tagging', () => {
     })
 
     beforeEach(() => {
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.putDefaultAppConfig()
     })
 

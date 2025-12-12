@@ -10,7 +10,7 @@ describe('Settings / Dashboard', () => {
     })
 
     it('dashboard style DMP', () => {
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.getCy('form-group_html-radio-roleBased').find('input[type=radio]').should('be.checked')
 
         cy.visitApp('/dashboard')

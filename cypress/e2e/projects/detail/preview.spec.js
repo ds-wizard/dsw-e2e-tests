@@ -47,12 +47,12 @@ describe('Project - Preview', () => {
     })
 
     beforeEach(() => {
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.clearServerCache()
 
         cy.loginAs('researcher')
         
-        cy.createQuestionnaire({
+        cy.createProject({
             visibility: project.Private,
             sharing: project.Restricted,
             name: projectName,
@@ -61,7 +61,7 @@ describe('Project - Preview', () => {
             documentTemplateId
         }).then((resp) => {
             cy.fixture(`${kmId}-questionnaire-content`).then((req) => {
-                cy.updateQuestionnaireContent(resp.body.uuid, req)
+                cy.updateProjectContent(resp.body.uuid, req)
             })
         })
     })

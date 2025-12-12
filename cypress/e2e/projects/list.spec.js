@@ -7,7 +7,7 @@ describe('Project List', () => {
 
     before(() => {
         cy.task('knowledgeModelPackage:delete', { km_id: kmId })
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.clearServerCache()
 
         cy.importKM('test-km-1')
@@ -21,7 +21,7 @@ describe('Project List', () => {
                 knowledgeModelPackageId
             })
         }
-        cy.createQuestionnaires(projects)
+        cy.createProjects(projects)
     })
 
     beforeEach(() => {
