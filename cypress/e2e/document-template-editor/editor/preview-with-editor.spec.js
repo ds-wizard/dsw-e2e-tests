@@ -39,7 +39,7 @@ describe('Document Template Editor / Editor / Preview with KM Editor', () => {
         cy.frameLoaded(dataCy('document-preview'))
         cy.iframe().find('pre').then($pre => {
             const templateJson = JSON.parse($pre.text())
-            validate(templateJson['questionnaire']['replies'])
+            validate(templateJson['project']['replies'])
         })
     }
     

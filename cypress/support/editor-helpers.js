@@ -110,6 +110,6 @@ export function openWarnings() {
 
 
 export function awaitSave() {
-    cy.get('.questionnaire-header__saving').contains('Saved')
-    cy.get('.questionnaire-header__saving').should('not.contain', 'Saved')
+    cy.get('.project-header__saving').contains('Saved')
+    cy.get('.project-header__saving').should('not.contain', 'Saved')
 }

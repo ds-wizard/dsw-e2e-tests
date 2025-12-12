@@ -13,12 +13,12 @@ describe('Project Files', () => {
     })
 
     beforeEach(() => {
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.clearServerCache()
 
         cy.loginAs('researcher')
 
-        cy.createQuestionnaire({
+        cy.createProject({
             visibility: project.Private,
             sharing: project.Restricted,
             name: projectName,

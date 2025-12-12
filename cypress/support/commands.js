@@ -144,7 +144,7 @@ Cypress.Commands.add('importKM', (km) => {
 Cypress.Commands.add('removeTemplate', (documentTemplateId) => {
     getTokenFor('admin').then((resp) => {
         cy.task('document:delete', { document_template_id: documentTemplateId })
-        cy.task('questionnaire:delete', { document_template_id: documentTemplateId })
+        cy.task('project:delete', { document_template_id: documentTemplateId })
 
         cy.request({
             method: 'DELETE',
@@ -188,25 +188,25 @@ Cypress.Commands.add('importTemplate', (templatePath) => {
 })
 
 
-// Questionnaires commands
+// Projects commands
 
-Cypress.Commands.add('createQuestionnaire', ({ visibility, sharing, name, knowledgeModelPackageId, documentTemplateId }) => {
+Cypress.Commands.add('createProject', ({ visibility, sharing, name, knowledgeModelPackageId, documentTemplateId }) => {
     getTokenFor('researcher').then((resp) => {
         cy.request({
             method: 'POST',
-            url: apiUrl('/questionnaires'),
+            url: apiUrl('/projects'),
             headers: createHeaders(resp.body.token),
             body: { visibility, sharing, name, knowledgeModelPackageId, documentTemplateId, questionTagUuids: [] }
         })
     })
 })
 
-Cypress.Commands.add('createQuestionnaires', (questionnaires) => {
+Cypress.Commands.add('createProjects', (projects) => {
     getTokenFor('researcher').then((resp) => {
-        questionnaires.forEach(({ visibility, sharing, knowledgeModelPackageId, name }) => {
+        projects.forEach(({ visibility, sharing, knowledgeModelPackageId, name }) => {
             cy.request({
                 method: 'POST',
-                url: apiUrl('/questionnaires'),
+                url: apiUrl('/projects'),
                 headers: createHeaders(resp.body.token),
                 body: { visibility, sharing, name, knowledgeModelPackageId, questionTagUuids: [] }
             })
@@ -214,40 +214,40 @@ Cypress.Commands.add('createQuestionnaires', (questionnaires) => {
     })
 })
 
-Cypress.Commands.add('updateQuestionnaire', (questionnaireUuid, data) => {
+Cypress.Commands.add('updateProject', (projectUuid, data) => {
     getTokenFor('researcher').then((resp) => {
         cy.request({
             method: 'PUT',
-            url: apiUrl(`/questionnaires/${questionnaireUuid}`),
+            url: apiUrl(`/projects/${projectUuid}`),
             headers: createHeaders(resp.body.token),
             body: data
         })
     })
 })
 
-Cypress.Commands.add('updateQuestionnaireShare', (questionnaireUuid, data) => {
+Cypress.Commands.add('updateProjectShare', (projectUuid, data) => {
     getTokenFor('researcher').then((resp) => {
         cy.request({
             method: 'PUT',
-            url: apiUrl(`/questionnaires/${questionnaireUuid}/share`),
+            url: apiUrl(`/projects/${projectUuid}/share`),
             headers: createHeaders(resp.body.token),
             body: data
         })
     })
 })
 
-Cypress.Commands.add('updateQuestionnaireContent', (questionnaireUuid, data) => {
+Cypress.Commands.add('updateProjectContent', (projectUuid, data) => {
     getTokenFor('researcher').then((resp) => {
         cy.request({
             method: 'PUT',
-            url: apiUrl(`/questionnaires/${questionnaireUuid}/content`),
+            url: apiUrl(`/projects/${projectUuid}/content`),
             headers: createHeaders(resp.body.token),
             body: data
         })
     })
 })
 
-Cypress.Commands.add('clearCurrentQuestionnaireSidePanelLocalStorage', () => {
+Cypress.Commands.add('clearCurrentProjectSidePanelLocalStorage', () => {
     cy.url().then((url) => {
         const projectUuid = url.match(/\/wizard\/projects\/(.*)/)[1]
         cy.clearLocalStorage(`project-${projectUuid}-right-panel`)

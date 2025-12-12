@@ -18,10 +18,10 @@ describe('TODOs', () => {
     beforeEach(() => {
         cy.clearLocalStorage()
 
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.clearServerCache()
 
-        cy.createQuestionnaire({
+        cy.createProject({
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
@@ -63,7 +63,7 @@ describe('TODOs', () => {
 
             // save, reopen and check again
             project.awaitSave()
-            cy.clearCurrentQuestionnaireSidePanelLocalStorage()
+            cy.clearCurrentProjectSidePanelLocalStorage()
             project.open(projectName)
             project.expectTodo(test.question)
         })

@@ -16,10 +16,10 @@ describe('Questionnaire WebSocket Tests', () => {
 
 
     beforeEach(() => {
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.clearServerCache()
         
-        cy.createQuestionnaire({
+        cy.createProject({
             visibility: project.VisibleEdit,
             sharing: project.AnyoneWithLinkEdit,
             name: projectName,
@@ -35,7 +35,7 @@ describe('Questionnaire WebSocket Tests', () => {
     it('SetReply - Value', () => {
         const value = 'Value'
         const msg = {
-            type: 'SetContent_ClientQuestionnaireAction',
+            type: 'SetContent_ClientProjectMessage',
             data: {
                 type: 'SetReplyEvent',
                 uuid: uuidv4(),
@@ -52,7 +52,7 @@ describe('Questionnaire WebSocket Tests', () => {
         }
 
         project.checkAnswer('Value Question String', '')
-        cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg)
+        cy.wsSend(`/projects/${projectUuid}/websocket`, msg)
         project.checkAnswer('Value Question String', value)
     })
 
@@ -60,7 +60,7 @@ describe('Questionnaire WebSocket Tests', () => {
     it('SetReply - Answer', () => {
         const answer = 'Answer 1.1'
         const msg = {
-            type: 'SetContent_ClientQuestionnaireAction',
+            type: 'SetContent_ClientProjectMessage',
             data: {
                 type: 'SetReplyEvent',
                 uuid: uuidv4(),
@@ -77,14 +77,14 @@ describe('Questionnaire WebSocket Tests', () => {
         }
 
         project.checkAnswerNotChecked(answer)
-        cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg)
+        cy.wsSend(`/projects/${projectUuid}/websocket`, msg)
         project.checkAnswerChecked(answer)
     })
 
 
     it('SetReply - Add/Remove Item', () => {
         const msg = (items) => ({
-            type: 'SetContent_ClientQuestionnaireAction',
+            type: 'SetContent_ClientProjectMessage',
             data: {
                 type: 'SetReplyEvent',
                 uuid: uuidv4(),
@@ -101,16 +101,16 @@ describe('Questionnaire WebSocket Tests', () => {
         })
 
         cy.get('.questionnaire__content .item').should('not.exist')
-        cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg(['ca942bb2-6524-4149-a17e-4cb4d3e38233']))
+        cy.wsSend(`/projects/${projectUuid}/websocket`, msg(['ca942bb2-6524-4149-a17e-4cb4d3e38233']))
         cy.get('.questionnaire__content .item').should('exist')
-        cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg([]))
+        cy.wsSend(`/projects/${projectUuid}/websocket`, msg([]))
         cy.get('.questionnaire__content .item').should('not.exist')
     })
 
     it('ClearReply', () => {
         const answer = 'Answer 1.1'
         const msg = {
-            type: 'SetContent_ClientQuestionnaireAction',
+            type: 'SetContent_ClientProjectMessage',
             data: {
                 type: 'ClearReplyEvent',
                 uuid: uuidv4(),
@@ -123,7 +123,7 @@ describe('Questionnaire WebSocket Tests', () => {
         }
 
         project.selectAnswer(answer)
-        cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg)
+        cy.wsSend(`/projects/${projectUuid}/websocket`, msg)
         project.checkAnswerNotChecked(answer)
     })
 
@@ -132,7 +132,7 @@ describe('Questionnaire WebSocket Tests', () => {
         const phaseUuid = 'adc9133d-afcd-4616-9aea-db5f475898a2'
         const phaseName = 'Before Finishing the Project'
         const msg = {
-            type: 'SetContent_ClientQuestionnaireAction',
+            type: 'SetContent_ClientProjectMessage',
             data: {
                 type: 'SetPhaseEvent',
                 uuid: uuidv4(),
@@ -144,7 +144,7 @@ describe('Questionnaire WebSocket Tests', () => {
             }
         }
 
-        cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg)
+        cy.wsSend(`/projects/${projectUuid}/websocket`, msg)
         cy.getCy('phase-selection').should('contain', phaseName)
     })
 
@@ -152,7 +152,7 @@ describe('Questionnaire WebSocket Tests', () => {
     it('SetLabels', () => {
         const question = 'Options Question 1'
         const msg = (value) => ({
-            type: 'SetContent_ClientQuestionnaireAction',
+            type: 'SetContent_ClientProjectMessage',
             data: {
                 type: 'SetLabelsEvent',
                 uuid: uuidv4(),
@@ -161,9 +161,9 @@ describe('Questionnaire WebSocket Tests', () => {
             }
         })
 
-        cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg([project.TodoUUID]))
+        cy.wsSend(`/projects/${projectUuid}/websocket`, msg([project.TodoUUID]))
         project.expectTodoFor(question)
-        cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg([]))
+        cy.wsSend(`/projects/${projectUuid}/websocket`, msg([]))
         project.expectNoTodo(question)
     })
 
@@ -174,7 +174,7 @@ describe('Questionnaire WebSocket Tests', () => {
         cy.visitApp(`/projects/${projectUuid}`)
 
         // change sharing to restricted
-        cy.updateQuestionnaireShare(projectUuid, {
+        cy.updateProjectShare(projectUuid, {
             visibility: project.VisibleEdit,
             sharing: project.Restricted,
             permissions: [],

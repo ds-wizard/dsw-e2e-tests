@@ -84,7 +84,7 @@ module.exports = (on, config) => {
     const result = await pg.get({ table: 'document_template', where })
     for (let i = 0; i < result.rows.length; i++) {
       const { id } = result.rows[i]
-      await questionnaireDelete({ document_template_id: id })
+      await projectDelete({ document_template_id: id })
       await pg.delete({ table: 'document_template', where: { id } })
     }
 
@@ -145,14 +145,14 @@ module.exports = (on, config) => {
     })
   }
 
-  // Questionnaire
+  // Project
 
-  async function questionnaireDelete(where) {
-    const result = await pg.get({ table: 'questionnaire', where })
+  async function projectDelete(where) {
+    const result = await pg.get({ table: 'project', where })
     for (let i = 0; i < result.rows.length; i++) {
       const { uuid } = result.rows[i]
-      await pg.delete({ table: 'document_template_draft_data', where: { questionnaire_uuid: uuid } })
-      await pg.delete({ table: 'questionnaire', where: { uuid } })
+      await pg.delete({ table: 'document_template_draft_data', where: { project_uuid: uuid } })
+      await pg.delete({ table: 'project', where: { uuid } })
     }
     return true
   }
@@ -191,7 +191,7 @@ module.exports = (on, config) => {
         knowledge_model_editors: -10000,
         knowledge_models: -10000,
         locales: -10000,
-        questionnaires: -10000,
+        projects: -10000,
         storage: -10000000000,
         users: -10000,
       },
@@ -250,7 +250,7 @@ module.exports = (on, config) => {
     'knowledgeModelPackage:delete': knowledgeModelPackageDelete,
     'knowledgeModelPackage:get': knowledgeModelPackageGet,
     'knowledgeModelPackage:setNonEditable': knowledgeModelPackageSetNonEditable,
-    'questionnaire:delete': questionnaireDelete,
+    'project:delete': projectDelete,
     'tenant:delete': tenantDelete,
     'tenantConfig:disable2FA': tenantConfigDisable2FA,
     'tenantLimit:reset': tenantLimitReset,

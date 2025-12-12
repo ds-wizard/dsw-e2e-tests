@@ -12,7 +12,7 @@ describe('Deprecated KM', () => {
     before(() => {
         cy.putDefaultAppConfig()
 
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 

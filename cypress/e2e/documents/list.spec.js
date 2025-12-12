@@ -2,14 +2,14 @@ import * as project from '../../support/project-helpers'
 
 
 describe('Document List', () => {
-    const questionnaireName = 'Documents test'
+    const projectName = 'Documents test'
     const kmId = 'test-km-1'
     const knowledgeModelPackageId = 'dsw:test-km-1:1.0.0'
     const documentTemplateId = 'dsw:questionnaire-report:1.4.0'
     const formatUuid = 'd3e98eb6-344d-481f-8e37-6a67b6cd1ad2'
 
     before(() => {
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.removeTemplate(documentTemplateId)
         cy.clearServerCache()
@@ -17,22 +17,22 @@ describe('Document List', () => {
         cy.importKM('test-km-1')
         cy.importTemplate('templates/questionnaire-report.zip')
         
-        const questionnaire = {
+        const projectData = {
             visibility: project.Private,
-            name: questionnaireName,
+            name: projectName,
             sharing: project.Restricted,
             knowledgeModelPackageId
         }
         
-        cy.createQuestionnaire(questionnaire).then((resp) => {
-            const questionnaireUuid = resp.body.uuid
+        cy.createProject(projectData).then((resp) => {
+            const projectUuid = resp.body.uuid
             const documents = []
             for (let i = 1; i <= 40; i++) {
                 documents.push({
                     name: `Document ${('0' + i).slice(-2)}`,
                     formatUuid,
                     documentTemplateId,
-                    questionnaireUuid
+                    projectUuid
                 })
             }
             cy.createDocuments(documents)

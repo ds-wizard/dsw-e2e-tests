@@ -22,7 +22,7 @@ describe('Anonymous projects', () => {
     })
 
     beforeEach(() => {
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.clearServerCache()
         cy.putDefaultAppConfig()
 

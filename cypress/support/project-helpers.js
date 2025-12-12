@@ -1,18 +1,18 @@
 import { dataCy } from './utils'
 
-export const VisibleEdit = 'VisibleEditQuestionnaire'
-export const VisibleComment = 'VisibleCommentQuestionnaire'
-export const VisibleView = 'VisibleViewQuestionnaire'
-export const Private = 'PrivateQuestionnaire'
+export const VisibleEdit = 'VisibleEditProjectVisibility'
+export const VisibleComment = 'VisibleCommentProjectVisibility'
+export const VisibleView = 'VisibleViewProjectVisibility'
+export const Private = 'PrivateProjectVisibility'
 
-export const Restricted = 'RestrictedQuestionnaire'
-export const AnyoneWithLinkView = 'AnyoneWithLinkViewQuestionnaire'
-export const AnyoneWithLinkComment = 'AnyoneWithLinkCommentQuestionnaire'
-export const AnyoneWithLinkEdit = 'AnyoneWithLinkEditQuestionnaire'
+export const Restricted = 'RestrictedProjectSharing'
+export const AnyoneWithLinkView = 'AnyoneWithLinkViewProjectSharing'
+export const AnyoneWithLinkComment = 'AnyoneWithLinkCommentProjectSharing'
+export const AnyoneWithLinkEdit = 'AnyoneWithLinkEditProjectSharing'
 
-export const TemplateAndCustomQuestionnaireCreation = 'TemplateAndCustomQuestionnaireCreation'
-export const TemplateQuestionnaireCreation = 'TemplateQuestionnaireCreation'
-export const CustomQuestionnaireCreation = 'CustomQuestionnaireCreation'
+export const TemplateAndCustomProjectCreation = 'TemplateAndCustomProjectCreation'
+export const TemplateProjectCreation = 'TemplateProjectCreation'
+export const CustomProjectCreation = 'CustomProjectCreation'
 
 export const TodoUUID = '615b9028-5e3f-414f-b245-12d2ae2eeb20'
 
@@ -463,8 +463,8 @@ export function expectSummaryReportMetrics(metrics, chapter) {
 
 
 export function awaitSave() {
-    cy.get('.questionnaire-header__saving').contains('Saved')
-    cy.get('.questionnaire-header__saving').should('not.contain', 'Saved')
+    cy.get('.project-header__saving').contains('Saved')
+    cy.get('.project-header__saving').should('not.contain', 'Saved')
 }
 
 

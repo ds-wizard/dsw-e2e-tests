@@ -4,8 +4,8 @@ set -e
 
 # Docker Images
 SERVER_IMAGE="${SERVER_IMAGE:-dswbot/wizard-server:develop}"
-CLIENT_IMAGE="${CLIENT_IMAGE:-dswbot/wizard-client:develop}"
-DOCWORKER_IMAGE="${DOCWORKER_IMAGE:-dswbot/document-worker:develop}"
+CLIENT_IMAGE="${CLIENT_IMAGE:-dswbot/wizard-client:feature-rename-questionnaire}"
+DOCWORKER_IMAGE="${DOCWORKER_IMAGE:-dswbot/document-worker:refactor-rename-project}"
 
 cd dsw
 

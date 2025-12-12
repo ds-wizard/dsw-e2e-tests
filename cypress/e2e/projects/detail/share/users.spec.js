@@ -13,7 +13,7 @@ describe('Share project with other user', () => {
     })
 
     beforeEach(() => {
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.clearServerCache()
     })
 

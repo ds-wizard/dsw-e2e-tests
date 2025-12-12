@@ -7,7 +7,7 @@ describe('Latest version', () => {
 
     before(() => {
         cy.task('knowledgeModelPackage:delete', { km_id: kmId })
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.clearServerCache()
 
         cy.importKM('km-migration/dsw_parent-km_1.11.0')

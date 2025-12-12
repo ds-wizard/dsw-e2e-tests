@@ -14,7 +14,7 @@ describe('Questionnaire - View Settings', () => {
     }
 
     const withQuestionnaire = (knowledgeModelPackageId, callback) => {
-        cy.createQuestionnaire({
+        cy.createProject({
             visibility: project.VisibleEdit,
             sharing: project.AnyoneWithLinkEdit,
             name: projectName,
@@ -35,7 +35,7 @@ describe('Questionnaire - View Settings', () => {
     })
 
     beforeEach(() => {
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.clearServerCache()
     })
 
