@@ -17,7 +17,7 @@ describe('Project CRUD', () => {
 
 
     beforeEach(() => {
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.clearServerCache()
 
         cy.loginAs('researcher')
@@ -48,7 +48,7 @@ describe('Project CRUD', () => {
             knowledgeModelPackageId
         }
         
-        cy.createQuestionnaire(p)
+        cy.createProject(p)
         project.open(otherProjectName)
         project.openSettings()
 
@@ -69,7 +69,7 @@ describe('Project CRUD', () => {
             name: projectName,
             knowledgeModelPackageId
         }
-        cy.createQuestionnaire(p)
+        cy.createProject(p)
         project.open(projectName)
         project.openSettings()
 

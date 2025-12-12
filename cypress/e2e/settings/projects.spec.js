@@ -35,7 +35,7 @@ describe('Settings / Projects', () => {
     })
 
     beforeEach(() => {
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.putDefaultAppConfig()
 
         cy.loginAs('admin')
@@ -179,17 +179,17 @@ describe('Settings / Projects', () => {
     }
 
     const tests = [{
-        projectCreation: project.TemplateAndCustomQuestionnaireCreation,
+        projectCreation: project.TemplateAndCustomProjectCreation,
         isDefault: true,
         researcher: expectBothEnabled,
         datasteward: expectBothEnabled
     }, {
-        projectCreation: project.TemplateQuestionnaireCreation,
+        projectCreation: project.TemplateProjectCreation,
         isDefault: false,
         researcher: expectTemplateOnlyEnabled,
         datasteward: expectBothEnabled
     }, {
-        projectCreation: project.CustomQuestionnaireCreation,
+        projectCreation: project.CustomProjectCreation,
         isDefault: false,
         researcher: expectCustomOnlyEnabled,
         datasteward: expectCustomOnlyEnabled

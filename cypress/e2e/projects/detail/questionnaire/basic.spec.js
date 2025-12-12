@@ -25,10 +25,10 @@ describe('Basic Questionnaire Tests', () => {
 
 
     beforeEach(() => {
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.clearServerCache()
 
-        cy.createQuestionnaire({
+        cy.createProject({
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,

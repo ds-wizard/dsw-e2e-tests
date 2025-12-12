@@ -16,12 +16,12 @@ describe('Document Template Editor / Editor / Preview', () => {
     beforeEach(() => {
         // prepare base document template
         cy.task('documentTemplate:delete')
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.clearServerCache()
         cy.importTemplate('templates/questionnaire-report.zip')
 
         // create project to use for preview
-        cy.createQuestionnaire({
+        cy.createProject({
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,

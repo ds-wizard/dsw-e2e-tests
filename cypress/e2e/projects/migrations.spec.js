@@ -7,7 +7,7 @@ describe('Questionnaire Migrations', () => {
     const getPackageId = (km, minor) => `dsw:${km}:1.${minor}.0`
 
     const createQuestionnaire = (km, minor) => {
-        cy.createQuestionnaire({
+        cy.createProject({
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
@@ -36,7 +36,7 @@ describe('Questionnaire Migrations', () => {
 
 
     beforeEach(() => {
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.clearServerCache()
         
         cy.loginAs('researcher')

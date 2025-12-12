@@ -15,7 +15,7 @@ describe('Project Clone', () => {
 
 
     beforeEach(() => {
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.clearServerCache()
         
         cy.loginAs('researcher')
@@ -24,7 +24,7 @@ describe('Project Clone', () => {
     
     it('can clone project', () => {
         // create a new questionnaire
-        cy.createQuestionnaire({
+        cy.createProject({
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,

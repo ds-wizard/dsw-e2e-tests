@@ -18,10 +18,10 @@ describe('Comments', () => {
     beforeEach(() => {
         cy.clearLocalStorage()
 
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.clearServerCache()
 
-        cy.createQuestionnaire({
+        cy.createProject({
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
@@ -37,7 +37,7 @@ describe('Comments', () => {
         project.openCommentsFor('Options Question 1')
         project.startNewCommentThread('This is a new thread')
         project.expectCommentCount(1)
-        cy.clearCurrentQuestionnaireSidePanelLocalStorage()
+        cy.clearCurrentProjectSidePanelLocalStorage()
         cy.reload()
         project.expectCommentCount(1)
     }
@@ -50,7 +50,7 @@ describe('Comments', () => {
         project.openPrivateNotesFor('Options Question 1')
         project.startNewPrivateNotesThread('This is a new thread')
         project.expectCommentCount(2)
-        cy.clearCurrentQuestionnaireSidePanelLocalStorage()
+        cy.clearCurrentProjectSidePanelLocalStorage()
         cy.reload()
         project.expectCommentCount(2)
     }
@@ -58,7 +58,7 @@ describe('Comments', () => {
     const testNoPrivateNotes = () => {
         project.openCommentsFor('Options Question 1')
         cy.getCy('comments_nav_private-notes').should('not.exist')
-        cy.clearCurrentQuestionnaireSidePanelLocalStorage()
+        cy.clearCurrentProjectSidePanelLocalStorage()
     }
 
     it('as Admin', () => {
@@ -308,7 +308,7 @@ describe('Comments', () => {
         project.setProjectSharing(project.AnyoneWithLinkEdit)
 
         const msg = {
-            type: 'SetContent_ClientQuestionnaireAction',
+            type: 'SetContent_ClientProjectMessage',
             data: {
                 type: 'AddCommentEvent',
                 uuid: 'd805310f-62f4-4559-88b2-df425c9ded5d',
@@ -323,7 +323,7 @@ describe('Comments', () => {
 
         project.open(projectName)
         project.expectCommentCount(0)
-        cy.wsSend(`/questionnaires/${projectUuid}/websocket`, msg)
+        cy.wsSend(`/projects/${projectUuid}/websocket`, msg)
         project.openCommentsFor('Options Question 1')
         cy.get('.Comment_MD').contains('This is a comment').should('exist')
     })

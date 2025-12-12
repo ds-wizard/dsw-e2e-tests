@@ -38,10 +38,10 @@ describe('Questionnaire Versions', () => {
     beforeEach(() => {
         cy.clearLocalStorage()
 
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.clearServerCache()
 
-        cy.createQuestionnaire({
+        cy.createProject({
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
@@ -143,9 +143,9 @@ describe('Questionnaire Versions', () => {
         clickEventAction('View questionnaire', 'nth-child(2)')
 
         // check it has opened correctly
-        cy.get('.QuestionnaireVersionViewModal .modal-header .badge.bg-secondary').contains('1.0.0').should('exist')
-        cy.get('.QuestionnaireVersionViewModal .modal-content label').contains('Answer 1.1').find('input').should('not.be.checked')
-        cy.get('.QuestionnaireVersionViewModal .modal-content label').contains('Value Question String').closest('.form-group').find('input').should('have.value', 'Answer')
+        cy.get('.ProjectVersionViewModal .modal-header .badge.bg-secondary').contains('1.0.0').should('exist')
+        cy.get('.ProjectVersionViewModal .modal-content label').contains('Answer 1.1').find('input').should('not.be.checked')
+        cy.get('.ProjectVersionViewModal .modal-content label').contains('Value Question String').closest('.form-group').find('input').should('have.value', 'Answer')
 
     })
 

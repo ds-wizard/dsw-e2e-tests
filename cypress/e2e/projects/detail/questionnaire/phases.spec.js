@@ -13,11 +13,11 @@ describe('Questionnaire Phases', () => {
     })
 
     beforeEach(() => {
-        cy.task('questionnaire:delete')
+        cy.task('project:delete')
         cy.clearServerCache()
         
         cy.loginAs('researcher')
-        cy.createQuestionnaire({
+        cy.createProject({
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
