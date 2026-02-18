@@ -3,14 +3,15 @@ import * as project from '../../support/project-helpers'
 describe('Project Clone', () => {
     const projectName = 'Test Project'
     const kmId = 'basic-questionnaire-test-km'
-    const knowledgeModelPackageId = 'dsw:basic-questionnaire-test-km:1.0.0'
-
+    let knowledgeModelPackageUuid
 
     before(() => {
         cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.importKM(kmId)
+        cy.importKM(kmId, (uuid) => {
+            knowledgeModelPackageUuid = uuid
+        })
     })
 
 
@@ -28,7 +29,7 @@ describe('Project Clone', () => {
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
-            knowledgeModelPackageId
+            knowledgeModelPackageUuid
         })
 
         // fill in some answers

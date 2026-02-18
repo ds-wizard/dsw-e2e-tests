@@ -5,7 +5,6 @@ describe('Project Template', () => {
     const projectName = 'Test Project'
     const kmId = 'test-km-1'
     const packageName = 'Test Knowledge Model 1'
-    const packageId = 'dsw:test-km-1:1.0.0'
     const templateName = 'Questionnaire Report'
 
     before(() => {
@@ -29,7 +28,7 @@ describe('Project Template', () => {
         cy.getCy('projects_create-button').click()
         cy.fillFields({
             name: templateProjectName,
-            th_knowledgeModelPackageId: packageName
+            th_knowledgeModelPackageUuid: packageName
         })
         cy.clickBtn('Create')
         project.awaitOpen()
@@ -42,7 +41,7 @@ describe('Project Template', () => {
         project.openSettings()
         cy.fillFields({
             description: 'This is my template project',
-            th_documentTemplateId: templateName
+            th_documentTemplateUuid: templateName
         })
         cy.checkToggle('isTemplate')
         cy.contains('JSON Data').click()
@@ -66,7 +65,7 @@ describe('Project Template', () => {
         cy.getCy('projects_create-button').click()
         cy.fillFields({
             name: projectName,
-            th_templateId: templateProjectName
+            th_projectUuid: templateProjectName
         })
         cy.clickBtn('Create')
         cy.url().should('contain', '/projects/')

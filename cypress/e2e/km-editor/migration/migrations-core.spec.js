@@ -1,4 +1,5 @@
 import * as migration from '../../../support/migration-helpers'
+import * as packages from '../../../support/packages-helpers'
 import { dataCy } from '../../../support/utils'
 
 
@@ -2771,15 +2772,18 @@ describe('KM Editor Migrations', () => {
         migration.reject()
 
         migration.finishMigrationAndPublish(2, 1, 0)
-        migration.verifyPackageWithBundle(
-            config.getChildPackageId('2.1.0'),
-            config.getChildKM('2.1.0'),
-            {
-                'previous_package_id': config.getChildPackageId('2.0.0'),
-                'fork_of_package_id': config.getParentPackageId('1.11.0')
-            },
-            false
-        )
+
+        packages.getPackageUuid(config.getChildPackageId('2.0.0')).then((previousPackageUuid) => {
+            migration.verifyPackageWithBundle(
+                config.getChildPackageId('2.1.0'),
+                config.getChildKM('2.1.0'),
+                {
+                    'previous_package_uuid': previousPackageUuid,
+                    'fork_of_package_id': config.getParentPackageId('1.11.0')
+                },
+                false
+            )
+        })
     })
 
     it('can migrate with apply all', () => {
@@ -2789,14 +2793,17 @@ describe('KM Editor Migrations', () => {
         cy.getCy('km-migration_apply-all-button').click()
 
         migration.finishMigrationAndPublish(2, 1, 0)
-        migration.verifyPackageWithBundle(
-            config.getChildPackageId('2.1.0'),
-            config.getChildKM('2.1.0-applyall'),
-            {
-                'previous_package_id': config.getChildPackageId('2.0.0'),
-                'fork_of_package_id': config.getParentPackageId('1.11.0')
-            },
-            false
-        )
+
+        packages.getPackageUuid(config.getChildPackageId('2.0.0')).then((previousPackageUuid) => {
+            migration.verifyPackageWithBundle(
+                config.getChildPackageId('2.1.0'),
+                config.getChildKM('2.1.0-applyall'),
+                {
+                    'previous_package_uuid': previousPackageUuid,
+                    'fork_of_package_id': config.getParentPackageId('1.11.0')
+                },
+                false
+            )
+        })
     })
 })

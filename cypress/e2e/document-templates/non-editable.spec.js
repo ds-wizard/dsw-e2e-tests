@@ -1,13 +1,19 @@
 describe('Non-editable Document Template', () => {
     const templateId = 'dsw:questionnaire-report:1.4.0'
     const templateName = 'Questionnaire Report'
+    let documentTemplateUuid
 
     before(() => {
         cy.removeTemplate(templateId)
         cy.clearServerCache()
 
         cy.importTemplate('templates/questionnaire-report.zip')
-        cy.task('documentTemplate:setNonEditable', { id: templateId })
+            .then(uuid => {
+                documentTemplateUuid = uuid
+            })
+            .then(() => {
+                cy.task('documentTemplate:setNonEditable', { uuid: documentTemplateUuid })
+            })
     })
 
     beforeEach(() => {
@@ -23,7 +29,7 @@ describe('Non-editable Document Template', () => {
     })
 
     it('detail', () => {
-        cy.visitApp(`/document-templates/${templateId}`)
+        cy.visitApp(`/document-templates/${documentTemplateUuid}`)
         cy.get('.badge').contains('non-editable').should('exist')
 
         cy.expectDropdownAction('export', false)
@@ -31,7 +37,7 @@ describe('Non-editable Document Template', () => {
     })
 
     it('cannot create editor manually', () => {
-        cy.visitApp(`/document-template-editors/create?selected=${templateId}&edit=true`)
+        cy.visitApp(`/document-template-editors/create?selected=${documentTemplateUuid}&edit=true`)
         cy.submitForm()
         cy.getCy('flash_alert-danger').should('exist')
     })

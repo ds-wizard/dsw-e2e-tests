@@ -11,7 +11,7 @@ describe('KMEditor WebSocket Tests', () => {
         cy.clearServerCache()
 
         cy.createKMEditor({
-            kmId, name: kmName, version: '1.0.0', previousPackageId: null
+            kmId, name: kmName, version: '1.0.0', previousPackageUuid: null
         }).then(result => {
             kmEditorUuid = result.body.uuid
         })

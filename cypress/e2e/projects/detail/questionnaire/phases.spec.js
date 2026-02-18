@@ -4,12 +4,15 @@ import * as phases from '../../../../support/phases-helpers'
 
 describe('Questionnaire Phases', () => {
     const projectName = 'Test of Phases'
+    let knowledgeModelPackageUuid
 
     before(() => {
         cy.task('knowledgeModelPackage:delete', { km_id: phases.kmId })
         cy.clearServerCache()
 
-        cy.importKM(phases.kmId)
+        cy.importKM(phases.kmId, (uuid) => {
+            knowledgeModelPackageUuid = uuid
+        })
     })
 
     beforeEach(() => {
@@ -21,7 +24,7 @@ describe('Questionnaire Phases', () => {
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
-            knowledgeModelPackageId: phases.packageId
+            knowledgeModelPackageUuid
         })
         cy.loginAs('researcher')
         project.open(projectName)

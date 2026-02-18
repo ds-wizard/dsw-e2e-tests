@@ -3,8 +3,8 @@ import * as project from '../../../support/project-helpers'
 describe('Project - Preview', () => {
     const projectName = 'Preview test'
     const kmId = 'test-documents'
-    const knowledgeModelPackageId = 'dsw:test-documents:1.0.0'
-    const documentTemplateId = 'dsw:questionnaire-report:1.4.0'
+    let knowledgeModelPackageUuid
+    let documentTemplateUuid
 
     const browserFormats = [
         'JSON Data',
@@ -42,8 +42,12 @@ describe('Project - Preview', () => {
         cy.removeTemplate('dsw:questionnaire-report:1.4.0')
         cy.clearServerCache()
         
-        cy.importKM(kmId)
-        cy.importTemplate('templates/questionnaire-report.zip')
+        cy.importKM(kmId, (uuid) => {
+            knowledgeModelPackageUuid = uuid
+        })
+        cy.importTemplate('templates/questionnaire-report.zip').then((uuid) => {
+            documentTemplateUuid = uuid
+        })
     })
 
     beforeEach(() => {
@@ -57,8 +61,8 @@ describe('Project - Preview', () => {
             sharing: project.Restricted,
             name: projectName,
             sharing: project.Restricted,
-            knowledgeModelPackageId,
-            documentTemplateId
+            knowledgeModelPackageUuid,
+            documentTemplateUuid
         }).then((resp) => {
             cy.fixture(`${kmId}-questionnaire-content`).then((req) => {
                 cy.updateProjectContent(resp.body.uuid, req)

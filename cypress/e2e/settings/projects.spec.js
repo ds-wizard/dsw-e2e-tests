@@ -1,3 +1,4 @@
+import * as packages from '../../support/packages-helpers'
 import * as project from '../../support/project-helpers'
 
 describe('Settings / Projects', () => {
@@ -142,7 +143,7 @@ describe('Settings / Projects', () => {
     const expectCustomOnlyEnabled = () => {
         cy.getCy('project_create_nav_template').should('not.exist')
         cy.getCy('project_create_nav_custom').should('not.exist')
-        cy.get('#knowledgeModelPackageId').should('exist')
+        cy.get('#knowledgeModelPackageUuid').should('exist')
 
         expectCreateProjectButton(true)
     }
@@ -150,14 +151,16 @@ describe('Settings / Projects', () => {
     const expectTemplateOnlyEnabled = () => {
         cy.getCy('project_create_nav_template').should('not.exist')
         cy.getCy('project_create_nav_custom').should('not.exist')
-        cy.get('#templateId').should('exist')
+        cy.get('#projectUuid').should('exist')
 
         expectCreateProjectButton(false)
     }
 
     const expectCreateProjectButton = (visible) => {
-        cy.visitApp(`/knowledge-models/${packageId}`)
-        cy.getCy('listing-item_action_create-project').should(visible ? 'exist' : 'not.exist')
+        packages.getPackageUuid(packageId).then(packageUuid => {
+            cy.visitApp(`/knowledge-models/${packageUuid}`)
+            cy.getCy('listing-item_action_create-project').should(visible ? 'exist' : 'not.exist')
+        })
     }
 
     const creationTest = (projectCreation, role, expect, isDefault) => {

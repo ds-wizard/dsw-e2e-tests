@@ -4,7 +4,6 @@ import * as project from '../../support/project-helpers'
 describe('Document List', () => {
     const projectName = 'Documents test'
     const kmId = 'test-km-1'
-    const knowledgeModelPackageId = 'dsw:test-km-1:1.0.0'
     const documentTemplateId = 'dsw:questionnaire-report:1.4.0'
     const formatUuid = 'd3e98eb6-344d-481f-8e37-6a67b6cd1ad2'
 
@@ -14,28 +13,29 @@ describe('Document List', () => {
         cy.removeTemplate(documentTemplateId)
         cy.clearServerCache()
 
-        cy.importKM('test-km-1')
-        cy.importTemplate('templates/questionnaire-report.zip')
-        
-        const projectData = {
-            visibility: project.Private,
-            name: projectName,
-            sharing: project.Restricted,
-            knowledgeModelPackageId
-        }
-        
-        cy.createProject(projectData).then((resp) => {
-            const projectUuid = resp.body.uuid
-            const documents = []
-            for (let i = 1; i <= 40; i++) {
-                documents.push({
-                    name: `Document ${('0' + i).slice(-2)}`,
-                    formatUuid,
-                    documentTemplateId,
-                    projectUuid
+        cy.importKM('test-km-1', (knowledgeModelPackageUuid) => {
+            cy.importTemplate('templates/questionnaire-report.zip').then(documentTemplateUuid => {
+                const projectData = {
+                    visibility: project.Private,
+                    name: projectName,
+                    sharing: project.Restricted,
+                    knowledgeModelPackageUuid
+                }
+
+                cy.createProject(projectData).then((resp) => {
+                    const projectUuid = resp.body.uuid
+                    const documents = []
+                    for (let i = 1; i <= 40; i++) {
+                        documents.push({
+                            name: `Document ${('0' + i).slice(-2)}`,
+                            formatUuid,
+                            documentTemplateUuid,
+                            projectUuid
+                        })
+                    }
+                    cy.createDocuments(documents)
                 })
-            }
-            cy.createDocuments(documents)
+            })
         })
     })
 
@@ -46,7 +46,7 @@ describe('Document List', () => {
 
     it('default sort', () => {
         cy.getCy('documents_state-badge').should('not.exist')
-        
+
         cy.getCy('listing_item').contains('Document 40').should('exist')
         cy.getCy('listing_item').contains('Document 32').should('exist')
         cy.getCy('listing_item').contains('Document 21').should('exist')
@@ -83,7 +83,7 @@ describe('Document List', () => {
         cy.getCy('documents_state-badge').should('not.exist')
         cy.fillFields({ filter: '4' })
         cy.getCy('listing_page-link').should('not.exist')
-        
+
         cy.getCy('listing_item').contains('Document 04').should('exist')
         cy.getCy('listing_item').contains('Document 14').should('exist')
         cy.getCy('listing_item').contains('Document 24').should('exist')

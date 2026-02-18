@@ -1,3 +1,4 @@
+import * as packages from '../../support/packages-helpers'
 import * as project from '../../support/project-helpers'
 
 describe('Project CRUD', () => {
@@ -6,6 +7,7 @@ describe('Project CRUD', () => {
     const kmId = 'test-km-1'
     const packageName = 'Test Knowledge Model 1'
     const knowledgeModelPackageId = 'dsw:test-km-1:1.0.0'
+    let knowledgeModelPackageUuid
 
 
     before(() => {
@@ -13,6 +15,9 @@ describe('Project CRUD', () => {
         cy.clearServerCache()
 
         cy.importKM('test-km-1')
+        packages.getPackageUuid(knowledgeModelPackageId).then((uuid) => {
+            knowledgeModelPackageUuid = uuid
+        })
     })
 
 
@@ -29,7 +34,7 @@ describe('Project CRUD', () => {
         cy.getCy('projects_create-button').click()
         cy.fillFields({
             name: projectName,
-            th_knowledgeModelPackageId: packageName
+            th_knowledgeModelPackageUuid: packageName
         })
 
         cy.clickBtn('Create')
@@ -40,12 +45,12 @@ describe('Project CRUD', () => {
     })
 
 
-    it('update questionnaire', () => {
+    it('update project', () => {
         const p = {
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: otherProjectName,
-            knowledgeModelPackageId
+            knowledgeModelPackageUuid
         }
         
         cy.createProject(p)
@@ -62,12 +67,12 @@ describe('Project CRUD', () => {
     })
 
 
-    it('delete questionnaire', () => {
+    it('delete project', () => {
         const p = {
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
-            knowledgeModelPackageId
+            knowledgeModelPackageUuid
         }
         cy.createProject(p)
         project.open(projectName)

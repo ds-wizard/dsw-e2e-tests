@@ -1,3 +1,5 @@
+import * as documentTemplates from '../../support/document-templates-helpers'
+
 describe('Document Template Editor / Create', () => {
     before(() => {
         cy.putDefaultAppConfig()
@@ -28,19 +30,25 @@ describe('Document Template Editor / Create', () => {
         })
         cy.submitForm()
 
-        cy.url().should('contain', `/document-template-editors/dsw:${templateId}:1.0.0`)
+        documentTemplates.getDocumentTemplateUuid(`dsw:${templateId}:1.0.0`).then(uuid => {
+            cy.url().should('contain', `/document-template-editors/${uuid}`)
+        })
 
         cy.visitApp('/document-template-editors')
         cy.getListingItem(templateId).should('contain', name)
     })
 
     it('can create from existing', () => {
-        cy.visitApp('/document-templates/dsw:questionnaire-report:1.4.0')
+        documentTemplates.getDocumentTemplateUuid('dsw:questionnaire-report:1.4.0').then(uuid => {
+            cy.visitApp(`/document-templates/${uuid}`)
+        })
         cy.clickDropdownAction('create-editor')
         cy.submitForm()
 
         // it should be prefilled to next minor version
-        cy.url().should('contain', `/document-template-editors/dsw:questionnaire-report:1.5.0`)
+        documentTemplates.getDocumentTemplateUuid('dsw:questionnaire-report:1.5.0').then(uuid => {
+            cy.url().should('contain', `/document-template-editors/${uuid}`)
+        })
 
         cy.visitApp('/document-template-editors')
         cy.getListingItem('questionnaire-report').should('contain', 'Questionnaire Report')

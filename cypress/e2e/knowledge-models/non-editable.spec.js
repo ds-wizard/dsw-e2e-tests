@@ -1,3 +1,5 @@
+import * as packages from '../../support/packages-helpers'
+
 describe('Non-editable KM', () => {
     const orgId = 'dsw'
     const kmId = 'test-km-1'
@@ -19,7 +21,7 @@ describe('Non-editable KM', () => {
     it('list view', () => {
         cy.visitApp('/knowledge-models')
         cy.get('.badge').contains('non-editable').should('exist')
-        
+
         cy.expectListingItemAction(kmName, 'create-project', true)
         cy.expectListingItemAction(kmName, 'create-km-editor', false)
         cy.expectListingItemAction(kmName, 'export', false)
@@ -27,7 +29,9 @@ describe('Non-editable KM', () => {
     })
 
     it('detail', () => {
-        cy.visitApp(`/knowledge-models/${orgId}:${kmId}:${version}`)
+        packages.getPackageUuid(orgId, kmId, version).then((packageUuid) => {
+            cy.visitApp(`/knowledge-models/${packageUuid}`)
+        })
         cy.get('.badge').contains('non-editable').should('exist')
 
         cy.expectDropdownAction('create-project', true)
@@ -37,7 +41,9 @@ describe('Non-editable KM', () => {
     })
 
     it('cannot create editor manually', () => {
-        cy.visitApp(`/knowledge-model-editors/create?selected=${orgId}:${kmId}:${version}&edit=true`)
+        packages.getPackageUuid(orgId, kmId, version).then((packageUuid) => {
+            cy.visitApp(`/knowledge-model-editors/create?selected=${packageUuid}&edit=true`)
+        })
         cy.get('.version-suggestions a:first-child').click()
         cy.submitForm()
         cy.getCy('flash_alert-danger').should('exist')

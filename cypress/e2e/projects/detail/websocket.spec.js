@@ -6,12 +6,15 @@ describe('Questionnaire WebSocket Tests', () => {
     const kmId = 'basic-questionnaire-test-km'
     const knowledgeModelPackageId = 'dsw:basic-questionnaire-test-km:1.0.0'
     let projectUuid = ''
+    let knowledgeModelPackageUuid
 
     before(() => {
         cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.importKM(kmId)
+        cy.importKM(kmId, (uuid) => {
+            knowledgeModelPackageUuid = uuid
+        })
     })
 
 
@@ -23,7 +26,7 @@ describe('Questionnaire WebSocket Tests', () => {
             visibility: project.VisibleEdit,
             sharing: project.AnyoneWithLinkEdit,
             name: projectName,
-            knowledgeModelPackageId
+            knowledgeModelPackageUuid
         }).then(result => {
             projectUuid = result.body.uuid
         })

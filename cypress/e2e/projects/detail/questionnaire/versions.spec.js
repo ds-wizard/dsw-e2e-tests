@@ -5,6 +5,7 @@ describe('Questionnaire Versions', () => {
     const projectName = 'Test Project'
     const kmId = 'basic-questionnaire-test-km'
     const knowledgeModelPackageId = 'dsw:basic-questionnaire-test-km:1.0.0'
+    let knowledgeModelPackageUuid
 
     const openVersionHistory = () => {
         cy.get('.questionnaire__toolbar .item').contains('Version history').click()
@@ -31,7 +32,9 @@ describe('Questionnaire Versions', () => {
         cy.removeTemplate('dsw:questionnaire-report:1.4.0')
         cy.clearServerCache()
 
-        cy.importKM(kmId)
+        cy.importKM(kmId, (uuid) => {
+            knowledgeModelPackageUuid = uuid
+        })
         cy.importTemplate('templates/questionnaire-report.zip')
     })
 
@@ -45,7 +48,7 @@ describe('Questionnaire Versions', () => {
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
-            knowledgeModelPackageId
+            knowledgeModelPackageUuid
         })
         cy.loginAs('researcher')
         project.open(projectName)
@@ -176,7 +179,7 @@ describe('Questionnaire Versions', () => {
         cy.get('h2').contains('New Document').should('exist')
         cy.get('.alert-info').contains('You are creating a document for a project version from').should('exist')
 
-        cy.fillFields({ th_documentTemplateId: 'Questionnaire Report' })
+        cy.fillFields({ th_documentTemplateUuid: 'Questionnaire Report' })
         cy.contains('JSON Data').click()
         cy.clickBtn('Create')
 

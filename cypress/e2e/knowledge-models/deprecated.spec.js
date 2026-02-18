@@ -1,12 +1,11 @@
 describe('Deprecated KM', () => {
-    const orgId = 'dsw'
     const kmId = 'test-km-1'
     const kmName = 'Test Knowledge Model 1'
-    const version = '1.0.0'
+    let knowledgeModelPackageUuid
 
     const searchKM = (value) => {
-        cy.get(`#knowledgeModelPackageId`).click()
-        cy.get(`#knowledgeModelPackageId_search`).type(value)
+        cy.get(`#knowledgeModelPackageUuid`).click()
+        cy.get(`#knowledgeModelPackageUuid_search`).type(value)
     }
 
     before(() => {
@@ -16,14 +15,16 @@ describe('Deprecated KM', () => {
         cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.importKM('/test-km-1')
+        cy.importKM('/test-km-1', (uuid) => {
+            knowledgeModelPackageUuid = uuid
+        })
     })
 
     it('set deprecated and restore', () => {
         cy.loginAs('datasteward')
 
         // set KM deprecated
-        cy.visitApp(`/knowledge-models/${orgId}:${kmId}:${version}`)
+        cy.visitApp(`/knowledge-models/${knowledgeModelPackageUuid}`)
         cy.clickDropdownAction('set-deprecated')
 
         // check it was set
@@ -36,11 +37,11 @@ describe('Deprecated KM', () => {
         cy.get('.typehints-empty').should('exist')
 
         // restore KM
-        cy.visitApp(`/knowledge-models/${orgId}:${kmId}:${version}`)
+        cy.visitApp(`/knowledge-models/${knowledgeModelPackageUuid}`)
         cy.clickDropdownAction('restore')
 
         // check it is suggested again
         cy.visitApp('/projects/create')
-        cy.fillFields({ th_knowledgeModelPackageId: kmName })
+        cy.fillFields({ th_knowledgeModelPackageUuid: kmName })
     })
 })

@@ -1,4 +1,5 @@
-import * as editor from '../../../support/editor-helpers'
+import * as kmEditor from '../../../support/editor-helpers'
+import * as dtEditor from '../../../support/dt-editor-helpers'
 import * as project from '../../../support/project-helpers'
 import { dataCy } from '../../../support/utils'
 
@@ -23,16 +24,15 @@ describe('Document Template Editor / Editor / Preview with KM Editor', () => {
             s_type: 'Value',
             title: 'Question 1',
         }
-        editor.createChildren([
+        kmEditor.createChildren([
             ['chapter', chapter],
             ['question', question]
         ])
     }
 
     const createDocumentTemplateEditor = () => {
-        cy.visitApp('/document-template-editors/create?selected=dsw:questionnaire-report:1.4.0&edit=true')
-        cy.submitForm()
-        cy.url().should('contain', '/document-template-editors/dsw:questionnaire-report:1.5.0')
+        cy.loginAs('datasteward')
+        dtEditor.createEditor('dsw:questionnaire-report:1.4.0', 'dsw:questionnaire-report:1.5.0')
     }
     
     const validateReplies = (validate) => {
@@ -74,11 +74,11 @@ describe('Document Template Editor / Editor / Preview with KM Editor', () => {
 
         // Go back to the KM Editor and edit replies
         cy.visitApp('/knowledge-model-editors')
-        editor.open(kmId)
-        editor.openPreview()
+        kmEditor.open(kmId)
+        kmEditor.openPreview()
         project.typeAnswer('Question 1', 'This is the question answer')
         cy.getCy('km-editor_preview_save-values').click()
-        editor.awaitSave()
+        kmEditor.awaitSave()
 
         // Go back to the Document Template Editor
         cy.visitApp('/document-template-editors')
@@ -95,11 +95,11 @@ describe('Document Template Editor / Editor / Preview with KM Editor', () => {
 
         // Back to KM Editor
         cy.visitApp('/knowledge-model-editors')
-        editor.open(kmId)
-        editor.openPreview()
+        kmEditor.open(kmId)
+        kmEditor.openPreview()
         project.clearAnswer('Question 1')
         cy.getCy('km-editor_preview_save-values').click()
-        editor.awaitSave()
+        kmEditor.awaitSave()
 
         // Back to Document Template Editor and check replies are empty again
         cy.visitApp('/document-template-editors')

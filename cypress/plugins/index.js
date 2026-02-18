@@ -83,12 +83,17 @@ module.exports = (on, config) => {
   async function documentTemplateDelete(where) {
     const result = await pg.get({ table: 'document_template', where })
     for (let i = 0; i < result.rows.length; i++) {
-      const { id } = result.rows[i]
-      await projectDelete({ document_template_id: id })
-      await pg.delete({ table: 'document_template', where: { id } })
+      const { uuid } = result.rows[i]
+      await projectDelete({ document_template_uuid: uuid })
+      await pg.delete({ table: 'document_template', where: { uuid } })
     }
 
     return true
+  }
+
+  async function documentTemplateGet(where) {
+    const result = await pg.get({ table: 'document_template', where })
+    return result.rows[0] || null
   }
 
   // Locale
@@ -120,10 +125,10 @@ module.exports = (on, config) => {
   async function knowledgeModelPackageDelete(where) {
     const result = await pg.get({ table: 'knowledge_model_package', where })
     for (let i = 0; i < result.rows.length; i++) {
-      const { id } = result.rows[i]
-      await knowledgeModelPackageDelete({ previous_package_id: id })
-      await knowledgeModelPackageDelete({ fork_of_package_id: id })
-      await pg.delete({ table: 'knowledge_model_package', where: { id } })
+      const { organization_id, km_id, version, uuid } = result.rows[i]
+      await knowledgeModelPackageDelete({ previous_package_uuid: uuid })
+      await knowledgeModelPackageDelete({ fork_of_package_id: `${organization_id}:${km_id}:${version}` })
+      await pg.delete({ table: 'knowledge_model_package', where: { uuid } })
     }
     return true
   }
@@ -132,7 +137,7 @@ module.exports = (on, config) => {
     const result = await pg.get({ table: 'knowledge_model_package', where })
 
     const package = result.rows[0]
-    const events = await pg.getSorted({ table: 'knowledge_model_package_event', where: { package_id: package.id }, order: "created_at" })
+    const events = await pg.getSorted({ table: 'knowledge_model_package_event', where: { package_uuid: package.uuid }, order: "created_at" })
 
     return {...package, events: events.rows }
   }
@@ -244,6 +249,7 @@ module.exports = (on, config) => {
     'actionKey:delete': actionKeyDelete,
     'document:delete': documentDelete,
     'documentTemplate:delete': documentTemplateDelete,
+    'documentTemplate:get': documentTemplateGet,
     'documentTemplate:setNonEditable': documentTemplateSetNonEditable,
     'locale:delete': localeDelete,
     'knowledgeModelEditor:delete': knowledgeModelEditorDelete,

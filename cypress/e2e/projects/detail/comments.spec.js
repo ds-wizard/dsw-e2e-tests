@@ -4,14 +4,16 @@ import * as project from '../../../support/project-helpers'
 describe('Comments', () => {
     const projectName = 'Test Project'
     const kmId = 'test-km-1'
-    const knowledgeModelPackageId = 'dsw:test-km-1:1.0.0'
     let projectUuid = ''
+    let knowledgeModelPackageUuid
 
     before(() => {
         cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.importKM('test-km-1')
+        cy.importKM('test-km-1', (uuid) => {
+            knowledgeModelPackageUuid = uuid
+        })
     })
 
 
@@ -25,7 +27,7 @@ describe('Comments', () => {
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
-            knowledgeModelPackageId
+            knowledgeModelPackageUuid
         }).then(result => {
             projectUuid = result.body.uuid
         })

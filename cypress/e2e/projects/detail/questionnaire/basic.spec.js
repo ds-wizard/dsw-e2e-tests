@@ -4,7 +4,7 @@ import { dataCy } from '../../../../support/utils'
 describe('Basic Questionnaire Tests', () => {
     const projectName = 'Test Project'
     const kmId = 'basic-questionnaire-test-km'
-    const knowledgeModelPackageId = 'dsw:basic-questionnaire-test-km:1.0.0'
+    let knowledgeModelPackageUuid
 
 
     const getCurrentYearAndMonth = () => {
@@ -20,7 +20,9 @@ describe('Basic Questionnaire Tests', () => {
         cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.importKM(kmId)
+        cy.importKM(kmId, (uuid) => {
+            knowledgeModelPackageUuid = uuid
+        })
     })
 
 
@@ -32,7 +34,7 @@ describe('Basic Questionnaire Tests', () => {
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
-            knowledgeModelPackageId
+            knowledgeModelPackageUuid
         })
         cy.loginAs('researcher')
         project.open(projectName)

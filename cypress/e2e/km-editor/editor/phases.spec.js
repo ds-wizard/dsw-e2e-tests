@@ -4,13 +4,15 @@ import * as editor from '../../../support/editor-helpers'
 describe('KM Editor Tags', () => {
     const kmName = 'Test Knowledge Model'
     const kmId = 'km-with-tags'
-    const previousPackageId = 'mto:km-with-tags:1.0.0'
+    let previousPackageUuid
 
     before(() => {
         cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.importKM('km-with-tags')
+        cy.importKM('km-with-tags', (uuid) => {
+            previousPackageUuid = uuid
+        })
     })
 
 
@@ -18,7 +20,7 @@ describe('KM Editor Tags', () => {
         cy.task('knowledgeModelEditor:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageId })
+        cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageUuid })
         cy.loginAs('datasteward')
         cy.visitApp('/knowledge-model-editors')
     })

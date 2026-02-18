@@ -1,13 +1,12 @@
 import * as project from '../../support/project-helpers'
 
 describe('Anonymous projects', () => {
-    const orgId = 'dsw'
     const kmId = 'test-km-1'
-    const packageId = 'dsw:test-km-1:1.0.0'
     const questionUuid = 'd52ab630-2ef1-46fe-a6c0-6e4b93a9850f'
-    const kmName = 'Test Knowledge Model 1'
+    let knowledgeModelPackageUuid
 
     const enableAnonymousProjects = () => {
+        cy.loginAs('admin')
         cy.visitApp('/settings/projects')
         cy.checkToggle('questionnaireSharingAnonymousEnabled')
         cy.clickBtn('Save', true)
@@ -18,24 +17,21 @@ describe('Anonymous projects', () => {
         cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.importKM('test-km-1')
+        cy.loginAs('admin')
+        cy.importKM('test-km-1', (uuid) => {
+            knowledgeModelPackageUuid = uuid
+            
+            cy.loginAs('datasteward')
+            cy.visitApp(`/knowledge-models/${knowledgeModelPackageUuid}`)
+            cy.clickDropdownAction('set-public')
+            cy.logout()
+        })
     })
 
     beforeEach(() => {
         cy.task('project:delete')
         cy.clearServerCache()
         cy.putDefaultAppConfig()
-
-        // enable public km
-        cy.loginAs('admin')
-        cy.visitApp('/settings/knowledge-models')
-        cy.checkToggle('publicEnabled')
-        cy.getCy('form-group_list_add-button').contains('Add knowledge model').click()
-        cy.fillFields({
-            'publicPackages\\.0\\.orgId': orgId,
-            'publicPackages\\.0\\.kmId': kmId
-        })
-        cy.clickBtn('Save')
     })
 
     after(() => {
@@ -47,7 +43,7 @@ describe('Anonymous projects', () => {
         enableAnonymousProjects()
 
         // create project
-        cy.visitApp(`/knowledge-models/${packageId}/preview`)
+        cy.visitApp(`/knowledge-models/${knowledgeModelPackageUuid}/preview`)
         cy.clickBtn('Create project')
         cy.url().should('contain', '/projects/')
         cy.get('.DetailNavigation__Row').should('exist')
@@ -65,7 +61,7 @@ describe('Anonymous projects', () => {
         enableAnonymousProjects()
 
         // create project
-        cy.visitApp(`/knowledge-models/${packageId}/preview?questionUuid=${questionUuid}`)
+        cy.visitApp(`/knowledge-models/${knowledgeModelPackageUuid}/preview?questionUuid=${questionUuid}`)
         cy.clickBtn('Create project')
 
         // check that the answer is selected
@@ -79,7 +75,7 @@ describe('Anonymous projects', () => {
         enableAnonymousProjects()
 
         // create project
-        cy.visitApp(`/knowledge-models/${packageId}/preview`)
+        cy.visitApp(`/knowledge-models/${knowledgeModelPackageUuid}/preview`)
         cy.clickBtn('Create project')
         cy.url().should('not.contain', 'preview')
 
@@ -93,7 +89,7 @@ describe('Anonymous projects', () => {
             cy.clickBtn('Add to my projects')
             cy.wait(1000)
             cy.contains('Add to my projects').should('not.exist')
-            
+
             // disable sharing
             cy.get('.DetailNavigation')
             cy.clickBtn('Share')

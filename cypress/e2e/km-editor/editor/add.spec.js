@@ -11,7 +11,7 @@ describe('KM Editor Add Entity', () => {
         cy.task('knowledgeModelEditor:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageId: null })
+        cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageUuid: null })
         cy.loginAs('datasteward')
         cy.visitApp('/knowledge-model-editors')
     })

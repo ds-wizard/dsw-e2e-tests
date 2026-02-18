@@ -5,20 +5,22 @@ describe('KM Editor Delete Entity', () => {
     const kmName = 'Test Knowledge Model'
     const kmId = 'test-km'
     const previousKmId = 'test-km-1'
-    const previousPackageId = 'dsw:test-km-1:1.0.0'
+    let previousPackageUuid
 
     before(() => {
         cy.task('knowledgeModelPackage:delete', { km_id: previousKmId })
         cy.clearServerCache()
 
-        cy.importKM('test-km-1')
+        cy.importKM('test-km-1', (uuid) => {
+            previousPackageUuid = uuid
+        })
     })
 
     beforeEach(() => {
         cy.task('knowledgeModelEditor:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageId })
+        cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageUuid })
         cy.loginAs('datasteward')
         cy.visitApp('/knowledge-model-editors')
     })

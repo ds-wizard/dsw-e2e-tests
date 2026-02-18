@@ -6,8 +6,9 @@ describe('Documents', () => {
     const projectName = 'Documents test'
     let projectUuid = ''
     const kmId = 'test-documents'
-    const knowledgeModelPackageId = 'dsw:test-documents:1.0.0'
     const documentTemplateId = 'dsw:questionnaire-report:1.4.0'
+    let knowledgeModelPackageUuid
+    let documentTemplateUuid
 
     const templateName = 'Questionnaire Report'
     const brokenTemplateName = 'Broken Template'
@@ -30,8 +31,12 @@ describe('Documents', () => {
         cy.removeTemplate('dsw:not-allowed:0.1.0')
         cy.clearServerCache()
 
-        cy.importKM(kmId)
-        cy.importTemplate('templates/questionnaire-report.zip')
+        cy.importKM(kmId, (uuid) => {
+            knowledgeModelPackageUuid = uuid
+        })
+        cy.importTemplate('templates/questionnaire-report.zip').then((uuid) => {
+            documentTemplateUuid = uuid
+        })
         cy.importTemplate('templates/broken.zip')
         cy.importTemplate('templates/not-allowed.zip')
     })
@@ -47,8 +52,8 @@ describe('Documents', () => {
             sharing: project.Restricted,
             name: projectName,
             sharing: project.Restricted,
-            knowledgeModelPackageId,
-            documentTemplateId
+            knowledgeModelPackageUuid,
+            documentTemplateUuid
         }).then((resp) => {
             cy.fixture(`${kmId}-questionnaire-content`).then((req) => {
                 cy.updateProjectContent(resp.body.uuid, req)
@@ -96,7 +101,7 @@ describe('Documents', () => {
         it(`Broken Template - ${format}`, () => {
             project.open(projectName)
             project.openSettings()
-            cy.fillFields({ th_documentTemplateId: brokenTemplateName })
+            cy.fillFields({ th_documentTemplateUuid: brokenTemplateName })
             cy.clickBtn('Save')
 
             const documentName = `${projectName} (${brokenTemplateName} - ${format})`
@@ -109,16 +114,16 @@ describe('Documents', () => {
 
     it('Not Allowed Template', () => {
         cy.visitApp(`/projects/${projectUuid}/settings`)
-        cy.get('#documentTemplateId').click()
+        cy.get('#documentTemplateUuid').click()
 
-        cy.get('#documentTemplateId_search').clear().type(templateName)
-        cy.get('#documentTemplateId .typehints ul li a').contains(templateName).should('exist')
+        cy.get('#documentTemplateUuid_search').clear().type(templateName)
+        cy.get('#documentTemplateUuid .typehints ul li a').contains(templateName).should('exist')
         
-        cy.get('#documentTemplateId_search').clear().type(brokenTemplateName)
-        cy.get('#documentTemplateId .typehints ul li a').contains(brokenTemplateName).should('exist')
+        cy.get('#documentTemplateUuid_search').clear().type(brokenTemplateName)
+        cy.get('#documentTemplateUuid .typehints ul li a').contains(brokenTemplateName).should('exist')
         
-        cy.get('#documentTemplateId_search').clear().type(notAllowedTemplateName)
-        cy.get('#documentTemplateId .typehints ul li a').should('not.exist')
+        cy.get('#documentTemplateUuid_search').clear().type(notAllowedTemplateName)
+        cy.get('#documentTemplateUuid .typehints ul li a').should('not.exist')
     })
 
     it('Default template not set', () => {
@@ -127,18 +132,18 @@ describe('Documents', () => {
         // unset the default template
         project.open(projectName)
         project.openSettings()
-        cy.clearTypeHintInput('documentTemplateId')
+        cy.clearTypeHintInput('documentTemplateUuid')
         cy.clickBtn('Save')
 
         project.openDocuments()
         cy.clickBtn('New document')
 
         // no format id when tempalte is not selected
-        cy.get('#documentTemplateId').should('exist')
+        cy.get('#documentTemplateUuid').should('exist')
         cy.get('#formatId').should('not.exist')
 
         // select template and submit document
-        cy.fillFields({ th_documentTemplateId: templateName })
+        cy.fillFields({ th_documentTemplateUuid: templateName })
         d.submitDocumentForm(documentName, 'PDF Document')
         d.checkDocument(documentName)
     })

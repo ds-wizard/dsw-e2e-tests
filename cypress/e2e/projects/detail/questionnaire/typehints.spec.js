@@ -3,7 +3,6 @@ import * as project from '../../../../support/project-helpers'
 describe('Questionnaires Typehints', () => {
     const projectName = 'Typehints Test Questionnaire'
     const kmId = 'test-integrations'
-    const knowledgeModelPackageId = 'dsw:test-integrations:1.0.0'
     const errorMessage = 'Unable to get type hints'
     const baseURI = 'http://mockserver:8083'
     const commonTypehints = [
@@ -12,12 +11,15 @@ describe('Questionnaires Typehints', () => {
         { "id": "standard03", "name": "Gramene Taxonomy Ontology" },
         { "id": "standard04", "name": "Minimal Information About a Cellular Assay" }
     ]
+    let knowledgeModelPackageUuid
 
     before(() => {
         cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.importKM(kmId)
+        cy.importKM(kmId, (uuid) => {
+            knowledgeModelPackageUuid = uuid
+        })
     })
 
 
@@ -31,7 +33,7 @@ describe('Questionnaires Typehints', () => {
             visibility: project.Private,
             sharing: project.Restricted,
             name: projectName,
-            knowledgeModelPackageId
+            knowledgeModelPackageUuid
         })
         project.open(projectName)
     })

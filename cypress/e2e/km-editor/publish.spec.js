@@ -1,6 +1,9 @@
+import * as packages from '../../support/packages-helpers'
+
 describe('KM Editor Publish', () => {
     const kmName = 'Test Knowledge Model'
     const kmId = 'test-km'
+    const kmVersion = '1.0.0'
     const license = 'MIT'
     const description = 'This is the first version.'
     const readme = 'This is readme'
@@ -10,7 +13,7 @@ describe('KM Editor Publish', () => {
         cy.task('knowledgeModelEditor:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.createKMEditor({ kmId, name: kmName, version: '1.0.0', previousPackageId: null })
+        cy.createKMEditor({ kmId, name: kmName, version: kmVersion, previousPackageUuid: null })
         cy.loginAs('datasteward')
         cy.visitApp('/knowledge-model-editors')
     })
@@ -29,7 +32,9 @@ describe('KM Editor Publish', () => {
         cy.getCy('km-editor_publish-button').click()
         cy.clickModalAction()
         
-        cy.url().should('contain', kmId)
+        packages.getPackageUuid('dsw', kmId, kmVersion).then((packageUuid) => {
+            cy.url().should('contain', packageUuid)
+        })
         cy.getCy('detail-page_header-title').should('contain', kmName)
         cy.getCy('detail-page_content').should('contain', readme)
         cy.getCy('detail-page_metadata_license').should('contain', license)

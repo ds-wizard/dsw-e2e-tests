@@ -1,31 +1,36 @@
+import * as packages from '../../support/packages-helpers'
 import * as project from '../../support/project-helpers'
 
-
-describe('Questionnaire Migrations', () => {
+describe('Project Migrations', () => {
     const projectName = 'Test Project'
-    const getKM = (km, minor) => `questionnaire-migration/dsw_${km}_1.${minor}.0.json`
-    const getPackageId = (km, minor) => `dsw:${km}:1.${minor}.0`
+    const getKmFile = (km, minor) => `questionnaire-migration/dsw_${km}_1.${minor}.0.json`
+    const getPackageUuid = (km, minor) => packages.getPackageUuid('dsw', km, `1.${minor}.0`)
+
 
     const createQuestionnaire = (km, minor) => {
-        cy.createProject({
-            visibility: project.VisibleView,
-            sharing: project.Restricted,
-            name: projectName,
-            knowledgeModelPackageId: getPackageId(km, minor)
+        getPackageUuid(km, minor).then(packageUuid => {
+            cy.createProject({
+                visibility: project.VisibleView,
+                sharing: project.Restricted,
+                name: projectName,
+                knowledgeModelPackageUuid: packageUuid
+            })
         })
     }
 
     const createMigrationTo = (km, minor) => {
-        cy.visitApp('/projects')
-        cy.clickListingItemAction(projectName, 'create-migration')
-        cy.fillFields({ s_knowledgeModelPackageId: getPackageId(km, minor) })
-        cy.clickBtn('Create')
-        cy.get('.Questionnaire__Migration').should('exist')
+        getPackageUuid(km, minor).then(packageUuid => {
+            cy.visitApp('/projects')
+            cy.clickListingItemAction(projectName, 'create-migration')
+            cy.fillFields({ s_knowledgeModelPackageUuid: packageUuid })
+            cy.clickBtn('Create')
+            cy.get('.Questionnaire__Migration').should('exist')
+        })
     }
 
     const importKM = (kmId, minorVersions) => {
         cy.task('knowledgeModelPackage:delete', { km_id: kmId })
-        cy.importKM(getKM(kmId, minorVersions))
+        cy.importKM(getKmFile(kmId, minorVersions))
     }
 
 
@@ -38,7 +43,7 @@ describe('Questionnaire Migrations', () => {
     beforeEach(() => {
         cy.task('project:delete')
         cy.clearServerCache()
-        
+
         cy.loginAs('researcher')
     })
 
@@ -106,7 +111,7 @@ describe('Questionnaire Migrations', () => {
         cy.get('#question-59b4c6e8-ac0d-40b9-9865-e2c5b86f2dba').should('have.class', 'highlighted')
         cy.get('.radio .diff-added').contains(' or motorbike')
         project.resolveAndFinalizeMigration()
-        
+
         // check migrated things
         cy.get('.radio').contains('Car or motorbike').should('exist')
     })
@@ -160,7 +165,7 @@ describe('Questionnaire Migrations', () => {
         cy.get('#question-bb34bf7c-ca61-4b69-8800-3be9d5f1e50c').should('have.class', 'highlighted')
         cy.get('label .diff-added').contains('Can you speak their language?')
         project.resolveAndFinalizeMigration()
-      
+
         // check correct version
         cy.get('.form-group label').contains('Can you speak their language?').should('exist')
     })
@@ -208,7 +213,7 @@ describe('Questionnaire Migrations', () => {
         // initialize questionnaire & migration
         createQuestionnaire('vacation-planning', 8)
         createMigrationTo('vacation-planning', 9)
-        
+
         // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Question Changed').click()
         cy.get('#question-4516b7ee-c757-4e86-92d7-8920c5d5a06c').should('have.class', 'highlighted')
@@ -223,7 +228,7 @@ describe('Questionnaire Migrations', () => {
         // initialize questionnaire & migration
         createQuestionnaire('vacation-planning', 9)
         createMigrationTo('vacation-planning', 10)
-        
+
         // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Question Changed').click()
         cy.get('#question-4516b7ee-c757-4e86-92d7-8920c5d5a06c').should('have.class', 'highlighted')
@@ -238,7 +243,7 @@ describe('Questionnaire Migrations', () => {
         // initialize questionnaire & migration
         createQuestionnaire('vacation-planning', 10)
         createMigrationTo('vacation-planning', 11)
-        
+
         // check changes and finalize
         cy.getCy('illustrated-message_no-changes').should('exist')
         project.finalizeMigration()
@@ -357,7 +362,7 @@ describe('Questionnaire Migrations', () => {
 
         // initialize migration
         createMigrationTo('move-test', 4)
-    
+
         // check changes and finalize
         cy.get('.changes-view .list-group-item').contains('Moved Question').click()
         cy.get('#question-ff773f6b-b1b8-4d08-bffa-133736f8c850').should('have.class', 'highlighted')
@@ -372,7 +377,7 @@ describe('Questionnaire Migrations', () => {
     it('move question into an item', () => {
         // initialize questionnaire
         createQuestionnaire('move-test', 4)
-    
+
         // fill in the answers 
         project.open(projectName)
         cy.clickBtn('Add')

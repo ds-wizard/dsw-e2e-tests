@@ -1,5 +1,6 @@
 import 'cypress-iframe'
 import { dataCy } from './utils'
+import * as documentTemplates from './document-templates-helpers'
 
 
 const apiUrl = (url) => Cypress.env('api_url') + url
@@ -125,7 +126,7 @@ Cypress.Commands.add('createUser', (user) => {
 
 // Knowledge Models commands
 
-Cypress.Commands.add('importKM', (km) => {
+Cypress.Commands.add('importKM', (km, cb = null) => {
     getTokenFor('admin').then((resp) => {
         cy.fixture(km).then(body => {
             cy.request({
@@ -134,6 +135,11 @@ Cypress.Commands.add('importKM', (km) => {
                 headers: createHeaders(resp.body.token),
                 body
             })
+                .then((resp) => {
+                    if (cb) {
+                        cb(resp.body.uuid)
+                    }
+                })
         })
     })
 })
@@ -142,15 +148,19 @@ Cypress.Commands.add('importKM', (km) => {
 // Templates commands
 
 Cypress.Commands.add('removeTemplate', (documentTemplateId) => {
-    getTokenFor('admin').then((resp) => {
-        cy.task('document:delete', { document_template_id: documentTemplateId })
-        cy.task('project:delete', { document_template_id: documentTemplateId })
+    documentTemplates.getDocumentTemplateUuid(documentTemplateId).then((documentTemplateUuid) => {
+        if (!documentTemplateUuid) return
 
-        cy.request({
-            method: 'DELETE',
-            url: apiUrl(`/document-templates/${documentTemplateId}`),
-            headers: createHeaders(resp.body.token),
-            failOnStatusCode: false
+        getTokenFor('admin').then((resp) => {
+            cy.task('document:delete', { document_template_uuid: documentTemplateUuid })
+            cy.task('project:delete', { document_template_uuid: documentTemplateUuid })
+
+            cy.request({
+                method: 'DELETE',
+                url: apiUrl(`/document-templates/${documentTemplateUuid}`),
+                headers: createHeaders(resp.body.token),
+                failOnStatusCode: false
+            })
         })
     })
 })
@@ -171,7 +181,8 @@ Cypress.Commands.add('importTemplate', (templatePath) => {
                         if (xhr.status >= 300) {
                             reject({ request: xhr })
                         } else {
-                            resolve(xhr)
+                            const json = JSON.parse(xhr.response)
+                            resolve(json.uuid)
                         }
                     }
 
@@ -190,25 +201,25 @@ Cypress.Commands.add('importTemplate', (templatePath) => {
 
 // Projects commands
 
-Cypress.Commands.add('createProject', ({ visibility, sharing, name, knowledgeModelPackageId, documentTemplateId }) => {
+Cypress.Commands.add('createProject', ({ visibility, sharing, name, knowledgeModelPackageUuid, documentTemplateUuid }) => {
     getTokenFor('researcher').then((resp) => {
         cy.request({
             method: 'POST',
             url: apiUrl('/projects'),
             headers: createHeaders(resp.body.token),
-            body: { visibility, sharing, name, knowledgeModelPackageId, documentTemplateId, questionTagUuids: [] }
+            body: { visibility, sharing, name, knowledgeModelPackageUuid, documentTemplateUuid, questionTagUuids: [] }
         })
     })
 })
 
 Cypress.Commands.add('createProjects', (projects) => {
     getTokenFor('researcher').then((resp) => {
-        projects.forEach(({ visibility, sharing, knowledgeModelPackageId, name }) => {
+        projects.forEach(({ visibility, sharing, knowledgeModelPackageUuid, name }) => {
             cy.request({
                 method: 'POST',
                 url: apiUrl('/projects'),
                 headers: createHeaders(resp.body.token),
-                body: { visibility, sharing, name, knowledgeModelPackageId, questionTagUuids: [] }
+                body: { visibility, sharing, name, knowledgeModelPackageUuid, questionTagUuids: [] }
             })
         })
     })
@@ -257,13 +268,13 @@ Cypress.Commands.add('clearCurrentProjectSidePanelLocalStorage', () => {
 
 // KM Editor commands
 
-Cypress.Commands.add('createKMEditor', ({ kmId, name, version, previousPackageId }) => {
+Cypress.Commands.add('createKMEditor', ({ kmId, name, version, previousPackageUuid }) => {
     getTokenFor('datasteward').then((resp) => {
         cy.request({
             method: 'POST',
             url: apiUrl('/knowledge-model-editors'),
             headers: createHeaders(resp.body.token),
-            body: { kmId, name, version, previousPackageId }
+            body: { kmId, name, version, previousPackageUuid }
         })
     })
 })

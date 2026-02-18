@@ -1,16 +1,19 @@
+import * as dtEditor from '../../../support/dt-editor-helpers'
 import * as project from '../../../support/project-helpers'
 
 describe('Document Template Editor / Editor / Preview', () => {
     const projectName = 'My Project'
     const kmId = 'basic-questionnaire-test-km'
-    const knowledgeModelPackageId = 'dsw:basic-questionnaire-test-km:1.0.0'
+    let knowledgeModelPackageUuid
 
     before(() => {
         cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.putDefaultAppConfig()
         cy.clearServerCache()
 
-        cy.importKM(kmId)
+        cy.importKM(kmId, (uuid) => {
+            knowledgeModelPackageUuid = uuid
+        })
     })
 
     beforeEach(() => {
@@ -25,14 +28,12 @@ describe('Document Template Editor / Editor / Preview', () => {
             visibility: project.VisibleView,
             sharing: project.Restricted,
             name: projectName,
-            knowledgeModelPackageId
+            knowledgeModelPackageUuid
         })
 
         // create document template editor
         cy.loginAs('datasteward')
-        cy.visitApp('/document-template-editors/create?selected=dsw:questionnaire-report:1.4.0&edit=true')
-        cy.submitForm()
-        cy.url().should('contain', '/document-template-editors/dsw:questionnaire-report:1.5.0')
+        dtEditor.createEditor('dsw:questionnaire-report:1.4.0', 'dsw:questionnaire-report:1.5.0')
         cy.getCy('dt-editor_nav_preview').click()
     })
 

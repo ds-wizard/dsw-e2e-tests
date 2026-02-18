@@ -1,3 +1,5 @@
+import * as packages from '../../support/packages-helpers'
+
 describe('KM Editor Create', () => {
 
     beforeEach(() => {
@@ -36,7 +38,9 @@ describe('KM Editor Create', () => {
         const kmName = 'Test Knowledge Model 1'
         const kmId = 'test-km-1'
 
-        cy.visitApp('/knowledge-models/dsw:test-km-1:1.0.0')
+        packages.getPackageUuid('dsw:test-km-1:1.0.0').then((packageUuid) => {
+            cy.visitApp(`/knowledge-models/${packageUuid}`)
+        })
 
         cy.clickDropdownAction('create-km-editor')
         cy.url().should('contain', '/knowledge-model-editors/create')
@@ -63,7 +67,9 @@ describe('KM Editor Create', () => {
         const kmName = 'Fork Knowledge Model 1'
         const kmId = 'fork-km-1'
 
-        cy.visitApp('/knowledge-models/dsw:test-km-1:1.0.0')
+        packages.getPackageUuid('dsw:test-km-1:1.0.0').then((packageUuid) => {
+            cy.visitApp(`/knowledge-models/${packageUuid}`)
+        })
 
         cy.clickDropdownAction('fork')
         cy.url().should('contain', '/knowledge-model-editors/create')

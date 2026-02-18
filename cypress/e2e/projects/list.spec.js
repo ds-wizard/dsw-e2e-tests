@@ -10,18 +10,18 @@ describe('Project List', () => {
         cy.task('project:delete')
         cy.clearServerCache()
 
-        cy.importKM('test-km-1')
-
-        const projects = []
-        for (let i = 1; i <= 60; i++) {
-            projects.push({
-                visibility: project.VisibleEdit,
-                sharing: project.Restricted,
-                name: `Questionnaire ${('0' + i).slice(-2)}`,
-                knowledgeModelPackageId
-            })
-        }
-        cy.createProjects(projects)
+        cy.importKM('test-km-1', (knowledgeModelPackageUuid) => {
+            const projects = []
+            for (let i = 1; i <= 60; i++) {
+                projects.push({
+                    visibility: project.VisibleEdit,
+                    sharing: project.Restricted,
+                    name: `Questionnaire ${('0' + i).slice(-2)}`,
+                    knowledgeModelPackageUuid
+                })
+            }
+            cy.createProjects(projects)
+        })
     })
 
     beforeEach(() => {

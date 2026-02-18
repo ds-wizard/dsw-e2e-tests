@@ -1,3 +1,4 @@
+import * as packages from '../../../support/packages-helpers'
 import * as project from '../../../support/project-helpers'
 
 
@@ -14,16 +15,19 @@ describe('Questionnaire - View Settings', () => {
     }
 
     const withQuestionnaire = (knowledgeModelPackageId, callback) => {
-        cy.createProject({
-            visibility: project.VisibleEdit,
-            sharing: project.AnyoneWithLinkEdit,
-            name: projectName,
-            knowledgeModelPackageId
-        }).then(() => {
-            cy.loginAs('researcher')
-            project.open(projectName)
-            callback()
-        })
+        packages.getPackageUuid(knowledgeModelPackageId)
+            .then((knowledgeModelPackageUuid) => {
+                return cy.createProject({
+                    visibility: project.VisibleEdit,
+                    sharing: project.AnyoneWithLinkEdit,
+                    name: projectName,
+                    knowledgeModelPackageUuid
+                })
+            }).then(() => {
+                cy.loginAs('researcher')
+                project.open(projectName)
+                callback()
+            })
     }
 
     before(() => {

@@ -6,13 +6,15 @@ import { dataCy } from '../../../../support/utils'
 describe('Questionnaire Summary Report - Phases', () => {
     const questionnaireName = 'Test Summary Report'
     const kmId = 'test-metrics'
-    const knowledgeModelPackageId = 'dsw:test-metrics:1.0.0'
+    let knowledgeModelPackageUuid
 
     before(() => {
         cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.importKM(kmId)
+        cy.importKM(kmId, (uuid) => {
+            knowledgeModelPackageUuid = uuid
+        })
     })
 
 
@@ -26,7 +28,7 @@ describe('Questionnaire Summary Report - Phases', () => {
             visibility: project.Private,
             sharing: project.Restricted,
             name: questionnaireName,
-            knowledgeModelPackageId
+            knowledgeModelPackageUuid
         })
         project.open(questionnaireName)
     })

@@ -3,13 +3,15 @@ import * as project from '../../../support/project-helpers'
 describe('Project Files', () => {
     const projectName = 'Files test'
     const kmId = 'file-km'
-    const knowledgeModelPackageId = 'myorg:file-km:1.0.0'
+    let knowledgeModelPackageUuid
 
     before(() => {
         cy.task('knowledgeModelPackage:delete', { km_id: kmId })
         cy.clearServerCache()
 
-        cy.importKM(kmId)
+        cy.importKM(kmId, (uuid) => {
+            knowledgeModelPackageUuid = uuid
+        })
     })
 
     beforeEach(() => {
@@ -23,8 +25,7 @@ describe('Project Files', () => {
             sharing: project.Restricted,
             name: projectName,
             sharing: project.Restricted,
-            knowledgeModelPackageId,
-            documentTemplateId: null
+            knowledgeModelPackageUuid
         })
     })
 

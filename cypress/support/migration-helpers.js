@@ -1,4 +1,5 @@
-import { create } from "./project-helpers"
+import * as packages from './packages-helpers'
+import { apiUrl } from './commands'
 
 export class Config {
     constructor(childKmId, parentKmId, editorName) {
@@ -175,47 +176,49 @@ function validateKeyInEventObject(parent, child, key, skipKeys, forceSkip = fals
 }
 
 export function verifyPackageWithBundle(packageId, fixtureName, pkgParams, checkEventUuid = true) {
-    cy.task('knowledgeModelPackage:get', {
-        id: packageId
-    }).then(pkg => {
-        cy.fixture(fixtureName).then(parentPkgBundle => {
-            const parentPkg = parentPkgBundle.packages.filter(innerPkg => innerPkg.id == packageId)[0]
-            Object.keys(pkgParams).forEach((key) => {
-                cy.wrap(pkg).its(key).should('eq', pkgParams[key])
-            })
+    packages.getPackage(packageId)
+        .then(pkg => {
+            cy.fixture(fixtureName).then(parentPkgBundle => {
+                const parentPkg = parentPkgBundle.packages.filter(innerPkg => innerPkg.id == packageId)[0]
+                Object.keys(pkgParams).forEach((key) => {
 
-            cy.wrap(pkg).its('events').should('have.length', parentPkg.events.length)
+                    cy.wrap(pkg).its(key).should('eq', pkgParams[key])
+                })
 
-            pkg.events.forEach((childEvent, index) => {
-                const parentEvent = updateEvent(parentPkg.events[index])
+                cy.wrap(pkg).its('events').should('have.length', parentPkg.events.length)
 
-                Object.keys(childEvent).forEach((key) => {
-                    if (key === 'content') {
-                        Object.keys(childEvent.content).forEach((contentKey) => {
-                            const skipContentKeys = ['requiredPhaseUuid', 'metricUuids', 'phaseUuids', 'annotations', 'createdAt', 'resourcePageUuid', 'resourceCollectionUuids']
-                            validateKeyInEventObject(parentEvent.content, childEvent.content, contentKey, skipContentKeys)
-                        })
-                    } else {
-                        const skipKeys = ['package_id', 'tenant_uuid', 'created_at']
-                        const forceSkip = !checkEventUuid && key === 'uuid'
-                        validateKeyInEventObject(parentEvent, childEvent, key, skipKeys, forceSkip)
-                    }
+                pkg.events.forEach((childEvent, index) => {
+                    const parentEvent = updateEvent(parentPkg.events[index])
+
+                    Object.keys(childEvent).forEach((key) => {
+                        if (key === 'content') {
+                            Object.keys(childEvent.content).forEach((contentKey) => {
+                                const skipContentKeys = ['requiredPhaseUuid', 'metricUuids', 'phaseUuids', 'annotations', 'createdAt', 'resourcePageUuid', 'resourceCollectionUuids']
+                                validateKeyInEventObject(parentEvent.content, childEvent.content, contentKey, skipContentKeys)
+                            })
+                        } else {
+                            const skipKeys = ['package_id', 'package_uuid', 'tenant_uuid', 'created_at']
+                            const forceSkip = !checkEventUuid && key === 'uuid'
+                            validateKeyInEventObject(parentEvent, childEvent, key, skipKeys, forceSkip)
+                        }
+                    })
                 })
             })
         })
-    })
 }
 
 export function verifyChildPackageForMigration(config, newVersion, oldVersion, checkEventUuid = true) {
-    verifyPackageWithBundle(
-        config.getChildPackageId(newVersion),
-        config.getChildKM(newVersion),
-        {
-            'previous_package_id': config.getChildPackageId(oldVersion),
-            'fork_of_package_id': config.getParentPackageId(newVersion)
-        },
-        checkEventUuid
-    )
+    packages.getPackageUuid(config.getChildPackageId(oldVersion)).then((previousPackageUuid) => {
+        verifyPackageWithBundle(
+            config.getChildPackageId(newVersion),
+            config.getChildKM(newVersion),
+            {
+                'previous_package_uuid': previousPackageUuid,
+                'fork_of_package_id': config.getParentPackageId(newVersion)
+            },
+            checkEventUuid
+        )
+    })
 }
 
 export function finishMigrationAndPublish(major, minor, patch) {
@@ -252,8 +255,9 @@ export function createMigration(config, version, parentVersion) {
     cy.clickListingItemAction(config.editorName, 'update')
 
     cy.expectModalOpen('km-editor-update')
-    cy.fillFields({
-        s_targetPackageId: config.getParentPackageId(parentVersion)
+
+    packages.getPackageUuid(config.getParentPackageId(parentVersion)).then((packageUuid) => {
+        cy.fillFields({ s_targetPackageUuid: packageUuid })
     })
     cy.clickModalAction()
     cy.url().should('contain', 'migration')
@@ -261,11 +265,13 @@ export function createMigration(config, version, parentVersion) {
 
 export function prepareChildKmEditor(config, version) {
     cy.importKM(config.getChildKM(version))
-    cy.createKMEditor({
-        kmId: config.childKmId,
-        name: config.editorName,
-        version,
-        previousPackageId: config.getChildPackageId(version)
+    packages.getPackageUuid(config.getChildPackageId(version)).then((packageUuid) => {
+        cy.createKMEditor({
+            kmId: config.childKmId,
+            name: config.editorName,
+            version,
+            previousPackageUuid: packageUuid
+        })
     })
     cy.visitApp('/knowledge-model-editors')
 }

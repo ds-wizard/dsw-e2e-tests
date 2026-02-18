@@ -63,7 +63,7 @@ describe('Questionnaire Tags', () => {
 
             cy.fillFields({
                 name: projectName,
-                th_knowledgeModelPackageId: packageName
+                th_knowledgeModelPackageUuid: packageName
             })
 
             cy.get('#question-tags-filter').click()

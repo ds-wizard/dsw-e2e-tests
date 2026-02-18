@@ -1,4 +1,4 @@
-import * as editor from '../../../support/dt-editor-helpers'
+import * as dtEditor from '../../../support/dt-editor-helpers'
 
 describe('Document Template Editor / Editor / Files', () => {
     before(() => {
@@ -13,26 +13,24 @@ describe('Document Template Editor / Editor / Files', () => {
         
         // create document template editor
         cy.loginAs('datasteward')
-        cy.visitApp('/document-template-editors/create?selected=dsw:questionnaire-report:1.4.0&edit=true')
-        cy.submitForm()
-        cy.url().should('contain', '/document-template-editors/dsw:questionnaire-report:1.5.0')
+        dtEditor.createEditor('dsw:questionnaire-report:1.4.0', 'dsw:questionnaire-report:1.5.0')
         cy.getCy('dt-editor_nav_files').click()
     })
 
     it('create file simple', () => {
-        editor.addFile()
+        dtEditor.addFile()
         cy.fillFields({ 'file-name': 'index.html' })
         cy.clickModalAction()
         cy.getCy('dt-editor_file-tree_file').contains('index.html').should('exist')
     })
 
     it('create folder and file', () => {
-        editor.addFolder()
+        dtEditor.addFolder()
         cy.fillFields({ 'folder-name': 'src' })
         cy.clickModalAction()
         cy.getCy('dt-editor_file-tree_folder').contains('src').click()
         
-        editor.addFile()
+        dtEditor.addFile()
         cy.fillFields({ 'file-name': 'index.html' })
         cy.clickModalAction()
         cy.getCy('dt-editor_file-tree_file').contains('index.html').should('exist')
@@ -56,11 +54,11 @@ describe('Document Template Editor / Editor / Files', () => {
 
     it('rename folder', () => {
         // create file and folder
-        editor.addFolder()
+        dtEditor.addFolder()
         cy.fillFields({ 'folder-name': 'src' })
         cy.clickModalAction()
         cy.getCy('dt-editor_file-tree_folder').contains('src').click()
-        editor.addFile()
+        dtEditor.addFile()
         cy.fillFields({ 'file-name': 'index.html' })
         cy.clickModalAction()
 
@@ -77,7 +75,7 @@ describe('Document Template Editor / Editor / Files', () => {
 
     it('move file', () => {
         // create a folder
-        editor.addFolder()
+        dtEditor.addFolder()
         cy.fillFields({ 'folder-name': 'src' })
         cy.clickModalAction()
 
@@ -97,13 +95,13 @@ describe('Document Template Editor / Editor / Files', () => {
 
     it('move folder', () => {
         // create a folder
-        editor.addFolder()
+        dtEditor.addFolder()
         cy.fillFields({ 'folder-name': 'src' })
         cy.clickModalAction()
 
         // create another folder
         cy.getCy('dt-editor_file-tree_folder').contains('Questionnaire Report').click()
-        editor.addFolder()
+        dtEditor.addFolder()
         cy.fillFields({ 'folder-name': 'css' })
         cy.clickModalAction()
 
@@ -130,7 +128,7 @@ describe('Document Template Editor / Editor / Files', () => {
     })
 
     it('upload image asset', () => {
-        editor.addAsset()
+        dtEditor.addAsset()
         cy.get('.dropzone').selectFile('cypress/fixtures/dt-editor/image.svg', {
             action: 'drag-drop'
         })
@@ -140,7 +138,7 @@ describe('Document Template Editor / Editor / Files', () => {
     })
 
     it('upload docx asset', () => {
-        editor.addAsset()
+        dtEditor.addAsset()
         cy.get('.dropzone').selectFile('cypress/fixtures/dt-editor/document.docx', {
             action: 'drag-drop'
         })
@@ -150,7 +148,7 @@ describe('Document Template Editor / Editor / Files', () => {
     })
 
     it('upload MD file', () => {
-        editor.addAsset()
+        dtEditor.addAsset()
         cy.get('.dropzone').selectFile('cypress/fixtures/dt-editor/readme.md', {
             action: 'drag-drop'
         })
