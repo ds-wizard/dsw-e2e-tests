@@ -16,11 +16,17 @@ describe('Questionnaire Search', () => {
     }
 
     const getFirstResult = () => {
-        return cy.get('.questionnaire__right-panel .list-group-item').first()
+        return cy.getCy('questionnaire_search').find('.list-group-item').first()
     }
 
     const expectNoResults = () => {
         cy.getCy('flash_alert-info').contains('No results')
+    }
+
+    const expectHighlightedQuestion = (questionTitle) => {
+        project.getQuestionContainer(questionTitle)
+            .find('.questionnaireContent__questionHeader')    
+            .should('have.class', 'questionnaireContent__scrollTargetHighlight')
     }
 
     before(() => {
@@ -49,44 +55,44 @@ describe('Questionnaire Search', () => {
     it('search in chapter title', () => {
         search('Chapter 1')
         getFirstResult().click()
-        cy.get('.questionnaire__form').should('have.class', 'scroll-target-highlight')
+        cy.get('.questionnaireContent__chapter').should('have.class', 'questionnaireContent__scrollTargetHighlight')
     })
 
     it('search in chapter description', () => {
         search('chapter text')
         getFirstResult().click()
-        cy.get('.questionnaire__form').should('have.class', 'scroll-target-highlight')
+        cy.get('.questionnaireContent__chapter').should('have.class', 'questionnaireContent__scrollTargetHighlight')
     })
 
     it('search in question title', () => {
         search('multi-choice question')
         getFirstResult().click()
-        cy.get('#question-5def822c-4d94-40a3-94dc-d8569567357b').should('have.class', 'scroll-target-highlight')
+        expectHighlightedQuestion('Multi-Choice Question 1')
     })
 
     it('search in question description', () => {
         search('cross-referencing')
         getFirstResult().click()
-        cy.get('#question-18d8316d-a126-4b44-9c41-dafb8b37a127').should('have.class', 'scroll-target-highlight')
+        expectHighlightedQuestion('Reference Question 2')
     })
 
     it('search in answer', () => {
         search('answer 1')
         getFirstResult().click()
-        cy.get('#question-49cdf436-5de7-43d9-8226-a33dfabbce3e').should('have.class', 'scroll-target-highlight')
+        expectHighlightedQuestion('Options Question 1')
     })
 
     it('search in choice', () => {
         search('choice 2')
         getFirstResult().click()
-        cy.get('#question-1d277ab7-d8dc-46d7-b42d-7b7e2dbf8cd1').should('have.class', 'scroll-target-highlight')
+        expectHighlightedQuestion('Question 2')
     })
 
     it('search in value question', () => {
         project.typeAnswer('Value Question 1', 'zebra')
         search('zebra')
         getFirstResult().click()
-        cy.get('#question-0cfd88c9-13ea-41b2-b4e8-1a1ab98bac6c').should('have.class', 'scroll-target-highlight')
+        expectHighlightedQuestion('Value Question 1')
     })
 
     it('search in closed follow-up question', () => {
@@ -103,7 +109,7 @@ describe('Questionnaire Search', () => {
         getFirstResult().should('exist')
 
         // clear the answer and search again
-        project.clearAnswer('Answer 1')
+        project.clearAnswer('Options Question 1')
         search('lion', false)
         expectNoResults()
 

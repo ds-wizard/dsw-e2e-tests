@@ -103,11 +103,11 @@ describe('Questionnaire WebSocket Tests', () => {
             }
         })
 
-        cy.get('.questionnaire__content .item').should('not.exist')
+        cy.get('.questionnaireContent__itemHeader').should('not.exist')
         cy.wsSend(`/projects/${projectUuid}/websocket`, msg(['ca942bb2-6524-4149-a17e-4cb4d3e38233']))
-        cy.get('.questionnaire__content .item').should('exist')
+        cy.get('.questionnaireContent__itemHeader').should('exist')
         cy.wsSend(`/projects/${projectUuid}/websocket`, msg([]))
-        cy.get('.questionnaire__content .item').should('not.exist')
+        cy.get('.questionnaireContent__itemHeader').should('not.exist')
     })
 
     it('ClearReply', () => {

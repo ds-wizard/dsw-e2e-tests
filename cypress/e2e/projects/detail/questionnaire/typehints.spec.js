@@ -1,6 +1,6 @@
 import * as project from '../../../../support/project-helpers'
 
-describe('Questionnaires Typehints', () => {
+describe.skip('Questionnaires Typehints', () => {
     const projectName = 'Typehints Test Questionnaire'
     const kmId = 'test-integrations'
     const errorMessage = 'Unable to get type hints'

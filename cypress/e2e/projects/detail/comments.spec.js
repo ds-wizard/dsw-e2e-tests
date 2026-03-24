@@ -97,7 +97,7 @@ describe('Comments', () => {
         testNoPrivateNotes()
     })
 
-    it('as Viewver', () => {
+    it('as Viewer', () => {
         project.addUser('Nikola Tesla', 'Viewer')
         cy.logout()
         cy.loginAs('datasteward')
@@ -269,12 +269,12 @@ describe('Comments', () => {
         cy.getCy('comments_comment_resolve').click()
 
         cy.get('.item').contains('Comments').click()
-        cy.get('.comments-overview .form-check-label').should('contain', 'View resolved comments').click()
-        cy.get('.comments-overview .fa-ul li').should('contain', 'Options Question 1')
-        cy.get('.comments-overview .fa-ul li .bg-success.rounded-pill').should('contain', '1')
-        cy.get('.comments-overview .fa-ul li a').click()
+        cy.getCy('question_comments_overview').find('.form-check-toggle').should('contain', 'View resolved comments').click()
+        cy.getCy('question_comments_overview').find('.fa-ul li').should('contain', 'Options Question 1')
+        cy.getCy('question_comments_overview').find('.fa-ul li .bg-success.rounded-pill').should('contain', '1')
+        cy.getCy('question_comments_overview').find('.fa-ul li a').click()
 
-        cy.get('.CommentThread.CommentThread--Resolved').should('exist')
+        cy.get('.questionnaireComments__commentThread--resolved').should('exist')
     })
 
     it('navigate between comments', () => {
@@ -287,23 +287,23 @@ describe('Comments', () => {
         
         project.openCommentsFor('Options Question 1')
         cy.getCy('comments_nav_count').should('contain', '1/3')
-        cy.get('.Comment_MD').contains('Thread 1').should('exist')
+        cy.get('.questionnaireComments__commentText').contains('Thread 1').should('exist')
 
         cy.getCy('comments_nav_next').click()
         cy.getCy('comments_nav_count').should('contain', '2/3')
-        cy.get('.Comment_MD').contains('Thread 2').should('exist')
+        cy.get('.questionnaireComments__commentText').contains('Thread 2').should('exist')
 
         cy.getCy('comments_nav_next').click()
         cy.getCy('comments_nav_count').should('contain', '3/3')
-        cy.get('.Comment_MD').contains('Thread 3').should('exist')
+        cy.get('.questionnaireComments__commentText').contains('Thread 3').should('exist')
 
         cy.getCy('comments_nav_next').click()
         cy.getCy('comments_nav_count').should('contain', '1/3')
-        cy.get('.Comment_MD').contains('Thread 1').should('exist')
+        cy.get('.questionnaireComments__commentText').contains('Thread 1').should('exist')
 
         cy.getCy('comments_nav_prev').click()
         cy.getCy('comments_nav_count').should('contain', '3/3')
-        cy.get('.Comment_MD').contains('Thread 3').should('exist')
+        cy.get('.questionnaireComments__commentText').contains('Thread 3').should('exist')
     })
 
     it('websocket', () => {
@@ -327,7 +327,7 @@ describe('Comments', () => {
         project.expectCommentCount(0)
         cy.wsSend(`/projects/${projectUuid}/websocket`, msg)
         project.openCommentsFor('Options Question 1')
-        cy.get('.Comment_MD').contains('This is a comment').should('exist')
+        cy.get('.questionnaireComments__commentText').contains('This is a comment').should('exist')
     })
 
     it('assign comments', () => {
@@ -338,23 +338,23 @@ describe('Comments', () => {
         // assign it to user
         cy.getCy('comments_comment_assign').click()
         cy.getCy('project_comment-assign_user-suggestion').contains('Isaac').click()
-        cy.get('.CommentThread__AssignedHeader--You').should('be.visible')
+        cy.get('.questionnaireComments__commentThreadAssignedHeader--you').should('be.visible')
 
         // check that it is visible on the dashboard
         cy.visitApp('/dashboard')
         cy.get('.Dashboard__ItemList a').contains('Please do this').click()
-        cy.get('.CommentThread__AssignedHeader--You').should('be.visible')
-        cy.get('.Comment_MD').contains('Please do this').should('be.visible')
+        cy.get('.questionnaireComments__commentThreadAssignedHeader--you').should('be.visible')
+        cy.get('.questionnaireComments__commentText').contains('Please do this').should('be.visible')
 
         // check that it is visible on the the comments overview
         cy.visitApp('/comments?resolved=false')
         cy.clickListingItem('Please do this')
-        cy.get('.CommentThread__AssignedHeader--You').should('be.visible')
-        cy.get('.Comment_MD').contains('Please do this').should('be.visible')
+        cy.get('.questionnaireComments__commentThreadAssignedHeader--you').should('be.visible')
+        cy.get('.questionnaireComments__commentText').contains('Please do this').should('be.visible')
 
         // resolve comment
         cy.getCy('comments_comment_resolve').click()
-        cy.get('.CommentThread__AssignedHeader--You').should('not.exist')
+        cy.get('.questionnaireComments__commentThreadAssignedHeader--you').should('not.exist')
 
         // check that it is not visible on the dashboard
         cy.visitApp('/dashboard')
@@ -373,24 +373,24 @@ describe('Comments', () => {
         // assign it to user
         cy.getCy('comments_comment_assign').click()
         cy.getCy('project_comment-assign_user-suggestion').contains('Isaac').click()
-        cy.get('.CommentThread__AssignedHeader--You').should('be.visible')
+        cy.get('.questionnaireComments__commentThreadAssignedHeader--you').should('be.visible')
 
         // check that it is visible on the dashboard
         cy.visitApp('/dashboard')
         cy.get('.Dashboard__ItemList a').contains('Please do this').click()
-        cy.get('.CommentThread__AssignedHeader--You').should('be.visible')
-        cy.get('.Comment_MD').contains('Please do this').should('be.visible')
+        cy.get('.questionnaireComments__commentThreadAssignedHeader--you').should('be.visible')
+        cy.get('.questionnaireComments__commentText').contains('Please do this').should('be.visible')
 
         // check that it is visible on the the comments overview
         cy.visitApp('/comments?resolved=false')
         cy.clickListingItem('Please do this')
-        cy.get('.CommentThread__AssignedHeader--You').should('be.visible')
-        cy.get('.Comment_MD').contains('Please do this').should('be.visible')
+        cy.get('.questionnaireComments__commentThreadAssignedHeader--you').should('be.visible')
+        cy.get('.questionnaireComments__commentText').contains('Please do this').should('be.visible')
 
         // remove assignement
         cy.getCy('comments_comment_menu').click()
         cy.get('.dropdown-item').contains('Remove assignment').click()
-        cy.get('.CommentThread__AssignedHeader--You').should('not.exist')
+        cy.get('.questionnaireComments__commentThreadAssignedHeader--you').should('not.exist')
 
         // check that it is not visible on the dashboard
         cy.visitApp('/dashboard')

@@ -111,7 +111,7 @@ describe('TODOs', () => {
         project.addTodoFor('Follow-up Question 1')
         project.expectTodoCount(1)
 
-        cy.get('.clear-answer').click()
+        cy.get('.questionnaireContent__clearReply a').click()
         project.expectNoTodo()
 
         project.selectAnswer('Answer 1')
@@ -140,12 +140,12 @@ describe('TODOs', () => {
         project.addTodoFor('Follow-up Question 1')
         project.expectTodoCount(1)
 
-        cy.get('.followups-group .btn').contains('Add').click()
+        cy.get('.questionnaireContent__itemsEnd .btn').contains('Add').click()
 
         project.addTodoFor('Follow-up Answer Item Question')
         project.expectTodoCount(2)
 
-        cy.get('.clear-answer').click()
+        cy.get('.questionnaireContent__clearReply a').click()
         project.expectNoTodo()
     })
 })

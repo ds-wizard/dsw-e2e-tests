@@ -229,35 +229,6 @@ describe('Settings / Projects', () => {
         cy.get('.nav-link').contains('Metrics').should('not.exist')
     })
 
-    it('feedback enabled', () => {
-        // Enable feedback
-        cy.checkToggle('feedbackEnabled')
-        cy.fillFields({
-            feedbackOwner: 'exampleOwner',
-            feedbackRepo: 'exampleRepository',
-            feedbackToken: 'zxcvbnm'
-        })
-        cy.submitForm()
-
-        // Create a project
-        createProject()
-
-        // Check that feedback modal can be opened
-        cy.getCy('feedback').first().click()
-        cy.get('.modal-cover.visible .modal-title').contains('Feedback').should('exist')
-    })
-
-    it('feedback not enabled', () => {
-        // Enable feedback
-        cy.expectToggleUnchecked('feedbackEnabled')
-
-        // Create a project
-        createProject()
-
-        // Check that feedback modal can be opened
-        cy.getCy('feedback').should('not.exist')
-    })
-
     it('project tagging enabled', () => {
         // Enable project tagging
         cy.expectToggleChecked('projectTaggingEnabled')

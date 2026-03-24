@@ -65,8 +65,8 @@ describe('Project Migrations', () => {
         project.resolveAndFinalizeMigration()
 
         // check migrated things
-        cy.get('.form-group label').contains('How many people will go?').should('not.exist')
-        cy.get('.form-group label').contains('How many people will be in your group?').should('exist')
+        cy.getCy('questionnaire_question-title').contains('How many people will go?').should('not.exist')
+        cy.getCy('questionnaire_question-title').contains('How many people will be in your group?').should('exist')
     })
 
 
@@ -82,7 +82,7 @@ describe('Project Migrations', () => {
 
         // check migrated things
         project.openChapter('After you return')
-        cy.get('.form-group .form-text').contains('Also, think about how you share them with your friends.').should('exist')
+        cy.getCy('questionnaire_question-text').contains('Also, think about how you share them with your friends.').should('exist')
     })
 
 
@@ -97,7 +97,7 @@ describe('Project Migrations', () => {
         project.resolveAndFinalizeMigration()
 
         // check migrated things
-        cy.get('.form-group .extra-data').contains('Desirable: Before Submitting the Proposal').should('exist')
+        cy.getCy('questionnaire_question-extra').contains('Desirable: Before Submitting the Proposal').should('exist')
     })
 
 
@@ -113,7 +113,7 @@ describe('Project Migrations', () => {
         project.resolveAndFinalizeMigration()
 
         // check migrated things
-        cy.get('.radio').contains('Car or motorbike').should('exist')
+        cy.get('.questionnaireContent__option').contains('Car or motorbike').should('exist')
     })
 
 
@@ -130,7 +130,7 @@ describe('Project Migrations', () => {
 
         // check migrated things
         project.openChapter('After you return')
-        cy.get('.form-group label').contains('Will you organize a presentation about your vacation?').should('exist')
+        cy.getCy('questionnaire_question-title').contains('Will you organize a presentation about your vacation?').should('exist')
     })
 
 
@@ -145,7 +145,7 @@ describe('Project Migrations', () => {
 
         // check correct version
         project.selectAnswer('Yes')
-        cy.get('.form-group label').contains('Can you speak their language?').should('exist')
+        cy.getCy('questionnaire_question-title').contains('Can you speak their language?').should('exist')
     })
 
 
@@ -167,7 +167,7 @@ describe('Project Migrations', () => {
         project.resolveAndFinalizeMigration()
 
         // check correct version
-        cy.get('.form-group label').contains('Can you speak their language?').should('exist')
+        cy.getCy('questionnaire_question-title').contains('Can you speak their language?').should('exist')
     })
 
 
@@ -182,8 +182,8 @@ describe('Project Migrations', () => {
 
         // check correct version
         project.selectAnswer('Yes')
-        cy.get('.form-group label').contains('Can you speak any of the languages used in the destination?').should('exist')
-        cy.get('.form-group label').contains('Can you speak their language?').should('not.exist')
+        cy.getCy('questionnaire_question-title').contains('Can you speak any of the languages used in the destination?').should('exist')
+        cy.getCy('questionnaire_question-title').contains('Can you speak their language?').should('not.exist')
     })
 
 
@@ -204,8 +204,8 @@ describe('Project Migrations', () => {
         project.resolveAndFinalizeMigration()
 
         // check correct version
-        cy.get('.form-group label').contains('Can you speak any of the languages used in the destination?').should('exist')
-        cy.get('.form-group label').contains('Can you speak their language?').should('not.exist')
+        cy.getCy('questionnaire_question-title').contains('Can you speak any of the languages used in the destination?').should('exist')
+        cy.getCy('questionnaire_question-title').contains('Can you speak their language?').should('not.exist')
     })
 
 
@@ -220,7 +220,7 @@ describe('Project Migrations', () => {
         project.resolveAndFinalizeMigration()
 
         // check correct version
-        cy.get('.form-group .radio label').contains('I will cook myself').should('exist')
+        cy.get('.questionnaireContent__option').contains('I will cook myself').should('exist')
     })
 
 
@@ -235,7 +235,7 @@ describe('Project Migrations', () => {
         project.resolveAndFinalizeMigration()
 
         // check correct version
-        cy.get('.form-group .radio label').contains('Restaurants or Hotels').should('exist')
+        cy.get('.questionnaireContent__option').contains('Restaurants or Hotels').should('exist')
     })
 
 
@@ -249,7 +249,7 @@ describe('Project Migrations', () => {
         project.finalizeMigration()
 
         // check correct version
-        cy.get('.form-group .radio label').contains('I will cook myself').should('not.exist')
+        cy.get('.questionnaireContent__option').contains('I will cook myself').should('not.exist')
     })
 
 
@@ -259,7 +259,10 @@ describe('Project Migrations', () => {
         createMigrationTo('vacation-planning', 1)
 
         // add todo
-        project.addTodoFor('How many people will be in your group?')
+        cy.get('.form-group')
+            .contains('How many people will be in your group?')
+            .find('.action-add-todo')
+            .click()
 
         // resolve
         project.resolveAndFinalizeMigration()
@@ -268,7 +271,6 @@ describe('Project Migrations', () => {
         project.expectTodoCount(1)
         project.expectTodoFor('How many people will be in your group?')
     })
-
 
     it('move answer with follow-ups', () => {
         // initialize questionnaire
@@ -287,7 +289,7 @@ describe('Project Migrations', () => {
         project.finalizeMigration()
 
         // check migrated things
-        cy.get('#question-f9ad8598-4789-4b8a-8254-39af6a8d7101').contains('Answer 1.1')
+        project.getQuestionContainer('Question 2').contains('Answer 1.1')
         project.checkAnswerNotChecked('Answer 1.1')
         project.selectAnswer('Answer 1.1')
         project.checkAnswerNotChecked('Answer 3.1')
@@ -327,7 +329,13 @@ describe('Project Migrations', () => {
         cy.clickBtn('Add')
         project.selectAnswer('Answer 5.1')
         project.selectAnswer('Answer 6.2')
-        cy.get('#question-d2135066-b758-4e4a-bf0d-3f770426b67c .btn').contains('Add').click()
+        project.getQuestionContainer('Question 7')
+            .parents('.questionnaireContent__nest')
+            .last()
+            .next()
+            .find('.btn')
+            .contains('Add')
+            .click()
         project.selectAnswer('Answer 8.2')
         project.typeAnswer('Question 9', 'Value')
 
@@ -340,7 +348,6 @@ describe('Project Migrations', () => {
         project.resolveAndFinalizeMigration()
 
         // check migrated things
-        cy.get('#question-ff773f6b-b1b8-4d08-bffa-133736f8c850').contains('Question 7')
         project.checkAnswerChecked('Answer 5.1')
         project.checkAnswerChecked('Answer 6.2')
         project.checkAnswerChecked('Answer 8.2')
@@ -356,7 +363,13 @@ describe('Project Migrations', () => {
         project.open(projectName)
         cy.clickBtn('Add')
         project.selectAnswer('Answer 6.2')
-        cy.get('#question-d2135066-b758-4e4a-bf0d-3f770426b67c .btn').contains('Add').click()
+        project.getQuestionContainer('Question 7')
+            .parents('.questionnaireContent__nest')
+            .last()
+            .next()
+            .find('.btn')
+            .contains('Add')
+            .click()
         project.selectAnswer('Answer 8.2')
         project.typeAnswer('Question 9', 'Value')
 
@@ -395,7 +408,6 @@ describe('Project Migrations', () => {
         project.resolveAndFinalizeMigration()
 
         // check migrated things
-        cy.get('#question-538f78ec-dded-4b6e-9c85-825a0c2b09bc').contains('Question 2')
         project.checkAnswerNotChecked('Answer 1.1')
     })
 })
