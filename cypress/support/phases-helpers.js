@@ -1,3 +1,5 @@
+import * as project from './project-helpers'
+import { dataCy } from './utils'
 
 export const phases = [
     'Before Submitting the Proposal',
@@ -37,8 +39,8 @@ export function switchPhase(phase) {
 
 export function checkDesirability(question, desirable) {
     const chainer = desirable ? 'have.class' : 'not.have.class'
-    cy.get(`#question-${question.uuid}`).contains('span.badge', question.identifier).should(chainer, 'bg-danger')
-    cy.get(`#question-${question.uuid}`).contains('span', question.title).should(chainer, 'text-danger')
+    project.getQuestionContainer(question.title).contains('.badge', question.identifier).should(chainer, 'bg-danger')
+    project.getQuestionContainer(question.title).contains('strong', question.title).should(chainer, 'text-danger')
 }
 
 export function checkDesirabilityWithPhase(question, currentPhase) {
@@ -51,9 +53,9 @@ export function runCommonTests() {
     it('shows desirability captions', () => {
         questions.forEach((q) => {
             if (q.phase != Number.MAX_VALUE) {
-                cy.get(`#question-${q.uuid}`).find('.extra-data').contains(phases[q.phase])
+                project.getQuestionContainer(q.title).find(dataCy('questionnaire_question-extra')).contains(phases[q.phase])
             } else {
-                cy.get(`#question-${q.uuid}`).find('.extra-data').should('not.exist')
+                project.getQuestionContainer(q.title).find(dataCy('questionnaire_question-extra')).should('not.exist')
             }
         })
     })

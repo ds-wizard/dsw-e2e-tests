@@ -10,8 +10,8 @@ describe('Questionnaire - View Settings', () => {
     const packageIdPhases = 'dsw:test-phases:1.0.0'
 
     const clickViewMenu = (item) => {
-        cy.get('.questionnaire__toolbar .btn').contains('View').click()
-        cy.get('.questionnaire__toolbar .dropdown-item').contains(item).click()
+        cy.get('.questionnaireToolbar__left .btn').contains('View').click()
+        cy.get('.questionnaireToolbar__left .dropdown-item').contains(item).click()
     }
 
     const withQuestionnaire = (knowledgeModelPackageId, callback) => {
@@ -57,11 +57,11 @@ describe('Questionnaire - View Settings', () => {
 
     it('Phases', () => {
         withQuestionnaire(packageIdPhases, () => {
-            cy.get('.extra-data').contains('Desirable').should('exist')
+            cy.getCy('questionnaire_question-extra').contains('Desirable').should('exist')
             clickViewMenu('Phases')
-            cy.get('.extra-data').contains('Desirable').should('not.exist')
+            cy.getCy('questionnaire_question-extra').contains('Desirable').should('not.exist')
             clickViewMenu('Phases')
-            cy.get('.extra-data').contains('Desirable').should('exist')
+            cy.getCy('questionnaire_question-extra').contains('Desirable').should('exist')
         })
     })
 

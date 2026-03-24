@@ -261,17 +261,18 @@ describe('Questionnaire Summary Report - Phases', () => {
 
     it('With list questions', () => {
         project.openChapter('Chapter 2')
-        cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').contains('button', 'Add').click().click().click().click()
-        cy.get('.item:nth-child(1)').contains('label', 'Template option 2').click()
-        cy.get('.item:nth-child(2)').contains('label', 'Template option 1').click()
-        cy.get('.item:nth-child(3)').contains('label', 'Template option 2').click()
+        cy.get('.questionnaireContent__itemsEnd').contains('button', 'Add').click().click().click().click()
+        cy.get('.questionnaireContent__option').filter(':contains("Template option 2")').eq(0).click()
+        cy.get('.questionnaireContent__option').filter(':contains("Template option 1")').eq(1).click()
+        cy.get('.questionnaireContent__option').filter(':contains("Template option 2")').eq(2).click()
+
         project.awaitSave()
         project.expectSummaryReportAnswered({ current: { answered: 1, all: 5 }, all: { answered: 4, all: 16 } })
         project.expectSummaryReportAnswered({ current: { answered: 1, all: 2 }, all: { answered: 4, all: 7 } }, 'Chapter 2')
         
         project.openChapter('Chapter 2')
-        cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find(dataCy('item-delete')).should('have.length', 4)
-        cy.get('#question-294757cc-a5e2-425a-be7e-6fd496b0cd23').find(dataCy('item-delete')).eq(2).click()
+        cy.get(`.questionnaireContent__itemHeader ${dataCy('item-delete')}`).should('have.length', 4)
+        cy.get(`.questionnaireContent__itemHeader ${dataCy('item-delete')}`).eq(2).click()
         cy.clickModalAction()
         project.awaitSave()
         project.expectSummaryReportAnswered({ current: { answered: 1, all: 5 }, all: { answered: 3, all: 15 } })
@@ -299,10 +300,10 @@ describe('Questionnaire Summary Report - Phases', () => {
         project.expectSummaryReportAnswered({ current: { answered: 1, all: 1 }, all: { answered: 2, all: 3 } }, 'Chapter 3')
 
         project.openChapter('Chapter 1')
-        cy.get('#question-f4e3444a-6469-4546-9f14-f9304f8d1557 > div > a.clear-answer').click() // FINDABLE
-        cy.get('#question-0eec0ecc-1da8-4db5-b7a3-da57d884eb52 > div > a.clear-answer').click() // OPEN
+                project.getQuestionContainer('Are you FINDABLE?').find('.questionnaireContent__clearReply a').click()
+                project.getQuestionContainer('Are you OPEN?').find('.questionnaireContent__clearReply a').click()
         project.openChapter('Chapter 2')
-        cy.get('#question-16bd8329-cd7b-4029-84c4-5de0aa166369 > div > a.clear-answer').click() // Complex question 2 (with followup)
+                project.getQuestionContainer('Complex question 2').find('.questionnaireContent__clearReply a').click()
         project.openChapter('Chapter 3')
         project.selectAnswer('Choice 2.1')
         project.awaitSave()

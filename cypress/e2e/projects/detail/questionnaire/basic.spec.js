@@ -44,23 +44,23 @@ describe('Basic Questionnaire Tests', () => {
     it('answer, advice & clear answer', () => {
         // select answer
         project.selectAnswer('Answer 1.1')
-        cy.get('.alert-info').contains('This is an advice for answer 1.').should('be.visible')
+        cy.get('.questionnaireContent__advice').contains('This is an advice for answer 1.').should('be.visible')
         project.awaitSave()
 
         // reopen and check the answer
         project.open(projectName)
         project.checkAnswerChecked('Answer 1.1')
-        cy.get('.alert-info').contains('This is an advice for answer 1.').should('be.visible')
+        cy.get('.questionnaireContent__advice').contains('This is an advice for answer 1.').should('be.visible')
 
         // clear answer and save
         cy.clickLink('Clear answer')
         project.checkAnswerNotChecked('Answer 1.1')
-        cy.get('.alert-info').should('not.be.visible')
+        cy.get('.questionnaireContent__advice').should('not.exist')
 
         // reopen and check it was cleared
         project.open(projectName)
         project.checkAnswerNotChecked('Answer 1.1')
-        cy.get('.alert-info').should('not.be.visible')
+        cy.get('.questionnaireContent__advice').should('not.exist')
     })
 
 
@@ -89,7 +89,7 @@ describe('Basic Questionnaire Tests', () => {
     it('add & remove item answer', () => {
         // Add item and answer a question
         cy.clickBtn('Add')
-        cy.get('.item').should('exist')
+        cy.get('.questionnaireContent__itemHeader').should('exist')
         cy.get('.badge').contains('2.a.1').should('exist')
         project.selectAnswer('Item answer 1.2')
 
@@ -105,9 +105,9 @@ describe('Basic Questionnaire Tests', () => {
         project.checkAnswerChecked('Item answer 1.2')
 
         // Remove items and save
-        cy.get(`.item:first-child() ${dataCy('item-delete')}`).click()
+        cy.get('.questionnaireContent__itemHeader').first().find(`${dataCy('item-delete')}`).click()
         cy.clickModalAction()
-        cy.get(`.item:first-child() ${dataCy('item-delete')}`).click()
+        cy.get('.questionnaireContent__itemHeader').first().find(`${dataCy('item-delete')}`).click()
         cy.clickModalAction()
         cy.get('.badge').contains('2.a.1').should('not.exist')
         cy.get('.badge').contains('2.b.1').should('not.exist')
@@ -127,49 +127,50 @@ describe('Basic Questionnaire Tests', () => {
         project.selectAnswer('Item answer 1.2')
 
         // Collapse item
-        cy.get(`.item:first-child() ${dataCy('item-collapse')}`).click()
+        cy.get('.questionnaireContent__itemHeader').first().find(`${dataCy('item-collapse')}`).click()
 
         // Reopen project and check that the item is collapsed
         project.open(projectName)
-        cy.get('.item:first-child()').should('have.class', 'item-collapsed')
+        cy.get('.questionnaireContent__itemHeader').first().should('have.class', 'questionnaireContent__itemHeader--collapsed')
 
         // Expand item
-        cy.get(`.item:first-child() ${dataCy('item-expand')}`).click()
+        cy.get('.questionnaireContent__itemHeader').first().find(`${dataCy('item-expand')}`).click()
 
         // Reopen project and check that the item is expanded
         project.open(projectName)
-        cy.get('.item:first-child()').should('not.have.class', 'item-collapsed')
+        cy.get('.questionnaireContent__itemHeader').first().should('not.have.class', 'questionnaireContent__itemHeader--collapsed')
     })
 
     it('reorder item answer', () => {
         // Add item and answer a question
         cy.clickBtn('Add')
-        cy.get('.item').should('exist')
+        cy.get('.questionnaireContent__itemHeader').should('exist')
         cy.get('.badge').contains('2.a.1').should('exist')
         project.selectAnswer('Item answer 1.2')
 
         // Add another item and don't answer the question
         cy.clickBtn('Add')
-        cy.get('.item').should('exist')
+        cy.get('.questionnaireContent__itemHeader').should('exist')
         cy.get('.badge').contains('2.a.1').should('exist')
 
         // Move the first item down and check that now the first one
-        cy.get(`.item:first-child() ${dataCy('item-move-down')}`).click()
-        cy.get('.item:first-child() label').contains('Item answer 1.2').closest('label').find('input').should('not.be.checked')
+        cy.get('.questionnaireContent__itemHeader').first().find(`${dataCy('item-move-down')}`).click()
+        project.getQuestionContainer('Item Question 1').find('label').contains('Item answer 1.2').closest('label').find('input').should('not.be.checked')
         project.awaitSave()
 
         // Reopen project and check it still works
         project.open(projectName)
-        cy.get('.item:first-child() label').contains('Item answer 1.2').closest('label').find('input').should('not.be.checked')
+        project.getQuestionContainer('Item Question 1').find('label').contains('Item answer 1.2').closest('label').find('input').should('not.be.checked')
 
         // Move items back and check that the first one is checked
-        cy.get(`.item:last-child() ${dataCy('item-move-up')}`).click()
-        cy.get('.item:first-child() label').contains('Item answer 1.2').closest('label').find('input').should('be.checked')
+        cy.get('.questionnaireContent__itemHeader').last().find(`${dataCy('item-move-up')}`).click()
+        project.getQuestionContainer('Item Question 1').find('label').contains('Item answer 1.2').closest('label').find('input').should('be.checked')
+        // cy.get('.item:first-child() label').contains('Item answer 1.2').closest('label').find('input').should('be.checked')
         project.awaitSave()
 
         // Reopen project and check it still works
         project.open(projectName)
-        cy.get('.item:first-child() label').contains('Item answer 1.2').closest('label').find('input').should('be.checked')
+        project.getQuestionContainer('Item Question 1').find('label').contains('Item answer 1.2').closest('label').find('input').should('be.checked')
     })
 
 
@@ -319,10 +320,10 @@ describe('Basic Questionnaire Tests', () => {
     it('keep sidepanel open after refresh', () => {
         // open comments tab
         cy.get('.item').contains('Comments').click()
-        cy.get('.comments-overview').should('be.visible')
+        cy.getCy('question_comments_overview').should('be.visible')
 
         // check that it remains open after reopening the page
         cy.reload()
-        cy.get('.comments-overview').should('be.visible')
+        cy.getCy('question_comments_overview').should('be.visible')
     })
 })

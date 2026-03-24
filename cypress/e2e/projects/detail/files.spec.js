@@ -38,7 +38,7 @@ describe('Project Files', () => {
         })
         cy.clickModalAction()
 
-        cy.get('.questionnaire-file').contains('users.csv').should('exist')
+        cy.get('.questionnaireContent__file').contains('users.csv').should('exist')
 
         project.openFiles()
         cy.getListingItem('users.csv').should('exist')
@@ -69,10 +69,10 @@ describe('Project Files', () => {
         cy.getCy('file-delete').click()
         cy.clickModalAction()
 
-        cy.get('.questionnaire-file').should('not.exist')
+        cy.get('.questionnaireContent__file').should('not.exist')
     })
 
-    it('Delete file from question', () => {
+    it('Delete file from project files', () => {
         project.open(projectName)
 
         cy.getCy('file-upload').click()
@@ -85,7 +85,7 @@ describe('Project Files', () => {
         cy.clickListingItemAction('users.csv', 'delete')
         cy.clickModalAction()
 
-        project.openQuestionnaire()
+        project.open(projectName)
         project.expectWarningFor('Choose your file')
         project.expectWarningCount(1)
     })

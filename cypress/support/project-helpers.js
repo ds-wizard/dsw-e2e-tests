@@ -105,7 +105,7 @@ export function expectTitle(questionnaireName) {
 
 export function expectViewer() {
     cy.url().should('match', /\/projects\/.+/)
-    cy.get('.questionnaire__form .form-group input[type=text]').should('be.disabled')
+    cy.get('.questionnaireContent input[type=text]').should('be.disabled')
     cy.getCy('phase-selection').should('be.disabled')
     cy.getCy('questionnaire_question-action_comment').should('not.exist')
     checkDisabledShareAndSettings()
@@ -113,7 +113,7 @@ export function expectViewer() {
 
 export function expectCommenter() {
     cy.url().should('match', /\/projects\/.+/)
-    cy.get('.questionnaire__form .form-group input[type=text]').should('be.disabled')
+    cy.get('.questionnaireContent input[type=text]').should('be.disabled')
     cy.getCy('phase-selection').should('be.disabled')
     cy.getCy('questionnaire_question-action_comment').should('exist')
     checkDisabledShareAndSettings()
@@ -122,7 +122,7 @@ export function expectCommenter() {
 
 export function expectEditor() {
     cy.url().should('match', /\/projects\/.+/)
-    cy.get('.questionnaire__form .form-group input[type=text]').should('not.be.disabled')
+    cy.get('.questionnaireContent input[type=text]').should('not.be.disabled')
     cy.getCy('phase-selection').should('not.be.disabled')
     checkDisabledShareAndSettings()
 }
@@ -130,7 +130,7 @@ export function expectEditor() {
 
 export function expectOwner() {
     cy.url().should('match', /\/projects\/.+/)
-    cy.get('.questionnaire__form .form-group input[type=text]').should('not.be.disabled')
+    cy.get('.questionnaireContent input[type=text]').should('not.be.disabled')
     cy.getCy('phase-selection').should('not.be.disabled')
     cy.getCy('project_detail_share-button').should('exist')
     cy.get('.DetailNavigation__Row .nav-link').contains('Settings').should('exist')
@@ -144,7 +144,9 @@ function checkDisabledShareAndSettings() {
 
 export function expectQuestion(question, visible) {
     const predicate = visible ? 'exist' : 'not.exist'
-    cy.get('.form-group label').contains(question).should(predicate)
+    cy.getCy('questionnaire_question-title')
+        .contains(question)
+        .should(predicate)
 }
 
 
@@ -155,15 +157,15 @@ export function expectQuestions(questions, visible) {
 
 export function expectTypehints(label, typehints, query = '') {
     if (query === "") {
-        cy.get('label').contains(label).closest('.form-group').find('input').focus()
+        getQuestionContainer(label).find('input').focus()
     } else {
         typeAnswer(label, query)
     }
     if (typehints.length === 0) {
-        cy.get('label').contains(label).closest('.form-group').find('.integration-typehints > ul > li').should('not.exist')
+        getQuestionContainer(label).find('.integration-typehints > ul > li').should('not.exist')
     } else {
-        cy.get('label').contains(label).closest('.form-group').find('.integration-typehints > ul > li').should('have.length', typehints.length)
-        cy.get('label').contains(label).closest('.form-group').find('.integration-typehints > ul > li').each(($item, index) => {
+        getQuestionContainer(label).find('.integration-typehints > ul > li').should('have.length', typehints.length)
+        getQuestionContainer(label).find('.integration-typehints > ul > li').each(($item, index) => {
             cy.wrap($item).contains(typehints[index].name)
         })
     }
@@ -171,31 +173,31 @@ export function expectTypehints(label, typehints, query = '') {
 
 
 export function expectTypehintsError(label, message) {
-    cy.get('label').contains(label).closest('.form-group').find('input').focus()
-    cy.get('label').contains(label).closest('.form-group').find('.integration-typehints > .error').contains(message)
+    getQuestionContainer(label).find('input').focus()
+    getQuestionContainer(label).find('.integration-typehints > .error').contains(message)
 }
 
 
 export function useNthTypehint(label, n, typehint) {
-    cy.get('label').contains(label).closest('.form-group').find('input').focus()
-    cy.get('label').contains(label).closest('.form-group').find('.integration-typehints > ul > li').eq(n).contains(typehint.name).click()
+    getQuestionContainer(label).find('input').focus()
+    getQuestionContainer(label).find('.integration-typehints > ul > li').eq(n).contains(typehint.name).click()
 }
 
 
 export function checkIntegrationLink(label, link, logo = false) {
-    cy.get('label').contains(label).closest('.form-group').find('.card-footer > img').should(logo ? 'exist' : 'not.exist')
-    cy.get('label').contains(label).closest('.form-group').find('.card-footer > a').should('have.text', link)
+    getQuestionContainer(label).find('.card-footer > img').should(logo ? 'exist' : 'not.exist')
+    getQuestionContainer(label).find('.card-footer > a').should('have.text', link)
 }
 
 
 export function selectAnswer(answer) {
-    cy.get('label').contains(answer).click()
+    cy.get('.questionnaireContent__option ').contains(answer).click()
 }
 
 
 export function openChapter(chapter) {
     openQuestionnaire()
-    cy.get('.NavigationTree .nav-link').contains(chapter).click()
+    cy.get('.questionnaireNavigation .nav-link').contains(chapter).click()
 }
 
 
@@ -235,47 +237,47 @@ export function saveSettings() {
 
 
 export function checkAnswerChecked(answer) {
-    cy.get('label').contains(answer).find('input').should('be.checked')
+    cy.get('.questionnaireContent__option ').contains(answer).find('input').should('be.checked')
 }
 
 
 export function checkAnswerNotChecked(answer) {
-    cy.get('label').contains(answer).find('input').should('not.be.checked')
+    cy.get('.questionnaireContent__option ').contains(answer).find('input').should('not.be.checked')
 }
 
 
-export function clearAnswer(answer) {
-    cy.get('label').contains(answer).closest('.form-group').find('a').contains('Clear answer').click()
+export function clearAnswer(question) {
+    getQuestionContainer(question).find('.questionnaireContent__clearReply a').click()
 }
 
 
 export function typeAnswer(label, answer) {
-    cy.get('label').contains(label).closest('.form-group').find('input').clear().type(answer, { delay: 200 })
+    getQuestionContainer(label).find('input').clear().type(answer, { delay: 200 })
 }
 
 
 export function checkAnswer(label, answer) {
-    cy.get('label').contains(label).closest('.form-group').find('input').should('have.value', answer)
+    getQuestionContainer(label).find('input').should('have.value', answer)
 }
 
 
 export function checkIntegrationAnswer(label, answer) {
-    cy.get('label').contains(label).closest('.form-group').find('.card-body.item-md').contains(answer)
+    getQuestionContainer(label).find('.card-body.item-md').contains(answer)
 }
 
 
 export function typeAnswerText(label, answer) {
-    cy.get('label').contains(label).closest('.form-group').find('textarea').clear().type(answer)
+    getQuestionContainer(label).find('textarea').clear().type(answer)
 }
 
 
 export function checkAnswerText(label, answer) {
-    cy.get('label').contains(label).closest('.form-group').find('textarea').should('have.value', answer)
+    getQuestionContainer(label).find('textarea').should('have.value', answer)
 }
 
 
 export function openDatePicker(label) {
-    cy.get('label').contains(label).closest('.form-group').find('input').click()
+    getQuestionContainer(label).find('input').click()
 }
 
 
@@ -291,15 +293,13 @@ export function selectTime(hour, minutes) {
 }
 
 export function closeDatePicker(label) {
-    cy.get('label').contains(label).click()
+    getQuestionContainer(label).click()
     cy.wait(1000)
 }
 
 
 export function checkDatePickerValue(label, elem, value) {
-    cy.get('label')
-        .contains(label)
-        .closest('.form-group')
+    getQuestionContainer(label)    
         .find(`${elem}-picker`)
         .invoke('prop', '_datePickerValue')
         .should('eq', value)
@@ -307,52 +307,50 @@ export function checkDatePickerValue(label, elem, value) {
 
 
 export function addTodoFor(question) {
-    cy.get('.form-group').contains(question).find('.action-add-todo').click()
+    getQuestionContainer(question).find('.questionnaireContent__questionAction--addTodo').click()
 }
 
 
 export function removeTodoFor(question) {
-    cy.get('.form-group').contains(question).find('.action-todo a').click()
+    getQuestionContainer(question).find('.questionnaireContent__questionAction--todo').click()
 }
 
 
 export function expectTodoFor(question) {
-    cy.get('.form-group').contains(question).find('.action-todo a').should('exist')
+    getQuestionContainer(question).find('.questionnaireContent__questionAction--todo').should('exist')
 }
 
 
 export function expectTodo(question) {
-    cy.get('.questionnaire__toolbar .item').contains('TODOs').click()
-    cy.get('.todos a').contains(question).click()
-    cy.get('.form-group').contains(question).should('be.visible')
-        .find('.action-todo').contains('TODO')
-
+    cy.get('.questionnaireToolbar .item').contains('TODOs').click()
+    cy.getCy('questionnaire_todos').contains(question).click()
+    getQuestionContainer(question).find('.questionnaireContent__questionAction--todo').contains('TODO')
 }
 
 
 export function expectTodoCount(count) {
-    cy.get('.questionnaire__toolbar .item').contains('TODOs').parent().find('.badge').contains(count)
+    cy.get('.questionnaireToolbar .item').contains('TODOs').parent().find('.badge').contains(count)
 }
 
 
 export function expectNoTodo() {
-    cy.get('.questionnaire__toolbar .item').contains('TODOs').parent().find('.badge').should('not.exist')
-    cy.get('.action-todo').should('not.exist')
+    cy.get('.questionnaireToolbar .item').contains('TODOs').parent().find('.badge').should('not.exist')
+    cy.get('.questionnaireContent__questionAction--todo').should('not.exist')
 }
 
 
 export function expectWarningFor(question) {
-    cy.get('.form-group').contains(question).parent().find(dataCy('flash_alert-warning')).should('exist')
+    getQuestionContainer(question).find(dataCy('flash_alert-warning')).should('exist')
 }
 
 
 export function expectWarningCount(count) {
-    cy.get('.questionnaire__toolbar .item').contains('Warnings').parent().find('.badge').contains(count)
+    cy.get('.questionnaireToolbar .item').contains('Warnings').parent().find('.badge').contains(count)
 }
 
 
 export function openCommentsFor(question) {
-    cy.get('.form-group').contains(question).find(dataCy('questionnaire_question-action_comment')).click()
+    getQuestionContainer(question).find(dataCy('questionnaire_question-action_comment')).click()
 }
 
 
@@ -478,7 +476,7 @@ export function finalizeMigration() {
     cy.getCy('project-migration_finalize').click()
     cy.url().should('match', /\/projects\/.+/)
     cy.get('.Questionnaire__Migration').should('not.exist')
-    cy.get('.questionnaire__form').should('exist')
+    cy.get('.questionnaireContent').should('exist')
 }
 
 
@@ -511,4 +509,10 @@ export function expectProjectTagSuggestion(projectTag, exists = true) {
 export function pickProjectTagSuggestion(projectTag) {
     cy.getCy('project_settings_tag-suggestion').contains(projectTag).click()
     cy.getCy('project_settings_add-tag-button').click()
+}
+
+export function getQuestionContainer(question) {
+    return cy.getCy('questionnaire_question-title')
+        .contains(question)
+        .closest(dataCy('questionnaire_content'))
 }

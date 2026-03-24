@@ -1,3 +1,4 @@
+import { dataCy } from '../../../../support/utils'
 import * as project from '../../../../support/project-helpers'
 import * as phases from '../../../../support/phases-helpers'
 
@@ -8,15 +9,15 @@ describe('Questionnaire Versions', () => {
     let knowledgeModelPackageUuid
 
     const openVersionHistory = () => {
-        cy.get('.questionnaire__toolbar .item').contains('Version history').click()
+        cy.get('.item').contains('Version history').click()
     }
 
     const expectEventCount = (count) => {
-        cy.get('.history-event').should('have.length', count)
+        cy.get('.questionnaireHistory__event').should('have.length', count)
     }
 
     const clickEventAction = (action, child = 'last-child') => {
-        const parentSelector = `.history-event:${child}`
+        const parentSelector = `.questionnaireHistory__event:${child}`
         cy.get(`${parentSelector} .dropdown-toggle`).click()
         cy.get(`${parentSelector} .dropdown-item`).contains(action).click({ force: true })
     }
@@ -59,25 +60,25 @@ describe('Questionnaire Versions', () => {
 
         // answer
         project.selectAnswer('Answer 1.1')
-        cy.get('.history-event').then($event => {
+        cy.get('.questionnaireHistory__event').then($event => {
             cy.wrap($event).find('em').contains('Options Question 1').should('exist')
             cy.wrap($event).find('li').contains('Answer 1.1').should('exist')
-            cy.wrap($event).find('.user').contains('Isaac Newton').should('exist')
+            cy.wrap($event).find(dataCy('questionnaire_history-event_user')).contains('Isaac Newton').should('exist')
         })
 
         // clear reply
-        cy.get('.clear-answer').click()
-        cy.get('.history-event').then($event => {
+        cy.get('.questionnaireContent__clearReply a').click()
+        cy.get('.questionnaireHistory__event').then($event => {
             cy.wrap($event).find('em').contains('Cleared reply of').should('exist')
             cy.wrap($event).find('em').contains('Options Question 1').should('exist')
-            cy.wrap($event).find('.user').contains('Isaac Newton').should('exist')
+            cy.wrap($event).find(dataCy('questionnaire_history-event_user')).contains('Isaac Newton').should('exist')
         })
 
         // change phase
         phases.switchPhase('Before Finishing the Project')
-        cy.get('.history-event:first-child').then($event => {
+        cy.get('.questionnaireHistory__event:first-child').then($event => {
             cy.wrap($event).find('em').contains('Set phase to Before Finishing the Project').should('exist')
-            cy.wrap($event).find('.user').contains('Isaac Newton').should('exist')
+            cy.wrap($event).find(dataCy('questionnaire_history-event_user')).contains('Isaac Newton').should('exist')
         })
     })
 
@@ -98,19 +99,19 @@ describe('Questionnaire Versions', () => {
         // name
         openVersionHistory()
         nameVersion('1.0.0')
-        cy.get('.history-event .badge.bg-secondary').contains('1.0.0').should('exist')
+        cy.get('.questionnaireHistory__event .badge.bg-secondary').contains('1.0.0').should('exist')
 
         // rename
         clickEventAction('Rename this version')
         cy.fillFields({ name: '2.0.0' })
         cy.clickModalAction()
-        cy.get('.history-event .badge.bg-secondary').contains('1.0.0').should('not.exist')
-        cy.get('.history-event .badge.bg-secondary').contains('2.0.0').should('exist')
+        cy.get('.questionnaireHistory__event .badge.bg-secondary').contains('1.0.0').should('not.exist')
+        cy.get('.questionnaireHistory__event .badge.bg-secondary').contains('2.0.0').should('exist')
 
         // delete
         clickEventAction('Delete this version')
         cy.clickModalAction()
-        cy.get('.history-event .badge.bg-secondary').should('not.exist')
+        cy.get('.questionnaireHistory__event .badge.bg-secondary').should('not.exist')
     })
 
     it('revert to a version', () => {
@@ -147,9 +148,8 @@ describe('Questionnaire Versions', () => {
 
         // check it has opened correctly
         cy.get('.ProjectVersionViewModal .modal-header .badge.bg-secondary').contains('1.0.0').should('exist')
-        cy.get('.ProjectVersionViewModal .modal-content label').contains('Answer 1.1').find('input').should('not.be.checked')
-        cy.get('.ProjectVersionViewModal .modal-content label').contains('Value Question String').closest('.form-group').find('input').should('have.value', 'Answer')
-
+        cy.get('.ProjectVersionViewModal .modal-content .questionnaireContent__option').contains('Answer 1.1').find('input').should('not.be.checked')
+        cy.get(`.ProjectVersionViewModal .modal-content ${dataCy('questionnaire_question-title')}`).contains('Value Question String').closest(dataCy('questionnaire_content')).find('input').should('have.value', 'Answer')
     })
 
     it('view only named versions', () => {

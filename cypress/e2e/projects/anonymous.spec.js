@@ -67,7 +67,7 @@ describe('Anonymous projects', () => {
         // check that the answer is selected
         project.checkAnswerChecked('Answer 2')
         project.checkAnswerChecked('Answer 3')
-        cy.get('label').contains('Deep Nested Answer Item Question').should('exist')
+        cy.getCy('questionnaire_question-title').contains('Deep Nested Answer Item Question').should('exist')
     })
 
     it('can be added to user projects', () => {
