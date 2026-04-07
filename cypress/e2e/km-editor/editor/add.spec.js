@@ -129,59 +129,6 @@ describe('KM Editor Add Entity', () => {
             cy.get('.form-group-markup-editor .Markdown').should('contain', 'ID = standard01')
         })
 
-        it('add API Legacy Integration', () => {
-            const integration = {
-                s_type: 'ApiLegacy',
-                id: 'service1',
-                name: 'Service 1',
-                logo: 'base64image',
-                itemUrl: 'https://example.com/${{}id}',
-                s_requestMethod: 'POST',
-                requestUrl: 'https://api.example.com/search?q=${{}q}',
-                requestBody: '{{}}',
-                responseListField: 'items',
-                responseItemId: 'itemId',
-                responseItemTemplate: 'itemName'
-            }
-
-            const addProp = (name) => {
-                cy.getCy('variables-input_add-button').click()
-                cy.get(`${dataCy('variables-input_input-wrapper')}:last-child ${dataCy('variables-input_input')}`).type(name)
-            }
-
-            const checkProp = (name, i) => {
-                cy.get(`${dataCy('variables-input_input-wrapper')}:nth-child(${i}) ${dataCy('variables-input_input')}`).should('have.value', name)
-            }
-
-            const addHeader = (header, value) => {
-                cy.get('.card [data-cy="headers-input_add-button"]').click()
-                cy.get('[data-cy="headers-input_item"]:last-child [data-cy="headers-input_name"]').type(header)
-                cy.get('[data-cy="headers-input_item"]:last-child [data-cy="headers-input_value"]').type(value)
-            }
-
-            const checkHeader = (header, value) => {
-                cy.get('[data-cy="headers-input_item"]:last-child [data-cy="headers-input_name"]').should('have.value', header)
-                cy.get('[data-cy="headers-input_item"]:last-child [data-cy="headers-input_value"]').should('have.value', value)
-            }
-
-            // Add integration and save
-            editor.open(kmId)
-            editor.createChildren([['integration', integration]])
-            addProp('name')
-            addProp('database')
-            addHeader('Authorization', 'Bearer $token')
-            editor.awaitSave()
-
-            // Reopen editor again and check that the integration is there
-            cy.visitApp('/knowledge-model-editors')
-            editor.open(kmId)
-            editor.openChild(integration.name)
-            checkProp('name', 1)
-            checkProp('database', 2)
-            checkHeader('Authorization', 'Bearer $token')
-            cy.checkFields(integration)
-        })
-
         it('add Resource Collection', () => {
             const resourceCollection = {
                 title: 'My Resource Collection'

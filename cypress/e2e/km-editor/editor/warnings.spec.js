@@ -325,55 +325,6 @@ describe('KM Editor Warnings', () => {
         cy.checkFields(tag)
     })
 
-    it('Integration API Legacy', () => {
-        const integration = {
-            s_type: 'ApiLegacy',
-            name: 'API Integration',
-        }
-        editor.createChildren([
-            ['integration', integration],
-        ])
-
-        const warnings = [
-            'Empty ID for integration',
-            'Empty request URL for integration',
-            'Empty response item template for integration',
-        ]
-
-        warnings.forEach(warning => {
-            cy.visitApp('/knowledge-model-editors')
-            editor.open(kmId)
-            editor.expectWarningsCount(warnings.length)
-            editor.openWarnings()
-            cy.contains(warning).click()
-            cy.checkFields(integration)
-        })
-    })
-
-    it('Integration Widget', () => {
-        const integration = {
-            s_type: 'Widget',
-            name: 'Widget Integration',
-        }
-        editor.createChildren([
-            ['integration', integration],
-        ])
-
-        const warnings = [
-            'Empty ID for integration',
-            'Empty widget URL for integration',
-        ]
-
-        warnings.forEach(warning => {
-            cy.visitApp('/knowledge-model-editors')
-            editor.open(kmId)
-            editor.expectWarningsCount(warnings.length)
-            editor.openWarnings()
-            cy.contains(warning).click()
-            cy.checkFields(integration)
-        })
-    })
-
     it('Resource Collection', () => {
         editor.createChildren([
             ['resource-collection', {}]

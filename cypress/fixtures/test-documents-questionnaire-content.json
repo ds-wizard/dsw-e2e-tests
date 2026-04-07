@@ -141,8 +141,10 @@
             "value": {
                 "type": "IntegrationReply",
                 "value": {
-                    "type": "IntegrationLegacyType",
-                    "id": "Data_Stewardship_Wizard",
+                    "type": "IntegrationType",
+                    "raw": {
+                        "id": "Data_Stewardship_Wizard"
+                    },
                     "value": "Data Stewardship Wizard"
                 }
             },
@@ -214,7 +216,9 @@
             "type": "IntegrationReply",
             "value": {
                 "type": "IntegrationValue",
-                "id": "Data_Stewardship_Wizard",
+                "raw": {
+                    "id": "Data_Stewardship_Wizard"
+                },
                 "value": "Data Stewardship Wizard"
             }
         },

@@ -109,61 +109,6 @@ describe('KM Editor Edit Entity', () => {
             cy.checkFields({ ...tag, color: '#27AE60' })
         })
 
-        it('edit API Legacy Integration', () => {
-            const integration = {
-                id: 'another-integration',
-                name: 'Another Integration',
-                logo: 'base64image',
-                itemUrl: 'https://another.example.com/${{}id}',
-                s_requestMethod: 'POST',
-                requestUrl: 'https://another.api.example.com/search?q=${{}q}',
-                requestBody: '{{}}',
-                responseListField: 'objects',
-                responseItemId: 'objectUuid',
-                responseItemTemplate: 'objectString'
-            }
-
-            const checkProp = (name, i) => {
-                cy.get(`${dataCy('variables-input_input-wrapper')}:nth-child(${i}) ${dataCy('variables-input_input')}`).should('have.value', name)
-            }
-
-            // Edit integration
-            cy.visitApp('/knowledge-model-editors')
-            editor.open(kmId)
-            editor.traverseChildren(['Integration 1'])
-
-            // edit form fields
-            cy.fillFields(integration)
-
-            // edit props
-            cy.getCy('variables-input_add-button').click()
-            cy.get(`${dataCy('variables-input_input-wrapper')}:last-child ${dataCy('variables-input_input')}`).type('new-prop')
-            cy.get(`${dataCy('variables-input_input-wrapper')}:first-child`).find(dataCy('variables-input_remove')).click()
-
-            // edit headers
-            cy.getCy('headers-input_item', ':last-child').find(dataCy('headers-input_remove')).click()
-            cy.getCy('headers-input_name').clear().type('X-Auth')
-            cy.getCy('headers-input_value').clear().type('abcd')
-
-            editor.awaitSave()
-
-            // Open editor again and check that changes were saved
-            cy.visitApp('/knowledge-model-editors')
-            editor.open(kmId)
-            editor.traverseChildren([integration.name])
-
-            //  check form fields
-            cy.checkFields(integration)
-
-            // check props
-            checkProp('category', 1)
-            checkProp('new-prop', 2)
-
-            // check headers
-            cy.getCy('headers-input_name').should('have.value', 'X-Auth')
-            cy.getCy('headers-input_value').should('have.value', 'abcd')
-        })
-
         it('edit Resource Page Reference', () => {
             // Edit Resource Page Reference
             cy.visitApp('/knowledge-model-editors')
@@ -209,7 +154,6 @@ describe('KM Editor Edit Entity', () => {
             question: {
                 title: 'Another Integration Question',
                 text: 'Another integration question text',
-                s_integrationUuid: '7f1a591a-d6d6-4ffd-8118-6f052b1d73b8'
             }
         }, {
             testName: 'edit MultiChoiceQuestion',
@@ -245,8 +189,7 @@ describe('KM Editor Edit Entity', () => {
             originalTitle: 'List Question 1',
             question: {
                 title: 'Integration Question 2',
-                s_type: 'Integration',
-                s_integrationUuid: '354e8a2a-3c53-4f74-921d-bc42d82bd529'
+                s_type: 'Integration'
             }
         }, {
             testName: 'change to MultiChoiceQuestion',

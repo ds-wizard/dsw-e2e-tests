@@ -43,10 +43,6 @@ describe('KM Editor Delete Entity', () => {
             name: 'delete Tag',
             path: [],
             child: 'Tag 1'
-        }, {
-            name: 'delete Integration',
-            path: [],
-            child: 'Integration 1',
         }]
     }, {
         group: 'Chapter',
