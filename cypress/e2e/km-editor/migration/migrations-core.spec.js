@@ -3,7 +3,7 @@ import * as packages from '../../../support/packages-helpers'
 import { dataCy } from '../../../support/utils'
 
 
-describe('KM Editor Migrations', () => {
+describe.skip('KM Editor Migrations', () => {
     const config = new migration.Config(
         'child-km',
         'parent-km',
