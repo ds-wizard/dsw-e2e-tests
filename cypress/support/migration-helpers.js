@@ -1,5 +1,4 @@
 import * as packages from './packages-helpers'
-import { apiUrl } from './commands'
 
 export class Config {
     constructor(childKmId, parentKmId, editorName) {
@@ -25,145 +24,6 @@ export class Config {
     }
 }
 
-
-// 3.6.0 - Integration fields renamed and now using Jinja templating with item property
-function updateIntegrationEvent(event) {
-    const fields = [
-        ['responseItemId', 'responseIdField', true],
-        ['responseItemTemplate', 'responseNameField', true],
-        ['responseItemUrl', 'itemUrl', false],
-    ]
-
-    fields.forEach(([fieldName, oldFieldName, wrapTemplateValue]) => {
-        if (event[fieldName] === undefined && event[oldFieldName] !== undefined) {
-            event[fieldName] = event[oldFieldName]
-            if (wrapTemplateValue) {
-                if (event[fieldName].changed && event[fieldName].value) {
-                    event[fieldName].value = `{{item.${event[fieldName].value}}}`
-                } else {
-                    event[fieldName] = `{{item.${event[fieldName]}}}`
-                }
-            }
-        }
-    })
-
-    return event
-}
-
-// 3.8.0 - requestHeaders changed from dict to list
-function updateIntegrationRequestHeaders(event) {
-    const updateHeaders = (headers) => {
-        return Object.entries(headers).map(([key, value]) => ({ key, value }))
-    }
-
-    if (event['requestHeaders']) {
-        if (event['requestHeaders'].value && !Array.isArray(event['requestHeaders'].value)) {
-            // edit event
-            event['requestHeaders'].value = updateHeaders(event['requestHeaders'].value)
-        } else if (!Array.isArray(event['requestHeaders'])) {
-            // add event
-            event['requestHeaders'] = updateHeaders(event['requestHeaders'])
-        }
-    }
-
-    return event
-}
-
-// 3.10.0 - integrationType and requestEmptySearch added
-function updateIntegrationEvent2(event) {
-
-    const newFields = [
-        ['integrationType', 'ApiIntegration'],
-        ['requestEmptySearch', true],
-    ]
-
-    if (event.eventType === 'AddIntegrationEvent') {
-        newFields.forEach(([fieldName, defaultValue]) => {
-            if (event[fieldName] === undefined) {
-                event[fieldName] = defaultValue
-            }
-        })
-    } else if (event.eventType === 'EditIntegrationEvent') {
-        if (event.integrationType === undefined) {
-            event.integrationType = 'ApiIntegration'
-        }
-
-        if (event.requestEmptySearch === undefined) {
-            event.requestEmptySearch = { changed: false }
-        }
-    }
-
-    return event
-}
-
-// 4.13.0 - validations added to ValueQuestion
-function updateValidations(event) {
-    const newFields = [
-        ['validations', []],
-    ]
-
-    if (event.eventType === 'AddQuestionEvent' && event.questionType === 'ValueQuestion') {
-        newFields.forEach(([fieldName, defaultValue]) => {
-            if (event[fieldName] === undefined) {
-                event[fieldName] = defaultValue
-            }
-        })
-    } else if (event.eventType === 'EditQuestionEvent' && event.questionType === 'ValueQuestion') {
-        if (event.validations === undefined) {
-            event.validations = { changed: false }
-        }
-    }
-
-    return event
-}
-
-// 4.22.0 - New API integration and renamed props to variables
-function updatePropsToVariables(event) {
-    if (event['props'] !== undefined && event['integrationType'] === 'ApiIntegration') {
-        event['integrationType'] = 'ApiLegacyIntegration'
-    }
-
-    if (event['variables'] === undefined && event['props'] !== undefined) {
-        event['variables'] = event['props']
-    }
-
-    return event
-}
-
-
-function updateEventFormat(event) {
-    if (event['content'] !== undefined) {
-        return event
-    }
-
-    const content = { ...event }
-    delete content.uuid
-    delete content.entityUuid
-    delete content.parentUuid
-    delete content.createdAt
-
-    return {
-        uuid: event.uuid,
-        entity_uuid: event.entityUuid,
-        parent_uuid: event.parentUuid,
-        created_at: event.createdAt,
-        content
-    }
-}
-
-function updateEvent(event) {
-    const updates = [
-        updateIntegrationEvent,
-        updateIntegrationRequestHeaders,
-        updateIntegrationEvent2,
-        updateValidations,
-        updatePropsToVariables,
-        updateEventFormat
-    ]
-
-    return updates.reduce((acc, update) => update(acc), event)
-}
-
 function validateKeyInEventObject(parent, child, key, skipKeys, forceSkip = false) {
     const shouldSkip = forceSkip || skipKeys.includes(key)
     if (!shouldSkip) {
@@ -175,20 +35,32 @@ function validateKeyInEventObject(parent, child, key, skipKeys, forceSkip = fals
     }
 }
 
+function normalizeEvent(event) {
+    return {
+        uuid: event.uuid,
+        entityUuid: event.entity_uuid,
+        parentUuid: event.parent_uuid,
+        createdAt: event.created_at,
+        content: event.content
+    }
+}
+
 export function verifyPackageWithBundle(packageId, fixtureName, pkgParams, checkEventUuid = true) {
     packages.getPackage(packageId)
         .then(pkg => {
             cy.fixture(fixtureName).then(parentPkgBundle => {
                 const parentPkg = parentPkgBundle.packages.filter(innerPkg => innerPkg.id == packageId)[0]
                 Object.keys(pkgParams).forEach((key) => {
-
                     cy.wrap(pkg).its(key).should('eq', pkgParams[key])
                 })
 
-                cy.wrap(pkg).its('events').should('have.length', parentPkg.events.length)
+
+                const parentEvents = parentPkg.events
+                cy.wrap(pkg).its('events').should('have.length', parentEvents.length)
 
                 pkg.events.forEach((childEvent, index) => {
-                    const parentEvent = updateEvent(parentPkg.events[index])
+                    const parentEvent = {...parentEvents[index]}
+                    childEvent = normalizeEvent(childEvent)
 
                     Object.keys(childEvent).forEach((key) => {
                         if (key === 'content') {
@@ -197,7 +69,7 @@ export function verifyPackageWithBundle(packageId, fixtureName, pkgParams, check
                                 validateKeyInEventObject(parentEvent.content, childEvent.content, contentKey, skipContentKeys)
                             })
                         } else {
-                            const skipKeys = ['package_id', 'package_uuid', 'tenant_uuid', 'created_at']
+                            const skipKeys = ['createdAt']
                             const forceSkip = !checkEventUuid && key === 'uuid'
                             validateKeyInEventObject(parentEvent, childEvent, key, skipKeys, forceSkip)
                         }
@@ -245,7 +117,9 @@ export function checkMigrationForm(data) {
     cy.get('.card-body .form-group').each(($el, index, $list) => {
         if (index < data.length - 1) { // we don't check annotations
             cy.wrap($el).get('.control-label').contains(data[index].label)
-            data[index].validate(cy.wrap($el).get('.form-value'))
+            if (data[index].validate) {
+                data[index].validate(cy.wrap($el).get('.form-value'))
+            }
         }
     })
 }
