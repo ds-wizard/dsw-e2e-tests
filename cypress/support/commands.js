@@ -384,6 +384,14 @@ Cypress.Commands.add('fillFields', (fields) => {
             } else {
                 cy.get(`#${key}`).uncheck()
             }
+        } else if (key.startsWith('md_')) {
+            key = key.replace(/^md_/, '')
+
+            if (value.length > 0) {
+                cy.get(`#${key} [contenteditable]`).clear().type(value)
+            } else {
+                cy.get(`#${key} [contenteditable]`).clear()
+            }
         } else {
             if (value.length > 0) {
                 cy.get(`#${key}`).clear().type(value)
@@ -402,8 +410,13 @@ Cypress.Commands.add('clearTypeHintInput', (field) => {
 
 Cypress.Commands.add('checkFields', (fields) => {
     Object.entries(fields).forEach(([key, value]) => {
-        key = key.replace(/^s_/, '')
-        cy.get(`#${key}`).should('have.value', value.replace('{{}', '{'))
+        if (key.startsWith('md_')) {
+            const selector = `#${key.replace(/^md_/, '')} [contenteditable]`
+            cy.get(selector).should('have.text', value.replace('{{}', '{'))
+        } else {
+            key = key.replace(/^s_/, '')
+            cy.get(`#${key}`).should('have.value', value.replace('{{}', '{'))
+        }
     })
 })
 

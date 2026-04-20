@@ -267,12 +267,12 @@ export function checkIntegrationAnswer(label, answer) {
 
 
 export function typeAnswerText(label, answer) {
-    getQuestionContainer(label).find('textarea').clear().type(answer)
+    getQuestionContainer(label).find('[contenteditable]').clear().type(answer)
 }
 
 
 export function checkAnswerText(label, answer) {
-    getQuestionContainer(label).find('textarea').should('have.value', answer)
+    getQuestionContainer(label).find('[contenteditable]').should('have.text', answer)
 }
 
 

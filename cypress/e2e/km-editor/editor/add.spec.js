@@ -23,7 +23,7 @@ describe('KM Editor Add Entity', () => {
         it('add Chapter', () => {
             const chapter = {
                 title: 'My Awesome Chapter',
-                text: 'This chapter is awesome'
+                md_text: 'This chapter is awesome'
             }
 
             // Add chapter
@@ -41,7 +41,7 @@ describe('KM Editor Add Entity', () => {
             const metric = {
                 title: 'Metric 1',
                 abbreviation: 'M1',
-                description: 'This is Metric 1'
+                md_description: 'This is Metric 1'
             }
 
             // Add metric and save
@@ -153,19 +153,19 @@ describe('KM Editor Add Entity', () => {
         const questions = [{
             s_type: 'Options',
             title: 'Will you use any external data sources?',
-            text: 'This question is asking about external data sources.',
+            md_text: 'This question is asking about external data sources.',
         }, {
             s_type: 'MultiChoice',
             title: 'What do you choose?',
-            text: 'This question can have more than one answer.',
+            md_text: 'This question can have more than one answer.',
         }, {
             s_type: 'List',
             title: 'What databases will you use?',
-            text: '',
+            md_text: '',
         }, {
             s_type: 'Value',
             title: 'How many researchers will work on the project?',
-            text: 'Count them all!',
+            md_text: 'Count them all!',
             s_valueType: 'NumberQuestionValueType'
         }]
 
@@ -445,7 +445,7 @@ describe('KM Editor Add Entity', () => {
             it('add Answer', () => {
                 const followUpAnswer = {
                     label: 'No',
-                    advice: 'You should consider changing this answer.'
+                    md_advice: 'You should consider changing this answer.'
                 }
 
                 // Add answer parents
@@ -514,7 +514,7 @@ describe('KM Editor Add Entity', () => {
                 const itemQuestion = {
                     s_type: 'Value',
                     title: 'When did the project started?',
-                    text: 'Type in the exact date',
+                    md_text: 'Type in the exact date',
                     s_valueType: 'DateQuestionValueType'
                 }
 
@@ -696,7 +696,7 @@ describe('KM Editor Add Entity', () => {
         const resourceCollection = {title: 'My Resource Collection'}
         const resourcePage = {
             title: 'My Resource Page',
-            content: 'This is a resource page.'
+            md_content: 'This is a resource page.'
         }
         const reference = {
             s_type: 'ResourcePage',

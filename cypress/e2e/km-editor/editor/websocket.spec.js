@@ -47,7 +47,7 @@ describe('KMEditor WebSocket Tests', () => {
         editor.openChild('Untitled chapter')
         cy.checkFields({
             title: '',
-            text: ''
+            md_text: ''
         })
 
         // Edit that chapter
@@ -86,7 +86,7 @@ describe('KMEditor WebSocket Tests', () => {
         // Check that the fields has been updated
         cy.checkFields({
             title: 'Chapter',
-            text: 'This is my beautiful chapter!'
+            md_text: 'This is my beautiful chapter!'
         })
 
         // Delete the chapter

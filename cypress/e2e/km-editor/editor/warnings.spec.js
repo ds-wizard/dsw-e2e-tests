@@ -16,7 +16,7 @@ describe('KM Editor Warnings', () => {
 
     it('Chapter Title', () => {
         const chapter = {
-            text: 'This chapter text'
+            md_text: 'This chapter text'
         }
         editor.createChildren([['chapter', chapter]])
 
@@ -31,10 +31,10 @@ describe('KM Editor Warnings', () => {
     it('Question Title', () => {
         const chapter = {
             title: 'Chapter 1',
-            text: 'This chapter text'
+            md_text: 'This chapter text'
         }
         const question = {
-            text: 'This question text'
+            md_text: 'This question text'
         }
         editor.createChildren([['chapter', chapter], ['question', question]])
 
@@ -49,11 +49,11 @@ describe('KM Editor Warnings', () => {
     it('Question Answers', () => {
         const chapter = {
             title: 'Chapter 1',
-            text: 'This chapter text'
+            md_text: 'This chapter text'
         }
         const question = {
             title: 'Question 1',
-            text: 'This question text'
+            md_text: 'This question text'
         }
         editor.createChildren([['chapter', chapter], ['question', question]])
 
@@ -68,12 +68,12 @@ describe('KM Editor Warnings', () => {
     it('Question Items', () => {
         const chapter = {
             title: 'Chapter 1',
-            text: 'This chapter text'
+            md_text: 'This chapter text'
         }
         const question = {
             s_type: 'List',
             title: 'Question 1',
-            text: 'This question text'
+            md_text: 'This question text'
         }
         editor.createChildren([['chapter', chapter], ['question', question]])
 
@@ -88,12 +88,12 @@ describe('KM Editor Warnings', () => {
     it('Question Item Select', () => {
         const chapter = {
             title: 'Chapter 1',
-            text: 'This chapter text'
+            md_text: 'This chapter text'
         }
         const question = {
             s_type: 'ItemSelect',
             title: 'Question 1',
-            text: 'This question text'
+            md_text: 'This question text'
         }
         editor.createChildren([['chapter', chapter], ['question', question]])
 
@@ -108,12 +108,12 @@ describe('KM Editor Warnings', () => {
     it('Question Choices', () => {
         const chapter = {
             title: 'Chapter 1',
-            text: 'This chapter text'
+            md_text: 'This chapter text'
         }
         const question = {
             s_type: 'MultiChoice',
             title: 'Question 1',
-            text: 'This question text'
+            md_text: 'This question text'
         }
         editor.createChildren([['chapter', chapter], ['question', question]])
 
@@ -128,12 +128,12 @@ describe('KM Editor Warnings', () => {
     it('Question Integration', () => {
         const chapter = {
             title: 'Chapter 1',
-            text: 'This chapter text'
+            md_text: 'This chapter text'
         }
         const question = {
             s_type: 'Integration',
             title: 'Question 1',
-            text: 'This question text'
+            md_text: 'This question text'
         }
         editor.createChildren([['chapter', chapter], ['question', question]])
 
@@ -148,14 +148,14 @@ describe('KM Editor Warnings', () => {
     it('Answers Label', () => {
         const chapter = {
             title: 'Chapter 1',
-            text: 'This chapter text'
+            md_text: 'This chapter text'
         }
         const question = {
             title: 'Question 1',
-            text: 'This question text'
+            md_text: 'This question text'
         }
         const answer = {
-            advice: 'This is advice'
+            md_advice: 'This is advice'
         }
         editor.createChildren([
             ['chapter', chapter], 
@@ -174,12 +174,12 @@ describe('KM Editor Warnings', () => {
     it('Choice Label', () => {
         const chapter = {
             title: 'Chapter 1',
-            text: 'This chapter text'
+            md_text: 'This chapter text'
         }
         const question = {
             s_type: 'MultiChoice',
             title: 'Question 1',
-            text: 'This question text'
+            md_text: 'This question text'
         }
         const choice = {}
         editor.createChildren([
@@ -199,12 +199,12 @@ describe('KM Editor Warnings', () => {
     it('Reference URL', () => {
         const chapter = {
             title: 'Chapter 1',
-            text: 'This chapter text'
+            md_text: 'This chapter text'
         }
         const question = {
             s_type: 'Value',
             title: 'Question 1',
-            text: 'This question text'
+            md_text: 'This question text'
         }
         const reference = {
             s_type: 'URL',
@@ -227,12 +227,12 @@ describe('KM Editor Warnings', () => {
     it('Reference Resource Page', () => {
         const chapter = {
             title: 'Chapter 1',
-            text: 'This chapter text'
+            md_text: 'This chapter text'
         }
         const question = {
             s_type: 'Value',
             title: 'Question 1',
-            text: 'This question text'
+            md_text: 'This question text'
         }
         const reference = {s_type: 'ResourcePage'}
 
@@ -253,12 +253,12 @@ describe('KM Editor Warnings', () => {
     it('Expert Email', () => {
         const chapter = {
             title: 'Chapter 1',
-            text: 'This chapter text'
+            md_text: 'This chapter text'
         }
         const question = {
             s_type: 'Value',
             title: 'Question 1',
-            text: 'This question text'
+            md_text: 'This question text'
         }
         const expert = {
             name: 'Leonard Armstrong',

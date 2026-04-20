@@ -30,7 +30,7 @@ describe('KM Editor Edit Entity', () => {
         it('edit Chapter', () => {
             const chapter = {
                 title: 'Another Chapter',
-                text: 'This is another chapter'
+                md_text: 'This is another chapter'
             }
 
             // Edit Chapter
@@ -51,7 +51,7 @@ describe('KM Editor Edit Entity', () => {
             const metric = {
                 title: 'Metric 1',
                 abbreviation: 'M1',
-                description: 'This is Metric 1'
+                md_description: 'This is Metric 1'
             }
 
             // Edit Metric
@@ -131,21 +131,21 @@ describe('KM Editor Edit Entity', () => {
             originalTitle: 'Options Question 1',
             question: {
                 title: 'Another Options Question',
-                text: 'Another options question text',
+                md_text: 'Another options question text',
             }
         }, {
             testName: 'edit ListQuestion',
             originalTitle: 'List Question 1',
             question: {
                 title: 'Another List Question',
-                text: 'Another list question text',
+                md_text: 'Another list question text',
             }
         }, {
             testName: 'edit ValueQuestion',
             originalTitle: 'Value Question 1',
             question: {
                 title: 'Another Value Question',
-                text: 'Another value question text',
+                md_text: 'Another value question text',
                 s_valueType: 'NumberQuestionValueType'
             }
         }, {
@@ -153,14 +153,14 @@ describe('KM Editor Edit Entity', () => {
             originalTitle: 'Integration Question 1',
             question: {
                 title: 'Another Integration Question',
-                text: 'Another integration question text',
+                md_text: 'Another integration question text',
             }
         }, {
             testName: 'edit MultiChoiceQuestion',
             originalTitle: 'Multi-Choice Question 1',
             question: {
                 title: 'Another Multi-Choice Question',
-                text: 'Another Multi-Choice question text',
+                md_text: 'Another Multi-Choice question text',
             }
         }, {
             testName: 'change to OptionsQuestion',
@@ -293,7 +293,7 @@ describe('KM Editor Edit Entity', () => {
             it('edit Answer', () => {
                 const answer = {
                     label: 'No',
-                    advice: 'This is not the best option.',
+                    md_advice: 'This is not the best option.',
                     'metricMeasure-8db30660-d4e5-4c0a-bf3e-553f3f0f997a-weight': '1',
                     'metricMeasure-8db30660-d4e5-4c0a-bf3e-553f3f0f997a-measure': '0'
                 }
@@ -335,7 +335,7 @@ describe('KM Editor Edit Entity', () => {
             it('edit Follow-up Question', () => {
                 const question = {
                     title: 'Another Question',
-                    text: 'This is another question'
+                    md_text: 'This is another question'
                 }
 
                 // Open editor and edit follow-up question
