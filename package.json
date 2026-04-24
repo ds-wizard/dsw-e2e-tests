@@ -9,7 +9,7 @@
     "uuid": "^14.0.0"
   },
   "devDependencies": {
-    "cypress": "^15.13.1",
+    "cypress": "^15.14.1",
     "cypress-iframe": "^1.0.1"
   }
 }
