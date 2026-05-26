@@ -58,12 +58,6 @@ const initPostgres = (config) => {
 module.exports = (on, config) => {
   const pg = initPostgres(config)
 
-  // Action Key
-
-  async function actionKeyDelete(where) {
-    return pg.delete({ table: 'action_key', where })
-  }
-
   // Document
 
   async function documentDelete(where) {
@@ -150,6 +144,12 @@ module.exports = (on, config) => {
     })
   }
 
+  // OpenID Client
+
+  async function openIdClientDelete(where) {
+    return pg.delete({ table: 'openid_client', where })
+  }
+
   // Project
 
   async function projectDelete(where) {
@@ -215,7 +215,7 @@ module.exports = (on, config) => {
   }
 
   async function userGetActionParams({ email, type }) {
-    const result = await pg.query(`SELECT u.uuid, a.hash, a.type FROM user_entity u INNER JOIN action_key a ON u.uuid=a.identity WHERE u.email='${email}' AND a.type='${type}'`)
+    const result = await pg.query(`SELECT u.uuid, uel.hash, uel.type FROM user_entity u INNER JOIN user_email_link uel ON u.uuid=uel.identity WHERE u.email='${email}' AND uel.type='${type}'`)
     return [result.rows[0].uuid, result.rows[0].hash]
   }
 
@@ -245,8 +245,13 @@ module.exports = (on, config) => {
     return true
   }
 
+    // User Email Links
+
+  async function userEmailLinkDelete(where) {
+    return pg.delete({ table: 'user_email_link', where })
+  }
+
   on('task', {
-    'actionKey:delete': actionKeyDelete,
     'document:delete': documentDelete,
     'documentTemplate:delete': documentTemplateDelete,
     'documentTemplate:get': documentTemplateGet,
@@ -257,6 +262,7 @@ module.exports = (on, config) => {
     'knowledgeModelPackage:get': knowledgeModelPackageGet,
     'knowledgeModelPackage:setNonEditable': knowledgeModelPackageSetNonEditable,
     'project:delete': projectDelete,
+    'openIdClient:delete': openIdClientDelete,
     'tenant:delete': tenantDelete,
     'tenantConfig:disable2FA': tenantConfigDisable2FA,
     'tenantLimit:reset': tenantLimitReset,
@@ -264,6 +270,7 @@ module.exports = (on, config) => {
     'user:getActionParams': userGetActionParams,
     'user:delete': userDelete,
     'user:addPermission': userAddPermission,
-    'user:setToursDone': userSetToursDone
+    'user:setToursDone': userSetToursDone,
+    'userEmailLink:delete': userEmailLinkDelete,
   })
 }

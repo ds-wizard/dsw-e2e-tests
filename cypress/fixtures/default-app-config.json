@@ -18,7 +18,10 @@
                 "codeLength": 6,
                 "enabled": false,
                 "expiration": 600
-            }
+            },
+            "nonAdminLoginEnabled": true,
+            "sessionExpiration": 336,
+            "userEmailLinkExpiration": 336
         }
     },
     "privacyAndSupport": {

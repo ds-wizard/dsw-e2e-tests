@@ -26,7 +26,7 @@ describe('Sign up', () => {
         cy.expectSuccessPageMessage()
 
         // navigate to correct signup confirmation
-        cy.task('user:getActionParams', { email: testEmail, type: 'RegistrationActionKey' }).then(([uuid, hash]) => {
+        cy.task('user:getActionParams', { email: testEmail, type: 'RegistrationUserEmailLinkType' }).then(([uuid, hash]) => {
             cy.visitApp(`/signup/${uuid}/${hash}`)
         })
 

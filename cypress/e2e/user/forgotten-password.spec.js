@@ -24,7 +24,7 @@ describe('Forgotten password', () => {
         cy.expectSuccessPageMessage()
 
         // navigate to correct password recovery page
-        cy.task('user:getActionParams', { email: user.email, type: 'ForgottenPasswordActionKey' }).then(([uuid, hash]) => {
+        cy.task('user:getActionParams', { email: user.email, type: 'ForgottenPasswordUserEmailLinkType' }).then(([uuid, hash]) => {
             cy.visitApp(`/forgotten-password/${uuid}/${hash}`)
         })
 
