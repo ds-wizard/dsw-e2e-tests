@@ -162,10 +162,25 @@ module.exports = (on, config) => {
     return true
   }
 
+  // Role
+
+  async function getRole(where) {
+    return await pg.get({ table: 'role', where })
+  }
+
   // Tenant
 
   async function tenantDelete(where) {
-    return pg.delete({ table: 'tenant', where })
+    const result = await pg.get({ table: 'tenant', where })
+    for (let i = 0; i < result.rows.length; i++) {
+      const { uuid } = result.rows[i]
+      await pg.delete({ table: 'document_template_asset', where: { tenant_uuid: uuid } })
+      await pg.delete({ table: 'locale', where: { tenant_uuid: uuid } })
+      await pg.delete({ table: 'persistent_command', where: { tenant_uuid: uuid } })
+      await pg.delete({ table: 'project_file', where: { tenant_uuid: uuid } })
+      await pg.delete({ table: 'tenant', where: { uuid } })
+    }
+    return true
   }
 
   // Tenant config
@@ -174,11 +189,7 @@ module.exports = (on, config) => {
     return pg.update({
       table: 'config_authentication',
       values: {
-        default_role: 'dataSteward',
-        internal_registration_enabled: true,
-        internal_two_factor_auth_enabled: false,
-        internal_two_factor_auth_code_length: 6,
-        internal_two_factor_auth_code_expiration: 600,
+        internal_two_factor_auth_enabled: false
       }
     })
   }
@@ -225,8 +236,8 @@ module.exports = (on, config) => {
 
   async function userAddPermission({ perm, email }) {
     const result = await pg.get({ table: 'user_entity', where: { email } })
-    const permissions = [perm, ...result.rows[0].permissions]
-    return pg.query(`UPDATE user_entity SET permissions='{${permissions.join(',')}}' WHERE email='${email}'`)
+    const role_permissions = [perm, ...result.rows[0].role_permissions]
+    return pg.query(`UPDATE user_entity SET role_permissions='{${role_permissions.join(',')}}' WHERE email='${email}'`)
   }
 
   async function userSetToursDone({ email }) {
@@ -262,6 +273,7 @@ module.exports = (on, config) => {
     'knowledgeModelPackage:get': knowledgeModelPackageGet,
     'knowledgeModelPackage:setNonEditable': knowledgeModelPackageSetNonEditable,
     'project:delete': projectDelete,
+    'role:get': getRole,
     'openIdClient:delete': openIdClientDelete,
     'tenant:delete': tenantDelete,
     'tenantConfig:disable2FA': tenantConfigDisable2FA,

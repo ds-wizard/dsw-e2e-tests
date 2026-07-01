@@ -445,12 +445,25 @@ Cypress.Commands.add('expectToggleUnchecked', (field) => {
 Cypress.Commands.add('putDefaultAppConfig', () => {
     cy.task('tenantConfig:disable2FA')
     getTokenFor('admin').then((resp) => {
-        cy.fixture('default-app-config').then((config) => {
-            cy.request({
-                method: 'PUT',
-                url: apiUrl('/tenants/current/config'),
-                headers: createHeaders(resp.body.token),
-                body: config
+        cy.request({
+            method: 'GET',
+            url: apiUrl('/roles'),
+            headers: createHeaders(resp.body.token)
+
+        })
+        .then((rolesResp) => {
+            cy.fixture('default-app-config').then((config) => {
+                const roles = rolesResp.body._embedded.roles
+                const dataStewardRole = roles.find((role) => role.name === 'Data Steward')
+
+                config.authentication.defaultRoleUuid = dataStewardRole.uuid
+                
+                cy.request({
+                    method: 'PUT',
+                    url: apiUrl('/tenants/current/config'),
+                    headers: createHeaders(resp.body.token),
+                    body: config
+                })
             })
         })
     })
@@ -492,7 +505,7 @@ Cypress.Commands.add('wsSendAs', (role, url, msg) => {
 // Cache
 
 Cypress.Commands.add('clearServerCache', () => {
-    cy.task('user:addPermission', { perm: 'DEV_PERM', email: Cypress.env('admin_username') })
+    cy.task('user:addPermission', { perm: 'DevUseRolePermission', email: Cypress.env('admin_username') })
 
     getTokenFor('admin').then((resp) => {
         cy.request({

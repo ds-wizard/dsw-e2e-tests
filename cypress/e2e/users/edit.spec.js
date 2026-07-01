@@ -9,7 +9,13 @@ describe('Users Edit', () => {
     }
     const newEmail = 'danny.silver.mcmorgan@example.com'
 
+    let researcherRoleUuid
 
+    before(() => {
+        cy.task('role:get', { name: 'Researcher' }).then((result) => {
+            researcherRoleUuid = result.rows[0].uuid
+        })
+    })
 
     beforeEach(() => {
         cy.task('user:delete', { email: user.email })
@@ -19,7 +25,6 @@ describe('Users Edit', () => {
         cy.createUser(user)
     })
 
-
     it('can edit profile', () => {
         cy.loginAs('admin')
         cy.visitApp('/users')
@@ -28,7 +33,7 @@ describe('Users Edit', () => {
             email: newEmail,
             firstName: 'Danny Silver',
             lastName: 'McMorgan',
-            s_role: 'dataSteward',
+            s_role: researcherRoleUuid,
         }
 
         // edit user profile
@@ -43,7 +48,7 @@ describe('Users Edit', () => {
         cy.getListingItem(newUser.email)
             .should('contain', newUser.firstName)
             .and('contain', newUser.lastName)
-            .and('contain', 'Data Steward')
+            .and('contain', 'Researcher')
 
         // check it is correct when reopened
         cy.clickListingItemAction(newUser.email, 'edit')
@@ -93,7 +98,7 @@ describe('Users Edit', () => {
         cy.clearServerCache()
 
         // try to open projects
-        cy.get('#menu_projects > a').click()
+        cy.get('#menu_projects-list > a').click()
 
         // test that the user was logged out
         cy.getCy('illustrated-message_logout-successful').should('exist')

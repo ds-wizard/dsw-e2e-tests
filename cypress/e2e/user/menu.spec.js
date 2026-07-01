@@ -14,7 +14,7 @@ describe('Menu', () => {
         contains: [
             'knowledge-models',
             'document-templates',
-            'projects',
+            'projects-list',
             'profile',
         ],
         notContains: [
@@ -23,7 +23,7 @@ describe('Menu', () => {
     }, {
         role: 'researcher',
         contains: [ 
-            'projects', 
+            'projects-list', 
             'profile',
         ],
         notContains: [

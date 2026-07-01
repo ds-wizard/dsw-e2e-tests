@@ -6,7 +6,7 @@
         "affiliations": []
     },
     "authentication": {
-        "defaultRole": "dataSteward",
+        "defaultRoleUuid": "{{default_role_uuid}}",
         "external": {
             "services": []
         },

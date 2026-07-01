@@ -43,7 +43,7 @@ describe('Tenants', () => {
     before(() => {
         cy.task('user:delete', { email: superAdmin.email })
         cy.createUser(superAdmin)
-        cy.task('user:addPermission', { perm: 'TENANT_PERM', email: superAdmin.email })
+        cy.task('user:addPermission', { perm: 'TenantsManageRolePermission', email: superAdmin.email })
     })
 
     beforeEach(() => {

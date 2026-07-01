@@ -3,6 +3,14 @@ import { dataCy } from '../../support/utils'
 describe('Settings / Authentication', () => {
     const testEmail = 'careen.herberts@example.com'
     const testPassword = 'StronkPassw0rd'
+    
+    let adminRoleUuid
+
+    before(() => {
+        cy.task('role:get', { name: 'Admin' }).then((result) => {
+            adminRoleUuid = result.rows[0].uuid
+        })
+    })
 
     beforeEach(() => {
         cy.task('user:delete', { email: testEmail })
@@ -20,7 +28,7 @@ describe('Settings / Authentication', () => {
 
     it('default role', () => {
         // Update default role to admin
-        cy.fillFields({ s_defaultRole: 'admin' })
+        cy.fillFields({ s_defaultRoleUuid: adminRoleUuid })
         cy.submitForm()
         cy.logout()
 
