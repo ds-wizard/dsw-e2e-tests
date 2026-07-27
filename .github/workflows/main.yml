@@ -8,16 +8,16 @@ on:
       server_image:
         description: 'Wizard Server image'
         required: false
-        default: 'dswbot/wizard-server:develop'
+        default: 'ghcr.io/ds-wizard/wizard-server:develop'
       client_image:
         description: 'Wizard Client image'
         required: false
-        default: 'dswbot/wizard-client:develop'
+        default: 'ghcr.io/ds-wizard/wizard-client:develop'
       docworker_image:
         description: 'Document Worker image'
         required: false
-        default: 'dswbot/document-worker:develop'
-        
+        default: 'ghcr.io/ds-wizard/document-worker:develop'
+
 jobs:
   dsw-e2e:
     name: Run DSW E2E Tests
