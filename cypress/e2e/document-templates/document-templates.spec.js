@@ -16,10 +16,10 @@ describe('Document Templates', () => {
         // View template detail
         cy.clickListingItemAction('Questionnaire Report', 'view')
         cy.url().should('contain', '/document-templates/')
-        cy.getCy('detail-page_header-title').contains('Questionnaire Report')
+        cy.getCy('detail-page-header-title').contains('Questionnaire Report')
 
         // Usable knowledge models
         cy.getCy('template_km-link').click()
-        cy.getCy('detail-page_header-title').contains('Test Knowledge Model 1')
+        cy.getCy('detail-page-header-title').contains('Test Knowledge Model 1')
     })
 })

@@ -109,7 +109,7 @@ export function finishMigrationAndPublish(major, minor, patch) {
     cy.getCy('km-publish_publish-button').click()
 
     // Wait until it is published
-    cy.get('.DetailPage').should('exist')
+    cy.get('.detail').should('exist')
 }
 
 export function checkMigrationForm(data) {

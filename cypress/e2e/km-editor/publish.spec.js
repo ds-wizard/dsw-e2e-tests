@@ -25,7 +25,7 @@ describe('KM Editor Publish', () => {
         cy.fillFields({
             'license': license,
             'description': description,
-            'readme': readme
+            'md_readme': readme
         })
         cy.clickBtn('Save')
 
@@ -35,7 +35,7 @@ describe('KM Editor Publish', () => {
         packages.getPackageUuid('dsw', kmId, kmVersion).then((packageUuid) => {
             cy.url().should('contain', packageUuid)
         })
-        cy.getCy('detail-page_header-title').should('contain', kmName)
+        cy.getCy('detail-page-header-title').should('contain', kmName)
         cy.getCy('detail-page_content').should('contain', readme)
         cy.getCy('detail-page_metadata_license').should('contain', license)
     })

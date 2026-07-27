@@ -26,7 +26,7 @@ describe('Knowledge Models / Public', () => {
         // check it can be open
         cy.logout()
         cy.visitApp(`/knowledge-models/${knowledgeModelPackageUuid}`)
-        cy.get('.top-header').contains('Test Knowledge Model 1').should('exist')
+        cy.getCy('detail-page-header-title').contains('Test Knowledge Model 1').should('exist')
 
         // set KM private
         cy.loginAs('datasteward')

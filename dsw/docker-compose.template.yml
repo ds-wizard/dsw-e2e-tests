@@ -57,5 +57,7 @@ services:
 
   mockserver:
     image: jordimartin/mmock
+    command:
+      - -server-statistics=false
     volumes:
       - ./mockserver:/config

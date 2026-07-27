@@ -29,7 +29,7 @@ describe('Tenants', () => {
     }
 
     const expectAppName = (tenantName) => {
-        cy.getCy('detail-page_header-title').contains(tenantName).should('exist')
+        cy.getCy('detail-page-header-title').contains(tenantName).should('exist')
     }
 
     const expectAppId = (tenantId) => {

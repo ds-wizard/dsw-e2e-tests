@@ -358,11 +358,11 @@ Cypress.Commands.add('expectError', () => {
 // Detail commands
 
 Cypress.Commands.add('clickDropdownAction', (action) => {
-    cy.get('.top-header-actions .dropdown-menu').find(dataCy(`listing-item_action_${action}`)).click({ force: true })
+    cy.get('.detail-header-actions .dropdown-menu').find(dataCy(`listing-item_action_${action}`)).click({ force: true })
 })
 
 Cypress.Commands.add('expectDropdownAction', (action, shouldExist) => {
-    cy.get('.top-header-actions .dropdown-menu').find(dataCy(`listing-item_action_${action}`)).should(shouldExist ? 'exist' : 'not.exist')
+    cy.get('.detail-header-actions .dropdown-menu').find(dataCy(`listing-item_action_${action}`)).should(shouldExist ? 'exist' : 'not.exist')
 })
 
 // Form commands
