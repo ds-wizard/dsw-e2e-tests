@@ -89,3 +89,8 @@ plan:
   recomputeJob:
     enabled: false
     cron: '* * * * *'
+
+httpClient:
+  restricted:
+    allowedHosts:
+      - mockserver
