@@ -355,6 +355,11 @@ Cypress.Commands.add('expectError', () => {
 })
 
 
+Cypress.Commands.add('expectNotAllowed', () => {
+    cy.getCy('illustrated-message_not-allowed').should('exist')
+})
+
+
 // Detail commands
 
 Cypress.Commands.add('clickDropdownAction', (action) => {

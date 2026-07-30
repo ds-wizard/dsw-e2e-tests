@@ -168,6 +168,10 @@ module.exports = (on, config) => {
     return await pg.get({ table: 'role', where })
   }
 
+  async function roleDelete(where) {
+    return pg.delete({ table: 'role', where })
+  }
+
   // Tenant
 
   async function tenantDelete(where) {
@@ -274,6 +278,7 @@ module.exports = (on, config) => {
     'knowledgeModelPackage:setNonEditable': knowledgeModelPackageSetNonEditable,
     'project:delete': projectDelete,
     'role:get': getRole,
+    'role:delete': roleDelete,
     'openIdClient:delete': openIdClientDelete,
     'tenant:delete': tenantDelete,
     'tenantConfig:disable2FA': tenantConfigDisable2FA,
