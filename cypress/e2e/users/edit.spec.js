@@ -92,6 +92,7 @@ describe('Users Edit', () => {
         })
         cy.submitForm()
         cy.url().should('include', '/dashboard')
+        cy.get('p').contains('You have no projects yet').should('exist')
 
         // deactivate the user
         cy.task('user:activate', { email: user.email, active: false })
