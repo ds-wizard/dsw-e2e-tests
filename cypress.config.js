@@ -21,6 +21,8 @@ module.exports = defineConfig({
   screenshotsFolder: 'output/screenshots',
   videosFolder: 'output/videos',
   numTestsKeptInMemory: 1,
+  experimentalMemoryManagement: true,
+  defaultCommandTimeout: 10000,
   viewportWidth: 1280,
   viewportHeight: 800,
   projectId: 'dx9eqg',

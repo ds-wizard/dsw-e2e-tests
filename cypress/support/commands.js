@@ -62,7 +62,10 @@ Cypress.Commands.add('logout', () => {
 
 Cypress.Commands.add('visitApp', (url) => {
     cy.visit(`${Cypress.env('url')}${url}`)
-    cy.get('.full-page-loader').should('not.exist')
+    // .Loading__Loader is the static loader from index.html, .page-loader is the one
+    // rendered by the app while a page is loading its data
+    cy.get('.Loading__Loader').should('not.exist')
+    cy.get('.page-loader').should('not.exist')
 })
 
 Cypress.Commands.add('clickLink', (label) => {

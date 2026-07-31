@@ -1,23 +1,28 @@
 const { Client } = require('pg')
 
 const initPostgres = (config) => {
-  const createClient = () => {
-    const client = new Client({
-      user: config.env.pgUser,
-      host: config.env.pgHost,
-      database: config.env.pgDatabase,
-      password: config.env.pgPassword,
-      port: config.env.pgPort
-    })
-    client.connect()
-    return client
-  }
+  const createClient = () => new Client({
+    user: config.env.pgUser,
+    host: config.env.pgHost,
+    database: config.env.pgDatabase,
+    password: config.env.pgPassword,
+    port: config.env.pgPort
+  })
 
   const withClient = async (cb) => {
     const client = createClient()
-    const result = await cb(client)
-    client.end()
-    return result
+    try {
+      await client.connect()
+      // fail fast instead of waiting forever for a lock held by the server,
+      // cy.task would otherwise just hang until its timeout
+      await client.query("SET lock_timeout = '5s'")
+      await client.query("SET statement_timeout = '15s'")
+      return await cb(client)
+    } finally {
+      // the connection has to be released even when the query fails,
+      // otherwise the connections leak and postgres runs out of them
+      await client.end().catch(() => { })
+    }
   }
 
   const createWhere = (where) => {
