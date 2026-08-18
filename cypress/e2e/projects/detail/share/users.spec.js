@@ -38,7 +38,7 @@ describe('Share project with other user', () => {
             cy.clickBtn('Share')
             cy.fillFields({ th_memberId: 'Isaac Newton' })
             cy.fillFields({ 's_permissions\\.1\\.perms': perms })
-            cy.clickBtn('Done')
+            cy.clickModalAction()
             cy.logout()
     
             // check result
@@ -57,10 +57,9 @@ describe('Share project with other user', () => {
         cy.clickBtn('Share')
         cy.fillFields({ th_memberId: 'Isaac Newton' })
         cy.fillFields({ 's_permissions\\.1\\.perms': 'Editor' })
-        cy.clickBtn('Done')
+        cy.clickModalAction()
         cy.logout()
-
-            
+        
         // check other user can access the project
         cy.loginAs('researcher')
         project.open(projectName)
@@ -72,7 +71,7 @@ describe('Share project with other user', () => {
         project.open(projectName)
         cy.clickBtn('Share')
         cy.get('.user-row:first-child .text-danger').click()
-        cy.clickBtn('Done')
+        cy.clickModalAction()
         cy.logout()
 
         // check other user cannot acces the project
