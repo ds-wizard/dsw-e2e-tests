@@ -6,7 +6,7 @@ describe('Documents', () => {
     const projectName = 'Documents test'
     let projectUuid = ''
     const kmId = 'test-documents'
-    const documentTemplateId = 'dsw:questionnaire-report:1.4.0'
+    const documentTemplateId = 'questionnaire-report'
     let knowledgeModelPackageUuid
     let documentTemplateUuid
 
@@ -26,9 +26,10 @@ describe('Documents', () => {
 
     before(() => {
         cy.task('knowledgeModelPackage:delete', { km_id: kmId })
-        cy.removeTemplate(documentTemplateId)
-        cy.removeTemplate('dsw:broken:0.1.0')
-        cy.removeTemplate('dsw:not-allowed:0.1.0')
+        // all versions have to go, other specs may leave a newer one behind
+        cy.task('documentTemplate:delete', { template_id: documentTemplateId })
+        cy.task('documentTemplate:delete', { template_id: 'broken' })
+        cy.task('documentTemplate:delete', { template_id: 'not-allowed' })
         cy.clearServerCache()
 
         cy.importKM(kmId, (uuid) => {

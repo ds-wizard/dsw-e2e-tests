@@ -4,13 +4,16 @@ import * as project from '../../support/project-helpers'
 describe('Document List', () => {
     const projectName = 'Documents test'
     const kmId = 'test-km-1'
-    const documentTemplateId = 'dsw:questionnaire-report:1.4.0'
+    const documentTemplateId = 'questionnaire-report'
     const formatUuid = 'd3e98eb6-344d-481f-8e37-6a67b6cd1ad2'
 
     before(() => {
+        // the tests check the whole document listing, so all documents left by other
+        // specs have to go, not just the ones belonging to the template used here
+        cy.task('document:delete')
         cy.task('project:delete')
         cy.task('knowledgeModelPackage:delete', { km_id: kmId })
-        cy.removeTemplate(documentTemplateId)
+        cy.task('documentTemplate:delete', { template_id: documentTemplateId })
         cy.clearServerCache()
 
         cy.importKM('test-km-1', (knowledgeModelPackageUuid) => {

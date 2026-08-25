@@ -16,7 +16,6 @@ describe('Settings / Roles', () => {
     const dtEditorTemplateId = 'test-roles-document-template'
 
     const dtFixture = 'templates/questionnaire-report.zip'
-    const dtTemplateId = 'questionnaire-report'
     const dtName = 'Questionnaire Report'
 
     const localeFixture = 'locale/cs.zip'
@@ -62,11 +61,14 @@ describe('Settings / Roles', () => {
     let researcherRoleUuid
 
     const deleteTestData = () => {
-        cy.task('project:delete', { name: projectName })
+        // all projects have to go, the View ALL Projects test expects an empty listing
+        // and other specs may leave visible projects behind
+        cy.task('project:delete')
         cy.task('knowledgeModelEditor:delete', { km_id: kmEditorKmId })
         cy.task('knowledgeModelPackage:delete', { km_id: importedKmId })
-        cy.task('documentTemplate:delete', { template_id: dtEditorTemplateId })
-        cy.task('documentTemplate:delete', { template_id: dtTemplateId })
+        // all document templates have to go, the Manage Document Templates test expects
+        // an empty listing and other specs may leave their templates behind
+        cy.task('documentTemplate:delete')
         cy.task('locale:delete', { organization_id: localeOrganizationId })
         cy.task('user:delete', { email: createdUser.email })
         // the Manage Settings test changes the organization settings

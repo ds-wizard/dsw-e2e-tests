@@ -2,7 +2,8 @@ describe('Document Templates', () => {
 
     beforeEach(() => {
         cy.task('knowledgeModelPackage:delete')
-        cy.removeTemplate('dsw:questionnaire-report:1.4.0')
+        // all versions have to go, other specs may leave a newer one behind
+        cy.task('documentTemplate:delete', { template_id: 'questionnaire-report' })
         cy.clearServerCache()
 
         cy.importKM('test-km-1')

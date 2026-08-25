@@ -1,10 +1,12 @@
 describe('Non-editable Document Template', () => {
-    const templateId = 'dsw:questionnaire-report:1.4.0'
+    const templateId = 'questionnaire-report'
     const templateName = 'Questionnaire Report'
     let documentTemplateUuid
 
     before(() => {
-        cy.removeTemplate(templateId)
+        // all versions have to go, an editable one left behind by another spec
+        // would be listed under the same name
+        cy.task('documentTemplate:delete', { template_id: templateId })
         cy.clearServerCache()
 
         cy.importTemplate('templates/questionnaire-report.zip')

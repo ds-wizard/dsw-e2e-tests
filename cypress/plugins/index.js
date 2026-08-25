@@ -83,6 +83,8 @@ module.exports = (on, config) => {
     const result = await pg.get({ table: 'document_template', where })
     for (let i = 0; i < result.rows.length; i++) {
       const { uuid } = result.rows[i]
+      // documents and projects reference the template, they have to go first
+      await documentDelete({ document_template_uuid: uuid })
       await projectDelete({ document_template_uuid: uuid })
       await pg.delete({ table: 'document_template', where: { uuid } })
     }
