@@ -8,7 +8,7 @@ on:
       server_image:
         description: 'Wizard Server image'
         required: false
-        default: 'ghcr.io/ds-wizard/wizard-server:develop'
+        default: 'ghcr.io/ds-wizard/wizard-server:main'
       client_image:
         description: 'Wizard Client image'
         required: false
@@ -16,7 +16,7 @@ on:
       docworker_image:
         description: 'Document Worker image'
         required: false
-        default: 'ghcr.io/ds-wizard/document-worker:develop'
+        default: 'ghcr.io/ds-wizard/document-worker:main'
 
 jobs:
   dsw-e2e:

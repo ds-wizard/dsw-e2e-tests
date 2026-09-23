@@ -65,9 +65,9 @@ database:
   connectionString: postgresql://postgres:postgres@postgres:5432/dsw
 
 s3:
-  url: http://minio:9000
-  username: minio
-  password: minioPassword
+  url: http://garage:3900
+  username: garageAccessKey
+  password: garageSecretKeyForDswE2ETests
   bucket: dsw
 
 mail:

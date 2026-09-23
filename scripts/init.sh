@@ -4,9 +4,9 @@
 ./scripts/build-templates.sh
 
 # Docker Images
-SERVER_IMAGE="${SERVER_IMAGE:-ghcr.io/ds-wizard/wizard-server:develop}"
+SERVER_IMAGE="${SERVER_IMAGE:-ghcr.io/ds-wizard/wizard-server:main}"
 CLIENT_IMAGE="${CLIENT_IMAGE:-ghcr.io/ds-wizard/wizard-client:develop}"
-DOCWORKER_IMAGE="${DOCWORKER_IMAGE:-ghcr.io/ds-wizard/document-worker:develop}"
+DOCWORKER_IMAGE="${DOCWORKER_IMAGE:-ghcr.io/ds-wizard/document-worker:main}"
 DOCKER_COMPOSE_FILE=dsw/docker-compose.yml
 
 cp -r dsw/docker-compose.template.yml $DOCKER_COMPOSE_FILE

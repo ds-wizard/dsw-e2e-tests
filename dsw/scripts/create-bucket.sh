@@ -1,15 +1,16 @@
 #!/bin/sh
 
-MINIO_NET="dsw_default"
-MINIO_BUCKET="dsw"
-MINIO_USER="minio"
-MINIO_PASS="minioPassword"
+GARAGE_CONTAINER="garage"
+GARAGE_BUCKET="dsw"
+GARAGE_KEY_ID="garageAccessKey"
+GARAGE_KEY_SECRET="garageSecretKeyForDswE2ETests"
 
-docker run --rm --net $MINIO_NET \
-  -e MINIO_BUCKET=$MINIO_BUCKET \
-  -e MINIO_USER=$MINIO_USER \
-  -e MINIO_PASS=$MINIO_PASS \
-  --entrypoint sh minio/mc:RELEASE.2025-04-16T18-13-26Z -c "\
-  mc config host add dswminio http://minio:9000 minio minioPassword && \
-  mc mb dswminio/\$MINIO_BUCKET
-"
+FULL_NODE_ID=$(docker exec $GARAGE_CONTAINER /garage node id -q)
+NODE_ID=${FULL_NODE_ID%%@*}
+
+docker exec $GARAGE_CONTAINER /garage layout assign -z dc1 -c 1G "$NODE_ID"
+docker exec $GARAGE_CONTAINER /garage layout apply --version 1
+
+docker exec $GARAGE_CONTAINER /garage bucket create $GARAGE_BUCKET
+docker exec $GARAGE_CONTAINER /garage key import $GARAGE_KEY_ID $GARAGE_KEY_SECRET --yes -n dsw-key
+docker exec $GARAGE_CONTAINER /garage bucket allow --read --write --owner --key $GARAGE_KEY_ID $GARAGE_BUCKET
