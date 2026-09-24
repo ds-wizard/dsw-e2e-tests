@@ -7,6 +7,7 @@ s3:
   username: garageAccessKey
   password: garageSecretKeyForDswE2ETests
   bucket: dsw
+  region: eu-central-1
 
 logging:
   level: INFO
