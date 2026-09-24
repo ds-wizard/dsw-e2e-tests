@@ -32,7 +32,7 @@ const login = (resp, expiresAt = null) => {
 
 const createSession = (token, user, expiresAt = null) => {
     expiresAt = expiresAt || new Date(Date.now() + 14000 * 86400)
-    window.localStorage.setItem('session/wizard', JSON.stringify({
+    window.localStorage.setItem('session/app', JSON.stringify({
         apiUrl: apiUrl(''),
         fullscreen: false,
         sidebarCollapsed: false,
@@ -53,7 +53,7 @@ Cypress.Commands.add('loginWith', (email, password) => {
 })
 
 Cypress.Commands.add('logout', () => {
-    window.localStorage.removeItem('session/wizard')
+    window.localStorage.removeItem('session/app')
     cy.visitApp('/')
 })
 
