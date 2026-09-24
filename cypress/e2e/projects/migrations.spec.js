@@ -51,6 +51,7 @@ describe('Project Migrations', () => {
         createQuestionnaire('vacation-planning', 0)
         cy.visitApp('/projects')
         cy.getCy('badge_project_knowledge-model-update-available').click()
+        cy.get('.btn').contains('Migrate project').click()
         cy.get('h2').contains('Migrate Project').should('exist')
     })
 
