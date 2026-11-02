@@ -1,0 +1,13 @@
+---
+  request:
+    method: GET
+    path: /search/Ontology
+  response:
+    statusCode: 200
+    headers:
+      Content-Type:
+      - application/json
+    body: >
+      [
+        { "id": "standard03", "name": "Gramene Taxonomy Ontology" }
+      ]

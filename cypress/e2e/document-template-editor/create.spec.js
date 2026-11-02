@@ -1,0 +1,56 @@
+import * as documentTemplates from '../../support/document-templates-helpers'
+
+describe('Document Template Editor / Create', () => {
+    before(() => {
+        cy.putDefaultAppConfig()
+        cy.clearServerCache()
+    })
+
+    beforeEach(() => {
+        cy.task('documentTemplate:delete')
+        
+        cy.importTemplate('templates/questionnaire-report.zip')
+        cy.loginAs('datasteward')
+    })
+
+    it('can create empty', () => {
+        const name = 'Empty Template'
+        const templateId = 'empty-template'
+
+        cy.visitApp('/document-template-editors')
+        cy.getCy('document-template-editors_create-button').click()
+        cy.url().should('contain', '/document-template-editors/create')
+
+        cy.fillFields({
+            name,
+            templateId,
+            'version-major': '1',
+            'version-minor': '0',
+            'version-patch': '0',
+        })
+        cy.submitForm()
+
+        documentTemplates.getDocumentTemplateUuid(`dsw:${templateId}:1.0.0`).then(uuid => {
+            cy.url().should('contain', `/document-template-editors/${uuid}`)
+        })
+
+        cy.visitApp('/document-template-editors')
+        cy.getListingItem(templateId).should('contain', name)
+    })
+
+    it('can create from existing', () => {
+        documentTemplates.getDocumentTemplateUuid('dsw:questionnaire-report:1.4.0').then(uuid => {
+            cy.visitApp(`/document-templates/${uuid}`)
+        })
+        cy.clickDropdownAction('create-editor')
+        cy.submitForm()
+
+        // it should be prefilled to next minor version
+        documentTemplates.getDocumentTemplateUuid('dsw:questionnaire-report:1.5.0').then(uuid => {
+            cy.url().should('contain', `/document-template-editors/${uuid}`)
+        })
+
+        cy.visitApp('/document-template-editors')
+        cy.getListingItem('questionnaire-report').should('contain', 'Questionnaire Report')
+    })
+})

@@ -1,0 +1,16 @@
+---
+  request:
+    method: GET
+    path: /numericIds
+  response:
+    statusCode: 200
+    headers:
+      Content-Type:
+      - application/json
+    body: >
+      [
+        { "id": 1, "name": "Adverse Drug Reaction Markup Language" },
+        { "id": 2, "name": "Analytical Information Markup Language" },
+        { "id": 3, "name": "Gramene Taxonomy Ontology" },
+        { "id": 4, "name": "Minimal Information About a Cellular Assay" }
+      ]

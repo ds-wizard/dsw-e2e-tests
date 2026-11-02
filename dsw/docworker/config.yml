@@ -1,0 +1,13 @@
+database:
+  connectionString: postgresql://postgres:postgres@postgres:5432/dsw
+  queueTimeout: 2
+
+s3:
+  url: http://garage:3900
+  username: garageAccessKey
+  password: garageSecretKeyForDswE2ETests
+  bucket: dsw
+  region: eu-central-1
+
+logging:
+  level: INFO

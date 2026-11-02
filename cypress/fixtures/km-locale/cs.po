@@ -1,0 +1,327 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: dsw:test-km-1:1.0.0\n"
+"POT-Creation-Date: 2026-07-31 12:17+0000\n"
+"PO-Revision-Date: 2026-07-31 12:17+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: cs\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+
+#: chapter/99196c79-3de5-4add-a6c9-20e6ba179fae/title
+msgid "Chapter 1"
+msgstr "Kapitola 1"
+
+#: chapter/99196c79-3de5-4add-a6c9-20e6ba179fae/text
+#: chapter/153861ab-86be-4006-aa6b-bc8bd2ed2f31/text
+msgid "Chapter text"
+msgstr "Text kapitoly"
+
+#: question/49cdf436-5de7-43d9-8226-a33dfabbce3e/title
+msgid "Options Question 1"
+msgstr "Otázka s možnostmi 1"
+
+#: answer/25adef08-7758-48b0-9072-99b2cd2aa1e5/label
+msgid "Answer 1"
+msgstr "Odpověď 1"
+
+#: question/dfb9f538-2b0a-4725-aab6-8ed7831a480b/title
+msgid "Follow-up Question 1"
+msgstr "Navazující otázka 1"
+
+#: answer/d2bc6d52-199a-46df-947a-0d17fc9879ab/label
+msgid "Follow-up Answer"
+msgstr "Navazující odpověď"
+
+#: reference/4cd88914-0420-4a3d-9847-aa26160748c6/label
+msgid "Follow-up Reference"
+msgstr "Navazující reference"
+
+#: reference/15d04f6c-b527-4c3a-bb41-137d029ffdd6/description
+msgid "Follow-up Reference Question 1"
+msgstr "Navazující referenční otázka 1"
+
+#: question/b02e22e8-97e4-4e53-b1bd-edd2382bbfd4/title
+msgid "Follow-up Question 2"
+msgstr "Navazující otázka 2"
+
+#: question/960f1756-894f-4d3d-bf3c-56070fb896bc/title
+msgid "Follow-up Answer Item Question"
+msgstr "Navazující otázka položky odpovědi"
+
+#: question/cc463033-3c52-4f87-a27f-bcc05e5c20c9/title
+msgid "Follow-up Question 3"
+msgstr "Navazující otázka 3"
+
+#: choice/610c8f34-f2d8-44cf-a1de-94298b9f745c/label
+msgid "Follow-up Choice"
+msgstr "Navazující volba"
+
+#: question/0537df73-33bd-4e89-87ed-ec3cf5c33b74/title
+msgid "Follow-up Question 4"
+msgstr "Navazující otázka 4"
+
+#: question/0cfd88c9-13ea-41b2-b4e8-1a1ab98bac6c/title
+msgid "Value Question 1"
+msgstr "Hodnotová otázka 1"
+
+#: question/7fc37c87-63bf-43d9-b968-a03b690c0023/title
+msgid "List Question 1"
+msgstr "Seznamová otázka 1"
+
+#: question/7bd30917-fea3-4988-9f24-4c65c8a89874/title
+msgid "Answer Item Question 1"
+msgstr "Otázka položky odpovědi 1"
+
+#: answer/85f39eec-17eb-4b93-8e61-f5474cb0c626/label
+msgid "Answer Item Question Answer"
+msgstr "Odpověď otázky položky odpovědi"
+
+#: reference/a9b8cfef-c4b9-40ff-b5ce-62df1d4a7b28/label
+msgid "Answer Item Question Reference"
+msgstr "Reference otázky položky odpovědi"
+
+#: reference/c6577d25-e955-4d83-ad8d-6e193c547a3c/description
+msgid "Answer Item Reference Question 1"
+msgstr "Referenční otázka položky odpovědi 1"
+
+#: question/96c7c035-1da5-4e69-a823-15b25573c35e/title
+msgid "Answer Item Question 2"
+msgstr "Otázka položky odpovědi 2"
+
+#: question/580e4e4b-40a2-4dd5-9735-563b67481ac1/title
+msgid "Answer Item Question Answer Item Question"
+msgstr "Otázka položky odpovědi otázky položky odpovědi"
+
+#: question/70d200c9-9f32-4979-bf23-2832dc2bc5bb/title
+msgid "Answer Item Question 3"
+msgstr "Otázka položky odpovědi 3"
+
+#: choice/8c1417dd-36b6-4f9f-bb4c-07158d528453/label
+msgid "Answer Item Question Choice"
+msgstr "Volba otázky položky odpovědi"
+
+#: question/839b5d8e-e749-49ce-86f7-797a011632c8/title
+msgid "Answer Item Question 4"
+msgstr "Otázka položky odpovědi 4"
+
+#: question/b15ef97c-766e-457a-992f-7caf75d35256/title
+msgid "Question 1"
+msgstr "Otázka 1"
+
+#: answer/126e6cdb-d651-42c2-913a-c4c2acb74cbd/label
+msgid "Answer 2"
+msgstr "Odpověď 2"
+
+#: question/b45a65b6-9adf-4df4-8ec7-de8f8f932891/title
+#: question/1d277ab7-d8dc-46d7-b42d-7b7e2dbf8cd1/title
+msgid "Question 2"
+msgstr "Otázka 2"
+
+#: question/36e8632f-afdd-44bf-88fa-01604ff15f46/title
+msgid "Question 3"
+msgstr "Otázka 3"
+
+#: answer/26f57050-2fc0-4219-b426-87cd1d471771/label
+msgid "Answer 3"
+msgstr "Odpověď 3"
+
+#: question/6efcf49e-9f79-448f-9275-b1eeaac058be/title
+msgid "Deep Nested Question 1"
+msgstr "Hluboce vnořená otázka 1"
+
+#: answer/75df0c6f-4b66-43b1-ae7e-23b9f4daa4cf/label
+msgid "Deep Nested Answer 1"
+msgstr "Hluboce vnořená odpověď 1"
+
+#: reference/24154f0d-4cd8-4287-a48f-d79ad147835c/label
+msgid "Deep Nested Reference 1"
+msgstr "Hluboce vnořená reference 1"
+
+#: reference/0c8ea901-a808-4d0d-95cc-90f4747ea285/description
+msgid "Deep Nested Reference Question 1"
+msgstr "Hluboce vnořená referenční otázka 1"
+
+#: question/e2e1c9ea-cd9f-44ef-ac10-d23e2fa8155e/title
+msgid "Deep Nested Question 2"
+msgstr "Hluboce vnořená otázka 2"
+
+#: question/d52ab630-2ef1-46fe-a6c0-6e4b93a9850f/title
+msgid "Deep Nested Answer Item Question"
+msgstr "Hluboce vnořená otázka položky odpovědi"
+
+#: question/60049c68-799a-46a5-b332-4dcb0de3c0c2/title
+msgid "Deep Nested Question 3"
+msgstr "Hluboce vnořená otázka 3"
+
+#: choice/61544a7a-9d2f-46c9-b960-ef2bea4068fe/label
+msgid "Deep Nested Choice 1"
+msgstr "Hluboce vnořená volba 1"
+
+#: reference/d2a4d69d-a58d-4e2c-b15f-59a6930fdfdb/label
+msgid "Reference 1"
+msgstr "Reference 1"
+
+#: reference/95bcaca2-c8c5-4cb5-89c6-0f9ea1fa5750/description
+#: question/2d34e50c-78d2-49f4-96a0-7c94c6fe4650/title
+msgid "Reference Question 1"
+msgstr "Referenční otázka 1"
+
+#: question/993c1baf-2063-40c3-848f-3d98a2de5bac/title
+msgid "Integration Question 1"
+msgstr "Integrační otázka 1"
+
+#: question/5def822c-4d94-40a3-94dc-d8569567357b/title
+msgid "Multi-Choice Question 1"
+msgstr "Otázka s více volbami 1"
+
+#: choice/05a56fbe-c5e2-4d3b-98f0-2ce5f06a6078/label
+msgid "Choice 1"
+msgstr "Volba 1"
+
+#: reference/12ac6ede-8ae6-4b02-81ff-1a0a73b5787b/label
+msgid "Multi-Choice Question Reference"
+msgstr "Reference otázky s více volbami"
+
+#: reference/c8710ff0-f5a9-48a5-bba4-4643f7ecf70b/description
+msgid "Multi-Choice Reference Question 1"
+msgstr "Referenční otázka s více volbami 1"
+
+#: choice/1b79d57a-b25c-40ed-8f5b-4d52f8fdf27e/label
+msgid "Choice 2"
+msgstr "Volba 2"
+
+#: chapter/153861ab-86be-4006-aa6b-bc8bd2ed2f31/title
+msgid "Chapter 2"
+msgstr "Kapitola 2"
+
+#: question/18d8316d-a126-4b44-9c41-dafb8b37a127/title
+msgid "Reference Question 2"
+msgstr "Referenční otázka 2"
+
+#: question/18d8316d-a126-4b44-9c41-dafb8b37a127/text
+msgid "This is a question used for cross-referencing."
+msgstr "Toto je otázka používaná pro křížové odkazy."
+
+#: metric/8db30660-d4e5-4c0a-bf3e-553f3f0f997a/title
+msgid "Findability"
+msgstr "Nalezitelnost"
+
+#: metric/8db30660-d4e5-4c0a-bf3e-553f3f0f997a/abbreviation
+msgid "F"
+msgstr "N"
+
+#: metric/8db30660-d4e5-4c0a-bf3e-553f3f0f997a/description
+msgid "The Findability metric describes how easily data can be located. The score associated with an answer will be higher if it makes it easier for humans or for computers to locate your data set, e.g. if it ends up in an index or has a unique resolvable identifier."
+msgstr "Metrika Nalezitelnost popisuje, jak snadno lze data nalézt. Skóre spojené s odpovědí bude vyšší, pokud usnadňuje lidem nebo počítačům nalézt vaši datovou sadu, např. pokud skončí v indexu nebo má jedinečný rozlišitelný identifikátor."
+
+#: metric/0feac7e6-add4-4723-abae-be5ce7864c63/title
+msgid "Accessibility"
+msgstr "Přístupnost"
+
+#: metric/0feac7e6-add4-4723-abae-be5ce7864c63/abbreviation
+msgid "A"
+msgstr "P"
+
+#: metric/0feac7e6-add4-4723-abae-be5ce7864c63/description
+msgid "The Accessibility metric describes how well the access to the database is described and how easy it is to implement. The score associated with an answer will be higher if it makes it easier for humans and computers to get to the data. This is determined by e.g. the protocol for accessing the data or for authenticating users, and also by the guaranteed longevity of the repository. Note that this is different from the Openness metric!"
+msgstr "Metrika Přístupnost popisuje, jak dobře je popsán přístup k databázi a jak snadné je jej implementovat. Skóre spojené s odpovědí bude vyšší, pokud usnadňuje lidem a počítačům dostat se k datům. To je určeno např. protokolem pro přístup k datům nebo pro autentizaci uživatelů a také zaručenou životností repozitáře. Všimněte si, že se liší od metriky Otevřenost!"
+
+#: metric/a42bded3-a085-45f8-b384-32b4a77c8385/title
+msgid "Interoperability"
+msgstr "Interoperabilita"
+
+#: metric/a42bded3-a085-45f8-b384-32b4a77c8385/abbreviation
+msgid "I"
+msgstr "I"
+
+#: metric/a42bded3-a085-45f8-b384-32b4a77c8385/description
+msgid "The Interoperability metric describes how well the data interoperates with other data. The score associated with an answer will be higher if it makes it easier for humans and computers to couple the data with other data and 'understand' relationships. This is influenced by the use of standard ontologies for different fields and proper descriptions of the relations. It is also influenced by proper standard metadata that is agreed by the community."
+msgstr "Metrika Interoperabilita popisuje, jak dobře data spolupracují s jinými daty. Skóre spojené s odpovědí bude vyšší, pokud usnadňuje lidem a počítačům propojit data s jinými daty a „porozumět“ vztahům. To je ovlivněno použitím standardních ontologií pro různé obory a řádným popisem vztahů. Rovněž je to ovlivněno správnými standardními metadaty, na kterých se komunita shodla."
+
+#: metric/0bafe0c2-a8f2-4c74-80c8-dbf3a5b8e9b7/title
+msgid "Reusability"
+msgstr "Znovupoužitelnost"
+
+#: metric/0bafe0c2-a8f2-4c74-80c8-dbf3a5b8e9b7/abbreviation
+msgid "R"
+msgstr "Z"
+
+#: metric/0bafe0c2-a8f2-4c74-80c8-dbf3a5b8e9b7/description
+msgid "The Reusability metric describes how well the data is suitable for reuse in other context. The score associated with an answer will be higher if it makes it easier for humans and computers to reuse the data. This is influenced largely by proper description of how the data was obtained, and also by the conditions that are put on the reuse (license and, for personally identifying information, consent)."
+msgstr "Metrika Znovupoužitelnost popisuje, jak dobře jsou data vhodná pro opětovné použití v jiném kontextu. Skóre spojené s odpovědí bude vyšší, pokud usnadňuje lidem a počítačům data znovu použít. To je do velké míry ovlivněno řádným popisem toho, jak byla data získána, a také podmínkami kladenými na opětovné použití (licence a v případě osobních údajů souhlas)."
+
+#: metric/8845fe2b-79df-4138-baea-3a035bf5e249/title
+msgid "Good DMP Practice"
+msgstr "Správná praxe DMP"
+
+#: metric/8845fe2b-79df-4138-baea-3a035bf5e249/abbreviation
+msgid "G"
+msgstr "S"
+
+#: metric/8845fe2b-79df-4138-baea-3a035bf5e249/description
+msgid "The Good DMP Practice metric describes how appreciated a process is among Data Stewards. A score associated with an answer will be high if a practice would be considered preferable over alternatives, generally a good idea."
+msgstr "Metrika Správná praxe DMP popisuje, jak je daný postup ceněn mezi datovými správci. Skóre spojené s odpovědí bude vysoké, pokud je postup považován za lepší než alternativy, obecně za dobrý nápad."
+
+#: metric/cc02c5a0-9754-4432-a7e0-ce0f3cf7a0a0/title
+msgid "Openness"
+msgstr "Otevřenost"
+
+#: metric/cc02c5a0-9754-4432-a7e0-ce0f3cf7a0a0/abbreviation
+msgid "O"
+msgstr "O"
+
+#: metric/cc02c5a0-9754-4432-a7e0-ce0f3cf7a0a0/description
+msgid "The Openness metric describes how Open the data are available. Note that this is different from the Accessibility metric. A score associated with an answer will be high if the data will be as open as possible, and low if voluntary restrictions apply to access and re-use."
+msgstr "Metrika Otevřenost popisuje, jak otevřeně jsou data dostupná. Všimněte si, že se liší od metriky Přístupnost. Skóre spojené s odpovědí bude vysoké, pokud budou data co nejotevřenější, a nízké, pokud se na přístup a opětovné použití vztahují dobrovolná omezení."
+
+#: phase/b101f2d0-2476-452d-aa8d-95a41a02b52c/title
+msgid "Before Submitting the Proposal"
+msgstr "Před podáním návrhu"
+
+#: phase/1796fa3c-9f53-475f-89ff-c66a0453c42e/title
+msgid "Before Submitting the DMP"
+msgstr "Před odevzdáním DMP"
+
+#: phase/adc9133d-afcd-4616-9aea-db5f475898a2/title
+msgid "Before Finishing the Project"
+msgstr "Před dokončením projektu"
+
+#: phase/1ace0fc6-a949-495f-a32e-e948f3f6bed1/title
+msgid "After Finishing the Project"
+msgstr "Po dokončení projektu"
+
+#: tag/07d3275f-71f9-4384-9074-de34650ae1a3/name
+msgid "Tag 1"
+msgstr "Štítek 1"
+
+#: resourceCollection/b70066c0-9f8b-4efc-beb2-3efbad6279ec/title
+msgid "Resource Collection"
+msgstr "Sbírka zdrojů"
+
+#: resourcePage/bbb9ba4a-5308-4896-962c-6b0bd46a5598/title
+msgid "Follow-up Resource Page"
+msgstr "Navazující stránka zdroje"
+
+#: resourcePage/6b925bf1-5e14-4a0c-b3c7-1b9dc66f44b6/title
+msgid "Answer Item Question Resource Page"
+msgstr "Stránka zdroje otázky položky odpovědi"
+
+#: resourcePage/eaa0ca12-2e42-4835-9aa6-680bc072ccd8/title
+msgid "Resource Page 1"
+msgstr "Stránka zdroje 1"
+
+#: resourcePage/58cb2695-6d28-45a0-9831-c3db8c20712e/title
+msgid "Deep Nested Resource Page 1"
+msgstr "Hluboce vnořená stránka zdroje 1"
+
+#: resourcePage/4be6980b-42ae-4de6-bffc-5f54f0802c3d/title
+msgid "Multi-Choice Resource Page 1"
+msgstr "Stránka zdroje s více volbami 1"
+
+#: resourcePage/0d676b1a-4d9c-4b1f-be21-49b383397460/title
+msgid "Another Resource Page"
+msgstr "Další stránka zdroje"

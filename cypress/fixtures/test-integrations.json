@@ -1,0 +1,1038 @@
+{
+  "metamodelVersion": 5,
+  "kmId": "test-integrations",
+  "packages": [
+    {
+      "readme": "*KM for testing integration typehints*",
+      "createdAt": "2020-03-23T12:38:33.481Z",
+      "metamodelVersion": 5,
+      "kmId": "test-integrations",
+      "forkOfPackageId": null,
+      "name": "Test integrations (E2E)",
+      "events": [
+        {
+          "uuid": "df1e1014-5dea-4d37-b600-1627c04745c8",
+          "entityUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "parentUuid": "00000000-0000-0000-0000-000000000000",
+          "eventType": "AddKnowledgeModelEvent",
+          "name": "New knowledge model"
+        },
+        {
+          "tagUuids": {
+            "changed": false
+          },
+          "uuid": "8ea569d1-c155-44af-9648-f4e7b228aa94",
+          "entityUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "parentUuid": "00000000-0000-0000-0000-000000000000",
+          "eventType": "EditKnowledgeModelEvent",
+          "name": {
+            "changed": true,
+            "value": "Testing integrations (E2E)"
+          },
+          "chapterUuids": {
+            "changed": false
+          },
+          "integrationUuids": {
+            "changed": false
+          }
+        },
+        {
+          "requestUrl": "http://mockserver:8083/basic1",
+          "uuid": "6ea2d0ad-bc34-441a-8681-131372f8032a",
+          "entityUuid": "60da918e-180f-4ed9-8bcd-fc0c7146a2eb",
+          "props": [],
+          "responseNameField": "name",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": "id",
+          "eventType": "AddIntegrationEvent",
+          "name": "Basic 1",
+          "requestHeaders": {},
+          "id": "basic1",
+          "responseListField": "",
+          "logo": "",
+          "requestMethod": "GET",
+          "itemUrl": "http://mockserver:8083/basic1/${id}",
+          "requestBody": ""
+        },
+        {
+          "requestUrl": "http://mockserver:8083/basic2",
+          "uuid": "142b302b-59a5-4d28-9ace-3a807a343cdb",
+          "entityUuid": "2d18875e-0733-4e03-a841-2ba7ddb00be6",
+          "props": [],
+          "responseNameField": "title",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": "key",
+          "eventType": "AddIntegrationEvent",
+          "name": "Basic 2",
+          "requestHeaders": {},
+          "id": "basic2",
+          "responseListField": "",
+          "logo": "",
+          "requestMethod": "GET",
+          "itemUrl": "http://mockserver:8083/basic2/${id}",
+          "requestBody": ""
+        },
+        {
+          "requestUrl": "http://mockserver:8083/nested1",
+          "uuid": "29772ac7-56ec-45e1-af92-572af06c8fcf",
+          "entityUuid": "a9cd4a02-48d4-4144-9722-f0a58f9124fe",
+          "props": [],
+          "responseNameField": "name",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": "id",
+          "eventType": "AddIntegrationEvent",
+          "name": "Nested 1",
+          "requestHeaders": {},
+          "id": "nested1",
+          "responseListField": "results",
+          "logo": "",
+          "requestMethod": "GET",
+          "itemUrl": "http://mockserver:8083/nested1/${id}",
+          "requestBody": ""
+        },
+        {
+          "requestUrl": "http://mockserver:8083/nested2",
+          "uuid": "2fd50be8-5a11-4bba-b153-3bcf4af268cf",
+          "entityUuid": "69ccbc82-91ad-4393-baab-f7e5ad257481",
+          "props": [],
+          "responseNameField": "title.name",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": "id.key",
+          "eventType": "AddIntegrationEvent",
+          "name": "Nested 2",
+          "requestHeaders": {},
+          "id": "nested2",
+          "responseListField": "",
+          "logo": "",
+          "requestMethod": "GET",
+          "itemUrl": "http://mockserver:8083/nested2/${id}",
+          "requestBody": ""
+        },
+        {
+          "requestUrl": "http://mockserver:8083/${type}/${id}",
+          "uuid": "f486ffec-0a55-4d54-a974-8cd381570c02",
+          "entityUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5",
+          "props": [
+            "type"
+          ],
+          "responseNameField": "name",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": "id",
+          "eventType": "AddIntegrationEvent",
+          "name": "Variable using props",
+          "requestHeaders": {},
+          "id": "variableUsingProps",
+          "responseListField": "",
+          "logo": "",
+          "requestMethod": "GET",
+          "itemUrl": "http://mockserver:8083/variableUsingProps/${id}",
+          "requestBody": ""
+        },
+        {
+          "requestUrl": {
+            "changed": false
+          },
+          "uuid": "5bea095d-c934-4323-a73e-2a5b4fc27bb0",
+          "entityUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5",
+          "props": {
+            "changed": true,
+            "value": [
+              "type"
+            ]
+          },
+          "responseNameField": {
+            "changed": false
+          },
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": {
+            "changed": false
+          },
+          "eventType": "EditIntegrationEvent",
+          "name": {
+            "changed": false
+          },
+          "requestHeaders": {
+            "changed": false
+          },
+          "id": {
+            "changed": false
+          },
+          "responseListField": {
+            "changed": false
+          },
+          "logo": {
+            "changed": false
+          },
+          "requestMethod": {
+            "changed": false
+          },
+          "itemUrl": {
+            "changed": false
+          },
+          "requestBody": {
+            "changed": false
+          }
+        },
+        {
+          "requestUrl": "http://mockserver:8083/search/${q}",
+          "uuid": "d8f5a20a-9fab-4390-af84-7f3c956904c8",
+          "entityUuid": "f2041cdf-1bef-45bd-970a-8583a85b9cfd",
+          "props": [],
+          "responseNameField": "name",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": "id",
+          "eventType": "AddIntegrationEvent",
+          "name": "Simulate search",
+          "requestHeaders": {},
+          "id": "simulateSearch",
+          "responseListField": "",
+          "logo": "",
+          "requestMethod": "GET",
+          "itemUrl": "http://mockserver:8083/item/${id}",
+          "requestBody": ""
+        },
+        {
+          "requestUrl": "http://mockserver:8083/basic1",
+          "uuid": "169e4f37-9feb-4f25-a2e0-817fd3db520a",
+          "entityUuid": "2b98bf6d-4f0d-4ead-92b1-1a7295fe3112",
+          "props": [],
+          "responseNameField": "name",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": "id",
+          "eventType": "AddIntegrationEvent",
+          "name": "With logo",
+          "requestHeaders": {},
+          "id": "withLogo",
+          "responseListField": "",
+          "logo": "data:image/png;base64,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",
+          "requestMethod": "GET",
+          "itemUrl": "http://mockserver:8083/basic1/${id}",
+          "requestBody": ""
+        },
+        {
+          "requestUrl": "http://mockserver:8083/${key}",
+          "uuid": "f0d4491b-e5e7-4af9-aaa3-9af5f98867b9",
+          "entityUuid": "446227fb-2148-4575-813c-0bce127586fb",
+          "props": [],
+          "responseNameField": "name",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": "id",
+          "eventType": "AddIntegrationEvent",
+          "name": "Config variables",
+          "requestHeaders": {},
+          "id": "configVars",
+          "responseListField": "",
+          "logo": "",
+          "requestMethod": "GET",
+          "itemUrl": "http://mockserver:8083/verySecret/${id}",
+          "requestBody": ""
+        },
+        {
+          "text": null,
+          "uuid": "d97f72be-5662-43d7-a7a4-4716f8e53cd8",
+          "entityUuid": "6eddc348-dee7-470b-b2fe-dfbabaefd1eb",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "eventType": "AddChapterEvent",
+          "title": "Basic"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "70a427a6-a3a2-4476-9514-091b8ddef8ba",
+          "entityUuid": "ea1b157a-ed3f-4559-87e0-d64356aad817",
+          "questionType": "IntegrationQuestion",
+          "props": {},
+          "parentUuid": "6eddc348-dee7-470b-b2fe-dfbabaefd1eb",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Basic items",
+          "integrationUuid": "60da918e-180f-4ed9-8bcd-fc0c7146a2eb"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "fa7c29e6-35ce-4fbc-a404-440718e1fd65",
+          "entityUuid": "16a5527e-6cfb-4bf7-84a3-c7b1aa3166cd",
+          "questionType": "IntegrationQuestion",
+          "props": {},
+          "parentUuid": "6eddc348-dee7-470b-b2fe-dfbabaefd1eb",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Basic renamed",
+          "integrationUuid": "2d18875e-0733-4e03-a841-2ba7ddb00be6"
+        },
+        {
+          "text": null,
+          "uuid": "85edeed6-c84e-40a6-a39b-e4940d2334f5",
+          "entityUuid": "4beabc64-bb39-41fd-8822-5e16ed21a8fd",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "eventType": "AddChapterEvent",
+          "title": "Nested"
+        },
+        {
+          "text": {
+            "changed": true,
+            "value": null
+          },
+          "uuid": "f7449009-d599-468c-af30-26e169b96fad",
+          "questionUuids": {
+            "changed": false
+          },
+          "entityUuid": "4beabc64-bb39-41fd-8822-5e16ed21a8fd",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "eventType": "EditChapterEvent",
+          "title": {
+            "changed": false
+          }
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "6ddf1960-20cf-4eb8-be5a-b671d505b18c",
+          "entityUuid": "ea23064a-f26d-441a-92c5-1f3bf9519ed9",
+          "questionType": "IntegrationQuestion",
+          "props": {},
+          "parentUuid": "4beabc64-bb39-41fd-8822-5e16ed21a8fd",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Nested results",
+          "integrationUuid": "a9cd4a02-48d4-4144-9722-f0a58f9124fe"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "055bfac3-3bf0-430d-a56b-d6419f74e84f",
+          "entityUuid": "3a870480-4fc4-4610-aeba-c17830384c0f",
+          "questionType": "IntegrationQuestion",
+          "props": {},
+          "parentUuid": "4beabc64-bb39-41fd-8822-5e16ed21a8fd",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Nested fields",
+          "integrationUuid": "69ccbc82-91ad-4393-baab-f7e5ad257481"
+        },
+        {
+          "text": null,
+          "uuid": "9b399b7b-803e-4297-9b31-e485dfd3fc24",
+          "entityUuid": "3a868781-87e4-44a0-87c2-7fdf079d7a4a",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "eventType": "AddChapterEvent",
+          "title": "Complex"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "c95ffb9c-1c36-4da1-b2df-e780669c22ec",
+          "entityUuid": "a2a8c7d0-4624-4915-908b-2cdbb1fe90e1",
+          "questionType": "IntegrationQuestion",
+          "props": {
+            "type": "numericIds"
+          },
+          "parentUuid": "3a868781-87e4-44a0-87c2-7fdf079d7a4a",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Numeric IDs",
+          "integrationUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5"
+        },
+        {
+          "requestUrl": {
+            "changed": true,
+            "value": "http://mockserver:8083/${type}"
+          },
+          "uuid": "37cc39b7-15e2-4df1-b29e-efe35f66a327",
+          "entityUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5",
+          "props": {
+            "changed": false
+          },
+          "responseNameField": {
+            "changed": false
+          },
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": {
+            "changed": false
+          },
+          "eventType": "EditIntegrationEvent",
+          "name": {
+            "changed": false
+          },
+          "requestHeaders": {
+            "changed": false
+          },
+          "id": {
+            "changed": false
+          },
+          "responseListField": {
+            "changed": false
+          },
+          "logo": {
+            "changed": false
+          },
+          "requestMethod": {
+            "changed": false
+          },
+          "itemUrl": {
+            "changed": false
+          },
+          "requestBody": {
+            "changed": false
+          }
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "d962ee6f-ff91-47a3-953d-7f636ebd163d",
+          "entityUuid": "d9a2427f-731f-440b-a848-dbd06b1ede51",
+          "questionType": "IntegrationQuestion",
+          "props": {
+            "type": "numericNames"
+          },
+          "parentUuid": "3a868781-87e4-44a0-87c2-7fdf079d7a4a",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Numeric names",
+          "integrationUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "415d502a-a4b1-41cd-864a-f95ec736736a",
+          "entityUuid": "2333f0de-d5d8-42a2-a89f-bbdb62561c55",
+          "questionType": "IntegrationQuestion",
+          "props": {
+            "type": "inconsistentIds"
+          },
+          "parentUuid": "3a868781-87e4-44a0-87c2-7fdf079d7a4a",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Inconsistent IDs",
+          "integrationUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "3860eb95-cc6c-494a-86f3-6e3e5b667796",
+          "entityUuid": "30bef513-da7b-4efa-8df1-d9d6d844087c",
+          "questionType": "IntegrationQuestion",
+          "props": {
+            "type": "inconsistentNames"
+          },
+          "parentUuid": "3a868781-87e4-44a0-87c2-7fdf079d7a4a",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Inconsistent names",
+          "integrationUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "61b920f3-6529-4b6d-ab01-81d7d3814e33",
+          "entityUuid": "2936750d-5d22-4803-bffb-cea1bed93e47",
+          "questionType": "IntegrationQuestion",
+          "props": {
+            "type": "duplicateId"
+          },
+          "parentUuid": "3a868781-87e4-44a0-87c2-7fdf079d7a4a",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Duplicate ID",
+          "integrationUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "84fd17e5-1b73-4928-ad88-8ce67a728e25",
+          "entityUuid": "b522b8c2-fe8a-43b4-816c-3e2a617e44bc",
+          "questionType": "IntegrationQuestion",
+          "props": {
+            "type": "duplicateName"
+          },
+          "parentUuid": "3a868781-87e4-44a0-87c2-7fdf079d7a4a",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Duplicate name",
+          "integrationUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "800662d0-e9b0-49f1-b688-a0075c5d87c2",
+          "entityUuid": "dee5628f-d231-471c-bb8c-d5b19b78c499",
+          "questionType": "IntegrationQuestion",
+          "props": {
+            "type": "missingId"
+          },
+          "parentUuid": "3a868781-87e4-44a0-87c2-7fdf079d7a4a",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Missing ID",
+          "integrationUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "f6a580c1-3869-4c00-a1f4-336f4dbbe689",
+          "entityUuid": "217f801b-ff52-471c-ab23-b5220d5bd932",
+          "questionType": "IntegrationQuestion",
+          "props": {
+            "type": "missingName"
+          },
+          "parentUuid": "3a868781-87e4-44a0-87c2-7fdf079d7a4a",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Missing name",
+          "integrationUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "011b01b9-79d1-4cfb-9f67-f837dc13d6b9",
+          "entityUuid": "680b7bc7-dcf1-47b7-ad8b-660ddf73f218",
+          "questionType": "IntegrationQuestion",
+          "props": {
+            "type": "nullItem"
+          },
+          "parentUuid": "3a868781-87e4-44a0-87c2-7fdf079d7a4a",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Null item",
+          "integrationUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5"
+        },
+        {
+          "text": null,
+          "uuid": "39a3c249-7948-4a3d-bd23-8d76da39d9b7",
+          "entityUuid": "a5c44065-6c08-4bf0-8bbc-db230021ed9f",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "eventType": "AddChapterEvent",
+          "title": "Configured"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "98e7cfbf-18c1-4d66-b1af-d801ca8326cd",
+          "entityUuid": "ed5268c3-55d7-4b1a-a81a-4705973af054",
+          "questionType": "IntegrationQuestion",
+          "props": {},
+          "parentUuid": "a5c44065-6c08-4bf0-8bbc-db230021ed9f",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "With logo",
+          "integrationUuid": "2b98bf6d-4f0d-4ead-92b1-1a7295fe3112"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "783d720f-5a5d-4b73-9d68-3c34dc0ef883",
+          "entityUuid": "f1d9c4c4-ee4e-4bf5-84da-1f36cd04a85c",
+          "questionType": "IntegrationQuestion",
+          "props": {},
+          "parentUuid": "a5c44065-6c08-4bf0-8bbc-db230021ed9f",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Config variables",
+          "integrationUuid": "446227fb-2148-4575-813c-0bce127586fb"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "95070b9d-410a-478a-9b9f-14505779030d",
+          "entityUuid": "cf47750d-4aff-4662-82c7-78cfe139929d",
+          "questionType": "IntegrationQuestion",
+          "props": {
+            "type": "manyItems"
+          },
+          "parentUuid": "3a868781-87e4-44a0-87c2-7fdf079d7a4a",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Many items",
+          "integrationUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5"
+        },
+        {
+          "text": null,
+          "uuid": "4d222f77-426e-4a33-807e-aa0cafeebf7e",
+          "entityUuid": "314d088d-b409-4c46-ae53-c7a60e6d2083",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "eventType": "AddChapterEvent",
+          "title": "Searchable"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "399696f8-0228-4833-9632-bc9b77dc80cc",
+          "entityUuid": "72cb9295-d370-4d9f-b29b-4312e5b8a86e",
+          "questionType": "IntegrationQuestion",
+          "props": {},
+          "parentUuid": "314d088d-b409-4c46-ae53-c7a60e6d2083",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Simulate search",
+          "integrationUuid": "f2041cdf-1bef-45bd-970a-8583a85b9cfd"
+        },
+        {
+          "text": null,
+          "uuid": "bf15f0eb-25a7-40d7-878b-6a421ddb7dac",
+          "entityUuid": "9a2ca1a0-f409-475b-930a-fdfc82b6d2cc",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "eventType": "AddChapterEvent",
+          "title": "Broken"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "7c6d23c0-05da-497a-81ae-3494fb84de3a",
+          "entityUuid": "8bce9564-a335-4d93-a397-a024863e2fb6",
+          "questionType": "IntegrationQuestion",
+          "props": {
+            "type": "somethingThatDoesNotExist"
+          },
+          "parentUuid": "9a2ca1a0-f409-475b-930a-fdfc82b6d2cc",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Not found endpoint",
+          "integrationUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5"
+        },
+        {
+          "requestUrl": "http://mockserver:8083/${type}",
+          "uuid": "b74a8312-a3d8-4453-9199-71c2ff63097b",
+          "entityUuid": "1ffc2bfa-bcac-4c6d-a261-28564003a0ba",
+          "props": [],
+          "responseNameField": "name",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": "id",
+          "eventType": "AddIntegrationEvent",
+          "name": "Missing config",
+          "requestHeaders": {},
+          "id": "missingConfig",
+          "responseListField": "",
+          "logo": "",
+          "requestMethod": "GET",
+          "itemUrl": "http://mockserver:8083/${type}/${id}",
+          "requestBody": ""
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "5d38b038-588b-4eee-ba23-2d37af46822c",
+          "entityUuid": "1231cdfe-20e6-450d-b632-be7b6fa36eb1",
+          "questionType": "IntegrationQuestion",
+          "props": {},
+          "parentUuid": "9a2ca1a0-f409-475b-930a-fdfc82b6d2cc",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Missing config",
+          "integrationUuid": "1ffc2bfa-bcac-4c6d-a261-28564003a0ba"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "dbb80ada-3395-40ed-925c-3b0f2a5e4c93",
+          "entityUuid": "91c8bdd4-ad12-41da-a565-a5ec4ecb4e7a",
+          "questionType": "IntegrationQuestion",
+          "props": {
+            "type": "justNull"
+          },
+          "parentUuid": "9a2ca1a0-f409-475b-930a-fdfc82b6d2cc",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Null response",
+          "integrationUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5"
+        },
+        {
+          "requestUrl": "http://mockserver:8083/post/empty",
+          "uuid": "da1d622e-7da5-43f5-af4a-6f279f07ffcd",
+          "entityUuid": "3355e713-d6d1-47ea-8de4-91ab274eda93",
+          "props": [],
+          "responseNameField": "name",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": "id",
+          "eventType": "AddIntegrationEvent",
+          "name": "POST empty",
+          "requestHeaders": {},
+          "id": "postEmpty",
+          "responseListField": "",
+          "logo": "",
+          "requestMethod": "POST",
+          "itemUrl": "http://mockserver:8083/post/empty/${id}",
+          "requestBody": ""
+        },
+        {
+          "requestUrl": "http://mockserver:8083/post/body",
+          "uuid": "a3a23045-df3d-466c-8d12-c95c05f1aaa2",
+          "entityUuid": "ff904867-dc93-4288-af34-e11be480cb83",
+          "props": [],
+          "responseNameField": "name",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": "id",
+          "eventType": "AddIntegrationEvent",
+          "name": "POST with body",
+          "requestHeaders": {},
+          "id": "postBody",
+          "responseListField": "",
+          "logo": "",
+          "requestMethod": "POST",
+          "itemUrl": "http://mockserver:8083/post/body/${id}",
+          "requestBody": "{ \"key\": \"topSecret\" }"
+        },
+        {
+          "requestUrl": "http://mockserver:8083/post/body",
+          "uuid": "3aad26bb-9f41-40cf-a4f7-afa32f12ed00",
+          "entityUuid": "5e244eb2-a1f5-487d-b194-7c1798d79ff1",
+          "props": [
+            "what"
+          ],
+          "responseNameField": "name",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": "id",
+          "eventType": "AddIntegrationEvent",
+          "name": "POST with body (configured)",
+          "requestHeaders": {},
+          "id": "postBodyConfig",
+          "responseListField": "",
+          "logo": "",
+          "requestMethod": "POST",
+          "itemUrl": "http://mockserver:8083/post/body/${id}",
+          "requestBody": "{ \"what\": \"${what}\", \"secret\": \"${secret}\" }"
+        },
+        {
+          "requestUrl": {
+            "changed": false
+          },
+          "uuid": "cfbcd0b4-fe4d-4abc-a987-1f5b3a75e8cc",
+          "entityUuid": "5e244eb2-a1f5-487d-b194-7c1798d79ff1",
+          "props": {
+            "changed": true,
+            "value": [
+              "what"
+            ]
+          },
+          "responseNameField": {
+            "changed": false
+          },
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": {
+            "changed": false
+          },
+          "eventType": "EditIntegrationEvent",
+          "name": {
+            "changed": false
+          },
+          "requestHeaders": {
+            "changed": false
+          },
+          "id": {
+            "changed": false
+          },
+          "responseListField": {
+            "changed": false
+          },
+          "logo": {
+            "changed": false
+          },
+          "requestMethod": {
+            "changed": false
+          },
+          "itemUrl": {
+            "changed": false
+          },
+          "requestBody": {
+            "changed": false
+          }
+        },
+        {
+          "requestUrl": "http://mockserver:8083/get/headers",
+          "uuid": "9002f892-5b34-4678-89da-3d194095a77e",
+          "entityUuid": "5ce8a70b-a092-4832-96e0-f675cfc7074a",
+          "props": [
+            "what"
+          ],
+          "responseNameField": "name",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": "id",
+          "eventType": "AddIntegrationEvent",
+          "name": "GET with headers",
+          "requestHeaders": {
+            "X-What": "${what}",
+            "X-Config": "${apiKey}",
+            "X-Constant": "constant"
+          },
+          "id": "getHeaders",
+          "responseListField": "",
+          "logo": "",
+          "requestMethod": "GET",
+          "itemUrl": "http://mockserver:8083/get/headers/${id}",
+          "requestBody": ""
+        },
+        {
+          "requestUrl": {
+            "changed": false
+          },
+          "uuid": "6f5ca5a1-aa2d-4608-ab3e-5ab4cdf913e6",
+          "entityUuid": "5ce8a70b-a092-4832-96e0-f675cfc7074a",
+          "props": {
+            "changed": true,
+            "value": [
+              "what"
+            ]
+          },
+          "responseNameField": {
+            "changed": false
+          },
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": {
+            "changed": false
+          },
+          "eventType": "EditIntegrationEvent",
+          "name": {
+            "changed": false
+          },
+          "requestHeaders": {
+            "changed": false
+          },
+          "id": {
+            "changed": false
+          },
+          "responseListField": {
+            "changed": false
+          },
+          "logo": {
+            "changed": false
+          },
+          "requestMethod": {
+            "changed": false
+          },
+          "itemUrl": {
+            "changed": false
+          },
+          "requestBody": {
+            "changed": false
+          }
+        },
+        {
+          "text": null,
+          "uuid": "cb30027f-870d-40c9-9dad-2659038d9b61",
+          "entityUuid": "2a631d16-b1dc-4c31-9a70-0e7752807822",
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "eventType": "AddChapterEvent",
+          "title": "HTTP"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "77271677-b0ce-4aa6-a3e7-0e3c47e626fe",
+          "entityUuid": "dad9d6fb-881c-4d27-9b5f-d23914c92a43",
+          "questionType": "IntegrationQuestion",
+          "props": {},
+          "parentUuid": "2a631d16-b1dc-4c31-9a70-0e7752807822",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "POST empty",
+          "integrationUuid": "3355e713-d6d1-47ea-8de4-91ab274eda93"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "e0ef984e-51a4-4df1-a695-2137a6a9251d",
+          "entityUuid": "ff4970cf-54a4-492d-ad17-a711ce3fd614",
+          "questionType": "IntegrationQuestion",
+          "props": {},
+          "parentUuid": "2a631d16-b1dc-4c31-9a70-0e7752807822",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "POST with body",
+          "integrationUuid": "ff904867-dc93-4288-af34-e11be480cb83"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "d55612b3-0cb3-47a8-b03a-20b5eacd30da",
+          "entityUuid": "9a508b6f-edb4-4da9-b8c7-0a5e478857c7",
+          "questionType": "IntegrationQuestion",
+          "props": {
+            "what": "configured"
+          },
+          "parentUuid": "2a631d16-b1dc-4c31-9a70-0e7752807822",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "POST with body (configured)",
+          "integrationUuid": "5e244eb2-a1f5-487d-b194-7c1798d79ff1"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "a64f44c5-a8bd-4026-b67a-624aa6756334",
+          "entityUuid": "59215431-714e-4adf-8705-9593567b88b9",
+          "questionType": "IntegrationQuestion",
+          "props": {
+            "what": "headers"
+          },
+          "parentUuid": "2a631d16-b1dc-4c31-9a70-0e7752807822",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "GET with headers",
+          "integrationUuid": "5ce8a70b-a092-4832-96e0-f675cfc7074a"
+        },
+        {
+          "requestUrl": {
+            "changed": false
+          },
+          "uuid": "a8abc734-f0e2-4d90-8c65-174d6530e75e",
+          "entityUuid": "5e244eb2-a1f5-487d-b194-7c1798d79ff1",
+          "props": {
+            "changed": false
+          },
+          "responseNameField": {
+            "changed": false
+          },
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": {
+            "changed": false
+          },
+          "eventType": "EditIntegrationEvent",
+          "name": {
+            "changed": false
+          },
+          "requestHeaders": {
+            "changed": false
+          },
+          "id": {
+            "changed": false
+          },
+          "responseListField": {
+            "changed": false
+          },
+          "logo": {
+            "changed": false
+          },
+          "requestMethod": {
+            "changed": false
+          },
+          "itemUrl": {
+            "changed": false
+          },
+          "requestBody": {
+            "changed": true,
+            "value": "{ \"what\": \"${what}\", \"secret\": \"${secret}\", \"query\": \"${q}\" }"
+          }
+        },
+        {
+          "requestUrl": {
+            "changed": false
+          },
+          "uuid": "79b373c2-1b29-4c3b-9483-bccc9c46255d",
+          "entityUuid": "5ce8a70b-a092-4832-96e0-f675cfc7074a",
+          "props": {
+            "changed": false
+          },
+          "responseNameField": {
+            "changed": false
+          },
+          "parentUuid": "f77a899d-b4d4-4504-ad65-b80c7c775376",
+          "responseIdField": {
+            "changed": false
+          },
+          "eventType": "EditIntegrationEvent",
+          "name": {
+            "changed": false
+          },
+          "requestHeaders": {
+            "changed": true,
+            "value": {
+              "X-Query": "${q}",
+              "X-What": "${what}",
+              "X-Config": "${apiKey}",
+              "X-Constant": "constant"
+            }
+          },
+          "id": {
+            "changed": false
+          },
+          "responseListField": {
+            "changed": false
+          },
+          "logo": {
+            "changed": false
+          },
+          "requestMethod": {
+            "changed": false
+          },
+          "itemUrl": {
+            "changed": false
+          },
+          "requestBody": {
+            "changed": false
+          }
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "d95be0ca-563c-4515-9d90-79a349d17081",
+          "entityUuid": "3cb41b8b-341b-4c92-b8ef-47d82aece19b",
+          "questionType": "IntegrationQuestion",
+          "props": {
+            "type": "redirect"
+          },
+          "parentUuid": "2a631d16-b1dc-4c31-9a70-0e7752807822",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Redirect (302)",
+          "integrationUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "557aad6d-d92b-4225-950f-9d91c1670db1",
+          "entityUuid": "3b8902fa-66a0-4dc8-938b-317c10ea9d42",
+          "questionType": "IntegrationQuestion",
+          "props": {
+            "type": "notFound"
+          },
+          "parentUuid": "2a631d16-b1dc-4c31-9a70-0e7752807822",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Not Found response (404)",
+          "integrationUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "361f6084-9178-4e65-baf3-5c91db496132",
+          "entityUuid": "68971528-3f74-4301-873a-6f59adbce464",
+          "questionType": "IntegrationQuestion",
+          "props": {
+            "type": "forbidden"
+          },
+          "parentUuid": "2a631d16-b1dc-4c31-9a70-0e7752807822",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Forbidden response (403)",
+          "integrationUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5"
+        },
+        {
+          "tagUuids": [],
+          "text": null,
+          "uuid": "171a6226-b0e6-4e84-bcb0-2fd6195cd507",
+          "entityUuid": "f569eacd-5854-496c-80c1-1bf586a8f193",
+          "questionType": "IntegrationQuestion",
+          "props": {
+            "type": "serverError"
+          },
+          "parentUuid": "2a631d16-b1dc-4c31-9a70-0e7752807822",
+          "eventType": "AddQuestionEvent",
+          "requiredLevel": null,
+          "title": "Internal Server Error (500)",
+          "integrationUuid": "0d99323e-cc33-4e46-be52-bd8f1909f2a5"
+        }
+      ],
+      "version": "1.0.0",
+      "id": "dsw:test-integrations:1.0.0",
+      "mergeCheckpointPackageId": null,
+      "license": "nolicense",
+      "organizationId": "dsw",
+      "previousPackageId": null,
+      "description": "KM for testing integration typehints"
+    }
+  ],
+  "name": "Test integrations (E2E)",
+  "version": "1.0.0",
+  "id": "dsw:test-integrations:1.0.0",
+  "organizationId": "dsw"
+}

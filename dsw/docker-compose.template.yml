@@ -7,35 +7,55 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./server/application.yml:/application/engine-wizard/config/application.yml
-      - ./server/integration.yml:/application/engine-wizard/config/integration.yml
-    links:
-      - mongo
+      - ./server/application.yml:/app/config/application.yml:ro
+      - ./server/integration.yml:/app/config/integration.yml:ro
+    depends_on:
+      - garage
+      - postgres
 
   dsw_client:
     image: {CLIENT_IMAGE}
     restart: always
     ports:
-      - 8080:80
+      - 8080:8080
     environment:
-      - API_URL=http://localhost:3000
+      API_URL: http://localhost:3000/wizard-api
 
   docworker:
     image: {DOCWORKER_IMAGE}
     restart: always
     volumes:
-      - ./docworker/config.cfg:/app/config.cfg:ro
-    
-  mongo:
-    image: mongo:4.2.3
+      - ./docworker/config.yml:/app/config/application.yml:ro
+    depends_on:
+      - garage
+      - postgres
+
+  postgres:
+    image: postgres:15.2
+    container_name: postgres
     restart: always
     ports:
-      - 27017:27017
-    command: mongod
-
-  rabbitmq:
-    image: rabbitmq:3.8.2-management
-    restart: always
+      - 5432:5432
     environment:
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: password
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dsw
+    volumes:
+      - ./scripts/patch-db-wizard.sql:/scripts/patch-db-wizard.sql:ro
+
+  garage:
+    image: dxflrs/garage:v2.4.1
+    container_name: garage
+    restart: always
+    ports:
+      - 3900:3900
+      - 3903:3903
+    volumes:
+      - ./garage/garage.toml:/etc/garage.toml:ro
+
+  mockserver:
+    image: jordimartin/mmock
+    command:
+      - -server-statistics=false
+    volumes:
+      - ./mockserver:/config

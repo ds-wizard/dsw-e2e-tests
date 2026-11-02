@@ -1,3 +1,5 @@
+import * as packages from './packages-helpers'
+
 export class Config {
     constructor(childKmId, parentKmId, editorName) {
         this.childKmId = childKmId
@@ -22,77 +24,146 @@ export class Config {
     }
 }
 
-export function verifyPackageWithBundle(packageId, fixtureName, pkgParams) {
-    cy.task('mongo:findOne', {
-        collection: 'packages',
-        args: { id: packageId }
-    }).then(pkg => {
-        cy.fixture(fixtureName).then(parentPkgBundle => {
-            const parentPkg = parentPkgBundle.packages.filter(innerPkg => {
-                return innerPkg.id == packageId
-            })[0]
-            Object.keys(pkgParams).forEach((key) => {
-                cy.wrap(pkg).its(key).should('be', pkgParams[key])
-            })
-            cy.wrap(pkg).its('events').should('have.length', parentPkg.events.length)
+function validateKeyInEventObject(parent, child, key, skipKeys, forceSkip = false) {
+    const shouldSkip = forceSkip || skipKeys.includes(key)
+    if (!shouldSkip) {
+        if (parent[key] === null) {
+            cy.wrap(child).its(key).should('be.null')
+        } else {
+            cy.wrap(child).its(key).should('deep.equal', parent[key])
+        }
+    }
+}
 
-            pkg.events.forEach((childEvent, index) => {
-                Object.keys(parentPkg.events[index]).forEach((key) => {
-                    cy.wrap(childEvent).its(key).should('be', parentPkg.events[index][key])
+function normalizeEvent(event) {
+    return {
+        uuid: event.uuid,
+        entityUuid: event.entity_uuid,
+        parentUuid: event.parent_uuid,
+        createdAt: event.created_at,
+        content: event.content
+    }
+}
+
+export function verifyPackageWithBundle(packageId, fixtureName, pkgParams, checkEventUuid = true) {
+    packages.getPackage(packageId)
+        .then(pkg => {
+            cy.fixture(fixtureName).then(parentPkgBundle => {
+                const parentPkg = parentPkgBundle.packages.filter(innerPkg => innerPkg.id == packageId)[0]
+                Object.keys(pkgParams).forEach((key) => {
+                    cy.wrap(pkg).its(key).should('eq', pkgParams[key])
+                })
+
+
+                const parentEvents = parentPkg.events
+                cy.wrap(pkg).its('events').should('have.length', parentEvents.length)
+
+                pkg.events.forEach((childEvent, index) => {
+                    const parentEvent = {...parentEvents[index]}
+                    childEvent = normalizeEvent(childEvent)
+
+                    Object.keys(childEvent).forEach((key) => {
+                        if (key === 'content') {
+                            Object.keys(childEvent.content).forEach((contentKey) => {
+                                const skipContentKeys = ['requiredPhaseUuid', 'metricUuids', 'phaseUuids', 'annotations', 'createdAt', 'resourcePageUuid', 'resourceCollectionUuids']
+                                validateKeyInEventObject(parentEvent.content, childEvent.content, contentKey, skipContentKeys)
+                            })
+                        } else {
+                            const skipKeys = ['createdAt']
+                            const forceSkip = !checkEventUuid && key === 'uuid'
+                            validateKeyInEventObject(parentEvent, childEvent, key, skipKeys, forceSkip)
+                        }
+                    })
                 })
             })
         })
+}
+
+export function verifyChildPackageForMigration(config, newVersion, oldVersion, checkEventUuid = true) {
+    packages.getPackageUuid(config.getChildPackageId(oldVersion)).then((previousPackageUuid) => {
+        verifyPackageWithBundle(
+            config.getChildPackageId(newVersion),
+            config.getChildKM(newVersion),
+            {
+                'previous_package_uuid': previousPackageUuid,
+                'fork_of_package_id': config.getParentPackageId(newVersion)
+            },
+            checkEventUuid
+        )
     })
 }
 
-export function verifyChildPackageForMigration(config, newVersion, oldVersion) {
-    verifyPackageWithBundle(
-        config.getChildPackageId(newVersion),
-        config.getChildKM(newVersion),
-        {
-            'previousPackageId': config.getChildPackageId(oldVersion),
-            'forkOfPackageId': config.getParentPackageId(newVersion)
-        }
-    )
-}
-
 export function finishMigrationAndPublish(major, minor, patch) {
-    cy.contains('Migration successfully completed.')
-    cy.clickBtn('Publish') // no more migrations
-    cy.get('.version-inputs input:nth-child(1)').type(major)
-    cy.get('.version-inputs input:nth-child(2)').type(minor)
-    cy.get('.version-inputs input:nth-child(3)').type(patch)
-    cy.clickBtn('Publish') // finish migration
+    cy.getCy('km-migration_completed')
+    cy.getCy('km-migration_publish-button').click()
+
+    // Wait for KM fields to be filled
+    cy.get('#license').invoke('val').should('not.be.empty')
+
+    // Fill fields and submit
+    cy.fillFields({
+        'version-major': `${major}`,
+        'version-minor': `${minor}`,
+        'version-patch': `${patch}`
+    })
+    cy.getCy('km-publish_publish-button').click()
+
+    // Wait until it is published
+    cy.get('.detail').should('exist')
 }
 
 export function checkMigrationForm(data) {
-    cy.get('.card-body .form-group').should('have.length', data.length)
+    cy.get('.card-body .form-group').should('have.length', data.length + 1) // data + annotations
     cy.get('.card-body .form-group').each(($el, index, $list) => {
-        cy.wrap($el).get('.control-label').contains(data[index].label)
-        data[index].validate(cy.wrap($el).get('.form-value'))
+        if (index < data.length - 1) { // we don't check annotations
+            cy.wrap($el).get('.control-label').contains(data[index].label)
+            if (data[index].validate) {
+                data[index].validate(cy.wrap($el).get('.form-value'))
+            }
+        }
     })
 }
 
 export function createMigration(config, version, parentVersion) {
     prepareChildKmEditor(config, version)
-    cy.clickListingItemAction(config.editorName, 'Upgrade')
-    cy.get('#targetPackageId').select(config.getParentPackageId(parentVersion))
-    cy.get('.modal-dialog .btn').filter(':visible').contains('Create').click()
+    cy.clickListingItemAction(config.editorName, 'update')
+
+    cy.expectModalOpen('km-editor-update')
+
+    packages.getPackageUuid(config.getParentPackageId(parentVersion)).then((packageUuid) => {
+        cy.fillFields({ s_targetPackageUuid: packageUuid })
+    })
+    cy.clickModalAction()
     cy.url().should('contain', 'migration')
 }
 
 export function prepareChildKmEditor(config, version) {
-    cy.fixture(config.getChildKM(version)).then(cy.importKM)
-    cy.createKMEditor({
-        kmId: config.childKmId,
-        name: config.editorName,
-        previousPackageId: config.getChildPackageId(version)
+    cy.importKM(config.getChildKM(version))
+    packages.getPackageUuid(config.getChildPackageId(version)).then((packageUuid) => {
+        cy.createKMEditor({
+            kmId: config.childKmId,
+            name: config.editorName,
+            version,
+            previousPackageUuid: packageUuid
+        })
     })
-    cy.visitApp('/km-editor')
+    cy.visitApp('/knowledge-model-editors')
+}
+
+export function apply() {
+    cy.getCy('km-migration_apply-button').click()
+}
+
+export function reject() {
+    cy.getCy('km-migration_reject-button').click()
+}
+
+export function expectEvent(eventUuid) {
+    cy.getCy(`km-migration_event_${eventUuid}`).should('be.visible')
 }
 
 export function checkDiffTreeAdded(data) {
-    checkDiffTree('added', data)
+    checkDiffTree('ins', data)
 }
 
 export function checkDiffTreeEdited(data) {
@@ -100,17 +171,16 @@ export function checkDiffTreeEdited(data) {
 }
 
 export function checkDiffTreeDeleted(data) {
-    checkDiffTree('deleted', data)
+    checkDiffTree('del', data)
 }
 
 export function checkDiffTree(what, data) {
-    const elements = cy.get('.diff-tree').get(`.state-${what}`)
+    const elements = cy.getCy(`km-migration_diff-tree-node_${what}`)
     elements.should('have.length', data.length)
     for (let i = 0; i < data.length; i++) {
         elements.eq(i).contains(data[i])
     }
 }
-
 
 export function checkNoChanges() {
     const changes = ['del', '.del', 'ins', '.ins']

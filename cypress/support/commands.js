@@ -1,39 +1,59 @@
+import 'cypress-iframe'
+import { dataCy } from './utils'
+import * as documentTemplates from './document-templates-helpers'
+
+
 const apiUrl = (url) => Cypress.env('api_url') + url
 
 const createHeaders = (token) => ({ Authorization: 'Bearer ' + token })
 
-const getTokenFor = (role) => cy.request({
+const getTokenWith = (email, password) => cy.request({
     method: 'POST',
     url: apiUrl('/tokens'),
-    body: {
-        email: Cypress.env(role + '_username'),
-        password: Cypress.env(role + '_password')
-    }
+    body: { email, password }
 })
 
+const getTokenFor = (role) => getTokenWith(
+    Cypress.env(role + '_username'),
+    Cypress.env(role + '_password')
+)
+
+const login = (resp, expiresAt = null) => {
+    const token = resp.body.token
+
+    cy.request({
+        method: 'GET',
+        url: apiUrl('/users/current'),
+        headers: createHeaders(token)
+    }).then((resp) => {
+        createSession(token, resp.body, expiresAt)
+    })
+}
+
+const createSession = (token, user, expiresAt = null) => {
+    expiresAt = expiresAt || new Date(Date.now() + 14000 * 86400)
+    window.localStorage.setItem('session/app', JSON.stringify({
+        apiUrl: apiUrl(''),
+        fullscreen: false,
+        sidebarCollapsed: false,
+        rightPanelCollapsed: true,
+        token: { token, expiresAt },
+        v9: true
+    }))
+}
 
 // Authentication commands
 
-Cypress.Commands.add('loginAs', (role) => {
-    getTokenFor(role).then((resp) => {
-        const token = resp.body.token
+Cypress.Commands.add('loginAs', (role, expiresAt = null) => {
+    getTokenFor(role).then((resp) => login(resp, expiresAt))
+})
 
-        cy.request({
-            method: 'GET',
-            url: apiUrl('/users/current'),
-            headers: createHeaders(token)
-        }).then((resp) => {
-            window.localStorage.setItem('session', JSON.stringify({
-                sidebarCollapsed: false,
-                token,
-                user: resp.body
-            }))
-        })
-    })
+Cypress.Commands.add('loginWith', (email, password) => {
+    getTokenWith(email, password).then(login)
 })
 
 Cypress.Commands.add('logout', () => {
-    window.localStorage.removeItem('session')
+    window.localStorage.removeItem('session/app')
     cy.visitApp('/')
 })
 
@@ -42,15 +62,54 @@ Cypress.Commands.add('logout', () => {
 
 Cypress.Commands.add('visitApp', (url) => {
     cy.visit(`${Cypress.env('url')}${url}`)
-    cy.get('.full-page-loader').should('not.exist')
+    // .Loading__Loader is the static loader from index.html, .page-loader is the one
+    // rendered by the app while a page is loading its data
+    cy.get('.Loading__Loader').should('not.exist')
+    cy.get('.page-loader').should('not.exist')
 })
 
 Cypress.Commands.add('clickLink', (label) => {
     cy.get('a').contains(label).click()
 })
 
-Cypress.Commands.add('clickBtn', (label) => {
-    cy.get('.btn').filter(':visible').contains(label).click()
+Cypress.Commands.add('clickBtn', (label, force = false) => {
+    const button = force ? cy.get('.btn') : cy.get('.btn').filter(':visible')
+    button.contains(label).click()
+})
+
+Cypress.Commands.add('submitForm', () => {
+    cy.getCy('form_submit').click()
+})
+
+// Modals
+
+Cypress.Commands.add('clickModalAction', () => {
+    cy.getCy('modal_action-button').filter(':visible').click()
+})
+
+Cypress.Commands.add('clickModalCancel', () => {
+    cy.getCy('modal_cancel-button').filter(':visible').click()
+})
+
+Cypress.Commands.add('expectModalOpen', (modal, open = true) => {
+    cy.getCy(`modal_${modal}`).should(open ? 'be.visible' : 'not.be.visible')
+})
+
+
+// Messages
+
+Cypress.Commands.add('expectSuccessFlashMessage', () => {
+    cy.getCy('flash_alert-success').filter(':visible').should('exist')
+})
+
+Cypress.Commands.add('expectSuccessPageMessage', () => {
+    cy.getCy('message_success').filter(':visible').should('exist')
+})
+
+// Selection commands
+
+Cypress.Commands.add('getCy', (key, extra = '') => {
+    return cy.get(`${dataCy(key)}${extra}`)
 })
 
 
@@ -70,41 +129,193 @@ Cypress.Commands.add('createUser', (user) => {
 
 // Knowledge Models commands
 
-Cypress.Commands.add('importKM', (km) => {
-    getTokenFor('datasteward').then((resp) => {
-        cy.request({
-            method: 'POST',
-            url: apiUrl('/packages'),
-            headers: createHeaders(resp.body.token),
-            body: km
+Cypress.Commands.add('importKM', (km, cb = null) => {
+    getTokenFor('admin').then((resp) => {
+        cy.fixture(km).then(body => {
+            cy.request({
+                method: 'POST',
+                url: apiUrl('/knowledge-model-packages'),
+                headers: createHeaders(resp.body.token),
+                body
+            })
+                .then((resp) => {
+                    if (cb) {
+                        cb(resp.body.uuid)
+                    }
+                })
         })
     })
 })
 
 
-// Questionnaires commands
+// Templates commands
 
-Cypress.Commands.add('createQuestionnaire', ({ accessibility, name, packageId }) => {
+Cypress.Commands.add('removeTemplate', (documentTemplateId) => {
+    documentTemplates.getDocumentTemplateUuid(documentTemplateId).then((documentTemplateUuid) => {
+        if (!documentTemplateUuid) return
+
+        getTokenFor('admin').then((resp) => {
+            cy.task('document:delete', { document_template_uuid: documentTemplateUuid })
+            cy.task('project:delete', { document_template_uuid: documentTemplateUuid })
+
+            cy.request({
+                method: 'DELETE',
+                url: apiUrl(`/document-templates/${documentTemplateUuid}`),
+                headers: createHeaders(resp.body.token),
+                failOnStatusCode: false
+            })
+        })
+    })
+})
+
+
+Cypress.Commands.add('importTemplate', (templatePath) => {
+    getTokenFor('admin').then((resp) => {
+        cy.fixture(templatePath, 'binary')
+            .then((binary) => Cypress.Blob.binaryStringToBlob(binary))
+            .then((template) => {
+                return new Promise((resolve, reject) => {
+                    const data = new FormData()
+                    data.set('file', template)
+
+                    const xhr = new XMLHttpRequest()
+
+                    xhr.onload = () => {
+                        if (xhr.status >= 300) {
+                            reject({ request: xhr })
+                        } else {
+                            const json = JSON.parse(xhr.response)
+                            resolve(json.uuid)
+                        }
+                    }
+
+                    xhr.onerror = () => {
+                        reject({ request: xhr })
+                    }
+
+                    xhr.open('POST', apiUrl('/document-templates/bundle'))
+                    xhr.setRequestHeader('Authorization', `Bearer ${resp.body.token}`)
+                    xhr.send(data)
+                })
+            })
+    })
+})
+
+
+// Projects commands
+
+Cypress.Commands.add('createProject', ({ visibility, sharing, name, knowledgeModelPackageUuid, documentTemplateUuid }) => {
     getTokenFor('researcher').then((resp) => {
         cy.request({
             method: 'POST',
-            url: apiUrl('/questionnaires'),
+            url: apiUrl('/projects'),
             headers: createHeaders(resp.body.token),
-            body: { accessibility, name, packageId, tagUuids: [] }
+            body: { visibility, sharing, name, knowledgeModelPackageUuid, documentTemplateUuid, questionTagUuids: [] }
         })
+    })
+})
+
+Cypress.Commands.add('createProjects', (projects) => {
+    getTokenFor('researcher').then((resp) => {
+        projects.forEach(({ visibility, sharing, knowledgeModelPackageUuid, name }) => {
+            cy.request({
+                method: 'POST',
+                url: apiUrl('/projects'),
+                headers: createHeaders(resp.body.token),
+                body: { visibility, sharing, name, knowledgeModelPackageUuid, questionTagUuids: [] }
+            })
+        })
+    })
+})
+
+Cypress.Commands.add('updateProject', (projectUuid, data) => {
+    getTokenFor('researcher').then((resp) => {
+        cy.request({
+            method: 'PUT',
+            url: apiUrl(`/projects/${projectUuid}`),
+            headers: createHeaders(resp.body.token),
+            body: data
+        })
+    })
+})
+
+Cypress.Commands.add('updateProjectShare', (projectUuid, data) => {
+    getTokenFor('researcher').then((resp) => {
+        cy.request({
+            method: 'PUT',
+            url: apiUrl(`/projects/${projectUuid}/share`),
+            headers: createHeaders(resp.body.token),
+            body: data
+        })
+    })
+})
+
+Cypress.Commands.add('updateProjectContent', (projectUuid, data) => {
+    getTokenFor('researcher').then((resp) => {
+        cy.request({
+            method: 'PUT',
+            url: apiUrl(`/projects/${projectUuid}/content`),
+            headers: createHeaders(resp.body.token),
+            body: data
+        })
+    })
+})
+
+Cypress.Commands.add('clearCurrentProjectSidePanelLocalStorage', () => {
+    cy.url().then((url) => {
+        const projectUuid = url.match(/\/wizard\/projects\/(.*)/)[1]
+        cy.clearLocalStorage(`project-${projectUuid}-right-panel`)
     })
 })
 
 
 // KM Editor commands
 
-Cypress.Commands.add('createKMEditor', ({ kmId, name, previousPackageId }) => {
+Cypress.Commands.add('createKMEditor', ({ kmId, name, version, previousPackageUuid }) => {
     getTokenFor('datasteward').then((resp) => {
         cy.request({
             method: 'POST',
-            url: apiUrl('/branches'),
+            url: apiUrl('/knowledge-model-editors'),
             headers: createHeaders(resp.body.token),
-            body: { kmId, name, previousPackageId, organizationId: null }
+            body: { kmId, name, version, previousPackageUuid }
+        })
+    })
+})
+
+Cypress.Commands.add('deleteKMEditor', (kmId) => {
+    getTokenFor('datasteward').then((resp) => {
+        cy.request({
+            method: 'DELETE',
+            url: apiUrl(`/knowledge-model-editors/${kmId}`),
+            headers: createHeaders(resp.body.token)
+        })
+    })
+})
+
+Cypress.Commands.add('publishKMEditor', ({ editorUuid }) => {
+    getTokenFor('datasteward').then((resp) => {
+        cy.request({
+            method: 'POST',
+            url: apiUrl('/knowledge-model-packages/from-editor'),
+            headers: createHeaders(resp.body.token),
+            body: {
+                editorUuid
+            }
+        })
+    })
+})
+
+// Documents command
+
+Cypress.Commands.add('createDocuments', (documents) => {
+    getTokenFor('researcher').then((resp) => {
+        documents.forEach((body) => {
+            cy.request({
+                method: 'POST',
+                url: apiUrl('/documents'),
+                headers: createHeaders(resp.body.token),
+                body
+            })
         })
     })
 })
@@ -113,24 +324,54 @@ Cypress.Commands.add('createKMEditor', ({ kmId, name, previousPackageId }) => {
 // Listing commands
 
 Cypress.Commands.add('getListingItem', (identifier) => {
-    cy.get('.Listing .list-group-item').contains(identifier).closest('.list-group-item')
+    cy.getCy('listing_item').contains(identifier).closest(dataCy('listing_item'))
+})
+
+
+Cypress.Commands.add('clickListingItem', (identifier) => {
+    cy.getCy('listing_item').contains(identifier).closest(dataCy('listing_item')).find('.title a').click()
 })
 
 
 Cypress.Commands.add('clickListingItemAction', (identifier, action) => {
-    cy.getListingItem(identifier).contains(action).click({ force: true })
+    cy.getListingItem(identifier).find(dataCy(`listing-item_action_${action}`)).click({ force: true })
+})
+
+
+Cypress.Commands.add('expectListingItemAction', (identifier, action, shouldExist) => {
+    cy.getListingItem(identifier).find(dataCy(`listing-item_action_${action}`)).should(shouldExist ? 'exist' : 'not.exist')
 })
 
 
 Cypress.Commands.add('expectListingItemNotExist', (identifier) => {
-    cy.get('.Listing .list-group-item').contains(identifier).should('not.exist')
+    cy.getCy('listing_list').contains(identifier).should('not.exist')
 })
 
 
 Cypress.Commands.add('expectEmptyListing', () => {
-    cy.get('.full-page-illustrated-message').contains('No data')
+    cy.getCy('illustrated-message_listing-empty').should('exist')
 })
 
+
+Cypress.Commands.add('expectError', () => {
+    cy.getCy('illustrated-message_error').should('exist')
+})
+
+
+Cypress.Commands.add('expectNotAllowed', () => {
+    cy.getCy('illustrated-message_not-allowed').should('exist')
+})
+
+
+// Detail commands
+
+Cypress.Commands.add('clickDropdownAction', (action) => {
+    cy.get('.detail-header-actions .dropdown-menu').find(dataCy(`listing-item_action_${action}`)).click({ force: true })
+})
+
+Cypress.Commands.add('expectDropdownAction', (action, shouldExist) => {
+    cy.get('.detail-header-actions .dropdown-menu').find(dataCy(`listing-item_action_${action}`)).should(shouldExist ? 'exist' : 'not.exist')
+})
 
 // Form commands
 
@@ -139,6 +380,26 @@ Cypress.Commands.add('fillFields', (fields) => {
         if (key.startsWith('s_')) {
             key = key.replace(/^s_/, '')
             cy.get(`#${key}`).select(value)
+        } else if (key.startsWith('th_')) {
+            key = key.replace(/^th_/, '')
+            cy.get(`#${key}`).click()
+            cy.get(`#${key}_search`).type(value)
+            cy.get(`#${key} .typehints ul li a`).contains(value).click()
+        } else if (key.startsWith('c_')) {
+            key = key.replace(/^c_/, '')
+            if (value) {
+                cy.get(`#${key}`).check()
+            } else {
+                cy.get(`#${key}`).uncheck()
+            }
+        } else if (key.startsWith('md_')) {
+            key = key.replace(/^md_/, '')
+
+            if (value.length > 0) {
+                cy.get(`#${key} [contenteditable]`).clear().type(value)
+            } else {
+                cy.get(`#${key} [contenteditable]`).clear()
+            }
         } else {
             if (value.length > 0) {
                 cy.get(`#${key}`).clear().type(value)
@@ -150,10 +411,69 @@ Cypress.Commands.add('fillFields', (fields) => {
 })
 
 
+Cypress.Commands.add('clearTypeHintInput', (field) => {
+    cy.get(`#${field} .typehint-input-value a`).click()
+})
+
+
 Cypress.Commands.add('checkFields', (fields) => {
     Object.entries(fields).forEach(([key, value]) => {
-        key = key.replace(/^s_/, '')
-        cy.get(`#${key}`).should('have.value', value.replace('{{}', '{'))
+        if (key.startsWith('md_')) {
+            const selector = `#${key.replace(/^md_/, '')} [contenteditable]`
+            cy.get(selector).should('have.text', value.replace('{{}', '{'))
+        } else {
+            key = key.replace(/^s_/, '')
+            cy.get(`#${key}`).should('have.value', value.replace('{{}', '{'))
+        }
+    })
+})
+
+
+Cypress.Commands.add('checkToggle', (field) => {
+    cy.wait(100)
+    cy.get(`#${field}`).check({ force: true })
+})
+
+Cypress.Commands.add('uncheckToggle', (field) => {
+    cy.wait(100)
+    cy.get(`#${field}`).uncheck({ force: true })
+})
+
+Cypress.Commands.add('expectToggleChecked', (field) => {
+    cy.get(`#${field}`).should('be.checked')
+})
+
+Cypress.Commands.add('expectToggleUnchecked', (field) => {
+    cy.get(`#${field}`).should('be.not.checked')
+})
+
+
+// Settings commands
+
+Cypress.Commands.add('putDefaultAppConfig', () => {
+    cy.task('tenantConfig:disable2FA')
+    getTokenFor('admin').then((resp) => {
+        cy.request({
+            method: 'GET',
+            url: apiUrl('/roles'),
+            headers: createHeaders(resp.body.token)
+
+        })
+        .then((rolesResp) => {
+            cy.fixture('default-app-config').then((config) => {
+                const roles = rolesResp.body._embedded.roles
+                const dataStewardRole = roles.find((role) => role.name === 'Data Steward')
+
+                config.authentication.defaultRoleUuid = dataStewardRole.uuid
+                
+                cy.request({
+                    method: 'PUT',
+                    url: apiUrl('/tenants/current/config'),
+                    headers: createHeaders(resp.body.token),
+                    body: config
+                })
+            })
+        })
     })
 })
 
@@ -162,4 +482,52 @@ Cypress.Commands.add('checkFields', (fields) => {
 
 Cypress.Commands.add('expectAlert', (type, text) => {
     cy.get(`.alert-${type}`).should('contain', text)
+})
+
+
+// WebSockets
+
+Cypress.Commands.add('wsSend', (url, msg) => {
+    const ws = new WebSocket(apiUrl(url).replace('http', 'ws'))
+    ws.addEventListener('open', () => {
+        ws.send(JSON.stringify(msg))
+        ws.close()
+    })
+})
+
+Cypress.Commands.add('wsSendAs', (role, url, msg) => {
+    getTokenFor(role).then((resp) => {
+        const token = resp.body.token
+        const authParam = `Authorization=Bearer%20${token}`
+        const wsUrl = `${apiUrl(url).replace('http', 'ws')}?${authParam}`
+        const ws = new WebSocket(wsUrl)
+
+        ws.addEventListener('open', () => {
+            ws.send(JSON.stringify(msg))
+            ws.close()
+        })
+    })
+})
+
+
+// Cache
+
+Cypress.Commands.add('clearServerCache', () => {
+    cy.task('user:addPermission', { perm: 'DevUseRolePermission', email: Cypress.env('admin_username') })
+
+    getTokenFor('admin').then((resp) => {
+        cy.request({
+            method: 'POST',
+            url: apiUrl('/dev-operations/executions'),
+            headers: createHeaders(resp.body.token),
+            body: { 'sectionName': 'Cache', 'operationName': 'Purge All Caches', 'parameters': [] }
+        })
+    })
+})
+
+
+// Utils
+
+Cypress.Commands.add('clickElsewhere', () => {
+    cy.get('body').click(0, 0)
 })

@@ -3,11 +3,25 @@ name: DSW E2E Tests
 on:
   push:
   repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      server_image:
+        description: 'Wizard Server image'
+        required: false
+        default: 'ghcr.io/ds-wizard/wizard-server:main'
+      client_image:
+        description: 'Wizard Client image'
+        required: false
+        default: 'ghcr.io/ds-wizard/wizard-client:develop'
+      docworker_image:
+        description: 'Document Worker image'
+        required: false
+        default: 'ghcr.io/ds-wizard/document-worker:main'
 
 jobs:
   dsw-e2e:
     name: Run DSW E2E Tests
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
@@ -15,40 +29,68 @@ jobs:
         containers: [1, 2, 3, 4]
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v7
 
-    - name: Set variables from dispatch
+    - name: Setup Chrome
+      uses: browser-actions/setup-chrome@v2
+      with:
+        chrome-version: 139
+
+    - name: Set variables from repository dispatch
       if: github.event_name == 'repository_dispatch'
-      uses: allenevans/set-env@v1.0.0
+      uses: allenevans/set-env@v4.0.0
       with:
         SERVER_IMAGE: ${{ github.event.client_payload.server_image }}
         CLIENT_IMAGE: ${{ github.event.client_payload.client_image }}
         DOCWORKER_IMAGE: ${{ github.event.client_payload.docworker_image }}
 
+    - name: Set variables from workflow dispatch
+      if: github.event_name == 'workflow_dispatch'
+      uses: allenevans/set-env@v4.0.0
+      with:
+        SERVER_IMAGE: ${{ github.event.inputs.server_image }}
+        CLIENT_IMAGE: ${{ github.event.inputs.client_image }}
+        DOCWORKER_IMAGE: ${{ github.event.inputs.docworker_image }}
+
+    - name: Set etc/hosts
+      run: |
+        echo "127.0.0.1	garage" | sudo tee -a /etc/hosts
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v7
+      with:
+        node-version: 24
+
     - name: Prepare
       run: |
-        docker login -u "$PRIVATE_REGISTRY_USERNAME" -p "$PRIVATE_REGISTRY_PASSWORD" "$PRIVATE_REGISTRY_URL"
+        npm ci
         make clean
         make init
-      env:
-        PRIVATE_REGISTRY_URL: ${{ secrets.PRIVATE_REGISTRY_URL }}
-        PRIVATE_REGISTRY_USERNAME: ${{ secrets.PRIVATE_REGISTRY_USERNAME }}
-        PRIVATE_REGISTRY_PASSWORD: ${{ secrets.PRIVATE_REGISTRY_PASSWORD }}
 
     - name: Start DS Wizard
       run: |
         make start
-        make wait
 
     - name: Run Cypress
-      uses: cypress-io/github-action@v1
+      uses: cypress-io/github-action@v7
+      if: env.CYPRESS_RECORD_KEY != ''
       with:
-        browser: chrome
-        headless: true
+        browser: chrome-for-testing
+        headed: false
         record: true
         parallel: true
         group: 'DSW E2E Test @ GitHub Actions'
       env:
-        CYPRESS_RETRIES: 3
+        CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Run Cypress (no record)
+      uses: cypress-io/github-action@v7
+      if: env.CYPRESS_RECORD_KEY == ''
+      with:
+        browser: chrome-for-testing
+        headed: false
+      env:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,77 @@
+import * as packages from '../../../support/packages-helpers'
+import * as project from '../../../support/project-helpers'
+
+
+describe('Questionnaire - View Settings', () => {
+    const projectName = 'Test Questionnaire'
+    const kmIdTags = 'km-with-tags'
+    const kmIdPhases = 'test-phases'
+    const packageIdTags = 'mto:km-with-tags:1.0.0'
+    const packageIdPhases = 'dsw:test-phases:1.0.0'
+
+    const clickViewMenu = (item) => {
+        cy.get('.questionnaireToolbar__left .btn').contains('View').click()
+        cy.get('.questionnaireToolbar__left .dropdown-item').contains(item).click()
+    }
+
+    const withQuestionnaire = (knowledgeModelPackageId, callback) => {
+        packages.getPackageUuid(knowledgeModelPackageId)
+            .then((knowledgeModelPackageUuid) => {
+                return cy.createProject({
+                    visibility: project.VisibleEdit,
+                    sharing: project.AnyoneWithLinkEdit,
+                    name: projectName,
+                    knowledgeModelPackageUuid
+                })
+            }).then(() => {
+                cy.loginAs('researcher')
+                project.open(projectName)
+                callback()
+            })
+    }
+
+    before(() => {
+        cy.task('knowledgeModelPackage:delete')
+        cy.clearServerCache()
+
+        cy.importKM(kmIdTags)
+        cy.importKM(kmIdPhases)
+    })
+
+    beforeEach(() => {
+        cy.task('project:delete')
+        cy.clearServerCache()
+    })
+
+    it('Answered by', () => {
+        withQuestionnaire(packageIdPhases, () => {
+            project.typeAnswer('Question 1', 'abcd')
+            cy.getCy('questionnaire_answered-by').should('exist')
+            clickViewMenu('Answered by')
+            cy.getCy('questionnaire_answered-by').should('not.exist')
+            clickViewMenu('Answered by')
+            cy.getCy('questionnaire_answered-by').should('exist')
+        })
+
+    })
+
+    it('Phases', () => {
+        withQuestionnaire(packageIdPhases, () => {
+            cy.getCy('questionnaire_question-extra').contains('Desirable').should('exist')
+            clickViewMenu('Phases')
+            cy.getCy('questionnaire_question-extra').contains('Desirable').should('not.exist')
+            clickViewMenu('Phases')
+            cy.getCy('questionnaire_question-extra').contains('Desirable').should('exist')
+        })
+    })
+
+    it('Tags', () => {
+        withQuestionnaire(packageIdTags, () => {
+            cy.get('.tag-list').should('exist')
+            clickViewMenu('Question tags')
+            cy.get('.tag-list').should('not.exist')
+            clickViewMenu('Question tags')
+            cy.get('.tag-list').should('exist')
+        })
+    })
+})

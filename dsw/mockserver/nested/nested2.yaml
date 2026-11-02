@@ -1,0 +1,16 @@
+---
+  request:
+    method: GET
+    path: /nested2
+  response:
+    statusCode: 200
+    headers:
+      Content-Type:
+      - application/json
+    body: >
+      [
+        { "id": { "key": "standard01" }, "title": { "name": "Adverse Drug Reaction Markup Language" } },
+        { "id": { "key": "standard02" }, "title": { "name": "Analytical Information Markup Language" } },
+        { "id": { "key": "standard03" }, "title": { "name": "Gramene Taxonomy Ontology" } },
+        { "id": { "key": "standard04" }, "title": { "name": "Minimal Information About a Cellular Assay" } }
+      ]

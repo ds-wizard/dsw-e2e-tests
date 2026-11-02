@@ -1,0 +1,16 @@
+---
+  request:
+    method: GET
+    path: /numericNames
+  response:
+    statusCode: 200
+    headers:
+      Content-Type:
+      - application/json
+    body: >
+      [
+        { "id": "standard01", "name": 5 },
+        { "id": "standard02", "name": 5.25 },
+        { "id": "standard03", "name": 7.00001 },
+        { "id": "standard04", "name": -12.3 }
+      ]

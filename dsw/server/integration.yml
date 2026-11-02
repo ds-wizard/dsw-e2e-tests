@@ -1,0 +1,6 @@
+configVars:
+    key: verySecret
+postBodyConfig:
+    secret: tooMuchSecret
+getHeaders:
+    apiKey: mySecretApiKey
