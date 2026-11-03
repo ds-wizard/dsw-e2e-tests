@@ -1,0 +1,352 @@
+{
+  "durations": [
+    {
+      "spec": "cypress/e2e/dsw/account/activeSessions.cy.js",
+      "duration": 8104
+    },
+    {
+      "spec": "cypress/e2e/dsw/account/apiKeys.cy.js",
+      "duration": 3838
+    },
+    {
+      "spec": "cypress/e2e/dsw/account/changePassword.cy.js",
+      "duration": 7559
+    },
+    {
+      "spec": "cypress/e2e/dsw/account/editProfile.cy.js",
+      "duration": 3177
+    },
+    {
+      "spec": "cypress/e2e/dsw/account/language.cy.js",
+      "duration": 7113
+    },
+    {
+      "spec": "cypress/e2e/dsw/account/navByPerm.cy.js",
+      "duration": 7221
+    },
+    {
+      "spec": "cypress/e2e/dsw/administration/settingsAuthentication.cy.js",
+      "duration": 3856
+    },
+    {
+      "spec": "cypress/e2e/dsw/administration/settingsDashboardAndMenu.cy.js",
+      "duration": 6853
+    },
+    {
+      "spec": "cypress/e2e/dsw/administration/settingsFeatures.cy.js",
+      "duration": 4865
+    },
+    {
+      "spec": "cypress/e2e/dsw/administration/settingsLocales.cy.js",
+      "duration": 5910
+    },
+    {
+      "spec": "cypress/e2e/dsw/administration/settingsLoginScreen.cy.js",
+      "duration": 5639
+    },
+    {
+      "spec": "cypress/e2e/dsw/administration/settingsLookAndFeel.cy.js",
+      "duration": 4224
+    },
+    {
+      "spec": "cypress/e2e/dsw/administration/settingsOpenId.cy.js",
+      "duration": 5677
+    },
+    {
+      "spec": "cypress/e2e/dsw/administration/settingsProjects.cy.js",
+      "duration": 5504
+    },
+    {
+      "spec": "cypress/e2e/dsw/administration/settingsRoles.cy.js",
+      "duration": 7220
+    },
+    {
+      "spec": "cypress/e2e/dsw/administration/settingsSubmission.cy.js",
+      "duration": 5174
+    },
+    {
+      "spec": "cypress/e2e/dsw/administration/settingsSupport.cy.js",
+      "duration": 5674
+    },
+    {
+      "spec": "cypress/e2e/dsw/administration/settingsUsage.cy.js",
+      "duration": 3387
+    },
+    {
+      "spec": "cypress/e2e/dsw/administration/users.cy.js",
+      "duration": 7913
+    },
+    {
+      "spec": "cypress/e2e/dsw/administration/usersBrowse.cy.js",
+      "duration": 10778
+    },
+    {
+      "spec": "cypress/e2e/dsw/administration/usersEdit.cy.js",
+      "duration": 11910
+    },
+    {
+      "spec": "cypress/e2e/dsw/comments/assignedComments.cy.js",
+      "duration": 6036
+    },
+    {
+      "spec": "cypress/e2e/dsw/dashboard/loads.cy.js",
+      "duration": 3008
+    },
+    {
+      "spec": "cypress/e2e/dsw/document-template-editor/create.cy.js",
+      "duration": 5743
+    },
+    {
+      "spec": "cypress/e2e/dsw/document-template-editor/files.cy.js",
+      "duration": 10380
+    },
+    {
+      "spec": "cypress/e2e/dsw/document-template-editor/preview.cy.js",
+      "duration": 11177
+    },
+    {
+      "spec": "cypress/e2e/dsw/document-template-editor/publish.cy.js",
+      "duration": 7149
+    },
+    {
+      "spec": "cypress/e2e/dsw/document-templates/actions.cy.js",
+      "duration": 6704
+    },
+    {
+      "spec": "cypress/e2e/dsw/document-templates/actionsPermissions.cy.js",
+      "duration": 5303
+    },
+    {
+      "spec": "cypress/e2e/dsw/document-templates/browse.cy.js",
+      "duration": 6561
+    },
+    {
+      "spec": "cypress/e2e/dsw/document-templates/detailActions.cy.js",
+      "duration": 5386
+    },
+    {
+      "spec": "cypress/e2e/dsw/document-templates/import.cy.js",
+      "duration": 3811
+    },
+    {
+      "spec": "cypress/e2e/dsw/documents/list.cy.js",
+      "duration": 9892
+    },
+    {
+      "spec": "cypress/e2e/dsw/km-editor/browse.cy.js",
+      "duration": 13734
+    },
+    {
+      "spec": "cypress/e2e/dsw/km-editor/create.cy.js",
+      "duration": 5333
+    },
+    {
+      "spec": "cypress/e2e/dsw/km-editor/editor/addEntities.cy.js",
+      "duration": 131589
+    },
+    {
+      "spec": "cypress/e2e/dsw/km-editor/editor/deleteEntities.cy.js",
+      "duration": 209880
+    },
+    {
+      "spec": "cypress/e2e/dsw/km-editor/editor/editEntities.cy.js",
+      "duration": 362766
+    },
+    {
+      "spec": "cypress/e2e/dsw/km-editor/editor/moveEntities.cy.js",
+      "duration": 71067
+    },
+    {
+      "spec": "cypress/e2e/dsw/km-editor/editor/phasesAndTags.cy.js",
+      "duration": 40843
+    },
+    {
+      "spec": "cypress/e2e/dsw/km-editor/editor/valueQuestionValidation.cy.js",
+      "duration": 84961
+    },
+    {
+      "spec": "cypress/e2e/dsw/km-editor/editor/warnings.cy.js",
+      "duration": 69554
+    },
+    {
+      "spec": "cypress/e2e/dsw/km-editor/editor/websocket.cy.js",
+      "duration": 5346
+    },
+    {
+      "spec": "cypress/e2e/dsw/km-editor/migration/migrate.cy.js",
+      "duration": 21804
+    },
+    {
+      "spec": "cypress/e2e/dsw/km-editor/migration/migrationEntities.cy.js",
+      "duration": 383013
+    },
+    {
+      "spec": "cypress/e2e/dsw/km-editor/migration/migrationMechanics.cy.js",
+      "duration": 69783
+    },
+    {
+      "spec": "cypress/e2e/dsw/km-editor/publish.cy.js",
+      "duration": 7629
+    },
+    {
+      "spec": "cypress/e2e/dsw/knowledge-models/actions.cy.js",
+      "duration": 12113
+    },
+    {
+      "spec": "cypress/e2e/dsw/knowledge-models/actionsPermissions.cy.js",
+      "duration": 4686
+    },
+    {
+      "spec": "cypress/e2e/dsw/knowledge-models/browse.cy.js",
+      "duration": 5801
+    },
+    {
+      "spec": "cypress/e2e/dsw/knowledge-models/compare.cy.js",
+      "duration": 19437
+    },
+    {
+      "spec": "cypress/e2e/dsw/knowledge-models/deprecate.cy.js",
+      "duration": 10081
+    },
+    {
+      "spec": "cypress/e2e/dsw/knowledge-models/detailActions.cy.js",
+      "duration": 9612
+    },
+    {
+      "spec": "cypress/e2e/dsw/knowledge-models/import.cy.js",
+      "duration": 3556
+    },
+    {
+      "spec": "cypress/e2e/dsw/knowledge-models/locales.cy.js",
+      "duration": 5935
+    },
+    {
+      "spec": "cypress/e2e/dsw/knowledge-models/preview.cy.js",
+      "duration": 10641
+    },
+    {
+      "spec": "cypress/e2e/dsw/knowledge-models/resourcePage.cy.js",
+      "duration": 10306
+    },
+    {
+      "spec": "cypress/e2e/dsw/knowledge-models/secrets.cy.js",
+      "duration": 4533
+    },
+    {
+      "spec": "cypress/e2e/dsw/knowledge-models/visibility.cy.js",
+      "duration": 9113
+    },
+    {
+      "spec": "cypress/e2e/dsw/project-files/list.cy.js",
+      "duration": 15263
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/actionsPermissions.cy.js",
+      "duration": 6358
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/browse.cy.js",
+      "duration": 10157
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/clone.cy.js",
+      "duration": 4551
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/comments.cy.js",
+      "duration": 9487
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/create.cy.js",
+      "duration": 3932
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/documents.cy.js",
+      "duration": 7896
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/files.cy.js",
+      "duration": 17871
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/fromTemplate.cy.js",
+      "duration": 10256
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/migrate.cy.js",
+      "duration": 15771
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/permissions.cy.js",
+      "duration": 33316
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/preview.cy.js",
+      "duration": 8212
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/publicSharing.cy.js",
+      "duration": 10094
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/questionnaireSearch.cy.js",
+      "duration": 44021
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/questionnaireTypes.cy.js",
+      "duration": 159230
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/settings.cy.js",
+      "duration": 13466
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/share.cy.js",
+      "duration": 28763
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/shareUserGroup.cy.js",
+      "duration": 29614
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/summaryReport.cy.js",
+      "duration": 67302
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/todos.cy.js",
+      "duration": 45961
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/versionHistory.cy.js",
+      "duration": 14342
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/viewSettings.cy.js",
+      "duration": 51191
+    },
+    {
+      "spec": "cypress/e2e/dsw/projects/websocket.cy.js",
+      "duration": 5002
+    },
+    {
+      "spec": "cypress/e2e/dsw/public/forgottenPassword.cy.js",
+      "duration": 9749
+    },
+    {
+      "spec": "cypress/e2e/dsw/public/signup.cy.js",
+      "duration": 9045
+    },
+    {
+      "spec": "cypress/e2e/dsw/user-groups/browse.cy.js",
+      "duration": 6232
+    },
+    {
+      "spec": "cypress/e2e/dsw/user-groups/create.cy.js",
+      "duration": 4872
+    },
+    {
+      "spec": "cypress/e2e/dsw/user-groups/members.cy.js",
+      "duration": 7489
+    }
+  ]
+}
