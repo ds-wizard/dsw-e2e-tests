@@ -1,0 +1,110 @@
+{
+    "id": "test.gamma-km",
+    "metamodelVersion": 14,
+    "name": "Gamma KM",
+    "packages": [
+        {
+            "createdAt": "2021-01-01T00:00:00.000Z",
+            "description": "A minimal fixture for the E2E suite's Knowledge Models browse test.",
+            "events": [
+                {
+                    "annotations": [],
+                    "createdAt": "2024-04-24T09:22:28.408680594Z",
+                    "entityUuid": "ae80eae1-5a41-4f28-a4b4-2f352ba9ca79",
+                    "eventType": "AddKnowledgeModelEvent",
+                    "parentUuid": "00000000-0000-0000-0000-000000000000",
+                    "uuid": "7df22777-632d-465f-beb6-c6e4f6622b2f"
+                },
+                {
+                    "annotations": [],
+                    "createdAt": "2024-04-24T09:22:29.614Z",
+                    "entityUuid": "fa34a580-6485-4b0d-8167-927c921c461b",
+                    "eventType": "AddChapterEvent",
+                    "parentUuid": "00000000-0000-0000-0000-000000000000",
+                    "text": null,
+                    "title": "",
+                    "uuid": "3fd7c01e-4fab-4c7c-8bb6-fd9b4bb33aa1"
+                },
+                {
+                    "annotations": {
+                        "changed": false
+                    },
+                    "createdAt": "2024-04-24T09:22:31.635Z",
+                    "entityUuid": "fa34a580-6485-4b0d-8167-927c921c461b",
+                    "eventType": "EditChapterEvent",
+                    "parentUuid": "00000000-0000-0000-0000-000000000000",
+                    "questionUuids": {
+                        "changed": false
+                    },
+                    "text": {
+                        "changed": false
+                    },
+                    "title": {
+                        "changed": true,
+                        "value": "Chapter 1"
+                    },
+                    "uuid": "14ce9cbc-e3a4-4ae2-a1a0-2b79a35195bb"
+                },
+                {
+                    "annotations": [],
+                    "createdAt": "2024-04-24T09:22:33.06Z",
+                    "entityUuid": "2a98fa12-a2dd-4f7b-9546-c0065bbbfa95",
+                    "eventType": "AddQuestionEvent",
+                    "parentUuid": "fa34a580-6485-4b0d-8167-927c921c461b",
+                    "questionType": "OptionsQuestion",
+                    "requiredPhaseUuid": null,
+                    "tagUuids": [],
+                    "text": null,
+                    "title": "",
+                    "uuid": "06ebe612-a2cc-418c-b0bd-d9f1fb96bf6e"
+                },
+                {
+                    "annotations": {
+                        "changed": false
+                    },
+                    "createdAt": "2024-04-24T09:22:37.276Z",
+                    "entityUuid": "2a98fa12-a2dd-4f7b-9546-c0065bbbfa95",
+                    "eventType": "EditQuestionEvent",
+                    "expertUuids": {
+                        "changed": false
+                    },
+                    "parentUuid": "fa34a580-6485-4b0d-8167-927c921c461b",
+                    "questionType": "ValueQuestion",
+                    "referenceUuids": {
+                        "changed": false
+                    },
+                    "requiredPhaseUuid": {
+                        "changed": false
+                    },
+                    "tagUuids": {
+                        "changed": false
+                    },
+                    "text": {
+                        "changed": false
+                    },
+                    "title": {
+                        "changed": true,
+                        "value": "Project Name"
+                    },
+                    "uuid": "dab45aa5-57a1-424d-a5d8-9cfe78fa3ec2",
+                    "valueType": {
+                        "changed": true,
+                        "value": "StringQuestionValueType"
+                    }
+                }
+            ],
+            "forkOfPackageId": null,
+            "id": "test.gamma-km",
+            "license": "MIT",
+            "mergeCheckpointPackageId": null,
+            "metamodelVersion": 14,
+            "name": "Gamma KM",
+            "nonEditable": false,
+            "phase": "ReleasedPackagePhase",
+            "previousPackageId": null,
+            "readme": "# Gamma KM\n\nA minimal fixture for the E2E suite's Knowledge Models browse test.",
+            "version": "1.0.0"
+        }
+    ],
+    "version": "1.0.0"
+}

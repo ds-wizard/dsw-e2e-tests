@@ -23,7 +23,7 @@ stop:
 
 .PHONY: run
 run:
-	$(CYPRESS) run --record --key $(CYPRESS_RECORD_KEY)
+	@$(CYPRESS) run
 
 
 .PHONY: all
@@ -33,21 +33,12 @@ all:
 
 .PHONY: open
 open:
-	$(CYPRESS) open --browser chrome --e2e
+	@$(CYPRESS) open --browser chrome --e2e
 
 
 .PHONY: clean
 clean:
 	@rm -rf output && rm -f dsw/docker-compose.yml
-
-
-.PHONY: ci
-ci:
-	make clean
-	make init
-	make start
-	make run
-	make stop
 
 
 .PHONY: templates

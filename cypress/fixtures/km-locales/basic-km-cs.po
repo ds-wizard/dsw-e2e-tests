@@ -1,0 +1,16 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: myorg:basic-km:1.0.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: cs\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+
+#: chapter/fa34a580-6485-4b0d-8167-927c921c461b/title
+msgid "Chapter 1"
+msgstr "Kapitola 1"
+
+#: question/2a98fa12-a2dd-4f7b-9546-c0065bbbfa95/title
+msgid "Project Name"
+msgstr "Název projektu"

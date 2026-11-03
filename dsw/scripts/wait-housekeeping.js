@@ -1,27 +1,26 @@
 #!/usr/bin/env node
 
-const request = require('@cypress/request');
+const request = require('@cypress/request')
 
-const wizardApiUrl = 'http://localhost:3000/wizard-api'
-const wizardBootstrapConfig = `${wizardApiUrl}/configs/bootstrap?clientUrl=http%3A%2F%2Flocalhost%3A8080%2Fwizard`
+const bootstrapUrl = 'http://localhost:3000/api/bootstrap?clientUrl=http%3A%2F%2Flocalhost%3A8080'
 
 function log(message) {
     process.stdout.write(message)
 }
 
-function waitForWizard(cb) {
+function waitForServer(cb) {
     log('Waiting for wizard server... ')
     request({
         method: 'GET',
-        url: wizardBootstrapConfig,
+        url: bootstrapUrl,
         json: true
     }, (error, response, body) => {
-        if (error) {
+        if (error || !body) {
             log('not ready, retrying\n')
-            setTimeout(() => waitForWizard(cb), 3000)
-        } else if (body.type === 'HousekeepingInProgressClientConfig') {
+            setTimeout(() => waitForServer(cb), 3000)
+        } else if (body.type === 'HousekeepingInProgressBootstrap') {
             log('housekeeping in progress, retrying\n')
-            setTimeout(() => waitForWizard(cb), 3000)
+            setTimeout(() => waitForServer(cb), 3000)
         } else {
             log('ready\n')
             cb()
@@ -29,6 +28,6 @@ function waitForWizard(cb) {
     })
 }
 
-waitForWizard(() => {
+waitForServer(() => {
     process.exit(0)
 })

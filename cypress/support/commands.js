@@ -1,533 +1,332 @@
-import 'cypress-iframe'
-import { dataCy } from './utils'
-import * as documentTemplates from './document-templates-helpers'
+// Custom commands shared by every spec (loaded via support/e2e.js).
 
-
-const apiUrl = (url) => Cypress.env('api_url') + url
-
-const createHeaders = (token) => ({ Authorization: 'Bearer ' + token })
-
-const getTokenWith = (email, password) => cy.request({
-    method: 'POST',
-    url: apiUrl('/tokens'),
-    body: { email, password }
+// DSW has exactly one workspace per tenant - it never shows up in the client's URLs or
+// the API's query strings, only in the database (cleanup tasks scope by it).
+Cypress.Commands.add('getWorkspaceUuid', () => {
+  return cy.task('workspace:defaultUuid', { tenantId: Cypress.expose('tenantId') })
 })
 
-const getTokenFor = (role) => getTokenWith(
-    Cypress.env(role + '_username'),
-    Cypress.env(role + '_password')
-)
+// Selects by data-cy only, never cy.contains(visibleText).
+Cypress.Commands.add('getCy', (testId, options) => {
+  return cy.get(`[data-cy="${testId}"]`, options)
+})
 
-const login = (resp, expiresAt = null) => {
-    const token = resp.body.token
+// After an in-app navigation the app keeps retrying to focus the new page's heading
+// until it renders, which can steal focus from a field a test has already started
+// typing into. Passes the previous subject through.
+Cypress.Commands.add('waitForPageFocus', { prevSubject: 'optional' }, (subject) => {
+  return cy.get('#ui-main-heading').should('have.focus').then(() => subject)
+})
 
-    cy.request({
-        method: 'GET',
-        url: apiUrl('/users/current'),
-        headers: createHeaders(token)
-    }).then((resp) => {
-        createSession(token, resp.body, expiresAt)
+// A page's own "form-submit"/"form-cancel", never a dialog's. Ui.Modal.toHtml's root
+// "ui-dialog" is always in the DOM regardless of open/closed state, and
+// Ui.Modal.withForm defaults its own submit/cancel button to the same testid
+// (Ui.Button.submit/dangerSubmit, Ui.Form.unsavedBar's Save) unless the caller
+// overrides it - so a page that has its own real form-submit AND, elsewhere in the
+// same component tree, an always-mounted Modal.withForm dialog (e.g. Projects.Detail's
+// ShareModal, present on every tab) ends up with two matches. Only for a call site
+// confirmed ambiguous this way - a page whose only "form-submit" happens to be inside
+// an open modal should keep using plain getCy/within, since filtering ui-dialog out
+// there would remove the one real match.
+Cypress.Commands.add('getPageFormTestId', (testId) => {
+  return cy.get(`[data-cy="${testId}"]`).filter((_, el) => !el.closest('ui-dialog'))
+})
+
+// A form field's DOM id is "form-" plus its path, sanitized (anything that isn't a
+// letter/digit/"-"/"_" becomes "-", runs collapsed) - e.g. "name" -> "#form-name".
+Cypress.Commands.add('getField', (path) => {
+  const sanitized = path
+    .split('')
+    .map((char) => (/[a-zA-Z0-9_]/.test(char) || char === '-' ? char : '-'))
+    .join('')
+    .split('-')
+    .filter(Boolean)
+    .join('-')
+  return cy.get(`#form-${sanitized}`)
+})
+
+// A questionnaire answer field uses a different id scheme from getField: "value_" plus
+// the question path, non-alphanumerics replaced with "_" (no run-collapsing).
+Cypress.Commands.add('getQuestionnaireField', (questionPath) => {
+  const sanitized = questionPath
+    .split('')
+    .map((char) => (/[a-zA-Z0-9_-]/.test(char) ? char : '_'))
+    .join('')
+  return cy.get(`#value_${sanitized}`)
+})
+
+// A listing row's kebab menu items aren't in the DOM until the menu is opened, so open
+// it first before targeting one of its actions. Pass the action's own testId to make
+// this self-healing: some listings (e.g. KM editors) close any open menu as soon as
+// they reload (right after an update/cancel-migration request lands), which can race
+// an already-open menu shut before the next command runs - retried here instead of
+// leaving the test to time out against a menu that's already gone.
+//
+// force: true on the trigger click - confirmed manually in a real browser that an
+// Outdated row's kebab (the only state with a second interactive element, the "update
+// available" badge, on the same row) opens and stays open fine, but under Cypress it
+// opens then immediately closes. That's consistent with Cypress's own actionability
+// check re-verifying the trigger isn't detached before clicking, and retrying with a
+// second real click if that row re-renders at the wrong moment - the second click
+// landing as a toggle-close right after the first one opened it. force skips that
+// check instead of risking a double click.
+// The trigger's own click handler toggles the menu open/closed - clicking on every
+// retry attempt regardless of current state is wrong: if an earlier click did open it and this just hasn't re-rendered
+// yet, the next retry's click toggles it straight back closed. Checking "is it
+// already open" before every click (not just the first) avoids that - a retry
+// only ever clicks a menu it just confirmed is still closed.
+Cypress.Commands.add('openListingItemActions', (id, actionTestId) => {
+  if (!actionTestId) {
+    return cy.get(`#listing-item-actions-${id}-trigger`).click({ force: true })
+  }
+
+  function attempt(attemptsLeft) {
+    cy.get('body').then(($body) => {
+      if ($body.find(`[data-cy="${actionTestId}"]`).length > 0) {
+        return
+      }
+
+      cy.get(`#listing-item-actions-${id}-trigger`).click({ force: true })
+
+      if (attemptsLeft > 1) {
+        cy.wait(250)
+        cy.get('body').then(($body2) => {
+          if ($body2.find(`[data-cy="${actionTestId}"]`).length === 0) {
+            attempt(attemptsLeft - 1)
+          }
+        })
+      }
     })
+  }
+
+  attempt(15)
+  return cy.getCy(actionTestId)
+})
+
+// Opens a Listing toolbar's own sort menu ("listing_toolbar_sort" - Common.
+// Components.Listing.viewSort). Same Menu component, same flaky-open issue as
+// openListingItemActions above - checked the same way, for the same reason.
+Cypress.Commands.add('openSortMenu', () => {
+  function attempt(attemptsLeft) {
+    cy.get('body').then(($body) => {
+      if ($body.find('[data-cy^="listing_toolbar_sort_"]').length > 0) {
+        return
+      }
+
+      cy.getCy('listing_toolbar_sort').click({ force: true })
+
+      if (attemptsLeft > 1) {
+        cy.wait(250)
+        cy.get('body').then(($body2) => {
+          if ($body2.find('[data-cy^="listing_toolbar_sort_"]').length === 0) {
+            attempt(attemptsLeft - 1)
+          }
+        })
+      }
+    })
+  }
+
+  attempt(15)
+})
+
+// POST /tokens, shared by loginAs and apiToken. "role" is either a cypress config
+// env.users key (a seeded persona) or a plain { email, password } object.
+const fetchToken = (role) => {
+  const credentials = typeof role === 'string'
+    ? cy.env(['users']).then(({ users }) => users[role])
+    : cy.wrap(role)
+  return credentials.then(({ email, password }) => {
+    return cy.request({
+      method: 'POST',
+      url: `${Cypress.expose('apiUrl')}/tokens`,
+      body: { email, password }
+    })
+  }).then(({ body }) => {
+    if (body.type !== 'UserToken') {
+      throw new Error(`Logging in as "${JSON.stringify(role)}" got "${body.type}", not a token (2FA/consent/activation pending?)`)
+    }
+    return body
+  })
 }
 
-const createSession = (token, user, expiresAt = null) => {
-    expiresAt = expiresAt || new Date(Date.now() + 14000 * 86400)
-    window.localStorage.setItem('session/app', JSON.stringify({
-        apiUrl: apiUrl(''),
-        fullscreen: false,
-        sidebarCollapsed: false,
-        rightPanelCollapsed: true,
-        token: { token, expiresAt },
-        v9: true
-    }))
-}
-
-// Authentication commands
-
-Cypress.Commands.add('loginAs', (role, expiresAt = null) => {
-    getTokenFor(role).then((resp) => login(resp, expiresAt))
+// A bearer token for direct cy.request() calls, as opposed to loginAs below.
+Cypress.Commands.add('apiToken', (role = 'admin') => {
+  return fetchToken(role).then((token) => token.token)
 })
 
-Cypress.Commands.add('loginWith', (email, password) => {
-    getTokenWith(email, password).then(login)
-})
-
-Cypress.Commands.add('logout', () => {
-    window.localStorage.removeItem('session/app')
-    cy.visitApp('/')
-})
-
-
-// Navigation commands
-
-Cypress.Commands.add('visitApp', (url) => {
-    cy.visit(`${Cypress.env('url')}${url}`)
-    // .Loading__Loader is the static loader from index.html, .page-loader is the one
-    // rendered by the app while a page is loading its data
-    cy.get('.Loading__Loader').should('not.exist')
-    cy.get('.page-loader').should('not.exist')
-})
-
-Cypress.Commands.add('clickLink', (label) => {
-    cy.get('a').contains(label).click()
-})
-
-Cypress.Commands.add('clickBtn', (label, force = false) => {
-    const button = force ? cy.get('.btn') : cy.get('.btn').filter(':visible')
-    button.contains(label).click()
-})
-
-Cypress.Commands.add('submitForm', () => {
-    cy.getCy('form_submit').click()
-})
-
-// Modals
-
-Cypress.Commands.add('clickModalAction', () => {
-    cy.getCy('modal_action-button').filter(':visible').click()
-})
-
-Cypress.Commands.add('clickModalCancel', () => {
-    cy.getCy('modal_cancel-button').filter(':visible').click()
-})
-
-Cypress.Commands.add('expectModalOpen', (modal, open = true) => {
-    cy.getCy(`modal_${modal}`).should(open ? 'be.visible' : 'not.be.visible')
-})
-
-
-// Messages
-
-Cypress.Commands.add('expectSuccessFlashMessage', () => {
-    cy.getCy('flash_alert-success').filter(':visible').should('exist')
-})
-
-Cypress.Commands.add('expectSuccessPageMessage', () => {
-    cy.getCy('message_success').filter(':visible').should('exist')
-})
-
-// Selection commands
-
-Cypress.Commands.add('getCy', (key, extra = '') => {
-    return cy.get(`${dataCy(key)}${extra}`)
-})
-
-
-// Users commands
-
-Cypress.Commands.add('createUser', (user) => {
-    getTokenFor('admin').then((resp) => {
-        cy.request({
-            method: 'POST',
-            url: apiUrl('/users'),
-            headers: createHeaders(resp.body.token),
-            body: user
-        })
-    })
-})
-
-
-// Knowledge Models commands
-
-Cypress.Commands.add('importKM', (km, cb = null) => {
-    getTokenFor('admin').then((resp) => {
-        cy.fixture(km).then(body => {
-            cy.request({
-                method: 'POST',
-                url: apiUrl('/knowledge-model-packages'),
-                headers: createHeaders(resp.body.token),
-                body
-            })
-                .then((resp) => {
-                    if (cb) {
-                        cb(resp.body.uuid)
-                    }
-                })
-        })
-    })
-})
-
-
-// Templates commands
-
-Cypress.Commands.add('removeTemplate', (documentTemplateId) => {
-    documentTemplates.getDocumentTemplateUuid(documentTemplateId).then((documentTemplateUuid) => {
-        if (!documentTemplateUuid) return
-
-        getTokenFor('admin').then((resp) => {
-            cy.task('document:delete', { document_template_uuid: documentTemplateUuid })
-            cy.task('project:delete', { document_template_uuid: documentTemplateUuid })
-
-            cy.request({
-                method: 'DELETE',
-                url: apiUrl(`/document-templates/${documentTemplateUuid}`),
-                headers: createHeaders(resp.body.token),
-                failOnStatusCode: false
-            })
-        })
-    })
-})
-
-
-Cypress.Commands.add('importTemplate', (templatePath) => {
-    getTokenFor('admin').then((resp) => {
-        cy.fixture(templatePath, 'binary')
-            .then((binary) => Cypress.Blob.binaryStringToBlob(binary))
-            .then((template) => {
-                return new Promise((resolve, reject) => {
-                    const data = new FormData()
-                    data.set('file', template)
-
-                    const xhr = new XMLHttpRequest()
-
-                    xhr.onload = () => {
-                        if (xhr.status >= 300) {
-                            reject({ request: xhr })
-                        } else {
-                            const json = JSON.parse(xhr.response)
-                            resolve(json.uuid)
-                        }
-                    }
-
-                    xhr.onerror = () => {
-                        reject({ request: xhr })
-                    }
-
-                    xhr.open('POST', apiUrl('/document-templates/bundle'))
-                    xhr.setRequestHeader('Authorization', `Bearer ${resp.body.token}`)
-                    xhr.send(data)
-                })
-            })
-    })
-})
-
-
-// Projects commands
-
-Cypress.Commands.add('createProject', ({ visibility, sharing, name, knowledgeModelPackageUuid, documentTemplateUuid }) => {
-    getTokenFor('researcher').then((resp) => {
-        cy.request({
-            method: 'POST',
-            url: apiUrl('/projects'),
-            headers: createHeaders(resp.body.token),
-            body: { visibility, sharing, name, knowledgeModelPackageUuid, documentTemplateUuid, questionTagUuids: [] }
-        })
-    })
-})
-
-Cypress.Commands.add('createProjects', (projects) => {
-    getTokenFor('researcher').then((resp) => {
-        projects.forEach(({ visibility, sharing, knowledgeModelPackageUuid, name }) => {
-            cy.request({
-                method: 'POST',
-                url: apiUrl('/projects'),
-                headers: createHeaders(resp.body.token),
-                body: { visibility, sharing, name, knowledgeModelPackageUuid, questionTagUuids: [] }
-            })
-        })
-    })
-})
-
-Cypress.Commands.add('updateProject', (projectUuid, data) => {
-    getTokenFor('researcher').then((resp) => {
-        cy.request({
-            method: 'PUT',
-            url: apiUrl(`/projects/${projectUuid}`),
-            headers: createHeaders(resp.body.token),
-            body: data
-        })
-    })
-})
-
-Cypress.Commands.add('updateProjectShare', (projectUuid, data) => {
-    getTokenFor('researcher').then((resp) => {
-        cy.request({
-            method: 'PUT',
-            url: apiUrl(`/projects/${projectUuid}/share`),
-            headers: createHeaders(resp.body.token),
-            body: data
-        })
-    })
-})
-
-Cypress.Commands.add('updateProjectContent', (projectUuid, data) => {
-    getTokenFor('researcher').then((resp) => {
-        cy.request({
-            method: 'PUT',
-            url: apiUrl(`/projects/${projectUuid}/content`),
-            headers: createHeaders(resp.body.token),
-            body: data
-        })
-    })
-})
-
-Cypress.Commands.add('clearCurrentProjectSidePanelLocalStorage', () => {
-    cy.url().then((url) => {
-        const projectUuid = url.match(/\/wizard\/projects\/(.*)/)[1]
-        cy.clearLocalStorage(`project-${projectUuid}-right-panel`)
-    })
-})
-
-
-// KM Editor commands
-
-Cypress.Commands.add('createKMEditor', ({ kmId, name, version, previousPackageUuid }) => {
-    getTokenFor('datasteward').then((resp) => {
-        cy.request({
-            method: 'POST',
-            url: apiUrl('/knowledge-model-editors'),
-            headers: createHeaders(resp.body.token),
-            body: { kmId, name, version, previousPackageUuid }
-        })
-    })
-})
-
-Cypress.Commands.add('deleteKMEditor', (kmId) => {
-    getTokenFor('datasteward').then((resp) => {
-        cy.request({
-            method: 'DELETE',
-            url: apiUrl(`/knowledge-model-editors/${kmId}`),
-            headers: createHeaders(resp.body.token)
-        })
-    })
-})
-
-Cypress.Commands.add('publishKMEditor', ({ editorUuid }) => {
-    getTokenFor('datasteward').then((resp) => {
-        cy.request({
-            method: 'POST',
-            url: apiUrl('/knowledge-model-packages/from-editor'),
-            headers: createHeaders(resp.body.token),
-            body: {
-                editorUuid
-            }
-        })
-    })
-})
-
-// Documents command
-
-Cypress.Commands.add('createDocuments', (documents) => {
-    getTokenFor('researcher').then((resp) => {
-        documents.forEach((body) => {
-            cy.request({
-                method: 'POST',
-                url: apiUrl('/documents'),
-                headers: createHeaders(resp.body.token),
-                body
-            })
-        })
-    })
-})
-
-
-// Listing commands
-
-Cypress.Commands.add('getListingItem', (identifier) => {
-    cy.getCy('listing_item').contains(identifier).closest(dataCy('listing_item'))
-})
-
-
-Cypress.Commands.add('clickListingItem', (identifier) => {
-    cy.getCy('listing_item').contains(identifier).closest(dataCy('listing_item')).find('.title a').click()
-})
-
-
-Cypress.Commands.add('clickListingItemAction', (identifier, action) => {
-    cy.getListingItem(identifier).find(dataCy(`listing-item_action_${action}`)).click({ force: true })
-})
-
-
-Cypress.Commands.add('expectListingItemAction', (identifier, action, shouldExist) => {
-    cy.getListingItem(identifier).find(dataCy(`listing-item_action_${action}`)).should(shouldExist ? 'exist' : 'not.exist')
-})
-
-
-Cypress.Commands.add('expectListingItemNotExist', (identifier) => {
-    cy.getCy('listing_list').contains(identifier).should('not.exist')
-})
-
-
-Cypress.Commands.add('expectEmptyListing', () => {
-    cy.getCy('illustrated-message_listing-empty').should('exist')
-})
-
-
-Cypress.Commands.add('expectError', () => {
-    cy.getCy('illustrated-message_error').should('exist')
-})
-
-
-Cypress.Commands.add('expectNotAllowed', () => {
-    cy.getCy('illustrated-message_not-allowed').should('exist')
-})
-
-
-// Detail commands
-
-Cypress.Commands.add('clickDropdownAction', (action) => {
-    cy.get('.detail-header-actions .dropdown-menu').find(dataCy(`listing-item_action_${action}`)).click({ force: true })
-})
-
-Cypress.Commands.add('expectDropdownAction', (action, shouldExist) => {
-    cy.get('.detail-header-actions .dropdown-menu').find(dataCy(`listing-item_action_${action}`)).should(shouldExist ? 'exist' : 'not.exist')
-})
-
-// Form commands
-
-Cypress.Commands.add('fillFields', (fields) => {
-    Object.entries(fields).forEach(([key, value]) => {
-        if (key.startsWith('s_')) {
-            key = key.replace(/^s_/, '')
-            cy.get(`#${key}`).select(value)
-        } else if (key.startsWith('th_')) {
-            key = key.replace(/^th_/, '')
-            cy.get(`#${key}`).click()
-            cy.get(`#${key}_search`).type(value)
-            cy.get(`#${key} .typehints ul li a`).contains(value).click()
-        } else if (key.startsWith('c_')) {
-            key = key.replace(/^c_/, '')
-            if (value) {
-                cy.get(`#${key}`).check()
-            } else {
-                cy.get(`#${key}`).uncheck()
-            }
-        } else if (key.startsWith('md_')) {
-            key = key.replace(/^md_/, '')
-
-            if (value.length > 0) {
-                cy.get(`#${key} [contenteditable]`).clear().type(value)
-            } else {
-                cy.get(`#${key} [contenteditable]`).clear()
-            }
-        } else {
-            if (value.length > 0) {
-                cy.get(`#${key}`).clear().type(value)
-            } else {
-                cy.get(`#${key}`).clear()
-            }
-        }
-    })
-})
-
-
-Cypress.Commands.add('clearTypeHintInput', (field) => {
-    cy.get(`#${field} .typehint-input-value a`).click()
-})
-
-
-Cypress.Commands.add('checkFields', (fields) => {
-    Object.entries(fields).forEach(([key, value]) => {
-        if (key.startsWith('md_')) {
-            const selector = `#${key.replace(/^md_/, '')} [contenteditable]`
-            cy.get(selector).should('have.text', value.replace('{{}', '{'))
-        } else {
-            key = key.replace(/^s_/, '')
-            cy.get(`#${key}`).should('have.value', value.replace('{{}', '{'))
-        }
-    })
-})
-
-
-Cypress.Commands.add('checkToggle', (field) => {
-    cy.wait(100)
-    cy.get(`#${field}`).check({ force: true })
-})
-
-Cypress.Commands.add('uncheckToggle', (field) => {
-    cy.wait(100)
-    cy.get(`#${field}`).uncheck({ force: true })
-})
-
-Cypress.Commands.add('expectToggleChecked', (field) => {
-    cy.get(`#${field}`).should('be.checked')
-})
-
-Cypress.Commands.add('expectToggleUnchecked', (field) => {
-    cy.get(`#${field}`).should('be.not.checked')
-})
-
-
-// Settings commands
-
-Cypress.Commands.add('putDefaultAppConfig', () => {
-    cy.task('tenantConfig:disable2FA')
-    getTokenFor('admin').then((resp) => {
-        cy.request({
-            method: 'GET',
-            url: apiUrl('/roles'),
-            headers: createHeaders(resp.body.token)
-
-        })
-        .then((rolesResp) => {
-            cy.fixture('default-app-config').then((config) => {
-                const roles = rolesResp.body._embedded.roles
-                const dataStewardRole = roles.find((role) => role.name === 'Data Steward')
-
-                config.authentication.defaultRoleUuid = dataStewardRole.uuid
-                
-                cy.request({
-                    method: 'PUT',
-                    url: apiUrl('/tenants/current/config'),
-                    headers: createHeaders(resp.body.token),
-                    body: config
-                })
-            })
-        })
-    })
-})
-
-
-// Custom expect commands
-
-Cypress.Commands.add('expectAlert', (type, text) => {
-    cy.get(`.alert-${type}`).should('contain', text)
-})
-
-
-// WebSockets
-
-Cypress.Commands.add('wsSend', (url, msg) => {
-    const ws = new WebSocket(apiUrl(url).replace('http', 'ws'))
-    ws.addEventListener('open', () => {
+// Pushes one raw websocket frame as if it came from another client, to prove a real,
+// already-open browser session reacts live - no second browser needed. Auth has to be
+// a query param, not a header: the browser WebSocket API can't set one on the upgrade
+// request. path must start with "/"; msg is the plain object to JSON-encode as the
+// frame sent.
+Cypress.Commands.add('wsSendAs', (role, path, msg) => {
+  return cy.apiToken(role).then((token) => {
+    const wsUrl = `${Cypress.expose('apiUrl').replace(/^http/, 'ws')}${path}?Authorization=${encodeURIComponent(`Bearer ${token}`)}`
+    return new Cypress.Promise((resolve, reject) => {
+      const ws = new WebSocket(wsUrl)
+      ws.addEventListener('open', () => {
         ws.send(JSON.stringify(msg))
         ws.close()
+        resolve()
+      })
+      ws.addEventListener('error', () => reject(new Error(`wsSendAs: WebSocket error connecting to ${path}`)))
     })
+  })
 })
 
-Cypress.Commands.add('wsSendAs', (role, url, msg) => {
-    getTokenFor(role).then((resp) => {
-        const token = resp.body.token
-        const authParam = `Authorization=Bearer%20${token}`
-        const wsUrl = `${apiUrl(url).replace('http', 'ws')}?${authParam}`
-        const ws = new WebSocket(wsUrl)
-
-        ws.addEventListener('open', () => {
-            ws.send(JSON.stringify(msg))
-            ws.close()
-        })
-    })
+// Logs in via the API and injects the session directly into localStorage, bypassing
+// the login form. Must run before any cy.visit - the app only reads this key at boot.
+Cypress.Commands.add('loginAs', (role) => {
+  return fetchToken(role).then((token) => {
+    window.localStorage.setItem('session', JSON.stringify({
+      token: { token: token.token, expiresAt: token.expiresAt },
+      sidebarCollapsed: false,
+      rightPanelCollapsed: true,
+      fullscreen: false,
+      apiUrl: Cypress.expose('apiUrl')
+    }))
+  })
 })
 
-
-// Cache
-
-Cypress.Commands.add('clearServerCache', () => {
-    cy.task('user:addPermission', { perm: 'DevUseRolePermission', email: Cypress.env('admin_username') })
-
-    getTokenFor('admin').then((resp) => {
-        cy.request({
-            method: 'POST',
-            url: apiUrl('/dev-operations/executions'),
-            headers: createHeaders(resp.body.token),
-            body: { 'sectionName': 'Cache', 'operationName': 'Purge All Caches', 'parameters': [] }
-        })
-    })
+// loginAs's counterpart: drops the browser session for specs that need a logged-out
+// browser as setup. For testing logout itself, see changePassword.js, which drives the
+// real menu instead. Like loginAs, must run before the next cy.visit.
+Cypress.Commands.add('logout', () => {
+  window.localStorage.removeItem('session')
 })
 
+// Creates a plain user with a known password through POST /users (an admin-created
+// user is active immediately, no email-confirmation gate), with the tenant's default
+// role. Resolves to { uuid, email, password, firstName, lastName } - pass straight to
+// cy.loginAs(user).
+Cypress.Commands.add('createUser', ({ email, password, firstName = 'E2E', lastName = 'Test User' }) => {
+  return cy.apiToken().then((token) => {
+    return cy.request({
+      method: 'GET',
+      url: `${Cypress.expose('apiUrl')}/settings/roles`,
+      headers: { Authorization: `Bearer ${token}` }
+    }).then(({ body: settings }) => {
+      return cy.request({
+        method: 'POST',
+        url: `${Cypress.expose('apiUrl')}/users`,
+        headers: { Authorization: `Bearer ${token}` },
+        body: {
+          email,
+          firstName,
+          lastName,
+          affiliation: null,
+          roleUuid: settings.value.defaultRoleUuid,
+          password
+        }
+      }).then(({ body: user }) => ({ uuid: user.uuid, email, password, firstName, lastName }))
+    })
+  })
+})
 
-// Utils
+// Visits a page of the client - path must start with "/".
+Cypress.Commands.add('visitApp', (path) => {
+  cy.visit(`${Cypress.expose('clientUrl')}${path}`)
+})
 
-Cypress.Commands.add('clickElsewhere', () => {
-    cy.get('body').click(0, 0)
+// Sets the permissions of the "Permission Probe" role (dsw/scripts/create-users.js)
+// through PUT /roles/:uuid, which fully replaces the permission list rather than
+// merging it - pass a one-element array to isolate a single permission's effect, or []
+// to go back to none.
+Cypress.Commands.add('setPermissionProbePermissions', (permissions) => {
+  return cy.apiToken().then((token) => {
+    return cy.request({
+      method: 'GET',
+      url: `${Cypress.expose('apiUrl')}/roles?q=${encodeURIComponent('Permission Probe')}`,
+      headers: { Authorization: `Bearer ${token}` }
+    }).then(({ body }) => {
+      const role = body._embedded.roles.find((role) => role.name === 'Permission Probe')
+      if (!role) {
+        throw new Error('setPermissionProbePermissions: "Permission Probe" role not found - did create-users.js provision it?')
+      }
+      return cy.request({
+        method: 'PUT',
+        url: `${Cypress.expose('apiUrl')}/roles/${role.uuid}`,
+        headers: { Authorization: `Bearer ${token}` },
+        body: { name: role.name, permissions }
+      })
+    })
+  })
+})
+
+// Imports a KM bundle fixture as a prerequisite for specs that need an existing
+// knowledge model. Resolves to the created package's data (has .uuid).
+Cypress.Commands.add('importKM', (fixturePath) => {
+  return cy.fixture(fixturePath).then((body) => {
+    return cy.apiToken().then((token) => {
+      return cy.request({
+        method: 'POST',
+        url: `${Cypress.expose('apiUrl')}/knowledge-model-packages`,
+        headers: { Authorization: `Bearer ${token}` },
+        body
+      }).then((response) => response.body)
+    })
+  })
+})
+
+// Deletes a KM package by its own fixed id (DB-level). For specs that import a
+// fixed-id fixture, call this in beforeEach to avoid colliding with a previous run.
+Cypress.Commands.add('cleanupKnowledgeModelPackage', (id) => {
+  return cy.task('knowledgeModelPackage:delete', { tenantId: Cypress.expose('tenantId'), id })
+})
+
+// Wipes every KM package, not just a fixed-id fixture. Call at the start of a Knowledge
+// Models listing spec, so a package an earlier failed run left behind can't push that
+// spec's own fresh row off the listing's first page.
+Cypress.Commands.add('cleanupAllKnowledgeModelPackages', () => {
+  return cy.task('knowledgeModelPackage:deleteAll', { tenantId: Cypress.expose('tenantId') })
+})
+
+// Wipes every KM editor and every KM package the KM Migration specs themselves create
+// (id prefix "km-"), regardless of whether the test that created them passed or
+// failed. Call from an after() hook in those specs - a mid-test failure otherwise
+// leaves orphaned editors/packages behind, which corrupts later runs.
+Cypress.Commands.add('cleanupKmMigrationTestData', () => {
+  return cy.task('knowledgeModel:deleteMigrationTestData', { tenantId: Cypress.expose('tenantId') })
+})
+
+// Deletes a document template by its own fixed id (DB-level, like
+// cleanupKnowledgeModelPackage) - call before (re-)importing a fixed-id fixture.
+Cypress.Commands.add('cleanupDocumentTemplate', (id) => {
+  return cy.task('documentTemplate:delete', { tenantId: Cypress.expose('tenantId'), id })
+})
+
+// Wipes every document template, not just a fixed-id fixture - same reasoning as
+// cleanupAllKnowledgeModelPackages above.
+Cypress.Commands.add('cleanupAllDocumentTemplates', () => {
+  return cy.task('documentTemplate:deleteAll', { tenantId: Cypress.expose('tenantId') })
+})
+
+// Imports a document template bundle fixture (templates/<fixturePath>.zip). Document
+// templates have no raw-JSON create route, only the multipart bundle upload, which
+// cy.request() can't send - so this builds a real FormData/Blob and posts it via a raw
+// XMLHttpRequest instead. Resolves to the created template's data (has .uuid).
+Cypress.Commands.add('importTemplate', (fixturePath) => {
+  return cy.apiToken().then((token) => {
+    return cy.fixture(fixturePath, 'binary').then((binary) => {
+      const blob = Cypress.Blob.binaryStringToBlob(binary, 'application/zip')
+
+      return new Cypress.Promise((resolve, reject) => {
+        const data = new FormData()
+        data.set('file', blob, fixturePath.split('/').pop())
+
+        const xhr = new XMLHttpRequest()
+        xhr.onload = () => {
+          if (xhr.status >= 300) {
+            reject(new Error(`importTemplate: upload of "${fixturePath}" failed with status ${xhr.status}: ${xhr.responseText}`))
+          } else {
+            resolve(JSON.parse(xhr.response))
+          }
+        }
+        xhr.onerror = () => reject(new Error(`importTemplate: upload of "${fixturePath}" failed`))
+        xhr.open('POST', `${Cypress.expose('apiUrl')}/document-templates/bundle`)
+        xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+        xhr.send(data)
+      })
+    })
+  })
 })

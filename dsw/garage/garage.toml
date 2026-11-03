@@ -13,6 +13,3 @@ s3_region = "eu-central-1"
 api_bind_addr = "[::]:3900"
 root_domain = ".s3.garage.localhost"
 
-[admin]
-api_bind_addr = "[::]:3903"
-admin_token = "dsw-e2e-tests-admin-token"

@@ -1,7 +1,7 @@
 general:
   environment: Production
   serverPort: 3000
-  clientUrl: http://localhost:8080/wizard
+  clientUrl: http://localhost:8080
   secret: ab012345678901234567890123456789
   rsaPrivateKey: |
     -----BEGIN RSA PRIVATE KEY-----
@@ -58,10 +58,6 @@ general:
 
 
 database:
-  databaseName: dsw
-  authEnabled: true
-  username: postgres
-  password: postgres
   connectionString: postgresql://postgres:postgres@postgres:5432/dsw
 
 s3:
@@ -71,25 +67,11 @@ s3:
   bucket: dsw
   region: eu-central-1
 
-mail:
+multiTenancy:
   enabled: false
-  name:
-  email:
-  host:
-  port:
-  ssl:
-  username:
-  password:
 
-cloud:
-  enabled: false
-  domain: example.com
-  publicRegistrationEnabled: true
-
-plan:
-  recomputeJob:
-    enabled: false
-    cron: '* * * * *'
+logging:
+  level: INFO
 
 httpClient:
   restricted:
