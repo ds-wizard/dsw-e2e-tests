@@ -1,7 +1,17 @@
-version: '3'
 services:
 
-  dsw_server:
+  # The browser-facing entry point: the client at / and the server's API at /api, on one
+  # origin (http://localhost:8080), so the client's own API calls are never cross-origin.
+  proxy:
+    build: ./proxy
+    restart: always
+    ports:
+      - 8080:80
+    depends_on:
+      - server
+      - client
+
+  server:
     image: {SERVER_IMAGE}
     restart: always
     ports:
@@ -13,19 +23,16 @@ services:
       - garage
       - postgres
 
-  dsw_client:
+  # No API_URL: the client defaults to <its own origin>/api, which the proxy serves.
+  client:
     image: {CLIENT_IMAGE}
     restart: always
-    ports:
-      - 8080:8080
-    environment:
-      API_URL: http://localhost:3000/wizard-api
 
-  docworker:
-    image: {DOCWORKER_IMAGE}
+  document-worker:
+    image: {DOCUMENT_WORKER_IMAGE}
     restart: always
     volumes:
-      - ./docworker/config.yml:/app/config/application.yml:ro
+      - ./document-worker/config.yml:/app/config/application.yml:ro
     depends_on:
       - garage
       - postgres
@@ -41,7 +48,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: dsw
     volumes:
-      - ./scripts/patch-db-wizard.sql:/scripts/patch-db-wizard.sql:ro
+      - ./scripts/patch-db.sql:/scripts/patch-db.sql:ro
 
   garage:
     image: dxflrs/garage:v2.4.1
@@ -49,13 +56,11 @@ services:
     restart: always
     ports:
       - 3900:3900
-      - 3903:3903
     volumes:
       - ./garage/garage.toml:/etc/garage.toml:ro
 
+  # Fixed /search dataset for the KM editor's integration test call and the
+  # questionnaire's type hints (server.httpClient.restricted.allowedHosts allows it).
   mockserver:
-    image: jordimartin/mmock
-    command:
-      - -server-statistics=false
-    volumes:
-      - ./mockserver:/config
+    build: ./mockserver
+    restart: always

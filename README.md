@@ -1,54 +1,84 @@
 # DSW E2E Tests
 
-E2E test suite for testing the functionality of [DSW Client](https://github.com/DataStewardshipWizard/dsw-client)
-and [DSW Server](https://github.com/DataStewardshipWizard/dsw-server) based on
+E2E test suite for testing the functionality of the Data Stewardship Wizard
+([Wizard Server](https://github.com/ds-wizard/wizard-server),
+[Engine Frontend](https://github.com/ds-wizard/engine-frontend) and
+[Document Worker](https://github.com/ds-wizard/engine-tools)) based on
 [Cypress](https://github.com/cypress-io/cypress).
 
 ## How to run the tests
 
-The project requires recent version of node and npm. Then all the dependencies can be installed with:
+The project requires a recent version of node and npm. Then all the dependencies can be installed with:
 
 ```
 make install
 ```
 
-The tests are run against local instance of DSW which is created
-using docker-compose. To simply create instance of dsw, run tests and then clean it, run:
+Add the following host to `/etc/hosts` (downloads are presigned URLs pointing directly to the
+object storage container):
+
+```
+127.0.0.1	garage
+```
+
+The tests are run against a local instance of DSW created using docker compose. To create the
+instance, run the tests and then remove it, run:
 
 ```
 make all
 ```
 
-If you are developing the tests or running them locally, you can use Cypress
-App to watch and debug the tests. Open the app with:
+Or step by step:
+
+```
+make init     # generates dsw/docker-compose.yml and the template fixtures
+make start    # starts the stack and provisions the test users
+make run      # runs the whole suite
+make stop
+```
+
+If you are developing the tests or running them locally, you can use the Cypress App to watch and
+debug the tests. Open the app with:
 
 ```
 make open
 ```
 
-## Configuration
+## The stack
 
-There are several properties to configure the tests. By default, it runs
-against the local local instance. However, this can be changed. You can see
-env configuration in `cypress.json`. If you want to overwrite some or all of
-the variables, create a new file called `cypress.env.json` (which is ignored
-in git) and change the desired values. The file might look like this:
+| Service           | Image (default)                              | Notes                                           |
+|-------------------|----------------------------------------------|-------------------------------------------------|
+| `proxy`           | built from `dsw/proxy`                       | http://localhost:8080 - the client at `/`, the API at `/api` |
+| `server`          | `ghcr.io/ds-wizard/wizard-server:main`   | config in `dsw/server`, also on port 3000       |
+| `client`          | `ghcr.io/ds-wizard/wizard-client:main`   |                                                 |
+| `document-worker` | `ghcr.io/ds-wizard/document-worker:main`     | config in `dsw/document-worker`                 |
+| `postgres`        |                                              | database `dsw`, port 5432                       |
+| `garage`          |                                              | S3 storage, port 3900                           |
+| `mockserver`      | built from `dsw/mockserver`                  | fixed `/search` dataset for integrations        |
+
+The images can be changed with the `SERVER_IMAGE`, `CLIENT_IMAGE` and `DOCUMENT_WORKER_IMAGE`
+environment variables before `make init`, e.g.:
 
 ```
-{
-    "url": "http://localhost:8080",
-    "api_url": "http://localhost:3000",
-    "admin_username": "albert.einstein@example.com",
-    "admin_password": "password",
-    "datasteward_username": "nikola.tesla@example.com",
-    "datasteward_password": "password",
-    "researcher_username": "isaac.newton@example.com",
-    "researcher_password": "password"
-}
+SERVER_IMAGE=datastewardshipwizard/wizard-server:4.35 make init
 ```
+
+`make start` waits for the server, creates the bucket, patches the database
+(`dsw/scripts/patch-db.sql` - local URLs, tours off) and provisions the test users
+(`dsw/scripts/create-users.js`).
+
+## Users
+
+| Persona           | Email                          | Password          | Role                         |
+|-------------------|--------------------------------|-------------------|------------------------------|
+| `admin`           | `albert.einstein@example.com`  | `password`        | Admin                        |
+| `dataSteward`     | `nikola.tesla@example.com`     | `password`        | Data Steward                 |
+| `researcher`      | `isaac.newton@example.com`     | `password`        | Researcher                   |
+| `permissionProbe` | `permission.probe@example.com` | `nE1RloidlOsOqOt` | Permission Probe (no permissions by default) |
+
+The first three are seeded by the server itself, `create-users.js` only sets their roles'
+permissions and adds the Permission Probe persona.
 
 ## How to write tests
 
-- Ue `data-cy` attribute for targeting elements, `id` is acceptable for form fields.
-- Every container that loads content from API should have `data-cy`. This should be tested to exist before testing the content.
-- Use `.contains` only for values filled from the test or test fixtures.
+See [cypress/README.md](cypress/README.md) for the layout of the suite and the selector conventions.

@@ -1,9 +1,0 @@
----
-  request:
-    method: GET
-    path: /redirect
-  response:
-    statusCode: 302
-    headers:
-      Location:
-      - /basic1

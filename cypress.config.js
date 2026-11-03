@@ -1,42 +1,66 @@
 const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
+  // Cypress.env() would hand every "env" value (passwords included) to the browser,
+  // including the app's own window. Secrets stay in "env" and are read with
+  // cy.env([...]) from support/spec code, plain configuration goes to "expose" and is
+  // read with Cypress.expose().
+  allowCypressEnv: false,
   env: {
-    url: 'http://localhost:8080/wizard',
-    api_url: 'http://localhost:3000/wizard-api',
-    admin_username: 'albert.einstein@example.com',
-    admin_password: 'password',
-    datasteward_username: 'nikola.tesla@example.com',
-    datasteward_password: 'password',
-    researcher_username: 'isaac.newton@example.com',
-    researcher_password: 'password',
-    mongoUrl: 'mongodb://localhost:27017',
-    mongoDBName: 'dsw-server-test',
-    pgUser: 'postgres',
-    pgHost: 'localhost',
-    pgDatabase: 'dsw',
-    pgPassword: 'postgres',
-    pgPort: 5432,
+    // Keep in sync with dsw/scripts/create-users.js. admin is for provisioning, specs
+    // log in as the least capable persona that can do what they test.
+    users: {
+      admin: {
+        email: 'albert.einstein@example.com',
+        password: 'password'
+      },
+      dataSteward: {
+        email: 'nikola.tesla@example.com',
+        password: 'password'
+      },
+      researcher: {
+        email: 'isaac.newton@example.com',
+        password: 'password'
+      },
+      permissionProbe: {
+        email: 'permission.probe@example.com',
+        password: 'nE1RloidlOsOqOt'
+      }
+    },
+
+    // Node-side only (cypress/plugin/database.js).
+    db: {
+      host: 'localhost',
+      port: 5432,
+      user: 'postgres',
+      password: 'postgres',
+      database: 'dsw'
+    }
   },
-  screenshotsFolder: 'output/screenshots',
-  videosFolder: 'output/videos',
+  expose: {
+    // The literal tenant_id of the default tenant the server seeds.
+    tenantId: 'default',
+    clientUrl: 'http://localhost:8080',
+    // Same origin as the client (dsw/proxy), the way a real deployment serves it.
+    apiUrl: 'http://localhost:8080/api',
+  },
   numTestsKeptInMemory: 1,
   experimentalMemoryManagement: true,
-  defaultCommandTimeout: 10000,
-  viewportWidth: 1280,
-  viewportHeight: 800,
-  projectId: 'dx9eqg',
-  retries: {
-    openMode: 0,
-    runMode: 3,
-  },
+  viewportWidth: 1440,
+  viewportHeight: 900,
+  screenshotsFolder: 'output/screenshots',
+  videosFolder: 'output/videos',
   e2e: {
-    // We've imported your old cypress plugins here.
-    // You may want to clean this up later by importing these.
     setupNodeEvents(on, config) {
-      return require('./cypress/plugins/index.js')(on, config)
+      require('./cypress/plugin/database')(on, config)
+      // Splits the spec list across the SPLIT/SPLIT_INDEX env vars (the CI shard
+      // matrix), a no-op when SPLIT isn't set.
+      require('cypress-split')(on, config)
+      return config
     },
-    specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',
+    defaultCommandTimeout: 10000,
+    experimentalRunAllSpecs: true,
+    // .cy. so the shared test-core modules in cypress/e2e/shared/ aren't run as specs.
+    specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
   },
-  chromeWebSecurity: false
 })

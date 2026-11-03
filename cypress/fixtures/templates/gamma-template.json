@@ -1,0 +1,14 @@
+{
+    "id": "test.gamma-template",
+    "name": "Gamma Template",
+    "version": "1.0.0",
+    "metamodelVersion": "19.0",
+    "description": "A minimal, metadata-only fixture for the E2E suite - no files/formats/assets, since nothing here tests rendering.",
+    "readme": "# Gamma Template\n\nA minimal, metadata-only fixture for the E2E suite.",
+    "license": "Apache-2.0",
+    "allowedPackages": [],
+    "formats": [],
+    "files": [],
+    "assets": [],
+    "createdAt": "2021-01-01T00:00:00.000Z"
+}

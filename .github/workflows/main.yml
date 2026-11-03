@@ -12,30 +12,28 @@ on:
       client_image:
         description: 'Wizard Client image'
         required: false
-        default: 'ghcr.io/ds-wizard/wizard-client:develop'
-      docworker_image:
+        default: 'ghcr.io/ds-wizard/wizard-client:main'
+      document_worker_image:
         description: 'Document Worker image'
         required: false
         default: 'ghcr.io/ds-wizard/document-worker:main'
 
 jobs:
   dsw-e2e:
-    name: Run DSW E2E Tests
+    name: Run DSW E2E Tests (shard ${{ matrix.shard }})
     runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
+      # Each shard is its own job with its own stack, running its own slice of the spec
+      # list (cypress-split, see cypress.config.js). shard is 0-based to match
+      # SPLIT_INDEX, keep SPLIT below in sync with the number of shards.
       matrix:
-        containers: [1, 2, 3, 4]
+        shard: [0, 1, 2, 3]
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v7
-
-    - name: Setup Chrome
-      uses: browser-actions/setup-chrome@v2
-      with:
-        chrome-version: 139
 
     - name: Set variables from repository dispatch
       if: github.event_name == 'repository_dispatch'
@@ -43,7 +41,7 @@ jobs:
       with:
         SERVER_IMAGE: ${{ github.event.client_payload.server_image }}
         CLIENT_IMAGE: ${{ github.event.client_payload.client_image }}
-        DOCWORKER_IMAGE: ${{ github.event.client_payload.docworker_image }}
+        DOCUMENT_WORKER_IMAGE: ${{ github.event.client_payload.document_worker_image }}
 
     - name: Set variables from workflow dispatch
       if: github.event_name == 'workflow_dispatch'
@@ -51,8 +49,9 @@ jobs:
       with:
         SERVER_IMAGE: ${{ github.event.inputs.server_image }}
         CLIENT_IMAGE: ${{ github.event.inputs.client_image }}
-        DOCWORKER_IMAGE: ${{ github.event.inputs.docworker_image }}
+        DOCUMENT_WORKER_IMAGE: ${{ github.event.inputs.document_worker_image }}
 
+    # Downloads are presigned URLs pointing to the garage container directly.
     - name: Set etc/hosts
       run: |
         echo "127.0.0.1	garage" | sudo tee -a /etc/hosts
@@ -72,25 +71,64 @@ jobs:
       run: |
         make start
 
-    - name: Run Cypress
+    - name: Run Cypress (shard ${{ matrix.shard }})
       uses: cypress-io/github-action@v7
-      if: env.CYPRESS_RECORD_KEY != ''
       with:
-        browser: chrome-for-testing
+        install: false
         headed: false
-        record: true
-        parallel: true
-        group: 'DSW E2E Test @ GitHub Actions'
       env:
-        CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SPLIT: 4
+        SPLIT_INDEX: ${{ matrix.shard }}
+        # Committed timings baseline - cypress-split balances the shards by spec
+        # duration when it exists and falls back to a count-based split when it doesn't.
+        SPLIT_FILE: cypress/timings/timings.json
+        # This shard's own measured durations, uploaded below and merged by the
+        # merge-timings job.
+        SPLIT_OUTPUT_FILE: cypress/timings/timings-shard-${{ matrix.shard }}.json
 
-    - name: Run Cypress (no record)
-      uses: cypress-io/github-action@v7
-      if: env.CYPRESS_RECORD_KEY == ''
+    - name: Upload screenshots
+      if: failure()
+      uses: actions/upload-artifact@v6
       with:
-        browser: chrome-for-testing
-        headed: false
-      env:
-        CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        name: screenshots-${{ matrix.shard }}
+        path: output/screenshots
+        if-no-files-found: ignore
+
+    - name: Upload spec timings
+      if: always()
+      uses: actions/upload-artifact@v6
+      with:
+        name: timings-${{ matrix.shard }}
+        path: cypress/timings/timings-shard-${{ matrix.shard }}.json
+        if-no-files-found: ignore
+
+  # Combines every shard's timings into one file, downloadable from the run's Summary
+  # page as "merged-timings". Not committed automatically - commit it as
+  # cypress/timings/timings.json whenever the shards are worth rebalancing.
+  merge-timings:
+    name: Merge spec timings
+    needs: dsw-e2e
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+    - uses: actions/checkout@v7
+
+    - uses: actions/setup-node@v7
+      with:
+        node-version: 24
+
+    - run: npm ci
+
+    - uses: actions/download-artifact@v7
+      with:
+        pattern: timings-*
+        path: downloaded-timings
+      continue-on-error: true
+
+    - name: Merge timings
+      run: npx cypress-split-merge --parent-folder downloaded-timings --split-file 'timings-shard-*.json' --output timings.json
+
+    - uses: actions/upload-artifact@v6
+      with:
+        name: merged-timings
+        path: timings.json
