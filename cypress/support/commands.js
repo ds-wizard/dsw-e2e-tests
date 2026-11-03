@@ -330,35 +330,3 @@ Cypress.Commands.add('importTemplate', (fixturePath) => {
     })
   })
 })
-
-// Wipes every project in the tenant.
-Cypress.Commands.add('cleanupAllProjects', () => {
-  return cy.task('project:deleteAll', { tenantId: Cypress.expose('tenantId') })
-})
-
-// Wipes every user in the tenant except the fixed personas this suite's own logins
-// rely on (config env.users) and the system user.
-Cypress.Commands.add('cleanupAllUsers', () => {
-  return cy.env(['users']).then(({ users }) => {
-    const excludeEmails = [...Object.values(users).map((user) => user.email), 'system@example.com']
-    return cy.task('user:deleteAll', { tenantId: Cypress.expose('tenantId'), excludeEmails })
-  })
-})
-
-// Wipes every user group in the tenant.
-Cypress.Commands.add('cleanupAllUserGroups', () => {
-  return cy.task('userGroup:deleteAll', { tenantId: Cypress.expose('tenantId') })
-})
-
-// Creates a user group directly via the API (POST /user-groups). Resolves to the
-// created group's data (has .uuid).
-Cypress.Commands.add('createUserGroup', ({ name, description = null, private: isPrivate = false }) => {
-  return cy.apiToken().then((token) => {
-    return cy.request({
-      method: 'POST',
-      url: `${Cypress.expose('apiUrl')}/user-groups`,
-      headers: { Authorization: `Bearer ${token}` },
-      body: { name, description, private: isPrivate }
-    }).then((response) => response.body)
-  })
-})

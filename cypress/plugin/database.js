@@ -118,26 +118,6 @@ module.exports = (on, config) => {
     return true
   }
 
-  async function projectDeleteAll({ tenantId }) {
-    await pg.query(`DELETE FROM project WHERE tenant_uuid = '${await tenantUuid(tenantId)}'`)
-    return true
-  }
-
-  // Wipes every user in the tenant except the fixed personas every spec's own login
-  // relies on. The real table is user_entity, not "user".
-  async function userDeleteAll({ tenantId, excludeEmails }) {
-    await pg.query(`
-      DELETE FROM user_entity
-      WHERE tenant_uuid = '${await tenantUuid(tenantId)}' AND email NOT IN ('${excludeEmails.join("', '")}')
-    `)
-    return true
-  }
-
-  async function userGroupDeleteAll({ tenantId }) {
-    await pg.query(`DELETE FROM user_group WHERE tenant_uuid = '${await tenantUuid(tenantId)}'`)
-    return true
-  }
-
   // Wipes every KM editor, plus every KM package whose id starts with "km-" (the fixed
   // prefix every KM Migration spec's own generated package ids use). Editors are
   // deleted first: a package's own ON DELETE CASCADE removes any editor forked from it,
@@ -159,9 +139,6 @@ module.exports = (on, config) => {
     'knowledgeModelPackage:deleteAll': knowledgeModelPackageDeleteAll,
     'documentTemplate:delete': documentTemplateDelete,
     'documentTemplate:deleteAll': documentTemplateDeleteAll,
-    'project:deleteAll': projectDeleteAll,
-    'user:deleteAll': userDeleteAll,
-    'userGroup:deleteAll': userGroupDeleteAll,
     'knowledgeModel:deleteMigrationTestData': knowledgeModelMigrationTestDataDeleteAll,
   })
 }

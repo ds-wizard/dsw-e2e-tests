@@ -18,7 +18,6 @@ services:
       - 3000:3000
     volumes:
       - ./server/application.yml:/app/config/application.yml:ro
-      - ./server/integration.yml:/app/config/integration.yml:ro
     depends_on:
       - garage
       - postgres
