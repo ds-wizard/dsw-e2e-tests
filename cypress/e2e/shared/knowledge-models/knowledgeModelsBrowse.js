@@ -70,7 +70,7 @@ function assertSortedBy(ascendingUuids) {
 export function searchKnowledgeModelsLibrary({ alpha, beta, gamma }) {
   cy.visitApp('/knowledge-models')
 
-  cy.get('#listing-search').type('Beta')
+  cy.searchListing('Beta')
   cy.getCy(`listing-item_${beta.uuid}`).should('exist')
   cy.getCy(`listing-item_${alpha.uuid}`).should('not.exist')
   cy.getCy(`listing-item_${gamma.uuid}`).should('not.exist')

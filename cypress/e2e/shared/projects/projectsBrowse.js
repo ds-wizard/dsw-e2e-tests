@@ -138,7 +138,7 @@ function assertSortedBy(ascendingUuids) {
 export function searchProjectsListing({ alpha, beta, gamma }) {
   cy.visitApp('/projects')
 
-  cy.get('#listing-search').type('Beta')
+  cy.searchListing('Beta')
   cy.getCy(`listing-item_${beta.projectUuid}`).should('exist')
   cy.getCy(`listing-item_${alpha.projectUuid}`).should('not.exist')
   cy.getCy(`listing-item_${gamma.projectUuid}`).should('not.exist')

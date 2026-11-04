@@ -139,7 +139,7 @@ function assertSortedBy(ascendingUuids) {
 export function searchAdministrationUsersListing({ alpha, beta, gamma }) {
   cy.visitApp('/users')
 
-  cy.get('#listing-search').type('Beta')
+  cy.searchListing('Beta')
   cy.getCy(`listing-item_${beta.uuid}`).should('exist')
   cy.getCy(`listing-item_${alpha.uuid}`).should('not.exist')
   cy.getCy(`listing-item_${gamma.uuid}`).should('not.exist')
@@ -162,7 +162,7 @@ export function sortAdministrationUsersListing({ alpha, beta, gamma }) {
   const byLastVisitedAt = [gamma.uuid, alpha.uuid, beta.uuid]
 
   cy.visitApp('/users')
-  cy.get('#listing-search').type('Browsetest')
+  cy.searchListing('Browsetest')
 
   cy.openSortMenu()
   cy.getCy('listing_toolbar_sort_firstName').click()

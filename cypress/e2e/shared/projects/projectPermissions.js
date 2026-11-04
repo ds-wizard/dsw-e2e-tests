@@ -1,8 +1,7 @@
 // Projects / permission matrix - the org-wide (workspace-scoped) projects.view/
 // comment/edit/manage permissions, each checked against a project owned by somebody
 // else, with no individual/group share of its own - see projectShare.js for the
-// per-project share-level permissions instead. Mirrors legacy's roles.spec.js "View/
-// Comment/Edit/Manage ALL Projects".
+// per-project share-level permissions instead.
 //
 // One permission set, one it() each (PERMISSION_LEVELS.forEach in the wrapper specs) -
 // a failure names the exact permission set that broke, rather than being buried in one

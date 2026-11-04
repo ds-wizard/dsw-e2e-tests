@@ -68,7 +68,7 @@ function assertSortedBy(ascendingUuids) {
 export function searchDocumentTemplatesLibrary({ alpha, beta, gamma }) {
   cy.visitApp('/document-templates')
 
-  cy.get('#listing-search').type('Beta')
+  cy.searchListing('Beta')
   cy.getCy(`listing-item_${beta.uuid}`).should('exist')
   cy.getCy(`listing-item_${alpha.uuid}`).should('not.exist')
   cy.getCy(`listing-item_${gamma.uuid}`).should('not.exist')

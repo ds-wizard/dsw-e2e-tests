@@ -55,6 +55,15 @@ Cypress.Commands.add('getQuestionnaireField', (questionPath) => {
   return cy.get(`#value_${sanitized}`)
 })
 
+// The search applies 500 ms after typing, then re-renders every row - wait for it, so
+// a row found next is the filtered listing's, not one about to be replaced.
+Cypress.Commands.add('searchListing', (term) => {
+  cy.get('#listing-search').type(term)
+  return cy.location('search').should((search) => {
+    expect(new URLSearchParams(search).get('q')).to.equal(term)
+  })
+})
+
 // A listing row's kebab menu items aren't in the DOM until the menu is opened, so open
 // it first before targeting one of its actions. Pass the action's own testId to make
 // this self-healing: some listings (e.g. KM editors) close any open menu as soon as
